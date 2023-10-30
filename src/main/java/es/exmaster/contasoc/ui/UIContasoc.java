@@ -5,6 +5,9 @@
 package es.exmaster.contasoc.ui;
 
 import java.awt.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 
@@ -36,64 +39,150 @@ public class UIContasoc extends JFrame {
         return exportarBtn;
     }
 
+    public JTabbedPane getTabbedPane1() {
+        return tabbedPane1;
+    }
+
+    public JPanel getSociosPanel() {
+        return sociosPanel;
+    }
+
+    public JScrollPane getSociosTablaPanel() {
+        return sociosTablaPanel;
+    }
+
+    public JPanel getIngresosPanel() {
+        return ingresosPanel;
+    }
+
+    public JPanel getGastosPanel() {
+        return gastosPanel;
+    }
+
+    public JPanel getBalancePanel() {
+        return balancePanel;
+    }
+
+    public JPanel getListaEsperaPanel() {
+        return listaEsperaPanel;
+    }
+
+    public JPanel getImprimirPanel() {
+        return imprimirPanel;
+    }
+
+    public JPanel getEmailPanel() {
+        return emailPanel;
+    }
+
+    public JToolBar getToolBar() {
+        return toolBar;
+    }
+
+    public JLabel getVersionLabel() {
+        return versionLabel;
+    }
+
+    private void createUIComponents() {
+        // TODO: add custom component creation code here
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
         tabbedPane1 = new JTabbedPane();
         sociosPanel = new JPanel();
-        sociosTablaScrollPanel = new JScrollPane();
+        sociosTablaPanel = new JScrollPane();
         sociosTabla = new JTable();
+        buscarPanel = new JPanel();
+        buscarLabel = new JLabel();
+        buscarField = new JTextField();
         ingresosPanel = new JPanel();
         gastosPanel = new JPanel();
         balancePanel = new JPanel();
         listaEsperaPanel = new JPanel();
         imprimirPanel = new JPanel();
         emailPanel = new JPanel();
-        toolBar1 = new JToolBar();
+        toolBar = new JToolBar();
         nuevoBtn = new JButton();
         editarBtn = new JButton();
         eliminarBtn = new JButton();
+        separator1 = new JSeparator();
         importarBtn = new JButton();
         exportarBtn = new JButton();
-        label1 = new JLabel();
+        versionLabel = new JLabel();
 
         //======== this ========
         setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
         setTitle("Huertos la Salud Bellavista");
         setIconImage(new ImageIcon(getClass().getResource("/images/newlogo_small.png")).getImage());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(900, 600));
+        setPreferredSize(new Dimension(960, 600));
         var contentPane = getContentPane();
 
         //======== tabbedPane1 ========
         {
-            tabbedPane1.setTabPlacement(SwingConstants.LEFT);
             tabbedPane1.setFont(tabbedPane1.getFont().deriveFont(tabbedPane1.getFont().getSize() + 6f));
+            tabbedPane1.setTabPlacement(SwingConstants.LEFT);
 
             //======== sociosPanel ========
             {
+                sociosPanel.setPreferredSize(new Dimension(960, 600));
 
-                //======== sociosTablaScrollPanel ========
+                //======== sociosTablaPanel ========
                 {
+                    sociosTablaPanel.setBorder(null);
 
                     //---- sociosTabla ----
                     sociosTabla.setModel(new SociosTablaModel());
-                    sociosTablaScrollPanel.setViewportView(sociosTabla);
+                    sociosTablaPanel.setViewportView(sociosTabla);
+                }
+
+                //======== buscarPanel ========
+                {
+
+                    //---- buscarLabel ----
+                    buscarLabel.setText("Buscar:");
+                    buscarLabel.setFont(buscarLabel.getFont().deriveFont(buscarLabel.getFont().getSize() + 6f));
+
+                    //---- buscarField ----
+                    buscarField.setFont(buscarField.getFont().deriveFont(buscarField.getFont().getSize() + 4f));
+
+                    GroupLayout buscarPanelLayout = new GroupLayout(buscarPanel);
+                    buscarPanel.setLayout(buscarPanelLayout);
+                    buscarPanelLayout.setHorizontalGroup(
+                        buscarPanelLayout.createParallelGroup()
+                            .addGroup(buscarPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(buscarLabel, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
+                                .addContainerGap())
+                    );
+                    buscarPanelLayout.setVerticalGroup(
+                        buscarPanelLayout.createParallelGroup()
+                            .addGroup(buscarPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(buscarPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                    .addComponent(buscarLabel)
+                                    .addComponent(buscarField, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    );
                 }
 
                 GroupLayout sociosPanelLayout = new GroupLayout(sociosPanel);
                 sociosPanel.setLayout(sociosPanelLayout);
                 sociosPanelLayout.setHorizontalGroup(
                     sociosPanelLayout.createParallelGroup()
-                        .addGroup(sociosPanelLayout.createParallelGroup()
-                            .addComponent(sociosTablaScrollPanel, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE))
-                        .addGap(0, 760, Short.MAX_VALUE)
+                        .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
+                        .addComponent(buscarPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 );
                 sociosPanelLayout.setVerticalGroup(
                     sociosPanelLayout.createParallelGroup()
-                        .addGroup(sociosPanelLayout.createParallelGroup()
-                            .addComponent(sociosTablaScrollPanel, GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE))
-                        .addGap(0, 524, Short.MAX_VALUE)
+                        .addGroup(GroupLayout.Alignment.TRAILING, sociosPanelLayout.createSequentialGroup()
+                            .addComponent(buscarPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE))
                 );
             }
             tabbedPane1.addTab("Socios", sociosPanel);
@@ -109,7 +198,7 @@ public class UIContasoc extends JFrame {
                 );
                 ingresosPanelLayout.setVerticalGroup(
                     ingresosPanelLayout.createParallelGroup()
-                        .addGap(0, 524, Short.MAX_VALUE)
+                        .addGap(0, 529, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Ingresos", ingresosPanel);
@@ -125,7 +214,7 @@ public class UIContasoc extends JFrame {
                 );
                 gastosPanelLayout.setVerticalGroup(
                     gastosPanelLayout.createParallelGroup()
-                        .addGap(0, 524, Short.MAX_VALUE)
+                        .addGap(0, 529, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Gastos", gastosPanel);
@@ -141,7 +230,7 @@ public class UIContasoc extends JFrame {
                 );
                 balancePanelLayout.setVerticalGroup(
                     balancePanelLayout.createParallelGroup()
-                        .addGap(0, 524, Short.MAX_VALUE)
+                        .addGap(0, 529, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Balance", balancePanel);
@@ -157,7 +246,7 @@ public class UIContasoc extends JFrame {
                 );
                 listaEsperaPanelLayout.setVerticalGroup(
                     listaEsperaPanelLayout.createParallelGroup()
-                        .addGap(0, 524, Short.MAX_VALUE)
+                        .addGap(0, 529, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Lista de espera", listaEsperaPanel);
@@ -173,7 +262,7 @@ public class UIContasoc extends JFrame {
                 );
                 imprimirPanelLayout.setVerticalGroup(
                     imprimirPanelLayout.createParallelGroup()
-                        .addGap(0, 524, Short.MAX_VALUE)
+                        .addGap(0, 529, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Imprimir", imprimirPanel);
@@ -189,88 +278,107 @@ public class UIContasoc extends JFrame {
                 );
                 emailPanelLayout.setVerticalGroup(
                     emailPanelLayout.createParallelGroup()
-                        .addGap(0, 524, Short.MAX_VALUE)
+                        .addGap(0, 529, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Email", emailPanel);
         }
 
-        //======== toolBar1 ========
+        //======== toolBar ========
         {
 
             //---- nuevoBtn ----
             nuevoBtn.setText("Nuevo");
             nuevoBtn.setFont(nuevoBtn.getFont().deriveFont(nuevoBtn.getFont().getSize() + 4f));
-            toolBar1.add(nuevoBtn);
+            nuevoBtn.setIcon(new ImageIcon(getClass().getResource("/images/newpass_small_black.png")));
+            nuevoBtn.setIconTextGap(6);
+            toolBar.add(nuevoBtn);
 
             //---- editarBtn ----
             editarBtn.setText("Editar");
             editarBtn.setFont(editarBtn.getFont().deriveFont(editarBtn.getFont().getSize() + 4f));
-            toolBar1.add(editarBtn);
+            editarBtn.setIcon(new ImageIcon(getClass().getResource("/images/edit_small_black.png")));
+            editarBtn.setIconTextGap(6);
+            toolBar.add(editarBtn);
 
             //---- eliminarBtn ----
             eliminarBtn.setText("Eliminar");
             eliminarBtn.setFont(eliminarBtn.getFont().deriveFont(eliminarBtn.getFont().getSize() + 4f));
-            toolBar1.add(eliminarBtn);
+            eliminarBtn.setIconTextGap(6);
+            eliminarBtn.setIcon(new ImageIcon(getClass().getResource("/images/bin_small_black.png")));
+            toolBar.add(eliminarBtn);
+
+            //---- separator1 ----
+            separator1.setBackground(new Color(0xf7f8fa));
+            separator1.setForeground(new Color(0xf7f8fa));
+            toolBar.add(separator1);
 
             //---- importarBtn ----
             importarBtn.setText("Importar");
             importarBtn.setFont(importarBtn.getFont().deriveFont(importarBtn.getFont().getSize() + 4f));
-            toolBar1.add(importarBtn);
+            importarBtn.setIcon(new ImageIcon(getClass().getResource("/images/import_small_black.png")));
+            importarBtn.setIconTextGap(6);
+            toolBar.add(importarBtn);
 
             //---- exportarBtn ----
             exportarBtn.setText("Exportar");
             exportarBtn.setFont(exportarBtn.getFont().deriveFont(exportarBtn.getFont().getSize() + 4f));
-            toolBar1.add(exportarBtn);
+            exportarBtn.setIcon(new ImageIcon(getClass().getResource("/images/export_small_black.png")));
+            exportarBtn.setIconTextGap(6);
+            toolBar.add(exportarBtn);
         }
 
-        //---- label1 ----
-        label1.setText("v5.1.1");
-        label1.setHorizontalAlignment(SwingConstants.CENTER);
-        label1.setFont(label1.getFont().deriveFont(label1.getFont().getSize() + 2f));
+        //---- versionLabel ----
+        versionLabel.setText("v5.1.1");
+        versionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        versionLabel.setFont(versionLabel.getFont().deriveFont(versionLabel.getFont().getSize() + 2f));
 
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
             contentPaneLayout.createParallelGroup()
                 .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addComponent(label1, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(versionLabel, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(toolBar1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(toolBar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addComponent(tabbedPane1, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
         );
         contentPaneLayout.setVerticalGroup(
             contentPaneLayout.createParallelGroup()
                 .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
                     .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                        .addComponent(label1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(toolBar1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(versionLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(toolBar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(tabbedPane1))
+                    .addComponent(tabbedPane1, GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE))
         );
-        pack();
+        setSize(900, 600);
         setLocationRelativeTo(null);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
-    private JTabbedPane tabbedPane1;
-    private JPanel sociosPanel;
-    private JScrollPane sociosTablaScrollPanel;
+    protected JTabbedPane tabbedPane1;
+    protected JPanel sociosPanel;
+    protected JScrollPane sociosTablaPanel;
     private JTable sociosTabla;
-    private JPanel ingresosPanel;
-    private JPanel gastosPanel;
-    private JPanel balancePanel;
-    private JPanel listaEsperaPanel;
-    private JPanel imprimirPanel;
-    private JPanel emailPanel;
-    private JToolBar toolBar1;
+    private JPanel buscarPanel;
+    private JLabel buscarLabel;
+    private JTextField buscarField;
+    protected JPanel ingresosPanel;
+    protected JPanel gastosPanel;
+    protected JPanel balancePanel;
+    protected JPanel listaEsperaPanel;
+    protected JPanel imprimirPanel;
+    protected JPanel emailPanel;
+    protected JToolBar toolBar;
     private JButton nuevoBtn;
     private JButton editarBtn;
     private JButton eliminarBtn;
+    private JSeparator separator1;
     private JButton importarBtn;
     private JButton exportarBtn;
-    private JLabel label1;
+    protected JLabel versionLabel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
