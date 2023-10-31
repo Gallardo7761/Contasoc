@@ -174,15 +174,15 @@ public class UIContasoc extends JFrame {
                 sociosPanel.setLayout(sociosPanelLayout);
                 sociosPanelLayout.setHorizontalGroup(
                     sociosPanelLayout.createParallelGroup()
-                        .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
                         .addComponent(buscarPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
                 );
                 sociosPanelLayout.setVerticalGroup(
                     sociosPanelLayout.createParallelGroup()
                         .addGroup(GroupLayout.Alignment.TRAILING, sociosPanelLayout.createSequentialGroup()
                             .addComponent(buscarPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE))
+                            .addComponent(sociosTablaPanel, GroupLayout.PREFERRED_SIZE, 477, GroupLayout.PREFERRED_SIZE))
                 );
             }
             tabbedPane1.addTab("Socios", sociosPanel);

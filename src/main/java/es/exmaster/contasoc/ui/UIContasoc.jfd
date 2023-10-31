@@ -24,8 +24,8 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 4
 				}
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {comp sociosTablaPanel::::760:x, comp buscarPanel:::::x}"
-					"$verticalGroup": "par l {seq t {comp buscarPanel:::p::p, space :::p, comp sociosTablaPanel::::477:x}}"
+					"$horizontalGroup": "par l {comp buscarPanel:::::x, comp sociosTablaPanel::l::760:x}"
+					"$verticalGroup": "par l {seq t {comp buscarPanel:::p::p, space :::p, comp sociosTablaPanel:::p:477:p}}"
 				} ) {
 					name: "sociosPanel"
 					"preferredSize": new java.awt.Dimension( 960, 600 )
