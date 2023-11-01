@@ -28,4 +28,3 @@ public class SociosTablaModel extends DefaultTableModel {
     }
 
 }
-
