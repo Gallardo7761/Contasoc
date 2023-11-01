@@ -156,7 +156,7 @@ public class UIContasoc extends JFrame {
                                 .addContainerGap()
                                 .addComponent(buscarLabel, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
+                                .addComponent(buscarField, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
                     );
                     buscarPanelLayout.setVerticalGroup(
@@ -175,7 +175,7 @@ public class UIContasoc extends JFrame {
                 sociosPanelLayout.setHorizontalGroup(
                     sociosPanelLayout.createParallelGroup()
                         .addComponent(buscarPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
+                        .addComponent(sociosTablaPanel)
                 );
                 sociosPanelLayout.setVerticalGroup(
                     sociosPanelLayout.createParallelGroup()

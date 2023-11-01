@@ -24,7 +24,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 4
 				}
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {comp buscarPanel:::::x, comp sociosTablaPanel::l::760:x}"
+					"$horizontalGroup": "par l {comp buscarPanel:::::x, comp sociosTablaPanel::l:::x}"
 					"$verticalGroup": "par l {seq t {comp buscarPanel:::p::p, space :::p, comp sociosTablaPanel:::p:477:p}}"
 				} ) {
 					name: "sociosPanel"
@@ -48,7 +48,7 @@ new FormModel {
 						} )
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq l {space :::p, comp buscarLabel:::p:63:p, space :::p, comp buscarField::::679:x, space :::p}}"
+						"$horizontalGroup": "par l {seq l {space :::p, comp buscarLabel:::p:63:p, space :::p, comp buscarField:::p:500:p, space :::p}}"
 						"$verticalGroup": "par l {seq l {space :::p, par b {comp buscarLabel::b:p::p, comp buscarField::b:p:34:p}, space :::x}}"
 					} ) {
 						name: "buscarPanel"
