@@ -71,8 +71,8 @@ public class UIContasoc extends JFrame {
         setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
         setIconImage(new ImageIcon(getClass().getResource("/images/newlogo_small.png")).getImage());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(1020, 720));
-        setMinimumSize(new Dimension(1020, 720));
+        setPreferredSize(new Dimension(1100, 600));
+        setMinimumSize(new Dimension(1100, 600));
         setTitle("{ver}");
         var contentPane = getContentPane();
 
@@ -148,7 +148,7 @@ public class UIContasoc extends JFrame {
                     sociosPanelLayout.createParallelGroup()
                         .addGroup(GroupLayout.Alignment.TRAILING, sociosPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE)
+                            .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
                             .addContainerGap())
                 );
                 sociosPanelLayout.setVerticalGroup(
@@ -167,7 +167,7 @@ public class UIContasoc extends JFrame {
                 ingresosPanel.setLayout(ingresosPanelLayout);
                 ingresosPanelLayout.setHorizontalGroup(
                     ingresosPanelLayout.createParallelGroup()
-                        .addGap(0, 880, Short.MAX_VALUE)
+                        .addGap(0, 882, Short.MAX_VALUE)
                 );
                 ingresosPanelLayout.setVerticalGroup(
                     ingresosPanelLayout.createParallelGroup()
@@ -183,7 +183,7 @@ public class UIContasoc extends JFrame {
                 gastosPanel.setLayout(gastosPanelLayout);
                 gastosPanelLayout.setHorizontalGroup(
                     gastosPanelLayout.createParallelGroup()
-                        .addGap(0, 880, Short.MAX_VALUE)
+                        .addGap(0, 882, Short.MAX_VALUE)
                 );
                 gastosPanelLayout.setVerticalGroup(
                     gastosPanelLayout.createParallelGroup()
@@ -199,7 +199,7 @@ public class UIContasoc extends JFrame {
                 balancePanel.setLayout(balancePanelLayout);
                 balancePanelLayout.setHorizontalGroup(
                     balancePanelLayout.createParallelGroup()
-                        .addGap(0, 880, Short.MAX_VALUE)
+                        .addGap(0, 882, Short.MAX_VALUE)
                 );
                 balancePanelLayout.setVerticalGroup(
                     balancePanelLayout.createParallelGroup()
@@ -215,7 +215,7 @@ public class UIContasoc extends JFrame {
                 listaEsperaPanel.setLayout(listaEsperaPanelLayout);
                 listaEsperaPanelLayout.setHorizontalGroup(
                     listaEsperaPanelLayout.createParallelGroup()
-                        .addGap(0, 880, Short.MAX_VALUE)
+                        .addGap(0, 882, Short.MAX_VALUE)
                 );
                 listaEsperaPanelLayout.setVerticalGroup(
                     listaEsperaPanelLayout.createParallelGroup()
@@ -231,7 +231,7 @@ public class UIContasoc extends JFrame {
                 imprimirPanel.setLayout(imprimirPanelLayout);
                 imprimirPanelLayout.setHorizontalGroup(
                     imprimirPanelLayout.createParallelGroup()
-                        .addGap(0, 880, Short.MAX_VALUE)
+                        .addGap(0, 882, Short.MAX_VALUE)
                 );
                 imprimirPanelLayout.setVerticalGroup(
                     imprimirPanelLayout.createParallelGroup()
@@ -247,7 +247,7 @@ public class UIContasoc extends JFrame {
                 emailPanel.setLayout(emailPanelLayout);
                 emailPanelLayout.setHorizontalGroup(
                     emailPanelLayout.createParallelGroup()
-                        .addGap(0, 880, Short.MAX_VALUE)
+                        .addGap(0, 882, Short.MAX_VALUE)
                 );
                 emailPanelLayout.setVerticalGroup(
                     emailPanelLayout.createParallelGroup()
