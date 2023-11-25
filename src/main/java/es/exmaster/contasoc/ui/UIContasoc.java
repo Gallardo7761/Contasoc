@@ -72,7 +72,7 @@ public class UIContasoc extends JFrame {
         setIconImage(new ImageIcon(getClass().getResource("/images/newlogo_small.png")).getImage());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(900, 600));
-        setMinimumSize(new Dimension(1010, 600));
+        setMinimumSize(new Dimension(900, 600));
         setTitle("{ver}");
         var contentPane = getContentPane();
 
@@ -112,7 +112,7 @@ public class UIContasoc extends JFrame {
                 sociosPanelLayout.setVerticalGroup(
                     sociosPanelLayout.createParallelGroup()
                         .addGroup(sociosPanelLayout.createSequentialGroup()
-                            .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE)
+                            .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
                             .addGap(6, 6, 6))
                 );
             }
@@ -129,7 +129,7 @@ public class UIContasoc extends JFrame {
                 );
                 ingresosPanelLayout.setVerticalGroup(
                     ingresosPanelLayout.createParallelGroup()
-                        .addGap(0, 521, Short.MAX_VALUE)
+                        .addGap(0, 591, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Ingresos", ingresosPanel);
@@ -145,7 +145,7 @@ public class UIContasoc extends JFrame {
                 );
                 gastosPanelLayout.setVerticalGroup(
                     gastosPanelLayout.createParallelGroup()
-                        .addGap(0, 521, Short.MAX_VALUE)
+                        .addGap(0, 591, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Gastos", gastosPanel);
@@ -161,7 +161,7 @@ public class UIContasoc extends JFrame {
                 );
                 balancePanelLayout.setVerticalGroup(
                     balancePanelLayout.createParallelGroup()
-                        .addGap(0, 521, Short.MAX_VALUE)
+                        .addGap(0, 591, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Balance", balancePanel);
@@ -177,7 +177,7 @@ public class UIContasoc extends JFrame {
                 );
                 listaEsperaPanelLayout.setVerticalGroup(
                     listaEsperaPanelLayout.createParallelGroup()
-                        .addGap(0, 521, Short.MAX_VALUE)
+                        .addGap(0, 591, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Lista de espera", listaEsperaPanel);
@@ -193,7 +193,7 @@ public class UIContasoc extends JFrame {
                 );
                 imprimirPanelLayout.setVerticalGroup(
                     imprimirPanelLayout.createParallelGroup()
-                        .addGap(0, 521, Short.MAX_VALUE)
+                        .addGap(0, 591, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Imprimir", imprimirPanel);
@@ -209,7 +209,7 @@ public class UIContasoc extends JFrame {
                 );
                 emailPanelLayout.setVerticalGroup(
                     emailPanelLayout.createParallelGroup()
-                        .addGap(0, 521, Short.MAX_VALUE)
+                        .addGap(0, 591, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Email", emailPanel);
@@ -302,9 +302,9 @@ public class UIContasoc extends JFrame {
                     .addContainerGap()
                     .addComponent(toolBar1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(tabbedPane1, GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE))
+                    .addComponent(tabbedPane1))
         );
-        setSize(1010, 600);
+        setSize(1010, 670);
         setLocationRelativeTo(null);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
