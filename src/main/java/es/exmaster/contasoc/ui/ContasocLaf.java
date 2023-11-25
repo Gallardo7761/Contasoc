@@ -37,6 +37,8 @@ public class ContasocLaf extends FlatGitHubIJTheme {
         UIManager.put("Component.focusWidth", 0);
         UIManager.put("Component.innerFocusWidth", 0);
 
+
+
     }
 
     @Override

@@ -4,18 +4,18 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq t {space :::p, comp toolBar1::::1006:x, space :::p}, comp tabbedPane1::l::1018:x}"
-			"$verticalGroup": "par l {seq t {space :::p, comp toolBar1:::p::p, space :::p, comp tabbedPane1:::p:641:p}}"
+			"$horizontalGroup": "par l {seq l {space :::p, comp toolBar1:::::x, space :::p}, comp tabbedPane1::l:::x}"
+			"$verticalGroup": "par l {seq t {space :::p, comp toolBar1:::p::p, space :::p, comp tabbedPane1::::521:x}}"
 		} ) {
 			name: "this"
 			"$locationPolicy": 1
 			"font": new java.awt.Font( "Dialog", 0, 12 )
 			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/newlogo_small.png" )
 			"defaultCloseOperation": 3
-			"preferredSize": new java.awt.Dimension( 1100, 600 )
-			"$sizePolicy": 1
-			"minimumSize": new java.awt.Dimension( 1100, 600 )
+			"preferredSize": new java.awt.Dimension( 900, 600 )
+			"minimumSize": new java.awt.Dimension( 1010, 600 )
 			"title": "{ver}"
+			"$sizePolicy": 1
 			auxiliary() {
 				"JavaCodeGenerator.variableModifiers": 12
 			}
@@ -28,11 +28,10 @@ new FormModel {
 					"JavaCodeGenerator.postInitCode": "tabbedPane1.putClientProperty(\"JTabbedPane.tabHeight\", 50);"
 				}
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq t {space :::p, comp sociosTablaPanel::::868:x, space :::p}}"
-					"$verticalGroup": "par l {seq l {comp sociosTablaPanel::::635:x, space :::p}}"
+					"$horizontalGroup": "par l {seq l {space :p:6:p, comp sociosTablaPanel::::858:x, space :p:6:p}}"
+					"$verticalGroup": "par l {seq l {comp sociosTablaPanel::::515:x, space :p:6:p}}"
 				} ) {
 					name: "sociosPanel"
-					"preferredSize": new java.awt.Dimension( 960, 600 )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
@@ -45,9 +44,9 @@ new FormModel {
 						}
 						add( new FormComponent( "javax.swing.JTable" ) {
 							name: "sociosTabla"
-							"fillsViewportHeight": true
 							"autoResizeMode": 3
 							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"fillsViewportHeight": true
 							auxiliary() {
 								"JavaCodeGenerator.postInitCode": "sociosTabla.setModel(new SociosTablaModel());\nsociosTabla.getTableHeader().setReorderingAllowed(false);\nsociosTabla.getTableHeader().setResizingAllowed(false);"
 								"JavaCodeGenerator.variableModifiers": 12
@@ -58,8 +57,8 @@ new FormModel {
 					"title": "Socios"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:880:x}"
-					"$verticalGroup": "par l {space :0:641:x}"
+					"$horizontalGroup": "par l {space :0:870:x}"
+					"$verticalGroup": "par l {space :0:521:x}"
 				} ) {
 					name: "ingresosPanel"
 					auxiliary() {
@@ -69,8 +68,8 @@ new FormModel {
 					"title": "Ingresos"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:880:x}"
-					"$verticalGroup": "par l {space :0:641:x}"
+					"$horizontalGroup": "par l {space :0:870:x}"
+					"$verticalGroup": "par l {space :0:521:x}"
 				} ) {
 					name: "gastosPanel"
 					auxiliary() {
@@ -80,8 +79,8 @@ new FormModel {
 					"title": "Gastos"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:880:x}"
-					"$verticalGroup": "par l {space :0:641:x}"
+					"$horizontalGroup": "par l {space :0:870:x}"
+					"$verticalGroup": "par l {space :0:521:x}"
 				} ) {
 					name: "balancePanel"
 					auxiliary() {
@@ -91,8 +90,8 @@ new FormModel {
 					"title": "Balance"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:880:x}"
-					"$verticalGroup": "par l {space :0:641:x}"
+					"$horizontalGroup": "par l {space :0:870:x}"
+					"$verticalGroup": "par l {space :0:521:x}"
 				} ) {
 					name: "listaEsperaPanel"
 					auxiliary() {
@@ -102,8 +101,8 @@ new FormModel {
 					"title": "Lista de espera"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:880:x}"
-					"$verticalGroup": "par l {space :0:641:x}"
+					"$horizontalGroup": "par l {space :0:870:x}"
+					"$verticalGroup": "par l {space :0:521:x}"
 				} ) {
 					name: "imprimirPanel"
 					auxiliary() {
@@ -113,8 +112,8 @@ new FormModel {
 					"title": "Imprimir"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:880:x}"
-					"$verticalGroup": "par l {space :0:641:x}"
+					"$horizontalGroup": "par l {space :0:870:x}"
+					"$verticalGroup": "par l {space :0:521:x}"
 				} ) {
 					name: "emailPanel"
 					auxiliary() {
@@ -182,13 +181,13 @@ new FormModel {
 					}
 				} )
 				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
-					name: "separator1"
+					name: "separator"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq t {space :::p, comp buscarField::::557:x}}"
+					"$horizontalGroup": "par l {seq t {space :::p, comp buscarField::::547:x}}"
 					"$verticalGroup": "par l {comp buscarField::t::32:x}"
 				} ) {
-					name: "panel1"
+					name: "buscarPanel"
 					"preferredSize": new java.awt.Dimension( 100, 32 )
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "buscarField"
@@ -197,13 +196,14 @@ new FormModel {
 						"preferredSize": new java.awt.Dimension( 68, 28 )
 						auxiliary() {
 							"JavaCodeGenerator.variableModifiers": 12
+							"JavaCodeGenerator.postInitCode": "buscarField.putClientProperty(\"JTextField.placeholderText\", \"Buscar socios...\");\nbuscarField.putClientProperty(\"JTextField.leadingIcon\", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource(\"/images/search_medium_black.png\"))));"
 						}
 					} )
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 5 )
-			"size": new java.awt.Dimension( 1020, 720 )
+			"size": new java.awt.Dimension( 1010, 600 )
 		} )
 	}
 }
