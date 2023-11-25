@@ -57,15 +57,14 @@ public class UIContasoc extends JFrame {
         listaEsperaPanel = new JPanel();
         imprimirPanel = new JPanel();
         emailPanel = new JPanel();
-        buscarPanel = new JPanel();
-        buscarLabel = new JLabel();
-        buscarField = new JTextField();
         toolBar1 = new JToolBar();
         nuevoBtn = new JButton();
         editarBtn = new JButton();
         eliminarBtn = new JButton();
         importarBtn = new JButton();
         exportarBtn = new JButton();
+        panel1 = new JPanel();
+        buscarField = new JTextField();
 
         //======== this ========
         setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
@@ -113,7 +112,7 @@ public class UIContasoc extends JFrame {
                 sociosPanelLayout.setVerticalGroup(
                     sociosPanelLayout.createParallelGroup()
                         .addGroup(sociosPanelLayout.createSequentialGroup()
-                            .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+                            .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
                             .addContainerGap())
                 );
             }
@@ -130,7 +129,7 @@ public class UIContasoc extends JFrame {
                 );
                 ingresosPanelLayout.setVerticalGroup(
                     ingresosPanelLayout.createParallelGroup()
-                        .addGap(0, 604, Short.MAX_VALUE)
+                        .addGap(0, 641, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Ingresos", ingresosPanel);
@@ -146,7 +145,7 @@ public class UIContasoc extends JFrame {
                 );
                 gastosPanelLayout.setVerticalGroup(
                     gastosPanelLayout.createParallelGroup()
-                        .addGap(0, 604, Short.MAX_VALUE)
+                        .addGap(0, 641, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Gastos", gastosPanel);
@@ -162,7 +161,7 @@ public class UIContasoc extends JFrame {
                 );
                 balancePanelLayout.setVerticalGroup(
                     balancePanelLayout.createParallelGroup()
-                        .addGap(0, 604, Short.MAX_VALUE)
+                        .addGap(0, 641, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Balance", balancePanel);
@@ -178,7 +177,7 @@ public class UIContasoc extends JFrame {
                 );
                 listaEsperaPanelLayout.setVerticalGroup(
                     listaEsperaPanelLayout.createParallelGroup()
-                        .addGap(0, 604, Short.MAX_VALUE)
+                        .addGap(0, 641, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Lista de espera", listaEsperaPanel);
@@ -194,7 +193,7 @@ public class UIContasoc extends JFrame {
                 );
                 imprimirPanelLayout.setVerticalGroup(
                     imprimirPanelLayout.createParallelGroup()
-                        .addGap(0, 604, Short.MAX_VALUE)
+                        .addGap(0, 641, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Imprimir", imprimirPanel);
@@ -210,41 +209,10 @@ public class UIContasoc extends JFrame {
                 );
                 emailPanelLayout.setVerticalGroup(
                     emailPanelLayout.createParallelGroup()
-                        .addGap(0, 604, Short.MAX_VALUE)
+                        .addGap(0, 641, Short.MAX_VALUE)
                 );
             }
             tabbedPane1.addTab("Email", emailPanel);
-        }
-
-        //======== buscarPanel ========
-        {
-
-            //---- buscarLabel ----
-            buscarLabel.setText("Buscar:");
-            buscarLabel.setFont(buscarLabel.getFont().deriveFont(buscarLabel.getFont().getSize() + 6f));
-
-            //---- buscarField ----
-            buscarField.setFont(buscarField.getFont().deriveFont(buscarField.getFont().getSize() + 4f));
-
-            GroupLayout buscarPanelLayout = new GroupLayout(buscarPanel);
-            buscarPanel.setLayout(buscarPanelLayout);
-            buscarPanelLayout.setHorizontalGroup(
-                buscarPanelLayout.createParallelGroup()
-                    .addGroup(buscarPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(buscarLabel, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(buscarField, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-            );
-            buscarPanelLayout.setVerticalGroup(
-                buscarPanelLayout.createParallelGroup()
-                    .addGroup(buscarPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(buscarPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                            .addComponent(buscarLabel)))
-            );
         }
 
         //======== toolBar1 ========
@@ -289,27 +257,50 @@ public class UIContasoc extends JFrame {
             exportarBtn.setIconTextGap(6);
             exportarBtn.setMargin(new Insets(2, 2, 2, 6));
             toolBar1.add(exportarBtn);
+            toolBar1.addSeparator();
+
+            //======== panel1 ========
+            {
+                panel1.setPreferredSize(new Dimension(100, 32));
+
+                //---- buscarField ----
+                buscarField.setFont(buscarField.getFont().deriveFont(buscarField.getFont().getSize() + 4f));
+                buscarField.setMinimumSize(new Dimension(68, 28));
+                buscarField.setPreferredSize(new Dimension(68, 28));
+
+                GroupLayout panel1Layout = new GroupLayout(panel1);
+                panel1.setLayout(panel1Layout);
+                panel1Layout.setHorizontalGroup(
+                    panel1Layout.createParallelGroup()
+                        .addGroup(GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE))
+                );
+                panel1Layout.setVerticalGroup(
+                    panel1Layout.createParallelGroup()
+                        .addComponent(buscarField, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                );
+            }
+            toolBar1.add(panel1);
         }
 
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
             contentPaneLayout.createParallelGroup()
+                .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(toolBar1, GroupLayout.DEFAULT_SIZE, 1006, Short.MAX_VALUE)
+                    .addContainerGap())
                 .addComponent(tabbedPane1, GroupLayout.DEFAULT_SIZE, 1018, Short.MAX_VALUE)
-                .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addGroup(contentPaneLayout.createParallelGroup()
-                        .addComponent(buscarPanel, GroupLayout.PREFERRED_SIZE, 575, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(toolBar1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 443, Short.MAX_VALUE))
         );
         contentPaneLayout.setVerticalGroup(
             contentPaneLayout.createParallelGroup()
                 .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
                     .addComponent(toolBar1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, 0)
-                    .addComponent(buscarPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(tabbedPane1))
+                    .addComponent(tabbedPane1, GroupLayout.PREFERRED_SIZE, 641, GroupLayout.PREFERRED_SIZE))
         );
         setSize(1020, 720);
         setLocationRelativeTo(null);
@@ -328,14 +319,13 @@ public class UIContasoc extends JFrame {
     protected static JPanel listaEsperaPanel;
     protected static JPanel imprimirPanel;
     protected static JPanel emailPanel;
-    protected static JPanel buscarPanel;
-    protected static JLabel buscarLabel;
-    protected static JTextField buscarField;
     private JToolBar toolBar1;
     protected static JButton nuevoBtn;
     protected static JButton editarBtn;
     protected static JButton eliminarBtn;
     protected static JButton importarBtn;
     protected static JButton exportarBtn;
+    private JPanel panel1;
+    protected static JTextField buscarField;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
