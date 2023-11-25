@@ -8,13 +8,11 @@ import java.awt.*;
 public class ContasocLaf extends FlatGitHubIJTheme {
 
     private static final String GREEN = "#549159";
-    private static final String LIGHT_GREEN = "#79CB60";
-    public static final String NAME = "contasoc";
+    private static final String LIGHT_GREEN = "#6FAA6F";
 
     public static boolean setup() {
         setProperties();
-        installLafInfo();
-        return setup(new ContasocLaf());
+        return setup( new ContasocLaf() );
     }
 
     private static void setProperties() {
@@ -24,7 +22,7 @@ public class ContasocLaf extends FlatGitHubIJTheme {
         UIManager.put("TitlePane.foreground", Color.WHITE);
         UIManager.put("TitlePane.menuBarEmbedded", true);
         UIManager.put("TitlePane.centerTitleIfMenuBarEmbedded", true);
-        UIManager.put("TitlePane.borderColor", Color.decode(LIGHT_GREEN));
+        UIManager.put("TitlePane.borderColor", Color.decode(GREEN));
 
         UIManager.put("TableHeader.background", Color.decode(GREEN));
         UIManager.put("TableHeader.foreground", Color.WHITE);
@@ -35,17 +33,14 @@ public class ContasocLaf extends FlatGitHubIJTheme {
         UIManager.put("Table.selectionBackground", Color.decode(LIGHT_GREEN));
         UIManager.put("Table.selectionForeground", Color.WHITE);
 
-        UIManager.put("Component.focusedBorderColor", Color.decode(LIGHT_GREEN));
+        UIManager.put("Component.focusedBorderColor", Color.decode(GREEN));
         UIManager.put("Component.focusWidth", 0);
         UIManager.put("Component.innerFocusWidth", 0);
-    }
 
-    public static void installLafInfo() {
-        installLafInfo(NAME, ContasocLaf.class);
     }
 
     @Override
     public String getName() {
-        return NAME;
+        return "ContasocLaf";
     }
 }

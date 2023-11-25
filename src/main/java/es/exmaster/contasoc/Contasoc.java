@@ -14,7 +14,7 @@ public class Contasoc {
         ContasocLaf.setup();
         FileManager.createFile("contasoc2.db","C:/Contasoc/");
         ContasocDAO.createTables();
-
+        System.out.println(ContasocDAO.select("Socios",new Object[] {"nombre","dni"}, "(socioId = 2)"));
         SwingUtilities.invokeLater(() -> {
             new UIContasoc().setVisible(true);
         });

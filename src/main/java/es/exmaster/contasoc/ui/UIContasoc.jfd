@@ -1,11 +1,11 @@
-JFDML JFormDesigner: "8.2.0.0.331" Java: "17.0.8" encoding: "UTF-8"
+JFDML JFormDesigner: "9.0.0.0.340" Java: "17.0.8.1" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq {comp buscarPanel:::p:575:p, space :0:443:x}, comp tabbedPane1::l::1018:x}"
-			"$verticalGroup": "par l {seq t {comp buscarPanel:::p::p, space :::p, comp tabbedPane1:::::x}}"
+			"$horizontalGroup": "par l {comp tabbedPane1::l::1018:x, seq {par l {comp buscarPanel:::p:575:p, comp toolBar1::l:p::p}, space :0:443:x}}"
+			"$verticalGroup": "par l {seq t {comp toolBar1:::p::p, space :0:0:p, comp buscarPanel:::p::p, space :::p, comp tabbedPane1:::::x}}"
 		} ) {
 			name: "this"
 			"$locationPolicy": 1
@@ -28,8 +28,8 @@ new FormModel {
 					"JavaCodeGenerator.postInitCode": "tabbedPane1.putClientProperty(\"JTabbedPane.tabHeight\", 50);"
 				}
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq t {space :::p, comp sociosTablaPanel::::870:x, space :::p}}"
-					"$verticalGroup": "par l {seq l {comp sociosTablaPanel::::636:x, space :::p}}"
+					"$horizontalGroup": "par l {seq t {space :::p, comp sociosTablaPanel::::868:x, space :::p}}"
+					"$verticalGroup": "par l {seq l {comp sociosTablaPanel::::598:x, space :::p}}"
 				} ) {
 					name: "sociosPanel"
 					"preferredSize": new java.awt.Dimension( 960, 600 )
@@ -58,8 +58,8 @@ new FormModel {
 					"title": "Socios"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:882:x}"
-					"$verticalGroup": "par l {space :0:642:x}"
+					"$horizontalGroup": "par l {space :0:880:x}"
+					"$verticalGroup": "par l {space :0:604:x}"
 				} ) {
 					name: "ingresosPanel"
 					auxiliary() {
@@ -69,8 +69,8 @@ new FormModel {
 					"title": "Ingresos"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:882:x}"
-					"$verticalGroup": "par l {space :0:642:x}"
+					"$horizontalGroup": "par l {space :0:880:x}"
+					"$verticalGroup": "par l {space :0:604:x}"
 				} ) {
 					name: "gastosPanel"
 					auxiliary() {
@@ -80,8 +80,8 @@ new FormModel {
 					"title": "Gastos"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:882:x}"
-					"$verticalGroup": "par l {space :0:642:x}"
+					"$horizontalGroup": "par l {space :0:880:x}"
+					"$verticalGroup": "par l {space :0:604:x}"
 				} ) {
 					name: "balancePanel"
 					auxiliary() {
@@ -91,8 +91,8 @@ new FormModel {
 					"title": "Balance"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:882:x}"
-					"$verticalGroup": "par l {space :0:642:x}"
+					"$horizontalGroup": "par l {space :0:880:x}"
+					"$verticalGroup": "par l {space :0:604:x}"
 				} ) {
 					name: "listaEsperaPanel"
 					auxiliary() {
@@ -102,8 +102,8 @@ new FormModel {
 					"title": "Lista de espera"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:882:x}"
-					"$verticalGroup": "par l {space :0:642:x}"
+					"$horizontalGroup": "par l {space :0:880:x}"
+					"$verticalGroup": "par l {space :0:604:x}"
 				} ) {
 					name: "imprimirPanel"
 					auxiliary() {
@@ -113,8 +113,8 @@ new FormModel {
 					"title": "Imprimir"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:882:x}"
-					"$verticalGroup": "par l {space :0:642:x}"
+					"$horizontalGroup": "par l {space :0:880:x}"
+					"$verticalGroup": "par l {space :0:604:x}"
 				} ) {
 					name: "emailPanel"
 					auxiliary() {
@@ -148,18 +148,15 @@ new FormModel {
 					}
 				} )
 			} )
-			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
-				name: "toolBar"
-				"visible": false
-				auxiliary() {
-					"JavaCodeGenerator.variableModifiers": 12
-				}
+			add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
+				name: "toolBar1"
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "nuevoBtn"
 					"text": "Nuevo"
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
 					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/newpass_small_black.png" )
 					"iconTextGap": 6
+					"margin": new java.awt.Insets( 2, 2, 2, 6 )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
@@ -170,6 +167,7 @@ new FormModel {
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
 					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/edit_small_black.png" )
 					"iconTextGap": 6
+					"margin": new java.awt.Insets( 2, 2, 2, 6 )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
@@ -178,8 +176,9 @@ new FormModel {
 					name: "eliminarBtn"
 					"text": "Eliminar"
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-					"iconTextGap": 6
 					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/bin_small_black.png" )
+					"iconTextGap": 6
+					"margin": new java.awt.Insets( 2, 2, 2, 6 )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
@@ -190,6 +189,7 @@ new FormModel {
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
 					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/import_small_black.png" )
 					"iconTextGap": 6
+					"margin": new java.awt.Insets( 2, 2, 2, 6 )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
@@ -200,11 +200,12 @@ new FormModel {
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
 					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/export_small_black.png" )
 					"iconTextGap": 6
+					"margin": new java.awt.Insets( 2, 2, 2, 6 )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
 				} )
-			}
+			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 5 )
 			"size": new java.awt.Dimension( 1020, 720 )
