@@ -71,8 +71,8 @@ public class UIContasoc extends JFrame {
         setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
         setIconImage(new ImageIcon(getClass().getResource("/images/newlogo_small.png")).getImage());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(900, 600));
-        setMinimumSize(new Dimension(900, 600));
+        setPreferredSize(new Dimension(1030, 670));
+        setMinimumSize(new Dimension(1030, 670));
         setTitle("{ver}");
         var contentPane = getContentPane();
 
@@ -106,7 +106,7 @@ public class UIContasoc extends JFrame {
                     sociosPanelLayout.createParallelGroup()
                         .addGroup(sociosPanelLayout.createSequentialGroup()
                             .addGap(6, 6, 6)
-                            .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 858, Short.MAX_VALUE)
+                            .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 860, Short.MAX_VALUE)
                             .addGap(6, 6, 6))
                 );
                 sociosPanelLayout.setVerticalGroup(
@@ -125,7 +125,7 @@ public class UIContasoc extends JFrame {
                 ingresosPanel.setLayout(ingresosPanelLayout);
                 ingresosPanelLayout.setHorizontalGroup(
                     ingresosPanelLayout.createParallelGroup()
-                        .addGap(0, 870, Short.MAX_VALUE)
+                        .addGap(0, 872, Short.MAX_VALUE)
                 );
                 ingresosPanelLayout.setVerticalGroup(
                     ingresosPanelLayout.createParallelGroup()
@@ -141,7 +141,7 @@ public class UIContasoc extends JFrame {
                 gastosPanel.setLayout(gastosPanelLayout);
                 gastosPanelLayout.setHorizontalGroup(
                     gastosPanelLayout.createParallelGroup()
-                        .addGap(0, 870, Short.MAX_VALUE)
+                        .addGap(0, 872, Short.MAX_VALUE)
                 );
                 gastosPanelLayout.setVerticalGroup(
                     gastosPanelLayout.createParallelGroup()
@@ -157,7 +157,7 @@ public class UIContasoc extends JFrame {
                 balancePanel.setLayout(balancePanelLayout);
                 balancePanelLayout.setHorizontalGroup(
                     balancePanelLayout.createParallelGroup()
-                        .addGap(0, 870, Short.MAX_VALUE)
+                        .addGap(0, 872, Short.MAX_VALUE)
                 );
                 balancePanelLayout.setVerticalGroup(
                     balancePanelLayout.createParallelGroup()
@@ -173,7 +173,7 @@ public class UIContasoc extends JFrame {
                 listaEsperaPanel.setLayout(listaEsperaPanelLayout);
                 listaEsperaPanelLayout.setHorizontalGroup(
                     listaEsperaPanelLayout.createParallelGroup()
-                        .addGap(0, 870, Short.MAX_VALUE)
+                        .addGap(0, 872, Short.MAX_VALUE)
                 );
                 listaEsperaPanelLayout.setVerticalGroup(
                     listaEsperaPanelLayout.createParallelGroup()
@@ -189,7 +189,7 @@ public class UIContasoc extends JFrame {
                 imprimirPanel.setLayout(imprimirPanelLayout);
                 imprimirPanelLayout.setHorizontalGroup(
                     imprimirPanelLayout.createParallelGroup()
-                        .addGap(0, 870, Short.MAX_VALUE)
+                        .addGap(0, 872, Short.MAX_VALUE)
                 );
                 imprimirPanelLayout.setVerticalGroup(
                     imprimirPanelLayout.createParallelGroup()
@@ -205,7 +205,7 @@ public class UIContasoc extends JFrame {
                 emailPanel.setLayout(emailPanelLayout);
                 emailPanelLayout.setHorizontalGroup(
                     emailPanelLayout.createParallelGroup()
-                        .addGap(0, 870, Short.MAX_VALUE)
+                        .addGap(0, 872, Short.MAX_VALUE)
                 );
                 emailPanelLayout.setVerticalGroup(
                     emailPanelLayout.createParallelGroup()
@@ -276,7 +276,7 @@ public class UIContasoc extends JFrame {
                     buscarPanelLayout.createParallelGroup()
                         .addGroup(GroupLayout.Alignment.TRAILING, buscarPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE))
+                            .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE))
                 );
                 buscarPanelLayout.setVerticalGroup(
                     buscarPanelLayout.createParallelGroup()
@@ -292,8 +292,8 @@ public class UIContasoc extends JFrame {
             contentPaneLayout.createParallelGroup()
                 .addGroup(contentPaneLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(toolBar1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap())
+                    .addComponent(toolBar1, GroupLayout.PREFERRED_SIZE, 998, GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(4, Short.MAX_VALUE))
                 .addComponent(tabbedPane1)
         );
         contentPaneLayout.setVerticalGroup(
@@ -304,7 +304,7 @@ public class UIContasoc extends JFrame {
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(tabbedPane1))
         );
-        setSize(1010, 670);
+        pack();
         setLocationRelativeTo(null);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
