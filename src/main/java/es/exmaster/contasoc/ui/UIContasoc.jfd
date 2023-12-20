@@ -3,17 +3,14 @@ JFDML JFormDesigner: "8.2.0.0.331" Java: "17.0.9" encoding: "UTF-8"
 new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
-		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :::p, comp toolBar1:::p:998:p, space ::4:x}, comp tabbedPane1::l:::x}"
-			"$verticalGroup": "par l {seq t {space :::p, comp toolBar1:::p::p, space :::p, comp tabbedPane1:::::x}}"
-		} ) {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 			name: "this"
 			"$locationPolicy": 1
 			"font": new java.awt.Font( "Dialog", 0, 12 )
 			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/newlogo_small.png" )
 			"defaultCloseOperation": 3
-			"preferredSize": new java.awt.Dimension( 1030, 670 )
-			"minimumSize": new java.awt.Dimension( 1030, 670 )
+			"preferredSize": new java.awt.Dimension( 900, 600 )
+			"minimumSize": new java.awt.Dimension( 900, 600 )
 			"title": "{ver}"
 			auxiliary() {
 				"JavaCodeGenerator.variableModifiers": 12
@@ -27,8 +24,8 @@ new FormModel {
 					"JavaCodeGenerator.postInitCode": "tabbedPane1.putClientProperty(\"JTabbedPane.tabHeight\", 50);"
 				}
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq l {space :p:6:p, comp sociosTablaPanel::::860:x, space :p:6:p}}"
-					"$verticalGroup": "par l {seq l {comp sociosTablaPanel::::585:x, space :p:6:p}}"
+					"$horizontalGroup": "par l {seq {space :::p, comp sociosTablaPanel::::858:x, space :::p}}"
+					"$verticalGroup": "par l {seq {space :::p, comp sociosTablaPanel::::591:x, space :::p}}"
 				} ) {
 					name: "sociosPanel"
 					auxiliary() {
@@ -56,8 +53,8 @@ new FormModel {
 					"title": "Socios"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:872:x}"
-					"$verticalGroup": "par l {space :0:591:x}"
+					"$horizontalGroup": "par l {space :0:870:x}"
+					"$verticalGroup": "par l {space :0:603:x}"
 				} ) {
 					name: "ingresosPanel"
 					auxiliary() {
@@ -67,8 +64,8 @@ new FormModel {
 					"title": "Ingresos"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:872:x}"
-					"$verticalGroup": "par l {space :0:591:x}"
+					"$horizontalGroup": "par l {space :0:870:x}"
+					"$verticalGroup": "par l {space :0:603:x}"
 				} ) {
 					name: "gastosPanel"
 					auxiliary() {
@@ -78,8 +75,8 @@ new FormModel {
 					"title": "Gastos"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:872:x}"
-					"$verticalGroup": "par l {space :0:591:x}"
+					"$horizontalGroup": "par l {space :0:870:x}"
+					"$verticalGroup": "par l {space :0:603:x}"
 				} ) {
 					name: "balancePanel"
 					auxiliary() {
@@ -89,8 +86,8 @@ new FormModel {
 					"title": "Balance"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:872:x}"
-					"$verticalGroup": "par l {space :0:591:x}"
+					"$horizontalGroup": "par l {space :0:870:x}"
+					"$verticalGroup": "par l {space :0:603:x}"
 				} ) {
 					name: "listaEsperaPanel"
 					auxiliary() {
@@ -100,8 +97,8 @@ new FormModel {
 					"title": "Lista de espera"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:872:x}"
-					"$verticalGroup": "par l {space :0:591:x}"
+					"$horizontalGroup": "par l {space :0:870:x}"
+					"$verticalGroup": "par l {space :0:603:x}"
 				} ) {
 					name: "imprimirPanel"
 					auxiliary() {
@@ -111,8 +108,8 @@ new FormModel {
 					"title": "Imprimir"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:872:x}"
-					"$verticalGroup": "par l {space :0:591:x}"
+					"$horizontalGroup": "par l {space :0:870:x}"
+					"$verticalGroup": "par l {space :0:603:x}"
 				} ) {
 					name: "emailPanel"
 					auxiliary() {
@@ -121,6 +118,8 @@ new FormModel {
 				}, new FormLayoutConstraints( null ) {
 					"title": "Email"
 				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
 			} )
 			add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
 				name: "toolBar1"
@@ -183,7 +182,7 @@ new FormModel {
 					name: "separator"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq t {space :::p, comp buscarField::::549:x}}"
+					"$horizontalGroup": "par l {seq l {space :::p, comp buscarField::::553:x, space :::p}}"
 					"$verticalGroup": "par l {comp buscarField::t::32:x}"
 				} ) {
 					name: "buscarPanel"
@@ -199,6 +198,8 @@ new FormModel {
 						}
 					} )
 				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "North"
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 5 )
