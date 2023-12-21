@@ -259,7 +259,7 @@ public class ContasocDAO {
 
                 // Nombre de la tabla y consulta SQL para seleccionar todos los datos
                 String equal = "LISTA_ESPERA";
-                String query = "SELECT numSocio, nombre, telefono, correo, fechaAlta FROM Socios WHERE tipo = '" + equal + "'";
+                String query = "SELECT numeroSocio, nombre, telefono, email, fechaDeAlta FROM Socios WHERE tipo = '" + equal + "'";
 
                 // Obtener metadatos de las columnas
                 try ( // Ejecutar la consulta

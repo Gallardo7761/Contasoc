@@ -28,6 +28,7 @@ public class GUIManager {
     protected static String valor = null;
     protected static void populateGUITables () {
         ContasocDAO.fillTableFrom(UIContasoc.sociosTabla, "Socios");
+        ContasocDAO.fillListaEspera(UIContasoc.listaEsperaTabla);
     }
 
     protected void importBDD(UIContasoc ui, JTable jTable, String sqlTable) {

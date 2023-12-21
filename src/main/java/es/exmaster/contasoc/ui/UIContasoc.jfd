@@ -38,6 +38,9 @@ new FormModel {
 							"$verticalGroup": "par l {seq l {space :::p, comp sociosTablaPanel::::591:x, space :::p}}"
 						} ) {
 							name: "sociosWrapper"
+							auxiliary() {
+								"JavaCodeGenerator.variableModifiers": 12
+							}
 							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 								name: "sociosTablaPanel"
 								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
@@ -60,14 +63,23 @@ new FormModel {
 						}, new FormLayoutConstraints( class java.lang.String ) {
 							"value": "Center"
 						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "toListaEsperaBtn"
-							"text": ">"
-							"background": new java.awt.Color( 153, 153, 153, 255 )
-							"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 4, false )
-							"foreground": new java.awt.Color( 0, 0, 0, 255 )
-							"toolTipText": "Ver lista de espera"
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toListaEsperaBtnActionPerformed", true ) )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {seq l {comp toListaEsperaBtn:::p::p, space :0:0:x}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp toListaEsperaBtn::::591:x, space :::p}}"
+						} ) {
+							name: "toListaEsperaWrapper"
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "toListaEsperaBtn"
+								"text": ">"
+								"background": new java.awt.Color( 153, 153, 153, 255 )
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 4, false )
+								"foreground": new java.awt.Color( 0, 0, 0, 255 )
+								"toolTipText": "Ver lista de espera"
+								auxiliary() {
+									"JavaCodeGenerator.variableModifiers": 12
+								}
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toListaEsperaBtnActionPerformed", true ) )
+							} )
 						}, new FormLayoutConstraints( class java.lang.String ) {
 							"value": "After"
 						} )
@@ -79,14 +91,23 @@ new FormModel {
 						auxiliary() {
 							"JavaCodeGenerator.variableModifiers": 12
 						}
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "toSociosBtn"
-							"text": "<"
-							"background": new java.awt.Color( 153, 153, 153, 255 )
-							"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 4, false )
-							"foreground": new java.awt.Color( 0, 0, 0, 255 )
-							"toolTipText": "Ver socios"
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toSociosBtnActionPerformed", true ) )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {seq l {comp toSociosBtn:::p::p, space :0:0:x}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp toSociosBtn::::591:x, space :::p}}"
+						} ) {
+							name: "toSociosWrapper"
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "toSociosBtn"
+								"text": "<"
+								"background": new java.awt.Color( 153, 153, 153, 255 )
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 4, false )
+								"foreground": new java.awt.Color( 0, 0, 0, 255 )
+								"toolTipText": "Ver socios"
+								auxiliary() {
+									"JavaCodeGenerator.variableModifiers": 12
+								}
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toSociosBtnActionPerformed", true ) )
+							} )
 						}, new FormLayoutConstraints( class java.lang.String ) {
 							"value": "West"
 						} )
@@ -95,10 +116,23 @@ new FormModel {
 							"$verticalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::591:x, space :::p}}"
 						} ) {
 							name: "listaEsperaWrapper"
+							auxiliary() {
+								"JavaCodeGenerator.variableModifiers": 12
+							}
 							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 								name: "listaEsperaTablaPanel"
+								auxiliary() {
+									"JavaCodeGenerator.variableModifiers": 12
+								}
 								add( new FormComponent( "javax.swing.JTable" ) {
 									name: "listaEsperaTabla"
+									"autoResizeMode": 3
+									"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
+									"showHorizontalLines": true
+									auxiliary() {
+										"JavaCodeGenerator.variableModifiers": 12
+										"JavaCodeGenerator.postInitCode": "listaEsperaTabla.setModel(new ListaEsperaTablaModel());\nlistaEsperaTabla.getTableHeader().setReorderingAllowed(false);\nlistaEsperaTabla.getTableHeader().setResizingAllowed(false);\nlistaEsperaTabla.setRowHeight(50);"
+									}
 								} )
 							} )
 						}, new FormLayoutConstraints( class java.lang.String ) {
@@ -126,8 +160,8 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JTable" ) {
 							name: "ingresosTabla"
 							"autoResizeMode": 3
-							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 							"fillsViewportHeight": true
+							"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
 								"JavaCodeGenerator.postInitCode": "ingresosTabla.setModel(new IngresosTablaModel());\ningresosTabla.getTableHeader().setReorderingAllowed(false);\ningresosTabla.getTableHeader().setResizingAllowed(false);"
@@ -138,35 +172,63 @@ new FormModel {
 					"title": "INGRESOS"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:903:x}"
-					"$verticalGroup": "par l {space :0:603:x}"
+					"$horizontalGroup": "par l {seq l {space :::p, comp gastosTablaPanel::::891:x, space :::p}}"
+					"$verticalGroup": "par l {seq t {space :::p, comp gastosTablaPanel::::591:x, space :::p}}"
 				} ) {
 					name: "gastosPanel"
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "gastosTablaPanel"
+						auxiliary() {
+							"JavaCodeGenerator.variableModifiers": 12
+						}
+						add( new FormComponent( "javax.swing.JTable" ) {
+							name: "gastosTabla"
+							"autoResizeMode": 3
+							"fillsViewportHeight": true
+							"font": #SwingDerivedFont0
+							auxiliary() {
+								"JavaCodeGenerator.variableModifiers": 12
+								"JavaCodeGenerator.postInitCode": "gastosTabla.setModel(new GastosTablaModel());\ngastosTabla.getTableHeader().setReorderingAllowed(false);\ngastosTabla.getTableHeader().setResizingAllowed(false);"
+							}
+						} )
+					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "GASTOS"
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:903:x}"
-					"$verticalGroup": "par l {space :0:603:x}"
-				} ) {
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 					name: "balancePanel"
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label2"
+						"text": "EN PROGRESO..."
+						"horizontalTextPosition": 0
+						"horizontalAlignment": 0
+						"font": &Font0 new java.awt.Font( "Segoe UI", 0, 48 )
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "Center"
+					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "BALANCE"
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:903:x}"
-					"$verticalGroup": "par l {space :0:603:x}"
-				} ) {
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 					name: "emailPanel"
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label3"
+						"text": "EN PROGRESO..."
+						"horizontalTextPosition": 0
+						"horizontalAlignment": 0
+						"font": #Font0
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "Center"
+					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "EMAIL"
 				} )
@@ -175,6 +237,9 @@ new FormModel {
 			} )
 			add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
 				name: "toolBar1"
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+				}
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "nuevoBtn"
 					"text": "Nuevo"
@@ -215,6 +280,9 @@ new FormModel {
 					"iconTextGap": 6
 					"margin": new java.awt.Insets( 2, 2, 2, 6 )
 					"icon": new com.jformdesigner.model.SwingIcon( 0, "/resources/images/printer.png" )
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "printBtnActionPerformed", true ) )
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
@@ -241,6 +309,9 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
 					name: "separator"
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 					"$horizontalGroup": "par l {seq l {space :::p, comp buscarField::::392:x, space :::p, comp label1:::p:60:p, space :::p}}"
@@ -248,6 +319,9 @@ new FormModel {
 				} ) {
 					name: "buscarPanel"
 					"preferredSize": new java.awt.Dimension( 100, 32 )
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "buscarField"
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
@@ -263,6 +337,9 @@ new FormModel {
 						"text": "Ver. 6.0"
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 2, false )
 						"horizontalAlignment": 4
+						auxiliary() {
+							"JavaCodeGenerator.variableModifiers": 12
+						}
 					} )
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {

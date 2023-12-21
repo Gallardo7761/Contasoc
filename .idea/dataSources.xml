@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="contasoc.sqlite" uuid="93d86c69-d42d-4ab1-a770-b26c914cced1">
+    <data-source source="LOCAL" name="contasoc2.db" uuid="ceccd4ef-54a5-40d1-92fc-0bfc9b22df8c">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Contasoc\contasoc.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Contasoc\contasoc2.db</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
       </jdbc-additional-properties>

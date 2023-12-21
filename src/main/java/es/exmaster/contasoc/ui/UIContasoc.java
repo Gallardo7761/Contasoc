@@ -82,8 +82,10 @@ public class UIContasoc extends JFrame {
         sociosWrapper = new JPanel();
         sociosTablaPanel = new JScrollPane();
         sociosTabla = new JTable();
+        toListaEsperaWrapper = new JPanel();
         toListaEsperaBtn = new JButton();
         cardListaEsperaPanel = new JPanel();
+        toSociosWrapper = new JPanel();
         toSociosBtn = new JButton();
         listaEsperaWrapper = new JPanel();
         listaEsperaTablaPanel = new JScrollPane();
@@ -92,8 +94,12 @@ public class UIContasoc extends JFrame {
         ingresosTablaPanel = new JScrollPane();
         ingresosTabla = new JTable();
         gastosPanel = new JPanel();
+        gastosTablaPanel = new JScrollPane();
+        gastosTabla = new JTable();
         balancePanel = new JPanel();
+        label2 = new JLabel();
         emailPanel = new JPanel();
+        label3 = new JLabel();
         toolBar1 = new JToolBar();
         nuevoBtn = new JButton();
         editarBtn = new JButton();
@@ -170,14 +176,34 @@ public class UIContasoc extends JFrame {
                     }
                     cardSociosPanel.add(sociosWrapper, BorderLayout.CENTER);
 
-                    //---- toListaEsperaBtn ----
-                    toListaEsperaBtn.setText(">");
-                    toListaEsperaBtn.setBackground(new Color(0x999999));
-                    toListaEsperaBtn.setFont(toListaEsperaBtn.getFont().deriveFont(toListaEsperaBtn.getFont().getStyle() | Font.BOLD, toListaEsperaBtn.getFont().getSize() + 4f));
-                    toListaEsperaBtn.setForeground(Color.black);
-                    toListaEsperaBtn.setToolTipText("Ver lista de espera");
-                    toListaEsperaBtn.addActionListener(e -> toListaEsperaBtnActionPerformed(e));
-                    cardSociosPanel.add(toListaEsperaBtn, BorderLayout.LINE_END);
+                    //======== toListaEsperaWrapper ========
+                    {
+
+                        //---- toListaEsperaBtn ----
+                        toListaEsperaBtn.setText(">");
+                        toListaEsperaBtn.setBackground(new Color(0x999999));
+                        toListaEsperaBtn.setFont(toListaEsperaBtn.getFont().deriveFont(toListaEsperaBtn.getFont().getStyle() | Font.BOLD, toListaEsperaBtn.getFont().getSize() + 4f));
+                        toListaEsperaBtn.setForeground(Color.black);
+                        toListaEsperaBtn.setToolTipText("Ver lista de espera");
+                        toListaEsperaBtn.addActionListener(e -> toListaEsperaBtnActionPerformed(e));
+
+                        GroupLayout toListaEsperaWrapperLayout = new GroupLayout(toListaEsperaWrapper);
+                        toListaEsperaWrapper.setLayout(toListaEsperaWrapperLayout);
+                        toListaEsperaWrapperLayout.setHorizontalGroup(
+                            toListaEsperaWrapperLayout.createParallelGroup()
+                                .addGroup(toListaEsperaWrapperLayout.createSequentialGroup()
+                                    .addComponent(toListaEsperaBtn)
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                        );
+                        toListaEsperaWrapperLayout.setVerticalGroup(
+                            toListaEsperaWrapperLayout.createParallelGroup()
+                                .addGroup(toListaEsperaWrapperLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(toListaEsperaBtn, GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+                                    .addContainerGap())
+                        );
+                    }
+                    cardSociosPanel.add(toListaEsperaWrapper, BorderLayout.LINE_END);
                 }
                 sociosPanel.add(cardSociosPanel, "cardSocios");
 
@@ -185,20 +211,49 @@ public class UIContasoc extends JFrame {
                 {
                     cardListaEsperaPanel.setLayout(new BorderLayout());
 
-                    //---- toSociosBtn ----
-                    toSociosBtn.setText("<");
-                    toSociosBtn.setBackground(new Color(0x999999));
-                    toSociosBtn.setFont(toSociosBtn.getFont().deriveFont(toSociosBtn.getFont().getStyle() | Font.BOLD, toSociosBtn.getFont().getSize() + 4f));
-                    toSociosBtn.setForeground(Color.black);
-                    toSociosBtn.setToolTipText("Ver socios");
-                    toSociosBtn.addActionListener(e -> toSociosBtnActionPerformed(e));
-                    cardListaEsperaPanel.add(toSociosBtn, BorderLayout.WEST);
+                    //======== toSociosWrapper ========
+                    {
+
+                        //---- toSociosBtn ----
+                        toSociosBtn.setText("<");
+                        toSociosBtn.setBackground(new Color(0x999999));
+                        toSociosBtn.setFont(toSociosBtn.getFont().deriveFont(toSociosBtn.getFont().getStyle() | Font.BOLD, toSociosBtn.getFont().getSize() + 4f));
+                        toSociosBtn.setForeground(Color.black);
+                        toSociosBtn.setToolTipText("Ver socios");
+                        toSociosBtn.addActionListener(e -> toSociosBtnActionPerformed(e));
+
+                        GroupLayout toSociosWrapperLayout = new GroupLayout(toSociosWrapper);
+                        toSociosWrapper.setLayout(toSociosWrapperLayout);
+                        toSociosWrapperLayout.setHorizontalGroup(
+                            toSociosWrapperLayout.createParallelGroup()
+                                .addGroup(toSociosWrapperLayout.createSequentialGroup()
+                                    .addComponent(toSociosBtn)
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                        );
+                        toSociosWrapperLayout.setVerticalGroup(
+                            toSociosWrapperLayout.createParallelGroup()
+                                .addGroup(toSociosWrapperLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(toSociosBtn, GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+                                    .addContainerGap())
+                        );
+                    }
+                    cardListaEsperaPanel.add(toSociosWrapper, BorderLayout.WEST);
 
                     //======== listaEsperaWrapper ========
                     {
 
                         //======== listaEsperaTablaPanel ========
                         {
+
+                            //---- listaEsperaTabla ----
+                            listaEsperaTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+                            listaEsperaTabla.setFont(listaEsperaTabla.getFont().deriveFont(listaEsperaTabla.getFont().getSize() + 4f));
+                            listaEsperaTabla.setShowHorizontalLines(true);
+                            listaEsperaTabla.setModel(new ListaEsperaTablaModel());
+                            listaEsperaTabla.getTableHeader().setReorderingAllowed(false);
+                            listaEsperaTabla.getTableHeader().setResizingAllowed(false);
+                            listaEsperaTabla.setRowHeight(50);
                             listaEsperaTablaPanel.setViewportView(listaEsperaTabla);
                         }
 
@@ -233,8 +288,8 @@ public class UIContasoc extends JFrame {
 
                     //---- ingresosTabla ----
                     ingresosTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-                    ingresosTabla.setBorder(null);
                     ingresosTabla.setFillsViewportHeight(true);
+                    ingresosTabla.setFont(ingresosTabla.getFont().deriveFont(ingresosTabla.getFont().getSize() + 4f));
                     ingresosTabla.setModel(new IngresosTablaModel());
                     ingresosTabla.getTableHeader().setReorderingAllowed(false);
                     ingresosTabla.getTableHeader().setResizingAllowed(false);
@@ -263,48 +318,61 @@ public class UIContasoc extends JFrame {
             //======== gastosPanel ========
             {
 
+                //======== gastosTablaPanel ========
+                {
+
+                    //---- gastosTabla ----
+                    gastosTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+                    gastosTabla.setFillsViewportHeight(true);
+                    gastosTabla.setFont(gastosTabla.getFont().deriveFont(gastosTabla.getFont().getSize() + 4f));
+                    gastosTabla.setModel(new GastosTablaModel());
+                    gastosTabla.getTableHeader().setReorderingAllowed(false);
+                    gastosTabla.getTableHeader().setResizingAllowed(false);
+                    gastosTablaPanel.setViewportView(gastosTabla);
+                }
+
                 GroupLayout gastosPanelLayout = new GroupLayout(gastosPanel);
                 gastosPanel.setLayout(gastosPanelLayout);
                 gastosPanelLayout.setHorizontalGroup(
                     gastosPanelLayout.createParallelGroup()
-                        .addGap(0, 903, Short.MAX_VALUE)
+                        .addGroup(gastosPanelLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(gastosTablaPanel, GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
+                            .addContainerGap())
                 );
                 gastosPanelLayout.setVerticalGroup(
                     gastosPanelLayout.createParallelGroup()
-                        .addGap(0, 603, Short.MAX_VALUE)
+                        .addGroup(GroupLayout.Alignment.TRAILING, gastosPanelLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(gastosTablaPanel, GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+                            .addContainerGap())
                 );
             }
             tabbedPane1.addTab("GASTOS", gastosPanel);
 
             //======== balancePanel ========
             {
+                balancePanel.setLayout(new BorderLayout());
 
-                GroupLayout balancePanelLayout = new GroupLayout(balancePanel);
-                balancePanel.setLayout(balancePanelLayout);
-                balancePanelLayout.setHorizontalGroup(
-                    balancePanelLayout.createParallelGroup()
-                        .addGap(0, 903, Short.MAX_VALUE)
-                );
-                balancePanelLayout.setVerticalGroup(
-                    balancePanelLayout.createParallelGroup()
-                        .addGap(0, 603, Short.MAX_VALUE)
-                );
+                //---- label2 ----
+                label2.setText("EN PROGRESO...");
+                label2.setHorizontalTextPosition(SwingConstants.CENTER);
+                label2.setHorizontalAlignment(SwingConstants.CENTER);
+                label2.setFont(new Font("Segoe UI", Font.PLAIN, 48));
+                balancePanel.add(label2, BorderLayout.CENTER);
             }
             tabbedPane1.addTab("BALANCE", balancePanel);
 
             //======== emailPanel ========
             {
+                emailPanel.setLayout(new BorderLayout());
 
-                GroupLayout emailPanelLayout = new GroupLayout(emailPanel);
-                emailPanel.setLayout(emailPanelLayout);
-                emailPanelLayout.setHorizontalGroup(
-                    emailPanelLayout.createParallelGroup()
-                        .addGap(0, 903, Short.MAX_VALUE)
-                );
-                emailPanelLayout.setVerticalGroup(
-                    emailPanelLayout.createParallelGroup()
-                        .addGap(0, 603, Short.MAX_VALUE)
-                );
+                //---- label3 ----
+                label3.setText("EN PROGRESO...");
+                label3.setHorizontalTextPosition(SwingConstants.CENTER);
+                label3.setHorizontalAlignment(SwingConstants.CENTER);
+                label3.setFont(new Font("Segoe UI", Font.PLAIN, 48));
+                emailPanel.add(label3, BorderLayout.CENTER);
             }
             tabbedPane1.addTab("EMAIL", emailPanel);
         }
@@ -414,30 +482,36 @@ public class UIContasoc extends JFrame {
     protected static JTabbedPane tabbedPane1;
     protected static JPanel sociosPanel;
     protected static JPanel cardSociosPanel;
-    private JPanel sociosWrapper;
+    protected static JPanel sociosWrapper;
     protected static JScrollPane sociosTablaPanel;
     protected static JTable sociosTabla;
-    private JButton toListaEsperaBtn;
+    private JPanel toListaEsperaWrapper;
+    protected static JButton toListaEsperaBtn;
     protected static JPanel cardListaEsperaPanel;
-    private JButton toSociosBtn;
-    private JPanel listaEsperaWrapper;
-    private JScrollPane listaEsperaTablaPanel;
-    private JTable listaEsperaTabla;
+    private JPanel toSociosWrapper;
+    protected static JButton toSociosBtn;
+    protected static JPanel listaEsperaWrapper;
+    protected static JScrollPane listaEsperaTablaPanel;
+    protected static JTable listaEsperaTabla;
     protected static JPanel ingresosPanel;
     protected static JScrollPane ingresosTablaPanel;
     protected static JTable ingresosTabla;
     protected static JPanel gastosPanel;
+    protected static JScrollPane gastosTablaPanel;
+    protected static JTable gastosTabla;
     protected static JPanel balancePanel;
+    private JLabel label2;
     protected static JPanel emailPanel;
-    private JToolBar toolBar1;
+    private JLabel label3;
+    protected static JToolBar toolBar1;
     protected static JButton nuevoBtn;
     protected static JButton editarBtn;
     protected static JButton eliminarBtn;
-    private JButton printBtn;
+    protected static JButton printBtn;
     protected static JButton importarBtn;
     protected static JButton exportarBtn;
-    private JPanel buscarPanel;
+    protected static JPanel buscarPanel;
     protected static JTextField buscarField;
-    private JLabel label1;
+    protected static JLabel label1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
