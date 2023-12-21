@@ -1,0 +1,55 @@
+DROP TABLE IF EXISTS Socios;
+DROP TABLE IF EXISTS Ingresos;
+DROP TABLE IF EXISTS Gastos;
+DROP TABLE IF EXISTS Balance;
+
+CREATE TABLE IF NOT EXISTS Socios(
+	idSocio INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL ,
+	numeroSocio INTEGER UNIQUE NOT NULL,
+	numeroHuerto INTEGER NOT NULL,
+	nombre VARCHAR(128) NOT NULL,
+	dni CHAR(9) UNIQUE NOT NULL,
+	telefono INTEGER UNIQUE,
+	email VARCHAR(64) UNIQUE,
+	fechaDeAlta DATE NOT NULL,
+	fechaDeEntrega DATE,
+	fechaDeBaja DATE,
+	notas VARCHAR(256),
+	tipo VARCHAR(32) NOT NULL,
+	estado VARCHAR(8),
+	CONSTRAINT telefonoNoValido CHECK ((telefono >= 000000000) AND (telefono <= 999999999)),
+	CONSTRAINT tipoNoValido CHECK (tipo IN ('HORTELANO','LISTA_ESPERA','HORTELANO_INVERNADERO','COLABORADOR')),
+	CONSTRAINT fechaIncoherente CHECK (fechaDeBaja >= fechaDeAlta),
+	CONSTRAINT emailNoValido CHECK (email LIKE '%@%.%'),
+	CONSTRAINT metodoContactoFaltante CHECK ((email IS NOT NULL) OR (telefono IS NOT NULL)),
+	CONSTRAINT estadoInvalido CHECK (estado IN ('ACTIVO', 'INACTIVO'))
+);
+
+CREATE TABLE IF NOT EXISTS Ingresos (
+	idIngreso INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT,
+	numeroSocio INTEGER NOT NULL,
+	fecha DATE NOT NULL,
+	concepto VARCHAR(96) NOT NULL,
+	cantidad REAL NOT NULL,
+	tipo VARCHAR(5) NOT NULL,
+	CONSTRAINT cantidadInvalida CHECK (cantidad >= 0.0),
+	CONSTRAINT tipoInvalido CHECK (tipo IN ('BANCO', 'CAJA')),
+	FOREIGN KEY (numeroSocio) REFERENCES Socios (numeroSocio)
+);
+
+CREATE TABLE IF NOT EXISTS Gastos (
+	idGasto INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT,
+	fecha DATE NOT NULL,
+	proveedor VARCHAR(96) NOT NULL,
+	concepto VARCHAR(96) NOT NULL,
+	cantidad REAL NOT NULL,
+	factura VARCHAR(32) UNIQUE NOT NULL,
+	tipo VARCHAR(5) NOT NULL,
+	CONSTRAINT cantidadInvalida CHECK (cantidad >= 0.0),
+	CONSTRAINT tipoInvalido CHECK (tipo IN ('BANCO', 'CAJA'))	
+);
+
+CREATE TABLE IF NOT EXISTS Balance (
+	inicialBanco REAL NOT NULL,
+	inicialCaja REAL NOT NULL
+);
