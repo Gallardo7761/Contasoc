@@ -22,8 +22,9 @@ public class Contasoc {
         if(Files.notExists(Path.of(BASEDIR+"contasoc2.db"))) {
             try {
                 FileManager.createFile("contasoc2.db", BASEDIR);
-                ContasocDAO.tablesFromScript("createTables.sql");
-                ContasocDAO.triggersFromScript("createTriggers.sql");
+                //ContasocDAO.tablesFromScript("createTables.sql");
+                //ContasocDAO.triggersFromScript("createTriggers.sql");
+                ContasocDAO.createTablesAndTriggers();
             } catch (Exception e) {
                 ErrorHandler.errorAlCrearBDD();
             }

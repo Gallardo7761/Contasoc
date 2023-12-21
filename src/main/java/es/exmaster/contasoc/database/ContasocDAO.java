@@ -22,7 +22,7 @@ public class ContasocDAO {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
 
-            Path path = Paths.get(ClassLoader.getSystemResource("resources/assets/" + fichero).toURI());
+            Path path = Paths.get(ContasocDAO.class.getResource("/assets/" + fichero).toURI());
             List<String> lineas = Files.readAllLines(path, StandardCharsets.UTF_8);
             StringBuilder script = new StringBuilder();
 
@@ -52,7 +52,7 @@ public class ContasocDAO {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
 
-            Path path = Paths.get(ClassLoader.getSystemResource("resources/assets/" + fichero).toURI());
+            Path path = Paths.get(ContasocDAO.class.getResource("/assets/" + fichero).toURI());
             List<String> lineas = Files.readAllLines(path, StandardCharsets.UTF_8);
             StringBuilder script = new StringBuilder();
 
@@ -78,33 +78,107 @@ public class ContasocDAO {
         }
     }
 
-    public static void createTriggers() {
+    public static void createTablesAndTriggers() {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
-            String query =
-                "CREATE TRIGGER IF NOT EXISTS tr_IncrNumeroSocio " +
-                "AFTER INSERT ON Socios " +
-                "BEGIN " +
-                "UPDATE Socios SET numeroSocio = COALESCE((SELECT MAX(numeroSocio) + 1 FROM Socios), 1)"+
-                "WHERE idSocio = NEW.idSocio;" +
-                "END;";
+            String query = """            
+            CREATE TABLE IF NOT EXISTS Socios(
+            	idSocio INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL ,
+            	numeroSocio INTEGER UNIQUE NOT NULL,
+            	numeroHuerto INTEGER NOT NULL,
+            	nombre VARCHAR(128) NOT NULL,
+            	dni CHAR(9) UNIQUE NOT NULL,
+            	telefono INTEGER UNIQUE,
+            	email VARCHAR(64) UNIQUE,
+            	fechaDeAlta DATE NOT NULL,
+            	fechaDeEntrega DATE,
+            	fechaDeBaja DATE,
+            	notas VARCHAR(256),
+            	tipo VARCHAR(32) NOT NULL,
+            	estado VARCHAR(8),
+            	CONSTRAINT telefonoNoValido CHECK ((telefono >= 000000000) AND (telefono <= 999999999)),
+            	CONSTRAINT tipoNoValido CHECK (tipo IN ('HORTELANO','LISTA_ESPERA','HORTELANO_INVERNADERO','COLABORADOR')),
+            	CONSTRAINT fechaIncoherente CHECK (fechaDeBaja >= fechaDeAlta),
+            	CONSTRAINT emailNoValido CHECK (email LIKE '%@%.%'),
+            	CONSTRAINT metodoContactoFaltante CHECK ((email IS NOT NULL) OR (telefono IS NOT NULL)),
+            	CONSTRAINT estadoInvalido CHECK (estado IN ('ACTIVO', 'INACTIVO'))
+ 
+                              );""";
             stmt.execute(query);
-            query =
-                "CREATE TRIGGER IF NOT EXISTS tr_SetEstadoActivo " +
-                "AFTER INSERT ON Socios "+
-                "BEGIN "+
-                "UPDATE Socios SET estado = 'ACTIVO' "+
-                "WHERE idSocio = NEW.idSocio; "+
-                "END; ";
+
+            query = """
+            CREATE TABLE IF NOT EXISTS Ingresos (
+            	idIngreso INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT,
+            	numeroSocio INTEGER NOT NULL,
+            	fecha DATE NOT NULL,
+            	concepto VARCHAR(96) NOT NULL,
+            	cantidad REAL NOT NULL,
+            	tipo VARCHAR(5) NOT NULL,
+            	CONSTRAINT cantidadInvalida CHECK (cantidad >= 0.0),
+            	CONSTRAINT tipoInvalido CHECK (tipo IN ('BANCO', 'CAJA')),
+            	FOREIGN KEY (numeroSocio) REFERENCES Socios (numeroSocio)
+ 
+                              );""";
+
             stmt.execute(query);
-            query =
-                "CREATE TRIGGER IF NOT EXISTS tr_SetEstadoInactivo "+
-                "AFTER UPDATE ON Socios "+
-                "BEGIN "+
-                "UPDATE Socios SET estado = 'INACTIVO' "+
-                "WHERE idSocio = NEW.idSocio AND NEW.fechaDeBaja IS NOT NULL; "+
-                "END;";
+
+            query = """
+            CREATE TABLE IF NOT EXISTS Gastos (
+            	idGasto INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT,
+            	fecha DATE NOT NULL,
+            	proveedor VARCHAR(96) NOT NULL,
+            	concepto VARCHAR(96) NOT NULL,
+            	cantidad REAL NOT NULL,
+            	factura VARCHAR(32) UNIQUE NOT NULL,
+            	tipo VARCHAR(5) NOT NULL,
+            	CONSTRAINT cantidadInvalida CHECK (cantidad >= 0.0),
+            	CONSTRAINT tipoInvalido CHECK (tipo IN ('BANCO', 'CAJA'))	
+ 
+                              );""";
+
             stmt.execute(query);
+
+            query = """
+            CREATE TABLE IF NOT EXISTS Balance (
+            	inicialBanco REAL NOT NULL,
+            	inicialCaja REAL NOT NULL
+            );""";
+
+            stmt.execute(query);
+
+            query = """
+            CREATE TRIGGER IF NOT EXISTS tr_IncrNumeroSocio
+                AFTER INSERT ON Socios
+            BEGIN
+                UPDATE Socios
+                SET numeroSocio = COALESCE((SELECT MAX(numeroSocio) FROM Socios), 0) + 1
+                WHERE idSocio = NEW.idSocio AND NEW.numeroSocio IS NULL;
+   
+                            END;""";
+
+            stmt.execute(query);
+
+            query = """
+            CREATE TRIGGER IF NOT EXISTS tr_SetEstadoActivo
+                AFTER INSERT ON Socios
+            BEGIN
+                UPDATE Socios SET estado = 'ACTIVO'
+                WHERE idSocio = NEW.idSocio;
+   
+                            END;""";
+
+            stmt.execute(query);
+
+            query = """
+            CREATE TRIGGER IF NOT EXISTS tr_SetEstadoInactivo
+                AFTER UPDATE ON Socios
+            BEGIN
+                UPDATE Socios SET estado = 'INACTIVO'
+                WHERE idSocio = NEW.idSocio AND NEW.fechaDeBaja IS NOT NULL;
+            END;""";
+
+            stmt.execute(query);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

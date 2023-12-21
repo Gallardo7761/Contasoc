@@ -113,7 +113,7 @@ public class UIContasoc extends JFrame {
 
         //======== this ========
         setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
-        setIconImage(new ImageIcon(getClass().getResource("/resources/images/logohuerto_small.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/images/logohuerto_small.png")).getImage());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(900, 600));
         setMinimumSize(new Dimension(900, 600));
@@ -151,7 +151,7 @@ public class UIContasoc extends JFrame {
                             sociosTabla.setModel(new SociosTablaModel());
                             sociosTabla.getTableHeader().setReorderingAllowed(false);
                             sociosTabla.getTableHeader().setResizingAllowed(false);
-                            GUIManager.setColumnWidths(sociosTabla,
+                            GUIManager.setColumnWidths(sociosTabla, 
                                 new int[] {55,55,350,100,100,320,100,100,100,400,100,100});
                             sociosTabla.setRowHeight(50);
                             sociosTablaPanel.setViewportView(sociosTabla);
@@ -410,7 +410,7 @@ public class UIContasoc extends JFrame {
             printBtn.setFont(printBtn.getFont().deriveFont(printBtn.getFont().getSize() + 4f));
             printBtn.setIconTextGap(6);
             printBtn.setMargin(new Insets(2, 2, 2, 6));
-            printBtn.setIcon(new ImageIcon(getClass().getResource("/resources/images/printer.png")));
+            printBtn.setIcon(new ImageIcon(getClass().getResource("/images/printer.png")));
             printBtn.addActionListener(e -> printBtnActionPerformed(e));
             toolBar1.add(printBtn);
 
