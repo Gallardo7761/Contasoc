@@ -23,38 +23,95 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 					"JavaCodeGenerator.postInitCode": "tabbedPane1.putClientProperty(\"JTabbedPane.tabHeight\", 50);"
 				}
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {space :::p, comp sociosTablaPanel::::838:x, space :::p}}"
-					"$verticalGroup": "par l {seq {space :::p, comp sociosTablaPanel::::591:x, space :::p}}"
-				} ) {
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
 					name: "sociosPanel"
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
-					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-						name: "sociosTablaPanel"
-						"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+						name: "cardSociosPanel"
 						auxiliary() {
 							"JavaCodeGenerator.variableModifiers": 12
-							"JavaCodeGenerator.postInitCode": "sociosTablaPanel.putClientProperty(\"JComponent.outline\",Color.decode(\"#549159\"));"
 						}
-						add( new FormComponent( "javax.swing.JTable" ) {
-							name: "sociosTabla"
-							"fillsViewportHeight": true
-							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-							"autoResizeMode": 3
-							"showHorizontalLines": true
-							auxiliary() {
-								"JavaCodeGenerator.postInitCode": "sociosTabla.setModel(new SociosTablaModel());\nsociosTabla.getTableHeader().setReorderingAllowed(false);\nsociosTabla.getTableHeader().setResizingAllowed(false);\nGUIManager.setColumnWidths(sociosTabla, \n\tnew int[] {55,55,350,100,100,320,100,100,100,400,100,100});\nsociosTabla.setRowHeight(50);"
-								"JavaCodeGenerator.variableModifiers": 12
-							}
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {seq t {space :::p, comp sociosTablaPanel::::859:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp sociosTablaPanel::::591:x, space :::p}}"
+						} ) {
+							name: "sociosWrapper"
+							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+								name: "sociosTablaPanel"
+								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								auxiliary() {
+									"JavaCodeGenerator.variableModifiers": 12
+									"JavaCodeGenerator.postInitCode": "sociosTablaPanel.putClientProperty(\"JComponent.outline\",Color.decode(\"#549159\"));"
+								}
+								add( new FormComponent( "javax.swing.JTable" ) {
+									name: "sociosTabla"
+									"fillsViewportHeight": true
+									"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
+									"autoResizeMode": 3
+									"showHorizontalLines": true
+									auxiliary() {
+										"JavaCodeGenerator.postInitCode": "sociosTabla.setModel(new SociosTablaModel());\nsociosTabla.getTableHeader().setReorderingAllowed(false);\nsociosTabla.getTableHeader().setResizingAllowed(false);\nGUIManager.setColumnWidths(sociosTabla, \n\tnew int[] {55,55,350,100,100,320,100,100,100,400,100,100});\nsociosTabla.setRowHeight(50);"
+										"JavaCodeGenerator.variableModifiers": 12
+									}
+								} )
+							} )
+						}, new FormLayoutConstraints( class java.lang.String ) {
+							"value": "Center"
 						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "toListaEsperaBtn"
+							"text": ">"
+							"background": new java.awt.Color( 153, 153, 153, 255 )
+							"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 4, false )
+							"foreground": new java.awt.Color( 0, 0, 0, 255 )
+							"toolTipText": "Ver lista de espera"
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toListaEsperaBtnActionPerformed", true ) )
+						}, new FormLayoutConstraints( class java.lang.String ) {
+							"value": "After"
+						} )
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "cardSocios"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+						name: "cardListaEsperaPanel"
+						auxiliary() {
+							"JavaCodeGenerator.variableModifiers": 12
+						}
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "toSociosBtn"
+							"text": "<"
+							"background": new java.awt.Color( 153, 153, 153, 255 )
+							"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 4, false )
+							"foreground": new java.awt.Color( 0, 0, 0, 255 )
+							"toolTipText": "Ver socios"
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toSociosBtnActionPerformed", true ) )
+						}, new FormLayoutConstraints( class java.lang.String ) {
+							"value": "West"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::859:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::591:x, space :::p}}"
+						} ) {
+							name: "listaEsperaWrapper"
+							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+								name: "listaEsperaTablaPanel"
+								add( new FormComponent( "javax.swing.JTable" ) {
+									name: "listaEsperaTabla"
+								} )
+							} )
+						}, new FormLayoutConstraints( class java.lang.String ) {
+							"value": "Center"
+						} )
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "cardListaEspera"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "SOCIOS"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq l {space :::p, comp ingresosTablaPanel::::838:x, space :::p}}"
+					"$horizontalGroup": "par l {seq t {space :::p, comp ingresosTablaPanel::::891:x, space :::p}}"
 					"$verticalGroup": "par l {seq l {space :::p, comp ingresosTablaPanel::::591:x, space :::p}}"
 				} ) {
 					name: "ingresosPanel"
@@ -81,7 +138,7 @@ new FormModel {
 					"title": "INGRESOS"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:850:x}"
+					"$horizontalGroup": "par l {space :0:903:x}"
 					"$verticalGroup": "par l {space :0:603:x}"
 				} ) {
 					name: "gastosPanel"
@@ -92,7 +149,7 @@ new FormModel {
 					"title": "GASTOS"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:850:x}"
+					"$horizontalGroup": "par l {space :0:903:x}"
 					"$verticalGroup": "par l {space :0:603:x}"
 				} ) {
 					name: "balancePanel"
@@ -103,18 +160,7 @@ new FormModel {
 					"title": "BALANCE"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:850:x}"
-					"$verticalGroup": "par l {space :0:603:x}"
-				} ) {
-					name: "listaEsperaPanel"
-					auxiliary() {
-						"JavaCodeGenerator.variableModifiers": 12
-					}
-				}, new FormLayoutConstraints( null ) {
-					"title": "LISTA DE ESPERA"
-				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:850:x}"
+					"$horizontalGroup": "par l {space :0:903:x}"
 					"$verticalGroup": "par l {space :0:603:x}"
 				} ) {
 					name: "emailPanel"

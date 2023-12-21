@@ -53,16 +53,24 @@ public class UIContasoc extends JFrame {
     }
 
     private void printBtnActionPerformed(ActionEvent e) {
-        if(sociosPanel.isVisible()) {
+        if(cardSociosPanel.isVisible()) {
             GUIManager.valor = "Socios";
         } else if(ingresosPanel.isVisible()) {
             GUIManager.valor = "Ingresos";
         } else if(gastosPanel.isVisible()) {
             GUIManager.valor = "Gastos";
-        } else if(listaEsperaPanel.isVisible()) {
+        } else if(cardListaEsperaPanel.isVisible()) {
             GUIManager.valor = "ListaEspera";
         }
         GUIManager.printContent();
+    }
+
+    private void toListaEsperaBtnActionPerformed(ActionEvent e) {
+        ((CardLayout) sociosPanel.getLayout()).show(sociosPanel, "cardListaEspera");
+    }
+
+    private void toSociosBtnActionPerformed(ActionEvent e) {
+        ((CardLayout) sociosPanel.getLayout()).show(sociosPanel, "cardSocios");
     }
 
     private void initComponents() {
@@ -70,14 +78,21 @@ public class UIContasoc extends JFrame {
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
         tabbedPane1 = new JTabbedPane();
         sociosPanel = new JPanel();
+        cardSociosPanel = new JPanel();
+        sociosWrapper = new JPanel();
         sociosTablaPanel = new JScrollPane();
         sociosTabla = new JTable();
+        toListaEsperaBtn = new JButton();
+        cardListaEsperaPanel = new JPanel();
+        toSociosBtn = new JButton();
+        listaEsperaWrapper = new JPanel();
+        listaEsperaTablaPanel = new JScrollPane();
+        listaEsperaTabla = new JTable();
         ingresosPanel = new JPanel();
         ingresosTablaPanel = new JScrollPane();
         ingresosTabla = new JTable();
         gastosPanel = new JPanel();
         balancePanel = new JPanel();
-        listaEsperaPanel = new JPanel();
         emailPanel = new JPanel();
         toolBar1 = new JToolBar();
         nuevoBtn = new JButton();
@@ -108,42 +123,105 @@ public class UIContasoc extends JFrame {
 
             //======== sociosPanel ========
             {
+                sociosPanel.setLayout(new CardLayout());
 
-                //======== sociosTablaPanel ========
+                //======== cardSociosPanel ========
                 {
-                    sociosTablaPanel.setBorder(null);
-                    sociosTablaPanel.putClientProperty("JComponent.outline",Color.decode("#549159"));
+                    cardSociosPanel.setLayout(new BorderLayout());
 
-                    //---- sociosTabla ----
-                    sociosTabla.setFillsViewportHeight(true);
-                    sociosTabla.setFont(sociosTabla.getFont().deriveFont(sociosTabla.getFont().getSize() + 4f));
-                    sociosTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-                    sociosTabla.setShowHorizontalLines(true);
-                    sociosTabla.setModel(new SociosTablaModel());
-                    sociosTabla.getTableHeader().setReorderingAllowed(false);
-                    sociosTabla.getTableHeader().setResizingAllowed(false);
-                    GUIManager.setColumnWidths(sociosTabla,
-                        new int[] {55,55,350,100,100,320,100,100,100,400,100,100});
-                    sociosTabla.setRowHeight(50);
-                    sociosTablaPanel.setViewportView(sociosTabla);
+                    //======== sociosWrapper ========
+                    {
+
+                        //======== sociosTablaPanel ========
+                        {
+                            sociosTablaPanel.setBorder(null);
+                            sociosTablaPanel.putClientProperty("JComponent.outline",Color.decode("#549159"));
+
+                            //---- sociosTabla ----
+                            sociosTabla.setFillsViewportHeight(true);
+                            sociosTabla.setFont(sociosTabla.getFont().deriveFont(sociosTabla.getFont().getSize() + 4f));
+                            sociosTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+                            sociosTabla.setShowHorizontalLines(true);
+                            sociosTabla.setModel(new SociosTablaModel());
+                            sociosTabla.getTableHeader().setReorderingAllowed(false);
+                            sociosTabla.getTableHeader().setResizingAllowed(false);
+                            GUIManager.setColumnWidths(sociosTabla,
+                                new int[] {55,55,350,100,100,320,100,100,100,400,100,100});
+                            sociosTabla.setRowHeight(50);
+                            sociosTablaPanel.setViewportView(sociosTabla);
+                        }
+
+                        GroupLayout sociosWrapperLayout = new GroupLayout(sociosWrapper);
+                        sociosWrapper.setLayout(sociosWrapperLayout);
+                        sociosWrapperLayout.setHorizontalGroup(
+                            sociosWrapperLayout.createParallelGroup()
+                                .addGroup(GroupLayout.Alignment.TRAILING, sociosWrapperLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
+                                    .addContainerGap())
+                        );
+                        sociosWrapperLayout.setVerticalGroup(
+                            sociosWrapperLayout.createParallelGroup()
+                                .addGroup(sociosWrapperLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+                                    .addContainerGap())
+                        );
+                    }
+                    cardSociosPanel.add(sociosWrapper, BorderLayout.CENTER);
+
+                    //---- toListaEsperaBtn ----
+                    toListaEsperaBtn.setText(">");
+                    toListaEsperaBtn.setBackground(new Color(0x999999));
+                    toListaEsperaBtn.setFont(toListaEsperaBtn.getFont().deriveFont(toListaEsperaBtn.getFont().getStyle() | Font.BOLD, toListaEsperaBtn.getFont().getSize() + 4f));
+                    toListaEsperaBtn.setForeground(Color.black);
+                    toListaEsperaBtn.setToolTipText("Ver lista de espera");
+                    toListaEsperaBtn.addActionListener(e -> toListaEsperaBtnActionPerformed(e));
+                    cardSociosPanel.add(toListaEsperaBtn, BorderLayout.LINE_END);
                 }
+                sociosPanel.add(cardSociosPanel, "cardSocios");
 
-                GroupLayout sociosPanelLayout = new GroupLayout(sociosPanel);
-                sociosPanel.setLayout(sociosPanelLayout);
-                sociosPanelLayout.setHorizontalGroup(
-                    sociosPanelLayout.createParallelGroup()
-                        .addGroup(sociosPanelLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 838, Short.MAX_VALUE)
-                            .addContainerGap())
-                );
-                sociosPanelLayout.setVerticalGroup(
-                    sociosPanelLayout.createParallelGroup()
-                        .addGroup(sociosPanelLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
-                            .addContainerGap())
-                );
+                //======== cardListaEsperaPanel ========
+                {
+                    cardListaEsperaPanel.setLayout(new BorderLayout());
+
+                    //---- toSociosBtn ----
+                    toSociosBtn.setText("<");
+                    toSociosBtn.setBackground(new Color(0x999999));
+                    toSociosBtn.setFont(toSociosBtn.getFont().deriveFont(toSociosBtn.getFont().getStyle() | Font.BOLD, toSociosBtn.getFont().getSize() + 4f));
+                    toSociosBtn.setForeground(Color.black);
+                    toSociosBtn.setToolTipText("Ver socios");
+                    toSociosBtn.addActionListener(e -> toSociosBtnActionPerformed(e));
+                    cardListaEsperaPanel.add(toSociosBtn, BorderLayout.WEST);
+
+                    //======== listaEsperaWrapper ========
+                    {
+
+                        //======== listaEsperaTablaPanel ========
+                        {
+                            listaEsperaTablaPanel.setViewportView(listaEsperaTabla);
+                        }
+
+                        GroupLayout listaEsperaWrapperLayout = new GroupLayout(listaEsperaWrapper);
+                        listaEsperaWrapper.setLayout(listaEsperaWrapperLayout);
+                        listaEsperaWrapperLayout.setHorizontalGroup(
+                            listaEsperaWrapperLayout.createParallelGroup()
+                                .addGroup(listaEsperaWrapperLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
+                                    .addContainerGap())
+                        );
+                        listaEsperaWrapperLayout.setVerticalGroup(
+                            listaEsperaWrapperLayout.createParallelGroup()
+                                .addGroup(listaEsperaWrapperLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+                                    .addContainerGap())
+                        );
+                    }
+                    cardListaEsperaPanel.add(listaEsperaWrapper, BorderLayout.CENTER);
+                }
+                sociosPanel.add(cardListaEsperaPanel, "cardListaEspera");
             }
             tabbedPane1.addTab("SOCIOS", sociosPanel);
 
@@ -167,9 +245,9 @@ public class UIContasoc extends JFrame {
                 ingresosPanel.setLayout(ingresosPanelLayout);
                 ingresosPanelLayout.setHorizontalGroup(
                     ingresosPanelLayout.createParallelGroup()
-                        .addGroup(ingresosPanelLayout.createSequentialGroup()
+                        .addGroup(GroupLayout.Alignment.TRAILING, ingresosPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(ingresosTablaPanel, GroupLayout.DEFAULT_SIZE, 838, Short.MAX_VALUE)
+                            .addComponent(ingresosTablaPanel, GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
                             .addContainerGap())
                 );
                 ingresosPanelLayout.setVerticalGroup(
@@ -189,7 +267,7 @@ public class UIContasoc extends JFrame {
                 gastosPanel.setLayout(gastosPanelLayout);
                 gastosPanelLayout.setHorizontalGroup(
                     gastosPanelLayout.createParallelGroup()
-                        .addGap(0, 850, Short.MAX_VALUE)
+                        .addGap(0, 903, Short.MAX_VALUE)
                 );
                 gastosPanelLayout.setVerticalGroup(
                     gastosPanelLayout.createParallelGroup()
@@ -205,7 +283,7 @@ public class UIContasoc extends JFrame {
                 balancePanel.setLayout(balancePanelLayout);
                 balancePanelLayout.setHorizontalGroup(
                     balancePanelLayout.createParallelGroup()
-                        .addGap(0, 850, Short.MAX_VALUE)
+                        .addGap(0, 903, Short.MAX_VALUE)
                 );
                 balancePanelLayout.setVerticalGroup(
                     balancePanelLayout.createParallelGroup()
@@ -214,22 +292,6 @@ public class UIContasoc extends JFrame {
             }
             tabbedPane1.addTab("BALANCE", balancePanel);
 
-            //======== listaEsperaPanel ========
-            {
-
-                GroupLayout listaEsperaPanelLayout = new GroupLayout(listaEsperaPanel);
-                listaEsperaPanel.setLayout(listaEsperaPanelLayout);
-                listaEsperaPanelLayout.setHorizontalGroup(
-                    listaEsperaPanelLayout.createParallelGroup()
-                        .addGap(0, 850, Short.MAX_VALUE)
-                );
-                listaEsperaPanelLayout.setVerticalGroup(
-                    listaEsperaPanelLayout.createParallelGroup()
-                        .addGap(0, 603, Short.MAX_VALUE)
-                );
-            }
-            tabbedPane1.addTab("LISTA DE ESPERA", listaEsperaPanel);
-
             //======== emailPanel ========
             {
 
@@ -237,7 +299,7 @@ public class UIContasoc extends JFrame {
                 emailPanel.setLayout(emailPanelLayout);
                 emailPanelLayout.setHorizontalGroup(
                     emailPanelLayout.createParallelGroup()
-                        .addGap(0, 850, Short.MAX_VALUE)
+                        .addGap(0, 903, Short.MAX_VALUE)
                 );
                 emailPanelLayout.setVerticalGroup(
                     emailPanelLayout.createParallelGroup()
@@ -351,14 +413,21 @@ public class UIContasoc extends JFrame {
     // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
     protected static JTabbedPane tabbedPane1;
     protected static JPanel sociosPanel;
+    protected static JPanel cardSociosPanel;
+    private JPanel sociosWrapper;
     protected static JScrollPane sociosTablaPanel;
     protected static JTable sociosTabla;
+    private JButton toListaEsperaBtn;
+    protected static JPanel cardListaEsperaPanel;
+    private JButton toSociosBtn;
+    private JPanel listaEsperaWrapper;
+    private JScrollPane listaEsperaTablaPanel;
+    private JTable listaEsperaTabla;
     protected static JPanel ingresosPanel;
     protected static JScrollPane ingresosTablaPanel;
     protected static JTable ingresosTabla;
     protected static JPanel gastosPanel;
     protected static JPanel balancePanel;
-    protected static JPanel listaEsperaPanel;
     protected static JPanel emailPanel;
     private JToolBar toolBar1;
     protected static JButton nuevoBtn;
