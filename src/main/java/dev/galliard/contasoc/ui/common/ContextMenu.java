@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Wed Dec 20 20:59:08 CET 2023
  */
 
-package dev.galliard.contasoc.ui;
+package dev.galliard.contasoc.ui.common;
 
 import java.awt.*;
 import java.awt.event.*;

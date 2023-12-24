@@ -1,6 +1,7 @@
 package dev.galliard.contasoc.ui;
 
 import dev.galliard.contasoc.database.ContasocDAO;
+import dev.galliard.contasoc.ui.SaldoInicial;
 import dev.galliard.contasoc.ui.UIContasoc;
 
 public class BalancePanelWatcher implements Runnable {

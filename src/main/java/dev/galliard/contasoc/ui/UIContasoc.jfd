@@ -50,14 +50,16 @@ new FormModel {
 								}
 								add( new FormComponent( "javax.swing.JTable" ) {
 									name: "sociosTabla"
-									"fillsViewportHeight": true
-									"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
 									"autoResizeMode": 3
+									"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
+									"selectionBackground": &Color0 new java.awt.Color( 200, 232, 202, 255 )
+									"gridColor": &Color1 new java.awt.Color( 153, 153, 153, 255 )
 									"showHorizontalLines": true
-									"gridColor": new java.awt.Color( 204, 204, 204, 255 )
+									"fillsViewportHeight": true
+									"selectionMode": 0
 									auxiliary() {
-										"JavaCodeGenerator.postInitCode": "sociosTabla.setModel(new SociosTablaModel());\nsociosTabla.getTableHeader().setReorderingAllowed(false);\nsociosTabla.getTableHeader().setResizingAllowed(false);\nGUIManager.setColumnWidths(sociosTabla, \n\tnew int[] {55,55,350,100,100,320,100,100,100,400,100,100});\nsociosTabla.setRowHeight(50);"
 										"JavaCodeGenerator.variableModifiers": 12
+										"JavaCodeGenerator.postInitCode": "sociosTabla.setModel(new SociosTablaModel());\nsociosTabla.getTableHeader().setReorderingAllowed(false);\nsociosTabla.getTableHeader().setResizingAllowed(false);\nGUIManager.setColumnWidths(sociosTabla, \n\tnew int[] {55,55,350,100,100,320,100,100,100,400,100,100});\nsociosTabla.setRowHeight(50);"
 									}
 								} )
 							} )
@@ -130,9 +132,11 @@ new FormModel {
 									name: "listaEsperaTabla"
 									"autoResizeMode": 3
 									"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
+									"gridColor": #Color1
+									"selectionBackground": #Color0
 									"showHorizontalLines": true
-									"gridColor": new java.awt.Color( 204, 204, 204, 255 )
-									"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"fillsViewportHeight": true
+									"selectionMode": 0
 									auxiliary() {
 										"JavaCodeGenerator.variableModifiers": 12
 										"JavaCodeGenerator.postInitCode": "listaEsperaTabla.setModel(new ListaEsperaTablaModel());\nlistaEsperaTabla.getTableHeader().setReorderingAllowed(false);\nlistaEsperaTabla.getTableHeader().setResizingAllowed(false);\nlistaEsperaTabla.setRowHeight(50);"
@@ -164,8 +168,12 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JTable" ) {
 							name: "ingresosTabla"
 							"autoResizeMode": 3
+							"font": #SwingDerivedFont0
+							"selectionBackground": #Color0
+							"gridColor": #Color1
+							"showHorizontalLines": true
 							"fillsViewportHeight": true
-							"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
+							"selectionMode": 0
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
 								"JavaCodeGenerator.postInitCode": "ingresosTabla.setModel(new IngresosTablaModel());\ningresosTabla.getTableHeader().setReorderingAllowed(false);\ningresosTabla.getTableHeader().setResizingAllowed(false);"
@@ -191,11 +199,15 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JTable" ) {
 							name: "gastosTabla"
 							"autoResizeMode": 3
-							"fillsViewportHeight": true
 							"font": #SwingDerivedFont0
+							"selectionBackground": #Color0
+							"gridColor": #Color1
+							"showHorizontalLines": true
+							"fillsViewportHeight": true
+							"selectionMode": 0
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
-								"JavaCodeGenerator.postInitCode": "gastosTabla.setModel(new GastosTablaModel());\ngastosTabla.getTableHeader().setReorderingAllowed(false);\ngastosTabla.getTableHeader().setResizingAllowed(false);"
+								"JavaCodeGenerator.postInitCode": "gastosTabla.setModel(new GastosTablaModel());\ngastosTabla.getTableHeader().setReorderingAllowed(false);\ngastosTabla.getTableHeader().setResizingAllowed(false);\nsociosTabla.setRowHeight(50);"
 							}
 						} )
 					} )
@@ -400,10 +412,81 @@ new FormModel {
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) ) {
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {seq {space :p:12:p, comp destinatarioLabel:::p::p, space u:::p, comp destinatarioComboBox:::p:246:p, space u:::p, comp asuntoLabel:::p::p, space u:::p, comp asuntoField:::p:210:p, space :::p}}"
+						"$verticalGroup": "par l {par b {comp asuntoLabel::b:p:26:p, comp asuntoField::b:p::p, comp destinatarioLabel::b:p:26:p, comp destinatarioComboBox::b:p::p}}"
+					} ) {
 						name: "emailDataPanel"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "destinatarioLabel"
+							"text": "Destinatario:"
+							"font": &SwingDerivedFont2 new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "asuntoLabel"
+							"text": "Asunto:"
+							"font": #SwingDerivedFont2
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "asuntoField"
+						} )
+						add( new FormComponent( "javax.swing.JComboBox" ) {
+							name: "destinatarioComboBox"
+						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
 						"value": "North"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) ) {
+						name: "emailBodyPanel"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {seq l {space :::p, comp bodyScrollPane:::::x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp bodyScrollPane::::521:x, space :::p}}"
+						} ) {
+							name: "emailBodyWrapper"
+							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+								name: "bodyScrollPane"
+								add( new FormComponent( "javax.swing.JTextArea" ) {
+									name: "bodyTextArea"
+									"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+									"lineWrap": true
+									"tabSize": 4
+									"wrapStyleWord": true
+									auxiliary() {
+										"JavaCodeGenerator.postInitCode": "bodyTextArea.setText(\"Escriba su mensaje...\");"
+									}
+									addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "bodyTextAreaFocusGained", true ) )
+									addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "bodyTextAreaFocusLost", true ) )
+								} )
+							} )
+						} )
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "Center"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+						"columns": 3
+					} ) {
+						name: "emailBtnsPanel"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {seq {space :::p, comp enviarBtn:::p::p, space :::p, comp comboBox1:::p:160:p, space :::p, comp borradorBtn:::p::p, space ::471:x}}"
+							"$verticalGroup": "par l {seq {par l {comp enviarBtn:::::x, comp borradorBtn::l:::x, comp comboBox1::l:::x}, space :::p}}"
+						} ) {
+							name: "emailBtnsWrapper"
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "enviarBtn"
+								"text": "Enviar"
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "borradorBtn"
+								"text": "Guardar borrador"
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+							} )
+							add( new FormComponent( "javax.swing.JComboBox" ) {
+								name: "comboBox1"
+							} )
+						} )
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "South"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "EMAIL"

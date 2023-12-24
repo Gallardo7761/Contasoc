@@ -1,7 +1,6 @@
-package dev.galliard.contasoc.ui;
+package dev.galliard.contasoc.ui.lookandfeel;
 
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubIJTheme;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +9,9 @@ public class ContasocLaf extends FlatGitHubIJTheme {
 
     private static final String GREEN = "#549159";
     private static final String LIGHT_GREEN = "#6FAA6F";
-    private static final String SELECTION = "#99cd85";
+    private static final String LIGHTER_GREEN = "#BADBBC";
+    private static final String SELECTION = "#C8E8CA";
+    private static final String GRAY_BORDER = "#7E7F87";
 
     public static boolean setup() {
         setProperties();
@@ -18,31 +19,37 @@ public class ContasocLaf extends FlatGitHubIJTheme {
     }
 
     private static void setProperties() {
-        System.setProperty("flatlaf.menuBarEmbedded", "true");
         UIManager.put("TitlePane.background", Color.decode(GREEN));
         UIManager.put("TitlePane.unifiedBackground", false);
         UIManager.put("TitlePane.foreground", Color.WHITE);
-        UIManager.put("TitlePane.menuBarEmbedded", true);
-        UIManager.put("TitlePane.centerTitleIfMenuBarEmbedded", true);
         UIManager.put("TitlePane.borderColor", Color.decode(GREEN));
 
         UIManager.put("TableHeader.background", Color.decode(GREEN));
+        UIManager.put("TableHeader.hoverBackground", Color.decode(LIGHT_GREEN));
+        UIManager.put("TableHeader.hoverForeground", Color.BLACK);
         UIManager.put("TableHeader.foreground", Color.WHITE);
         UIManager.put("TableHeader.cellBorder", BorderFactory.createEmptyBorder(0, 0, 0, 0));
         UIManager.put("TableHeader.font", new Font("Segoe UI", Font.PLAIN, 18));
-        UIManager.put("TableHeader.selectionBackground", Color.decode(LIGHT_GREEN));
-        UIManager.put("TableHeader.selectionForeground", Color.WHITE);
+        UIManager.put("TableHeader.selectionBackground", Color.decode(SELECTION));
+        UIManager.put("TableHeader.selectionForeground", Color.BLACK);
         UIManager.put("Table.selectionBackground", Color.decode(SELECTION));
         UIManager.put("Table.selectionForeground", Color.BLACK);
 
-        UIManager.put("TabbedPane.tabInsets", new Insets(0, 10, 0, 10));
-
         UIManager.put("Component.focusedBorderColor", Color.decode(GREEN));
-        UIManager.put("Component.focusWidth", 0);
-        UIManager.put("Component.innerFocusWidth", 0);
+        UIManager.put("Component.focusWidth", 1);
+        UIManager.put("Component.innerFocusWidth", 1);
+        UIManager.put("Component.borderColor", Color.decode(GRAY_BORDER));
+        UIManager.put("Component.selectionBackground", Color.decode(LIGHTER_GREEN));
 
+        UIManager.put("Button.background", Color.decode(LIGHTER_GREEN));
+        UIManager.put("Button.hoverBackground", Color.decode(LIGHTER_GREEN));
 
+        UIManager.put("ToolTip.background", Color.decode(GREEN));
+        UIManager.put("ToolTip.foreground", Color.WHITE);
 
+        UIManager.put("TabbedPane.selected", Color.RED);
+
+        System.setProperty("flatlaf.useWindowDecorations", "true");
     }
 
     @Override

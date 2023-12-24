@@ -1,4 +1,4 @@
-package dev.galliard.contasoc.ui;
+package dev.galliard.contasoc.ui.tablemodels;
 
 import javax.swing.table.DefaultTableModel;
 

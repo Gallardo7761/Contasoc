@@ -1,6 +1,6 @@
 package dev.galliard.contasoc;
 
-import dev.galliard.contasoc.ui.ContasocLaf;
+import dev.galliard.contasoc.ui.lookandfeel.ContasocLaf;
 import dev.galliard.contasoc.ui.UIContasoc;
 import dev.galliard.contasoc.util.FileManager;
 import dev.galliard.contasoc.database.ContasocDAO;

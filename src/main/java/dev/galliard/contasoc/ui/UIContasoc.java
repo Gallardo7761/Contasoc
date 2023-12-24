@@ -4,6 +4,11 @@
 
 package dev.galliard.contasoc.ui;
 
+import dev.galliard.contasoc.ui.tablemodels.GastosTablaModel;
+import dev.galliard.contasoc.ui.tablemodels.IngresosTablaModel;
+import dev.galliard.contasoc.ui.tablemodels.ListaEsperaTablaModel;
+import dev.galliard.contasoc.ui.tablemodels.SociosTablaModel;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
@@ -77,6 +82,20 @@ public class UIContasoc extends JFrame {
         thread.start();
     }
 
+    private void bodyTextAreaFocusGained(FocusEvent e) {
+        // TODO add your code here
+        if(bodyTextArea.getText().equals("Escriba su mensaje...")) {
+            bodyTextArea.setText("");
+        }
+    }
+
+    private void bodyTextAreaFocusLost(FocusEvent e) {
+        // TODO add your code here
+        if(bodyTextArea.getText().isEmpty()) {
+            bodyTextArea.setText("Escriba su mensaje...");
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
@@ -122,6 +141,19 @@ public class UIContasoc extends JFrame {
         saldoCajaValue = new JLabel();
         emailPanel = new JPanel();
         emailDataPanel = new JPanel();
+        destinatarioLabel = new JLabel();
+        asuntoLabel = new JLabel();
+        asuntoField = new JTextField();
+        destinatarioComboBox = new JComboBox();
+        emailBodyPanel = new JPanel();
+        emailBodyWrapper = new JPanel();
+        bodyScrollPane = new JScrollPane();
+        bodyTextArea = new JTextArea();
+        emailBtnsPanel = new JPanel();
+        emailBtnsWrapper = new JPanel();
+        enviarBtn = new JButton();
+        borradorBtn = new JButton();
+        comboBox1 = new JComboBox();
         toolBar1 = new JToolBar();
         nuevoBtn = new JButton();
         editarBtn = new JButton();
@@ -151,6 +183,7 @@ public class UIContasoc extends JFrame {
             tabbedPane1.putClientProperty("JTabbedPane.minimumTabWidth", 200);
             tabbedPane1.putClientProperty("JTabbedPane.maximumTabWidth", 200);
 
+
             //======== sociosPanel ========
             {
                 sociosPanel.setLayout(new CardLayout());
@@ -168,11 +201,13 @@ public class UIContasoc extends JFrame {
                             sociosTablaPanel.putClientProperty("JComponent.outline",Color.decode("#549159"));
 
                             //---- sociosTabla ----
-                            sociosTabla.setFillsViewportHeight(true);
-                            sociosTabla.setFont(sociosTabla.getFont().deriveFont(sociosTabla.getFont().getSize() + 4f));
                             sociosTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+                            sociosTabla.setFont(sociosTabla.getFont().deriveFont(sociosTabla.getFont().getSize() + 4f));
+                            sociosTabla.setSelectionBackground(new Color(0xc8e8ca));
+                            sociosTabla.setGridColor(new Color(0x999999));
                             sociosTabla.setShowHorizontalLines(true);
-                            sociosTabla.setGridColor(new Color(0xcccccc));
+                            sociosTabla.setFillsViewportHeight(true);
+                            sociosTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                             sociosTabla.setModel(new SociosTablaModel());
                             sociosTabla.getTableHeader().setReorderingAllowed(false);
                             sociosTabla.getTableHeader().setResizingAllowed(false);
@@ -275,9 +310,11 @@ public class UIContasoc extends JFrame {
                             //---- listaEsperaTabla ----
                             listaEsperaTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
                             listaEsperaTabla.setFont(listaEsperaTabla.getFont().deriveFont(listaEsperaTabla.getFont().getSize() + 4f));
+                            listaEsperaTabla.setGridColor(new Color(0x999999));
+                            listaEsperaTabla.setSelectionBackground(new Color(0xc8e8ca));
                             listaEsperaTabla.setShowHorizontalLines(true);
-                            listaEsperaTabla.setGridColor(new Color(0xcccccc));
-                            listaEsperaTabla.setBorder(null);
+                            listaEsperaTabla.setFillsViewportHeight(true);
+                            listaEsperaTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                             listaEsperaTabla.setModel(new ListaEsperaTablaModel());
                             listaEsperaTabla.getTableHeader().setReorderingAllowed(false);
                             listaEsperaTabla.getTableHeader().setResizingAllowed(false);
@@ -316,8 +353,12 @@ public class UIContasoc extends JFrame {
 
                     //---- ingresosTabla ----
                     ingresosTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-                    ingresosTabla.setFillsViewportHeight(true);
                     ingresosTabla.setFont(ingresosTabla.getFont().deriveFont(ingresosTabla.getFont().getSize() + 4f));
+                    ingresosTabla.setSelectionBackground(new Color(0xc8e8ca));
+                    ingresosTabla.setGridColor(new Color(0x999999));
+                    ingresosTabla.setShowHorizontalLines(true);
+                    ingresosTabla.setFillsViewportHeight(true);
+                    ingresosTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                     ingresosTabla.setModel(new IngresosTablaModel());
                     ingresosTabla.getTableHeader().setReorderingAllowed(false);
                     ingresosTabla.getTableHeader().setResizingAllowed(false);
@@ -351,11 +392,16 @@ public class UIContasoc extends JFrame {
 
                     //---- gastosTabla ----
                     gastosTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-                    gastosTabla.setFillsViewportHeight(true);
                     gastosTabla.setFont(gastosTabla.getFont().deriveFont(gastosTabla.getFont().getSize() + 4f));
+                    gastosTabla.setSelectionBackground(new Color(0xc8e8ca));
+                    gastosTabla.setGridColor(new Color(0x999999));
+                    gastosTabla.setShowHorizontalLines(true);
+                    gastosTabla.setFillsViewportHeight(true);
+                    gastosTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                     gastosTabla.setModel(new GastosTablaModel());
                     gastosTabla.getTableHeader().setReorderingAllowed(false);
                     gastosTabla.getTableHeader().setResizingAllowed(false);
+                    sociosTabla.setRowHeight(50);
                     gastosTablaPanel.setViewportView(gastosTabla);
                 }
 
@@ -525,9 +571,132 @@ public class UIContasoc extends JFrame {
 
                 //======== emailDataPanel ========
                 {
-                    emailDataPanel.setLayout(new GridLayout());
+
+                    //---- destinatarioLabel ----
+                    destinatarioLabel.setText("Destinatario:");
+                    destinatarioLabel.setFont(destinatarioLabel.getFont().deriveFont(destinatarioLabel.getFont().getSize() + 6f));
+
+                    //---- asuntoLabel ----
+                    asuntoLabel.setText("Asunto:");
+                    asuntoLabel.setFont(asuntoLabel.getFont().deriveFont(asuntoLabel.getFont().getSize() + 6f));
+
+                    GroupLayout emailDataPanelLayout = new GroupLayout(emailDataPanel);
+                    emailDataPanel.setLayout(emailDataPanelLayout);
+                    emailDataPanelLayout.setHorizontalGroup(
+                        emailDataPanelLayout.createParallelGroup()
+                            .addGroup(emailDataPanelLayout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(destinatarioLabel)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(destinatarioComboBox, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(asuntoLabel)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(asuntoField, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+                    );
+                    emailDataPanelLayout.setVerticalGroup(
+                        emailDataPanelLayout.createParallelGroup()
+                            .addGroup(emailDataPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(asuntoLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(asuntoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(destinatarioLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(destinatarioComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    );
                 }
                 emailPanel.add(emailDataPanel, BorderLayout.NORTH);
+
+                //======== emailBodyPanel ========
+                {
+                    emailBodyPanel.setLayout(new GridLayout());
+
+                    //======== emailBodyWrapper ========
+                    {
+
+                        //======== bodyScrollPane ========
+                        {
+
+                            //---- bodyTextArea ----
+                            bodyTextArea.setFont(bodyTextArea.getFont().deriveFont(bodyTextArea.getFont().getSize() + 6f));
+                            bodyTextArea.setLineWrap(true);
+                            bodyTextArea.setTabSize(4);
+                            bodyTextArea.setWrapStyleWord(true);
+                            bodyTextArea.addFocusListener(new FocusAdapter() {
+                                @Override
+                                public void focusGained(FocusEvent e) {
+                                    bodyTextAreaFocusGained(e);
+                                }
+                                @Override
+                                public void focusLost(FocusEvent e) {
+                                    bodyTextAreaFocusLost(e);
+                                }
+                            });
+                            bodyTextArea.setText("Escriba su mensaje...");
+                            bodyScrollPane.setViewportView(bodyTextArea);
+                        }
+
+                        GroupLayout emailBodyWrapperLayout = new GroupLayout(emailBodyWrapper);
+                        emailBodyWrapper.setLayout(emailBodyWrapperLayout);
+                        emailBodyWrapperLayout.setHorizontalGroup(
+                            emailBodyWrapperLayout.createParallelGroup()
+                                .addGroup(emailBodyWrapperLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(bodyScrollPane)
+                                    .addContainerGap())
+                        );
+                        emailBodyWrapperLayout.setVerticalGroup(
+                            emailBodyWrapperLayout.createParallelGroup()
+                                .addGroup(emailBodyWrapperLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(bodyScrollPane, GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                                    .addContainerGap())
+                        );
+                    }
+                    emailBodyPanel.add(emailBodyWrapper);
+                }
+                emailPanel.add(emailBodyPanel, BorderLayout.CENTER);
+
+                //======== emailBtnsPanel ========
+                {
+                    emailBtnsPanel.setLayout(new GridLayout(1, 3));
+
+                    //======== emailBtnsWrapper ========
+                    {
+
+                        //---- enviarBtn ----
+                        enviarBtn.setText("Enviar");
+                        enviarBtn.setFont(enviarBtn.getFont().deriveFont(enviarBtn.getFont().getSize() + 6f));
+
+                        //---- borradorBtn ----
+                        borradorBtn.setText("Guardar borrador");
+                        borradorBtn.setFont(borradorBtn.getFont().deriveFont(borradorBtn.getFont().getSize() + 6f));
+
+                        GroupLayout emailBtnsWrapperLayout = new GroupLayout(emailBtnsWrapper);
+                        emailBtnsWrapper.setLayout(emailBtnsWrapperLayout);
+                        emailBtnsWrapperLayout.setHorizontalGroup(
+                            emailBtnsWrapperLayout.createParallelGroup()
+                                .addGroup(emailBtnsWrapperLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(enviarBtn)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(comboBox1, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(borradorBtn)
+                                    .addContainerGap(471, Short.MAX_VALUE))
+                        );
+                        emailBtnsWrapperLayout.setVerticalGroup(
+                            emailBtnsWrapperLayout.createParallelGroup()
+                                .addGroup(emailBtnsWrapperLayout.createSequentialGroup()
+                                    .addGroup(emailBtnsWrapperLayout.createParallelGroup()
+                                        .addComponent(enviarBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(borradorBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(comboBox1))
+                                    .addContainerGap())
+                        );
+                    }
+                    emailBtnsPanel.add(emailBtnsWrapper);
+                }
+                emailPanel.add(emailBtnsPanel, BorderLayout.SOUTH);
             }
             tabbedPane1.addTab("EMAIL", emailPanel);
         }
@@ -674,6 +843,19 @@ public class UIContasoc extends JFrame {
     protected static JLabel saldoCajaValue;
     protected static JPanel emailPanel;
     private JPanel emailDataPanel;
+    private JLabel destinatarioLabel;
+    private JLabel asuntoLabel;
+    private JTextField asuntoField;
+    private JComboBox destinatarioComboBox;
+    private JPanel emailBodyPanel;
+    private JPanel emailBodyWrapper;
+    private JScrollPane bodyScrollPane;
+    private JTextArea bodyTextArea;
+    private JPanel emailBtnsPanel;
+    private JPanel emailBtnsWrapper;
+    private JButton enviarBtn;
+    private JButton borradorBtn;
+    private JComboBox comboBox1;
     protected static JToolBar toolBar1;
     protected static JButton nuevoBtn;
     protected static JButton editarBtn;

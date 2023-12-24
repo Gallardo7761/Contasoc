@@ -1,6 +1,8 @@
 package dev.galliard.contasoc.ui;
 
 import dev.galliard.contasoc.database.ContasocDAO;
+import dev.galliard.contasoc.ui.GUIManager;
+import dev.galliard.contasoc.ui.UIContasoc;
 
 public class BalanceCalculatorThread implements Runnable {
     @Override
@@ -16,4 +18,5 @@ public class BalanceCalculatorThread implements Runnable {
             }
         }
     }
+
 }

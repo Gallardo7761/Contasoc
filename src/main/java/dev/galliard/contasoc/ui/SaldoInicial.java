@@ -5,6 +5,7 @@
 package dev.galliard.contasoc.ui;
 
 import dev.galliard.contasoc.database.ContasocDAO;
+import dev.galliard.contasoc.ui.GUIManager;
 
 import java.awt.*;
 import java.awt.event.*;
