@@ -99,6 +99,15 @@ public class UIContasoc extends JFrame {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
+        menuBar1 = new JMenuBar();
+        nuevoBtn = new JButton();
+        editarBtn = new JButton();
+        eliminarBtn = new JButton();
+        printBtn = new JButton();
+        importarBtn = new JButton();
+        exportarBtn = new JButton();
+        buscarWrapper = new JPanel();
+        buscarField = new JTextField();
         tabbedPane1 = new JTabbedPane();
         sociosPanel = new JPanel();
         cardSociosPanel = new JPanel();
@@ -154,16 +163,6 @@ public class UIContasoc extends JFrame {
         enviarBtn = new JButton();
         borradorBtn = new JButton();
         comboBox1 = new JComboBox();
-        toolBar1 = new JToolBar();
-        nuevoBtn = new JButton();
-        editarBtn = new JButton();
-        eliminarBtn = new JButton();
-        printBtn = new JButton();
-        importarBtn = new JButton();
-        exportarBtn = new JButton();
-        buscarPanel = new JPanel();
-        buscarField = new JTextField();
-        label1 = new JLabel();
 
         //======== this ========
         setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
@@ -171,9 +170,111 @@ public class UIContasoc extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(900, 600));
         setMinimumSize(new Dimension(900, 600));
-        setTitle("Contasoc");
         var contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
+
+        //======== menuBar1 ========
+        {
+            menuBar1.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+
+            //---- nuevoBtn ----
+            nuevoBtn.setText("Nuevo");
+            nuevoBtn.setFont(nuevoBtn.getFont().deriveFont(nuevoBtn.getFont().getSize() + 4f));
+            nuevoBtn.setIconTextGap(5);
+            nuevoBtn.setMargin(new Insets(0, 0, 0, 12));
+            nuevoBtn.setBackground(new Color(0x549159));
+            nuevoBtn.setForeground(Color.white);
+            nuevoBtn.setBorderPainted(false);
+            nuevoBtn.setIcon(new ImageIcon(getClass().getResource("/images/newpass_small.png")));
+            menuBar1.add(nuevoBtn);
+
+            //---- editarBtn ----
+            editarBtn.setText("Editar");
+            editarBtn.setFont(editarBtn.getFont().deriveFont(editarBtn.getFont().getSize() + 4f));
+            editarBtn.setIconTextGap(5);
+            editarBtn.setMargin(new Insets(0, 0, 0, 12));
+            editarBtn.setBackground(new Color(0x549159));
+            editarBtn.setForeground(Color.white);
+            editarBtn.setBorderPainted(false);
+            editarBtn.setIcon(new ImageIcon(getClass().getResource("/images/edit_small.png")));
+            menuBar1.add(editarBtn);
+
+            //---- eliminarBtn ----
+            eliminarBtn.setText("Eliminar");
+            eliminarBtn.setFont(eliminarBtn.getFont().deriveFont(eliminarBtn.getFont().getSize() + 4f));
+            eliminarBtn.setIconTextGap(5);
+            eliminarBtn.setMargin(new Insets(0, 0, 0, 12));
+            eliminarBtn.setBackground(new Color(0x549159));
+            eliminarBtn.setForeground(Color.white);
+            eliminarBtn.setBorderPainted(false);
+            eliminarBtn.setIcon(new ImageIcon(getClass().getResource("/images/bin_small.png")));
+            menuBar1.add(eliminarBtn);
+
+            //---- printBtn ----
+            printBtn.setText("Imprimir");
+            printBtn.setFont(printBtn.getFont().deriveFont(printBtn.getFont().getSize() + 4f));
+            printBtn.setIconTextGap(5);
+            printBtn.setMargin(new Insets(0, 0, 0, 12));
+            printBtn.setBackground(new Color(0x549159));
+            printBtn.setForeground(Color.white);
+            printBtn.setBorderPainted(false);
+            printBtn.setIcon(new ImageIcon(getClass().getResource("/images/printer_small.png")));
+            printBtn.addActionListener(e -> printBtnActionPerformed(e));
+            menuBar1.add(printBtn);
+
+            //---- importarBtn ----
+            importarBtn.setText("Importar");
+            importarBtn.setFont(importarBtn.getFont().deriveFont(importarBtn.getFont().getSize() + 4f));
+            importarBtn.setIconTextGap(5);
+            importarBtn.setMargin(new Insets(0, 0, 0, 12));
+            importarBtn.setBackground(new Color(0x549159));
+            importarBtn.setForeground(Color.white);
+            importarBtn.setBorderPainted(false);
+            importarBtn.setIcon(new ImageIcon(getClass().getResource("/images/import_small.png")));
+            menuBar1.add(importarBtn);
+
+            //---- exportarBtn ----
+            exportarBtn.setText("Exportar");
+            exportarBtn.setFont(exportarBtn.getFont().deriveFont(exportarBtn.getFont().getSize() + 4f));
+            exportarBtn.setIconTextGap(5);
+            exportarBtn.setMargin(new Insets(0, 0, 0, 12));
+            exportarBtn.setBackground(new Color(0x549159));
+            exportarBtn.setForeground(Color.white);
+            exportarBtn.setBorderPainted(false);
+            exportarBtn.setIcon(new ImageIcon(getClass().getResource("/images/export_small.png")));
+            menuBar1.add(exportarBtn);
+        }
+        setJMenuBar(menuBar1);
+
+        //======== buscarWrapper ========
+        {
+
+            //---- buscarField ----
+            buscarField.setFont(buscarField.getFont().deriveFont(buscarField.getFont().getSize() + 6f));
+            buscarField.setMinimumSize(new Dimension(68, 38));
+            buscarField.setPreferredSize(new Dimension(68, 38));
+            buscarField.setCaretColor(new Color(0x549159));
+            buscarField.putClientProperty("JTextField.placeholderText", "Buscar socios...");
+            buscarField.putClientProperty("JTextField.leadingIcon", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource("/images/search_medium_black.png"))));
+
+            GroupLayout buscarWrapperLayout = new GroupLayout(buscarWrapper);
+            buscarWrapper.setLayout(buscarWrapperLayout);
+            buscarWrapperLayout.setHorizontalGroup(
+                buscarWrapperLayout.createParallelGroup()
+                    .addGroup(buscarWrapperLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 996, Short.MAX_VALUE)
+                        .addContainerGap())
+            );
+            buscarWrapperLayout.setVerticalGroup(
+                buscarWrapperLayout.createParallelGroup()
+                    .addGroup(buscarWrapperLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                        .addContainerGap())
+            );
+        }
+        contentPane.add(buscarWrapper, BorderLayout.NORTH);
 
         //======== tabbedPane1 ========
         {
@@ -182,7 +283,6 @@ public class UIContasoc extends JFrame {
             tabbedPane1.putClientProperty("JTabbedPane.tabHeight", 50);
             tabbedPane1.putClientProperty("JTabbedPane.minimumTabWidth", 200);
             tabbedPane1.putClientProperty("JTabbedPane.maximumTabWidth", 200);
-
 
             //======== sociosPanel ========
             {
@@ -211,7 +311,7 @@ public class UIContasoc extends JFrame {
                             sociosTabla.setModel(new SociosTablaModel());
                             sociosTabla.getTableHeader().setReorderingAllowed(false);
                             sociosTabla.getTableHeader().setResizingAllowed(false);
-                            GUIManager.setColumnWidths(sociosTabla, 
+                            GUIManager.setColumnWidths(sociosTabla,
                                 new int[] {55,55,350,100,100,320,100,100,100,400,100,100});
                             sociosTabla.setRowHeight(50);
                             sociosTablaPanel.setViewportView(sociosTabla);
@@ -230,7 +330,7 @@ public class UIContasoc extends JFrame {
                             sociosWrapperLayout.createParallelGroup()
                                 .addGroup(sociosWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -259,7 +359,7 @@ public class UIContasoc extends JFrame {
                             toListaEsperaWrapperLayout.createParallelGroup()
                                 .addGroup(toListaEsperaWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(toListaEsperaBtn, GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+                                    .addComponent(toListaEsperaBtn, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -294,7 +394,7 @@ public class UIContasoc extends JFrame {
                             toSociosWrapperLayout.createParallelGroup()
                                 .addGroup(toSociosWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(toSociosBtn, GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+                                    .addComponent(toSociosBtn, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -335,7 +435,7 @@ public class UIContasoc extends JFrame {
                             listaEsperaWrapperLayout.createParallelGroup()
                                 .addGroup(listaEsperaWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -378,7 +478,7 @@ public class UIContasoc extends JFrame {
                     ingresosPanelLayout.createParallelGroup()
                         .addGroup(ingresosPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(ingresosTablaPanel, GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+                            .addComponent(ingresosTablaPanel, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
                             .addContainerGap())
                 );
             }
@@ -418,7 +518,7 @@ public class UIContasoc extends JFrame {
                     gastosPanelLayout.createParallelGroup()
                         .addGroup(GroupLayout.Alignment.TRAILING, gastosPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(gastosTablaPanel, GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+                            .addComponent(gastosTablaPanel, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
                             .addContainerGap())
                 );
             }
@@ -560,7 +660,7 @@ public class UIContasoc extends JFrame {
                     balancePanelLayout.createParallelGroup()
                         .addGroup(GroupLayout.Alignment.TRAILING, balancePanelLayout.createSequentialGroup()
                             .addGap(33, 33, 33)
-                            .addComponent(balanceCantidadesPanel, GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE))
+                            .addComponent(balanceCantidadesPanel, GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE))
                 );
             }
             tabbedPane1.addTab("BALANCE", balancePanel);
@@ -648,7 +748,7 @@ public class UIContasoc extends JFrame {
                             emailBodyWrapperLayout.createParallelGroup()
                                 .addGroup(emailBodyWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(bodyScrollPane, GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                                    .addComponent(bodyScrollPane, GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -701,99 +801,6 @@ public class UIContasoc extends JFrame {
             tabbedPane1.addTab("EMAIL", emailPanel);
         }
         contentPane.add(tabbedPane1, BorderLayout.CENTER);
-
-        //======== toolBar1 ========
-        {
-
-            //---- nuevoBtn ----
-            nuevoBtn.setText("Nuevo");
-            nuevoBtn.setFont(nuevoBtn.getFont().deriveFont(nuevoBtn.getFont().getSize() + 4f));
-            nuevoBtn.setIcon(new ImageIcon(getClass().getResource("/images/newpass_small_black.png")));
-            nuevoBtn.setIconTextGap(6);
-            nuevoBtn.setMargin(new Insets(2, 2, 2, 6));
-            toolBar1.add(nuevoBtn);
-
-            //---- editarBtn ----
-            editarBtn.setText("Editar");
-            editarBtn.setFont(editarBtn.getFont().deriveFont(editarBtn.getFont().getSize() + 4f));
-            editarBtn.setIcon(new ImageIcon(getClass().getResource("/images/edit_small_black.png")));
-            editarBtn.setIconTextGap(6);
-            editarBtn.setMargin(new Insets(2, 2, 2, 6));
-            toolBar1.add(editarBtn);
-
-            //---- eliminarBtn ----
-            eliminarBtn.setText("Eliminar");
-            eliminarBtn.setFont(eliminarBtn.getFont().deriveFont(eliminarBtn.getFont().getSize() + 4f));
-            eliminarBtn.setIcon(new ImageIcon(getClass().getResource("/images/bin_small_black.png")));
-            eliminarBtn.setIconTextGap(6);
-            eliminarBtn.setMargin(new Insets(2, 2, 2, 6));
-            toolBar1.add(eliminarBtn);
-
-            //---- printBtn ----
-            printBtn.setText("Imprimir");
-            printBtn.setFont(printBtn.getFont().deriveFont(printBtn.getFont().getSize() + 4f));
-            printBtn.setIconTextGap(6);
-            printBtn.setMargin(new Insets(2, 2, 2, 6));
-            printBtn.setIcon(new ImageIcon(getClass().getResource("/images/printer.png")));
-            printBtn.addActionListener(e -> printBtnActionPerformed(e));
-            toolBar1.add(printBtn);
-
-            //---- importarBtn ----
-            importarBtn.setText("Importar");
-            importarBtn.setFont(importarBtn.getFont().deriveFont(importarBtn.getFont().getSize() + 4f));
-            importarBtn.setIcon(new ImageIcon(getClass().getResource("/images/import_small_black.png")));
-            importarBtn.setIconTextGap(6);
-            importarBtn.setMargin(new Insets(2, 2, 2, 6));
-            toolBar1.add(importarBtn);
-
-            //---- exportarBtn ----
-            exportarBtn.setText("Exportar");
-            exportarBtn.setFont(exportarBtn.getFont().deriveFont(exportarBtn.getFont().getSize() + 4f));
-            exportarBtn.setIcon(new ImageIcon(getClass().getResource("/images/export_small_black.png")));
-            exportarBtn.setIconTextGap(6);
-            exportarBtn.setMargin(new Insets(2, 2, 2, 6));
-            toolBar1.add(exportarBtn);
-            toolBar1.addSeparator();
-
-            //======== buscarPanel ========
-            {
-                buscarPanel.setPreferredSize(new Dimension(100, 32));
-
-                //---- buscarField ----
-                buscarField.setFont(buscarField.getFont().deriveFont(buscarField.getFont().getSize() + 4f));
-                buscarField.setMinimumSize(new Dimension(68, 28));
-                buscarField.setPreferredSize(new Dimension(68, 28));
-                buscarField.putClientProperty("JTextField.placeholderText", "Buscar socios...");
-                buscarField.putClientProperty("JTextField.leadingIcon", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource("/images/search_medium_black.png"))));
-
-                //---- label1 ----
-                label1.setText("Ver. 6.0");
-                label1.setFont(label1.getFont().deriveFont(label1.getFont().getSize() + 2f));
-                label1.setHorizontalAlignment(SwingConstants.RIGHT);
-
-                GroupLayout buscarPanelLayout = new GroupLayout(buscarPanel);
-                buscarPanel.setLayout(buscarPanelLayout);
-                buscarPanelLayout.setHorizontalGroup(
-                    buscarPanelLayout.createParallelGroup()
-                        .addGroup(buscarPanelLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(label1, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap())
-                );
-                buscarPanelLayout.setVerticalGroup(
-                    buscarPanelLayout.createParallelGroup()
-                        .addGroup(buscarPanelLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(label1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addContainerGap())
-                        .addComponent(buscarField, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                );
-            }
-            toolBar1.add(buscarPanel);
-        }
-        contentPane.add(toolBar1, BorderLayout.NORTH);
         pack();
         setLocationRelativeTo(null);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
@@ -801,6 +808,15 @@ public class UIContasoc extends JFrame {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
+    private JMenuBar menuBar1;
+    protected static JButton nuevoBtn;
+    protected static JButton editarBtn;
+    protected static JButton eliminarBtn;
+    protected static JButton printBtn;
+    protected static JButton importarBtn;
+    protected static JButton exportarBtn;
+    private JPanel buscarWrapper;
+    protected static JTextField buscarField;
     protected static JTabbedPane tabbedPane1;
     protected static JPanel sociosPanel;
     protected static JPanel cardSociosPanel;
@@ -856,15 +872,5 @@ public class UIContasoc extends JFrame {
     private JButton enviarBtn;
     private JButton borradorBtn;
     private JComboBox comboBox1;
-    protected static JToolBar toolBar1;
-    protected static JButton nuevoBtn;
-    protected static JButton editarBtn;
-    protected static JButton eliminarBtn;
-    protected static JButton printBtn;
-    protected static JButton importarBtn;
-    protected static JButton exportarBtn;
-    protected static JPanel buscarPanel;
-    protected static JTextField buscarField;
-    protected static JLabel label1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

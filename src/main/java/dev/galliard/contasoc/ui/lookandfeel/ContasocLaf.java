@@ -42,7 +42,7 @@ public class ContasocLaf extends FlatGitHubIJTheme {
         UIManager.put("Component.selectionBackground", Color.decode(LIGHTER_GREEN));
 
         UIManager.put("Button.background", Color.decode(LIGHTER_GREEN));
-        UIManager.put("Button.hoverBackground", Color.decode(LIGHTER_GREEN));
+        UIManager.put("Button.hoverBackground", Color.decode(LIGHT_GREEN));
 
         UIManager.put("ToolTip.background", Color.decode(GREEN));
         UIManager.put("ToolTip.foreground", Color.WHITE);

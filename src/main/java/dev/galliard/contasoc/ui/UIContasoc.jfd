@@ -11,10 +11,28 @@ new FormModel {
 			"defaultCloseOperation": 3
 			"preferredSize": new java.awt.Dimension( 900, 600 )
 			"minimumSize": new java.awt.Dimension( 900, 600 )
-			"title": "Contasoc"
 			auxiliary() {
 				"JavaCodeGenerator.variableModifiers": 12
 			}
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp buscarField::::996:x, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp buscarField::::32:x, space :::p}}"
+			} ) {
+				name: "buscarWrapper"
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "buscarField"
+					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+					"minimumSize": new java.awt.Dimension( 68, 38 )
+					"preferredSize": new java.awt.Dimension( 68, 38 )
+					"caretColor": new java.awt.Color( 84, 145, 89, 255 )
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+						"JavaCodeGenerator.postInitCode": "buscarField.putClientProperty(\"JTextField.placeholderText\", \"Buscar socios...\");\nbuscarField.putClientProperty(\"JTextField.leadingIcon\", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource(\"/images/search_medium_black.png\"))));"
+					}
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "North"
+			} )
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "tabbedPane1"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
@@ -35,7 +53,7 @@ new FormModel {
 						}
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 							"$horizontalGroup": "par l {seq t {space :::p, comp sociosTablaPanel::::859:x, space :::p}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp sociosTablaPanel::::591:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp sociosTablaPanel::::560:x, space :::p}}"
 						} ) {
 							name: "sociosWrapper"
 							auxiliary() {
@@ -68,7 +86,7 @@ new FormModel {
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 							"$horizontalGroup": "par l {seq l {comp toListaEsperaBtn:::p::p, space :0:0:x}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp toListaEsperaBtn::::591:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp toListaEsperaBtn::::560:x, space :::p}}"
 						} ) {
 							name: "toListaEsperaWrapper"
 							add( new FormComponent( "javax.swing.JButton" ) {
@@ -96,7 +114,7 @@ new FormModel {
 						}
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 							"$horizontalGroup": "par l {seq l {comp toSociosBtn:::p::p, space :0:0:x}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp toSociosBtn::::591:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp toSociosBtn::::560:x, space :::p}}"
 						} ) {
 							name: "toSociosWrapper"
 							add( new FormComponent( "javax.swing.JButton" ) {
@@ -116,7 +134,7 @@ new FormModel {
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 							"$horizontalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::859:x, space :::p}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::591:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::560:x, space :::p}}"
 						} ) {
 							name: "listaEsperaWrapper"
 							auxiliary() {
@@ -154,7 +172,7 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 					"$horizontalGroup": "par l {seq t {space :::p, comp ingresosTablaPanel::::891:x, space :::p}}"
-					"$verticalGroup": "par l {seq l {space :::p, comp ingresosTablaPanel::::591:x, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp ingresosTablaPanel::::560:x, space :::p}}"
 				} ) {
 					name: "ingresosPanel"
 					auxiliary() {
@@ -185,7 +203,7 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 					"$horizontalGroup": "par l {seq l {space :::p, comp gastosTablaPanel::::891:x, space :::p}}"
-					"$verticalGroup": "par l {seq t {space :::p, comp gastosTablaPanel::::591:x, space :::p}}"
+					"$verticalGroup": "par l {seq t {space :::p, comp gastosTablaPanel::::560:x, space :::p}}"
 				} ) {
 					name: "gastosPanel"
 					auxiliary() {
@@ -216,7 +234,7 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 					"$horizontalGroup": "par l {comp balanceCantidadesPanel::t::903:x}"
-					"$verticalGroup": "par l {seq t {space :p:33:p, comp balanceCantidadesPanel::::570:x}}"
+					"$verticalGroup": "par l {seq t {space :p:33:p, comp balanceCantidadesPanel::::539:x}}"
 				} ) {
 					name: "balancePanel"
 					auxiliary() {
@@ -440,7 +458,7 @@ new FormModel {
 						name: "emailBodyPanel"
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 							"$horizontalGroup": "par l {seq l {space :::p, comp bodyScrollPane:::::x, space :::p}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp bodyScrollPane::::521:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp bodyScrollPane::::490:x, space :::p}}"
 						} ) {
 							name: "emailBodyWrapper"
 							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
@@ -494,18 +512,19 @@ new FormModel {
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "Center"
 			} )
-			add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
-				name: "toolBar1"
-				auxiliary() {
-					"JavaCodeGenerator.variableModifiers": 12
-				}
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "menuBar1"
+				"font": new java.awt.Font( "Segoe UI", 0, 14 )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "nuevoBtn"
 					"text": "Nuevo"
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/newpass_small_black.png" )
-					"iconTextGap": 6
-					"margin": new java.awt.Insets( 2, 2, 2, 6 )
+					"iconTextGap": 5
+					"margin": new java.awt.Insets( 0, 0, 0, 12 )
+					"background": &Color2 new java.awt.Color( 84, 145, 89, 255 )
+					"foreground": &Color3 new java.awt.Color( 255, 255, 255, 255 )
+					"borderPainted": false
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/newpass_small.png" )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
@@ -514,9 +533,12 @@ new FormModel {
 					name: "editarBtn"
 					"text": "Editar"
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/edit_small_black.png" )
-					"iconTextGap": 6
-					"margin": new java.awt.Insets( 2, 2, 2, 6 )
+					"iconTextGap": 5
+					"margin": new java.awt.Insets( 0, 0, 0, 12 )
+					"background": #Color2
+					"foreground": #Color3
+					"borderPainted": false
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/edit_small.png" )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
@@ -525,9 +547,12 @@ new FormModel {
 					name: "eliminarBtn"
 					"text": "Eliminar"
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/bin_small_black.png" )
-					"iconTextGap": 6
-					"margin": new java.awt.Insets( 2, 2, 2, 6 )
+					"iconTextGap": 5
+					"margin": new java.awt.Insets( 0, 0, 0, 12 )
+					"background": #Color2
+					"foreground": #Color3
+					"borderPainted": false
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/bin_small.png" )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
@@ -536,9 +561,12 @@ new FormModel {
 					name: "printBtn"
 					"text": "Imprimir"
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-					"iconTextGap": 6
-					"margin": new java.awt.Insets( 2, 2, 2, 6 )
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/printer.png" )
+					"iconTextGap": 5
+					"margin": new java.awt.Insets( 0, 0, 0, 12 )
+					"background": #Color2
+					"foreground": #Color3
+					"borderPainted": false
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/printer_small.png" )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
@@ -548,9 +576,12 @@ new FormModel {
 					name: "importarBtn"
 					"text": "Importar"
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/import_small_black.png" )
-					"iconTextGap": 6
-					"margin": new java.awt.Insets( 2, 2, 2, 6 )
+					"iconTextGap": 5
+					"margin": new java.awt.Insets( 0, 0, 0, 12 )
+					"background": #Color2
+					"foreground": #Color3
+					"borderPainted": false
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/import_small.png" )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
@@ -559,51 +590,17 @@ new FormModel {
 					name: "exportarBtn"
 					"text": "Exportar"
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/export_small_black.png" )
-					"iconTextGap": 6
-					"margin": new java.awt.Insets( 2, 2, 2, 6 )
+					"iconTextGap": 5
+					"margin": new java.awt.Insets( 0, 0, 0, 12 )
+					"background": #Color2
+					"foreground": #Color3
+					"borderPainted": false
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/export_small.png" )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
 				} )
-				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
-					name: "separator"
-					auxiliary() {
-						"JavaCodeGenerator.variableModifiers": 12
-					}
-				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq l {space :::p, comp buscarField::::392:x, space :::p, comp label1:::p:60:p, space :::p}}"
-					"$verticalGroup": "par l {seq {space :::p, comp label1:::::x, space :::p}, comp buscarField::t:::x}"
-				} ) {
-					name: "buscarPanel"
-					"preferredSize": new java.awt.Dimension( 100, 32 )
-					auxiliary() {
-						"JavaCodeGenerator.variableModifiers": 12
-					}
-					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "buscarField"
-						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-						"minimumSize": new java.awt.Dimension( 68, 28 )
-						"preferredSize": new java.awt.Dimension( 68, 28 )
-						auxiliary() {
-							"JavaCodeGenerator.variableModifiers": 12
-							"JavaCodeGenerator.postInitCode": "buscarField.putClientProperty(\"JTextField.placeholderText\", \"Buscar socios...\");\nbuscarField.putClientProperty(\"JTextField.leadingIcon\", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource(\"/images/search_medium_black.png\"))));"
-						}
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "label1"
-						"text": "Ver. 6.0"
-						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 2, false )
-						"horizontalAlignment": 4
-						auxiliary() {
-							"JavaCodeGenerator.variableModifiers": 12
-						}
-					} )
-				} )
-			}, new FormLayoutConstraints( class java.lang.String ) {
-				"value": "North"
-			} )
+			}
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 5 )
 			"size": new java.awt.Dimension( 1010, 670 )
