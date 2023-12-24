@@ -92,7 +92,25 @@ public class UIContasoc extends JFrame {
         gastosTablaPanel = new JScrollPane();
         gastosTabla = new JTable();
         balancePanel = new JPanel();
-        label2 = new JLabel();
+        balanceCantidadesPanel = new JPanel();
+        tBancoIngresos = new JPanel();
+        tBancoIngresosLabel = new JLabel();
+        tBancoIngresosValue = new JLabel();
+        tCajaIngresos = new JPanel();
+        tCajaIngresosLabel = new JLabel();
+        tCajaIngresosValue = new JLabel();
+        tBancoGastos = new JPanel();
+        tBancoGastosLabel = new JLabel();
+        tBancoGastosValue = new JLabel();
+        tCajaGastos = new JPanel();
+        tCajaGastosLabel = new JLabel();
+        tCajaGastosValue = new JLabel();
+        saldoBanco = new JPanel();
+        saldoBancoLabel = new JLabel();
+        saldoBancoValue = new JLabel();
+        saldoCaja = new JPanel();
+        saldoCajaLabel = new JLabel();
+        saldoCajaValue = new JLabel();
         emailPanel = new JPanel();
         label3 = new JLabel();
         toolBar1 = new JToolBar();
@@ -143,6 +161,7 @@ public class UIContasoc extends JFrame {
                             sociosTabla.setFont(sociosTabla.getFont().deriveFont(sociosTabla.getFont().getSize() + 4f));
                             sociosTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
                             sociosTabla.setShowHorizontalLines(true);
+                            sociosTabla.setGridColor(new Color(0xcccccc));
                             sociosTabla.setModel(new SociosTablaModel());
                             sociosTabla.getTableHeader().setReorderingAllowed(false);
                             sociosTabla.getTableHeader().setResizingAllowed(false);
@@ -240,11 +259,14 @@ public class UIContasoc extends JFrame {
 
                         //======== listaEsperaTablaPanel ========
                         {
+                            listaEsperaTablaPanel.setBorder(null);
 
                             //---- listaEsperaTabla ----
                             listaEsperaTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
                             listaEsperaTabla.setFont(listaEsperaTabla.getFont().deriveFont(listaEsperaTabla.getFont().getSize() + 4f));
                             listaEsperaTabla.setShowHorizontalLines(true);
+                            listaEsperaTabla.setGridColor(new Color(0xcccccc));
+                            listaEsperaTabla.setBorder(null);
                             listaEsperaTabla.setModel(new ListaEsperaTablaModel());
                             listaEsperaTabla.getTableHeader().setReorderingAllowed(false);
                             listaEsperaTabla.getTableHeader().setResizingAllowed(false);
@@ -349,12 +371,123 @@ public class UIContasoc extends JFrame {
             {
                 balancePanel.setLayout(new BorderLayout());
 
-                //---- label2 ----
-                label2.setText("EN PROGRESO...");
-                label2.setHorizontalTextPosition(SwingConstants.CENTER);
-                label2.setHorizontalAlignment(SwingConstants.CENTER);
-                label2.setFont(new Font("Segoe UI", Font.PLAIN, 48));
-                balancePanel.add(label2, BorderLayout.CENTER);
+                //======== balanceCantidadesPanel ========
+                {
+                    balanceCantidadesPanel.setLayout(new GridLayout(3, 2));
+
+                    //======== tBancoIngresos ========
+                    {
+                        tBancoIngresos.setLayout(new BorderLayout());
+
+                        //---- tBancoIngresosLabel ----
+                        tBancoIngresosLabel.setText("TOTAL INGRESOS BANCO");
+                        tBancoIngresosLabel.setFont(tBancoIngresosLabel.getFont().deriveFont(tBancoIngresosLabel.getFont().getSize() + 10f));
+                        tBancoIngresosLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                        tBancoIngresos.add(tBancoIngresosLabel, BorderLayout.NORTH);
+
+                        //---- tBancoIngresosValue ----
+                        tBancoIngresosValue.setText("0,00 \u20ac");
+                        tBancoIngresosValue.setHorizontalTextPosition(SwingConstants.CENTER);
+                        tBancoIngresosValue.setHorizontalAlignment(SwingConstants.CENTER);
+                        tBancoIngresosValue.setFont(new Font("Segoe UI", Font.ITALIC, 48));
+                        tBancoIngresos.add(tBancoIngresosValue, BorderLayout.CENTER);
+                    }
+                    balanceCantidadesPanel.add(tBancoIngresos);
+
+                    //======== tCajaIngresos ========
+                    {
+                        tCajaIngresos.setLayout(new BorderLayout());
+
+                        //---- tCajaIngresosLabel ----
+                        tCajaIngresosLabel.setText("TOTAL INGRESOS CAJA");
+                        tCajaIngresosLabel.setFont(tCajaIngresosLabel.getFont().deriveFont(tCajaIngresosLabel.getFont().getSize() + 10f));
+                        tCajaIngresosLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                        tCajaIngresos.add(tCajaIngresosLabel, BorderLayout.NORTH);
+
+                        //---- tCajaIngresosValue ----
+                        tCajaIngresosValue.setText("0,00  \u20ac");
+                        tCajaIngresosValue.setHorizontalTextPosition(SwingConstants.CENTER);
+                        tCajaIngresosValue.setHorizontalAlignment(SwingConstants.CENTER);
+                        tCajaIngresosValue.setFont(new Font("Segoe UI", Font.ITALIC, 48));
+                        tCajaIngresos.add(tCajaIngresosValue, BorderLayout.CENTER);
+                    }
+                    balanceCantidadesPanel.add(tCajaIngresos);
+
+                    //======== tBancoGastos ========
+                    {
+                        tBancoGastos.setLayout(new BorderLayout());
+
+                        //---- tBancoGastosLabel ----
+                        tBancoGastosLabel.setText("TOTAL GASTOS BANCO");
+                        tBancoGastosLabel.setFont(tBancoGastosLabel.getFont().deriveFont(tBancoGastosLabel.getFont().getSize() + 10f));
+                        tBancoGastosLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                        tBancoGastos.add(tBancoGastosLabel, BorderLayout.NORTH);
+
+                        //---- tBancoGastosValue ----
+                        tBancoGastosValue.setText("0,00 \u20ac");
+                        tBancoGastosValue.setHorizontalTextPosition(SwingConstants.CENTER);
+                        tBancoGastosValue.setHorizontalAlignment(SwingConstants.CENTER);
+                        tBancoGastosValue.setFont(new Font("Segoe UI", Font.ITALIC, 48));
+                        tBancoGastos.add(tBancoGastosValue, BorderLayout.CENTER);
+                    }
+                    balanceCantidadesPanel.add(tBancoGastos);
+
+                    //======== tCajaGastos ========
+                    {
+                        tCajaGastos.setLayout(new BorderLayout());
+
+                        //---- tCajaGastosLabel ----
+                        tCajaGastosLabel.setText("TOTAL GASTOS CAJA");
+                        tCajaGastosLabel.setFont(tCajaGastosLabel.getFont().deriveFont(tCajaGastosLabel.getFont().getSize() + 10f));
+                        tCajaGastosLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                        tCajaGastos.add(tCajaGastosLabel, BorderLayout.NORTH);
+
+                        //---- tCajaGastosValue ----
+                        tCajaGastosValue.setText("0,00 \u20ac");
+                        tCajaGastosValue.setHorizontalTextPosition(SwingConstants.CENTER);
+                        tCajaGastosValue.setHorizontalAlignment(SwingConstants.CENTER);
+                        tCajaGastosValue.setFont(new Font("Segoe UI", Font.ITALIC, 48));
+                        tCajaGastos.add(tCajaGastosValue, BorderLayout.CENTER);
+                    }
+                    balanceCantidadesPanel.add(tCajaGastos);
+
+                    //======== saldoBanco ========
+                    {
+                        saldoBanco.setLayout(new BorderLayout());
+
+                        //---- saldoBancoLabel ----
+                        saldoBancoLabel.setText("SALDO ACTUAL BANCO");
+                        saldoBancoLabel.setFont(saldoBancoLabel.getFont().deriveFont(saldoBancoLabel.getFont().getSize() + 10f));
+                        saldoBancoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                        saldoBanco.add(saldoBancoLabel, BorderLayout.NORTH);
+
+                        //---- saldoBancoValue ----
+                        saldoBancoValue.setText("0,00 \u20ac");
+                        saldoBancoValue.setFont(new Font("Segoe UI", Font.ITALIC, 48));
+                        saldoBancoValue.setHorizontalAlignment(SwingConstants.CENTER);
+                        saldoBanco.add(saldoBancoValue, BorderLayout.CENTER);
+                    }
+                    balanceCantidadesPanel.add(saldoBanco);
+
+                    //======== saldoCaja ========
+                    {
+                        saldoCaja.setLayout(new BorderLayout());
+
+                        //---- saldoCajaLabel ----
+                        saldoCajaLabel.setText("SALDO ACTUAL CAJA");
+                        saldoCajaLabel.setFont(saldoCajaLabel.getFont().deriveFont(saldoCajaLabel.getFont().getSize() + 10f));
+                        saldoCajaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                        saldoCaja.add(saldoCajaLabel, BorderLayout.NORTH);
+
+                        //---- saldoCajaValue ----
+                        saldoCajaValue.setText("0,00 \u20ac");
+                        saldoCajaValue.setFont(new Font("Segoe UI", Font.ITALIC, 48));
+                        saldoCajaValue.setHorizontalAlignment(SwingConstants.CENTER);
+                        saldoCaja.add(saldoCajaValue, BorderLayout.CENTER);
+                    }
+                    balanceCantidadesPanel.add(saldoCaja);
+                }
+                balancePanel.add(balanceCantidadesPanel, BorderLayout.CENTER);
             }
             tabbedPane1.addTab("BALANCE", balancePanel);
 
@@ -459,9 +592,7 @@ public class UIContasoc extends JFrame {
                             .addContainerGap()
                             .addComponent(label1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addContainerGap())
-                        .addGroup(GroupLayout.Alignment.TRAILING, buscarPanelLayout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(buscarField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addComponent(buscarField, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 );
             }
             toolBar1.add(buscarPanel);
@@ -495,7 +626,25 @@ public class UIContasoc extends JFrame {
     protected static JScrollPane gastosTablaPanel;
     protected static JTable gastosTabla;
     protected static JPanel balancePanel;
-    private JLabel label2;
+    private JPanel balanceCantidadesPanel;
+    private JPanel tBancoIngresos;
+    private JLabel tBancoIngresosLabel;
+    private JLabel tBancoIngresosValue;
+    private JPanel tCajaIngresos;
+    private JLabel tCajaIngresosLabel;
+    private JLabel tCajaIngresosValue;
+    private JPanel tBancoGastos;
+    private JLabel tBancoGastosLabel;
+    private JLabel tBancoGastosValue;
+    private JPanel tCajaGastos;
+    private JLabel tCajaGastosLabel;
+    private JLabel tCajaGastosValue;
+    private JPanel saldoBanco;
+    private JLabel saldoBancoLabel;
+    private JLabel saldoBancoValue;
+    private JPanel saldoCaja;
+    private JLabel saldoCajaLabel;
+    private JLabel saldoCajaValue;
     protected static JPanel emailPanel;
     private JLabel label3;
     protected static JToolBar toolBar1;

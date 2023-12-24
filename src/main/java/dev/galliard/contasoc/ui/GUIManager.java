@@ -1,5 +1,6 @@
 package dev.galliard.contasoc.ui;
 
+import dev.galliard.contasoc.common.TipoPago;
 import dev.galliard.contasoc.common.TipoSocio;
 import dev.galliard.contasoc.ingreso.Ingreso;
 import dev.galliard.contasoc.persona.Socio;
@@ -15,8 +16,10 @@ import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import java.io.File;
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -90,6 +93,50 @@ public class GUIManager {
             }
             else break;
         }
+    }
+
+    private List<JTextField> informeGetTextFields() {
+        List<JTextField> aux = new ArrayList<JTextField>();
+        aux.add(UIContasoc.inici);
+        aux.add(UIContasoc.balanceInicialCajaField);
+        return aux;
+    }
+
+    private void calcularBalance() {
+        List<JTextField> lista = informeGetTextFields();
+        Double banco = null;
+        Double caja = null;
+
+        if (lista.get(0).getText().replace("    ","").equals(",   €") && lista.get(1).getText().replace("    ","").equals(",   €")) {
+            String[] aux = ContasocDAO.leerTabla("informe").get(0).split(";");
+            banco = Double.valueOf(aux[0]);
+            caja = Double.valueOf(aux[1]);
+        } else if (!(lista.get(0).getText().equals("    ,   €") && lista.get(1).getText().equals("    ,   €"))) {
+            banco = Double.valueOf(lista.get(0).getText().replace(",", ".").replace(" €", ""));
+            caja = Double.valueOf(lista.get(1).getText().replace(",", ".").replace(" €", ""));
+            ContasocDAO.reemplazarPrimero(String.valueOf(banco), String.valueOf(caja));
+        }
+        List<Ingreso> ingresos = ContasocDAO.leerTabla("ingresos").stream().map(x -> Parsers.ingresoParser(x)).toList();
+        List<Pago> gastos = ContasocDAO.leerTabla("gastos").stream().map(x -> Parsers.pagoParser(x)).toList();
+
+        Double totalIngresosBanco = ingresos.stream().filter(x -> x.getTipo().equals(TipoPago.BANCO))
+                .collect(Collectors.summingDouble(Ingreso::getCantidad));
+        Double totalIngresosCaja = ingresos.stream().filter(x -> x.getTipo().equals(TipoPago.CAJA))
+                .collect(Collectors.summingDouble(Ingreso::getCantidad));
+        Double totalPagosBanco = gastos.stream().filter(x -> x.getTipo().equals(TipoPago.BANCO))
+                .collect(Collectors.summingDouble(Pago::getCantidad));
+        Double totalPagosCaja = gastos.stream().filter(x -> x.getTipo().equals(TipoPago.CAJA))
+                .collect(Collectors.summingDouble(Pago::getCantidad));
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.FLOOR);
+        String total = df
+                .format((banco + caja + totalIngresosBanco + totalIngresosCaja - totalPagosBanco - totalPagosCaja));
+
+        balanceLista.setText("Inicial banco: " + df.format(banco) + "€\n" + "Inicial caja: " + df.format(caja) + "€\n"
+                + "Total ingresos banco: " + df.format(totalIngresosBanco) + "€\n" + "Total ingresos caja: " + df.format(totalIngresosCaja)
+                + "€\n" + "Total pagos banco: " + df.format(totalPagosBanco) + "€\n" + "Total pagos caja: " + df.format(totalPagosCaja)
+                + "€\n" + "-------------------\n" + "Total: " + total + "€");
     }
 
     protected static void printContent() {

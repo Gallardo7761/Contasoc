@@ -54,6 +54,7 @@ new FormModel {
 									"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
 									"autoResizeMode": 3
 									"showHorizontalLines": true
+									"gridColor": new java.awt.Color( 204, 204, 204, 255 )
 									auxiliary() {
 										"JavaCodeGenerator.postInitCode": "sociosTabla.setModel(new SociosTablaModel());\nsociosTabla.getTableHeader().setReorderingAllowed(false);\nsociosTabla.getTableHeader().setResizingAllowed(false);\nGUIManager.setColumnWidths(sociosTabla, \n\tnew int[] {55,55,350,100,100,320,100,100,100,400,100,100});\nsociosTabla.setRowHeight(50);"
 										"JavaCodeGenerator.variableModifiers": 12
@@ -121,6 +122,7 @@ new FormModel {
 							}
 							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 								name: "listaEsperaTablaPanel"
+								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
 								}
@@ -129,6 +131,8 @@ new FormModel {
 									"autoResizeMode": 3
 									"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
 									"showHorizontalLines": true
+									"gridColor": new java.awt.Color( 204, 204, 204, 255 )
+									"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 									auxiliary() {
 										"JavaCodeGenerator.variableModifiers": 12
 										"JavaCodeGenerator.postInitCode": "listaEsperaTabla.setModel(new ListaEsperaTablaModel());\nlistaEsperaTabla.getTableHeader().setReorderingAllowed(false);\nlistaEsperaTabla.getTableHeader().setResizingAllowed(false);\nlistaEsperaTabla.setRowHeight(50);"
@@ -203,12 +207,129 @@ new FormModel {
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "label2"
-						"text": "EN PROGRESO..."
-						"horizontalTextPosition": 0
-						"horizontalAlignment": 0
-						"font": &Font0 new java.awt.Font( "Segoe UI", 0, 48 )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+						"columns": 2
+						"rows": 3
+					} ) {
+						name: "balanceCantidadesPanel"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+							name: "tBancoIngresos"
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "tBancoIngresosLabel"
+								"text": "TOTAL INGRESOS BANCO"
+								"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 0, 10, false )
+								"horizontalAlignment": 0
+							}, new FormLayoutConstraints( class java.lang.String ) {
+								"value": "North"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "tBancoIngresosValue"
+								"text": "0,00 €"
+								"horizontalTextPosition": 0
+								"horizontalAlignment": 0
+								"font": &Font0 new java.awt.Font( "Segoe UI", 2, 48 )
+							}, new FormLayoutConstraints( class java.lang.String ) {
+								"value": "Center"
+							} )
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+							name: "tCajaIngresos"
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "tCajaIngresosLabel"
+								"text": "TOTAL INGRESOS CAJA"
+								"font": #SwingDerivedFont1
+								"horizontalAlignment": 0
+							}, new FormLayoutConstraints( class java.lang.String ) {
+								"value": "North"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "tCajaIngresosValue"
+								"text": "0,00  €"
+								"horizontalTextPosition": 0
+								"horizontalAlignment": 0
+								"font": #Font0
+							}, new FormLayoutConstraints( class java.lang.String ) {
+								"value": "Center"
+							} )
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+							name: "tBancoGastos"
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "tBancoGastosLabel"
+								"text": "TOTAL GASTOS BANCO"
+								"font": #SwingDerivedFont1
+								"horizontalAlignment": 0
+							}, new FormLayoutConstraints( class java.lang.String ) {
+								"value": "North"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "tBancoGastosValue"
+								"text": "0,00 €"
+								"horizontalTextPosition": 0
+								"horizontalAlignment": 0
+								"font": #Font0
+							}, new FormLayoutConstraints( class java.lang.String ) {
+								"value": "Center"
+							} )
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+							name: "tCajaGastos"
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "tCajaGastosLabel"
+								"text": "TOTAL GASTOS CAJA"
+								"font": #SwingDerivedFont1
+								"horizontalAlignment": 0
+							}, new FormLayoutConstraints( class java.lang.String ) {
+								"value": "North"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "tCajaGastosValue"
+								"text": "0,00 €"
+								"horizontalTextPosition": 0
+								"horizontalAlignment": 0
+								"font": #Font0
+							}, new FormLayoutConstraints( class java.lang.String ) {
+								"value": "Center"
+							} )
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+							name: "saldoBanco"
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "saldoBancoLabel"
+								"text": "SALDO ACTUAL BANCO"
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 10, false )
+								"horizontalAlignment": 0
+							}, new FormLayoutConstraints( class java.lang.String ) {
+								"value": "North"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "saldoBancoValue"
+								"text": "0,00 €"
+								"font": &Font1 new java.awt.Font( "Segoe UI", 2, 48 )
+								"horizontalAlignment": 0
+							}, new FormLayoutConstraints( class java.lang.String ) {
+								"value": "Center"
+							} )
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+							name: "saldoCaja"
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "saldoCajaLabel"
+								"text": "SALDO ACTUAL CAJA"
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 10, false )
+								"horizontalAlignment": 0
+							}, new FormLayoutConstraints( class java.lang.String ) {
+								"value": "North"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "saldoCajaValue"
+								"text": "0,00 €"
+								"font": #Font1
+								"horizontalAlignment": 0
+							}, new FormLayoutConstraints( class java.lang.String ) {
+								"value": "Center"
+							} )
+						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
 						"value": "Center"
 					} )
@@ -225,7 +346,7 @@ new FormModel {
 						"text": "EN PROGRESO..."
 						"horizontalTextPosition": 0
 						"horizontalAlignment": 0
-						"font": #Font0
+						"font": new java.awt.Font( "Segoe UI", 0, 48 )
 					}, new FormLayoutConstraints( class java.lang.String ) {
 						"value": "Center"
 					} )
@@ -315,7 +436,7 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 					"$horizontalGroup": "par l {seq l {space :::p, comp buscarField::::392:x, space :::p, comp label1:::p:60:p, space :::p}}"
-					"$verticalGroup": "par l {seq l {space :::p, comp label1:::::x, space :::p}, seq t {space :0:0:x, comp buscarField:::p::p}}"
+					"$verticalGroup": "par l {seq {space :::p, comp label1:::::x, space :::p}, comp buscarField::t:::x}"
 				} ) {
 					name: "buscarPanel"
 					"preferredSize": new java.awt.Dimension( 100, 32 )
