@@ -533,37 +533,64 @@ new FormModel {
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
+					addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "emailPanelFocusGained", true ) )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 						"$horizontalGroup": "par l {seq {space :p:12:p, comp destinatarioLabel:::p::p, space u:::p, comp destinatarioComboBox:::p:246:p, space u:::p, comp asuntoLabel:::p::p, space u:::p, comp asuntoField:::p:210:p, space :::p}}"
-						"$verticalGroup": "par l {par b {comp asuntoLabel::b:p:26:p, comp asuntoField::b:p::p, comp destinatarioLabel::b:p:26:p, comp destinatarioComboBox::b:p::p}}"
+						"$verticalGroup": "par l {par b {comp asuntoLabel::b:p:26:p, comp asuntoField::b:p::p, comp destinatarioLabel::b:p:26:p, comp destinatarioComboBox::b:p:32:p}}"
 					} ) {
 						name: "emailDataPanel"
+						auxiliary() {
+							"JavaCodeGenerator.variableModifiers": 12
+						}
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "destinatarioLabel"
 							"text": "Destinatario:"
 							"font": &SwingDerivedFont3 new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+							auxiliary() {
+								"JavaCodeGenerator.variableModifiers": 12
+							}
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "asuntoLabel"
 							"text": "Asunto:"
 							"font": #SwingDerivedFont3
+							auxiliary() {
+								"JavaCodeGenerator.variableModifiers": 12
+							}
 						} )
 						add( new FormComponent( "javax.swing.JTextField" ) {
 							name: "asuntoField"
+							"selectionColor": &Color5 new java.awt.Color( 186, 219, 188, 255 )
+							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
+							auxiliary() {
+								"JavaCodeGenerator.variableModifiers": 12
+							}
 						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "destinatarioComboBox"
+							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+							auxiliary() {
+								"JavaCodeGenerator.variableModifiers": 12
+								"JavaCodeGenerator.typeParameters": "String"
+								"JavaCodeGenerator.postInitCode": "List<String> l = ContasocDAO.leerTabla(\"Socios\").stream()\n                .map(Parsers::socioParser)\n                .map(socio -> socio.getPersona().getCorreo().trim()+\" (\"+socio.getSocio()+\")\")\n                .map(string -> string.contains(\"null\") ? string.replace(string, \"\") : string)\n                .filter(string -> !string.isBlank())\n                .toList();\nfor(String s:l) {\n\tdestinatarioComboBox.addItem(s);\n}"
+							}
 						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
 						"value": "North"
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) ) {
 						name: "emailBodyPanel"
+						auxiliary() {
+							"JavaCodeGenerator.variableModifiers": 12
+						}
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 							"$horizontalGroup": "par l {seq l {space :::p, comp bodyScrollPane:::::x, space :::p}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp bodyScrollPane::::479:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp bodyScrollPane::::474:x, space :::p}}"
 						} ) {
 							name: "emailBodyWrapper"
+							auxiliary() {
+								"JavaCodeGenerator.variableModifiers": 12
+							}
 							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 								name: "bodyScrollPane"
 								add( new FormComponent( "javax.swing.JTextArea" ) {
@@ -572,6 +599,7 @@ new FormModel {
 									"lineWrap": true
 									"tabSize": 4
 									"wrapStyleWord": true
+									"selectionColor": #Color5
 									auxiliary() {
 										"JavaCodeGenerator.postInitCode": "bodyTextArea.setText(\"Escriba su mensaje...\");"
 									}
@@ -587,23 +615,44 @@ new FormModel {
 						"columns": 3
 					} ) {
 						name: "emailBtnsPanel"
+						auxiliary() {
+							"JavaCodeGenerator.variableModifiers": 12
+						}
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq {space :::p, comp enviarBtn:::p::p, space :::p, comp comboBox1:::p:160:p, space :::p, comp borradorBtn:::p::p, space ::471:x}}"
-							"$verticalGroup": "par l {seq {par l {comp enviarBtn:::::x, comp borradorBtn::l:::x, comp comboBox1::l:::x}, space :::p}}"
+							"$horizontalGroup": "par l {seq {space :::p, comp enviarBtn:::p::p, space :::p, comp tipoEmailComboBox:::p:160:p, space :::p, comp borradorBtn:::p::p, space ::471:x}}"
+							"$verticalGroup": "par l {seq {par l {comp enviarBtn:::::x, comp borradorBtn::l:::x, comp tipoEmailComboBox::l:::x}, space :::p}}"
 						} ) {
 							name: "emailBtnsWrapper"
+							auxiliary() {
+								"JavaCodeGenerator.variableModifiers": 12
+							}
 							add( new FormComponent( "javax.swing.JButton" ) {
 								name: "enviarBtn"
 								"text": "Enviar"
 								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+								auxiliary() {
+									"JavaCodeGenerator.variableModifiers": 12
+								}
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "enviarBtnActionPerformed", true ) )
 							} )
 							add( new FormComponent( "javax.swing.JButton" ) {
 								name: "borradorBtn"
 								"text": "Guardar borrador"
 								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+								auxiliary() {
+									"JavaCodeGenerator.variableModifiers": 12
+								}
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "borradorBtnActionPerformed", true ) )
 							} )
 							add( new FormComponent( "javax.swing.JComboBox" ) {
-								name: "comboBox1"
+								name: "tipoEmailComboBox"
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+								auxiliary() {
+									"JavaCodeGenerator.variableModifiers": 12
+									"JavaCodeGenerator.typeParameters": "String"
+									"JavaCodeGenerator.postInitCode": "tipoEmailComboBox.addItem(\"NORMAL\");\ntipoEmailComboBox.addItem(\"AVISO IMPAGO\");\ntipoEmailComboBox.addItem(\"AVISO ABANDONO\");\ntipoEmailComboBox.addItem(\"MAL COMPORTAMIENTO\");"
+								}
+								addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "tipoEmailComboBoxItemStateChanged", true ) )
 							} )
 						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {

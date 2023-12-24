@@ -167,18 +167,19 @@ public class ContasocDAO {
             if(!condicion.isEmpty()) {
                 query = new StringBuilder(query.substring(0, query.length() - 1) + " WHERE " + condicion + ";");
             }
+            System.out.println(query.toString());
             ResultSet rs = stmt.executeQuery(query.toString());
             StringBuilder result = new StringBuilder();
             while (rs.next()) {
                 for (Object atributo : atributos) {
                     result.append(rs.getString(atributo.toString())).append(";");
                 }
-                result = new StringBuilder(result.substring(0, result.length() - 2));
+                result = new StringBuilder(result.substring(0, result.length() - 1));
                 result.append("\n");
             }
             return result.toString();
         } catch (SQLException e) {
-            ErrorHandler.errorAlLeerBDD(table);
+            ErrorHandler.error(e.toString());
         }
         return null;
     }

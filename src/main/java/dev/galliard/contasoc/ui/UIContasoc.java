@@ -9,9 +9,15 @@ import dev.galliard.contasoc.ui.tablemodels.GastosTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.IngresosTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.ListaEsperaTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.SociosTablaModel;
+import dev.galliard.contasoc.util.EmailSender2;
+import dev.galliard.contasoc.util.ErrorHandler;
+import dev.galliard.contasoc.util.Parsers;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
 import javax.swing.GroupLayout;
@@ -49,7 +55,6 @@ public class UIContasoc extends JFrame {
     }
 
     private void createUIComponents() {
-        // TODO: add custom component creation code here
     }
 
     private void printBtnActionPerformed(ActionEvent e) {
@@ -83,21 +88,18 @@ public class UIContasoc extends JFrame {
     }
 
     private void bodyTextAreaFocusGained(FocusEvent e) {
-        // TODO add your code here
         if(bodyTextArea.getText().equals("Escriba su mensaje...")) {
             bodyTextArea.setText("");
         }
     }
 
     private void bodyTextAreaFocusLost(FocusEvent e) {
-        // TODO add your code here
         if(bodyTextArea.getText().isEmpty()) {
             bodyTextArea.setText("Escriba su mensaje...");
         }
     }
 
     private void nuevoBtnActionPerformed(ActionEvent e) {
-        // TODO add your code here
         /*for(Component component : tabbedPane1.getComponents()) {
             if(component.isVisible()) {
                 if(component.equals(sociosPanel)) {
@@ -112,7 +114,6 @@ public class UIContasoc extends JFrame {
     }
 
     private void editarBtnActionPerformed(ActionEvent e) {
-        // TODO add your code here
         /*for(Component component : tabbedPane1.getComponents()) {
             if(component.isVisible()) {
                 if(component.equals(sociosPanel)) {
@@ -127,7 +128,6 @@ public class UIContasoc extends JFrame {
     }
 
     private void eliminarBtnActionPerformed(ActionEvent e) {
-        // TODO add your code here
         /*for(Component component : tabbedPane1.getComponents()) {
             if(component.isVisible()) {
                 if(component.equals(sociosPanel)) {
@@ -149,6 +149,76 @@ public class UIContasoc extends JFrame {
     private void exportarBtnActionPerformed(ActionEvent e) {
         // TODO add your code here
         GUIManager.exportBDD();
+    }
+
+    private void enviarBtnActionPerformed(ActionEvent e)  {
+        switch (UIContasoc.tipoEmailComboBox.getSelectedItem().toString()) {
+            case "NORMAL":
+                String destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
+                String asunto = UIContasoc.asuntoField.getText();
+                String cuerpo = EmailSender2.NORMAL_EMAIL
+                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"))
+                        .replace("{mensaje}",bodyTextArea.getText());
+                new EmailSender2().sendEmail(destinatario, asunto, cuerpo);
+                break;
+            case "AVISO IMPAGO":
+                destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
+                cuerpo = EmailSender2.UNPAID_EMAIL
+                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"))
+                        .replace("{fecha}", Parsers.dateParser(LocalDate.now()))
+                        .replace("{importe}",
+                                ContasocDAO.select("Ingresos", new Object[] {"60-SUM(cantidad)"},
+                                        "numeroSocio = "+ContasocDAO.select("Socios", new Object[] {"numeroSocio"}, "email = '"+destinatario+"'")));
+                new EmailSender2().sendEmail(destinatario, "AVISO IMPAGO", cuerpo);
+                break;
+            case "AVISO ABANDONO":
+                destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
+                asunto = "AVISO ABANDONO";
+                cuerpo = EmailSender2.WARNING_EMAIL
+                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
+                new EmailSender2().sendEmail(destinatario, asunto, cuerpo);
+                break;
+            case "MAL COMPORTAMIENTO":
+                destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
+                asunto = "AVISO MAL COMPORTAMIENTO";
+                cuerpo = EmailSender2.MISBEHAVE_EMAIL
+                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
+                new EmailSender2().sendEmail(destinatario, asunto, cuerpo);
+                break;
+        }
+    }
+
+    private void borradorBtnActionPerformed(ActionEvent e) {
+        // TODO add your code here
+    }
+
+    private void emailPanelFocusGained(FocusEvent e) {
+        PopulateEmailsThread popEmails = new PopulateEmailsThread();
+        Thread thread = new Thread(popEmails);
+        thread.start();
+    }
+
+    private void tipoEmailComboBoxItemStateChanged(ItemEvent e) {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+            switch (e.getItem().toString()) {
+                case "NORMAL":
+                    asuntoField.setEditable(true);
+                    bodyTextArea.setEditable(true);
+                    break;
+                case "AVISO IMPAGO":
+                    asuntoField.setEditable(false);
+                    bodyTextArea.setEditable(false);
+                    break;
+                case "AVISO ABANDONO":
+                    asuntoField.setEditable(false);
+                    bodyTextArea.setEditable(false);
+                    break;
+                case "MAL COMPORTAMIENTO":
+                    asuntoField.setEditable(false);
+                    bodyTextArea.setEditable(false);
+                    break;
+            }
+        }
     }
 
     private void initComponents() {
@@ -208,7 +278,7 @@ public class UIContasoc extends JFrame {
         destinatarioLabel = new JLabel();
         asuntoLabel = new JLabel();
         asuntoField = new JTextField();
-        destinatarioComboBox = new JComboBox();
+        destinatarioComboBox = new JComboBox<>();
         emailBodyPanel = new JPanel();
         emailBodyWrapper = new JPanel();
         bodyScrollPane = new JScrollPane();
@@ -217,7 +287,7 @@ public class UIContasoc extends JFrame {
         emailBtnsWrapper = new JPanel();
         enviarBtn = new JButton();
         borradorBtn = new JButton();
-        comboBox1 = new JComboBox();
+        tipoEmailComboBox = new JComboBox<>();
 
         //======== this ========
         setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
@@ -393,7 +463,7 @@ public class UIContasoc extends JFrame {
                             sociosTabla.setModel(new SociosTablaModel());
                             sociosTabla.getTableHeader().setReorderingAllowed(false);
                             sociosTabla.getTableHeader().setResizingAllowed(false);
-                            GUIManager.setColumnWidths(sociosTabla,
+                            GUIManager.setColumnWidths(sociosTabla, 
                                 new int[] {55,55,350,100,100,320,100,100,100,400,100,100});
                             sociosTabla.setRowHeight(50);
                             sociosTablaPanel.setViewportView(sociosTabla);
@@ -754,6 +824,12 @@ public class UIContasoc extends JFrame {
 
             //======== emailPanel ========
             {
+                emailPanel.addFocusListener(new FocusAdapter() {
+                    @Override
+                    public void focusGained(FocusEvent e) {
+                        emailPanelFocusGained(e);
+                    }
+                });
                 emailPanel.setLayout(new BorderLayout());
 
                 //======== emailDataPanel ========
@@ -766,6 +842,22 @@ public class UIContasoc extends JFrame {
                     //---- asuntoLabel ----
                     asuntoLabel.setText("Asunto:");
                     asuntoLabel.setFont(asuntoLabel.getFont().deriveFont(asuntoLabel.getFont().getSize() + 6f));
+
+                    //---- asuntoField ----
+                    asuntoField.setSelectionColor(new Color(0xbadbbc));
+                    asuntoField.setFont(asuntoField.getFont().deriveFont(asuntoField.getFont().getSize() + 4f));
+
+                    //---- destinatarioComboBox ----
+                    destinatarioComboBox.setFont(destinatarioComboBox.getFont().deriveFont(destinatarioComboBox.getFont().getSize() + 6f));
+                    List<String> l = ContasocDAO.leerTabla("Socios").stream()
+                                    .map(Parsers::socioParser)
+                                    .map(socio -> socio.getPersona().getCorreo().trim()+" ("+socio.getSocio()+")")
+                                    .map(string -> string.contains("null") ? string.replace(string, "") : string)
+                                    .filter(string -> !string.isBlank())
+                                    .toList();
+                    for(String s:l) {
+                        destinatarioComboBox.addItem(s);
+                    }
 
                     GroupLayout emailDataPanelLayout = new GroupLayout(emailDataPanel);
                     emailDataPanel.setLayout(emailDataPanelLayout);
@@ -788,7 +880,7 @@ public class UIContasoc extends JFrame {
                                 .addComponent(asuntoLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(asuntoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(destinatarioLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(destinatarioComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addComponent(destinatarioComboBox, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
                     );
                 }
                 emailPanel.add(emailDataPanel, BorderLayout.NORTH);
@@ -808,6 +900,7 @@ public class UIContasoc extends JFrame {
                             bodyTextArea.setLineWrap(true);
                             bodyTextArea.setTabSize(4);
                             bodyTextArea.setWrapStyleWord(true);
+                            bodyTextArea.setSelectionColor(new Color(0xbadbbc));
                             bodyTextArea.addFocusListener(new FocusAdapter() {
                                 @Override
                                 public void focusGained(FocusEvent e) {
@@ -835,7 +928,7 @@ public class UIContasoc extends JFrame {
                             emailBodyWrapperLayout.createParallelGroup()
                                 .addGroup(emailBodyWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(bodyScrollPane, GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+                                    .addComponent(bodyScrollPane, GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -853,10 +946,20 @@ public class UIContasoc extends JFrame {
                         //---- enviarBtn ----
                         enviarBtn.setText("Enviar");
                         enviarBtn.setFont(enviarBtn.getFont().deriveFont(enviarBtn.getFont().getSize() + 6f));
+                        enviarBtn.addActionListener(e -> enviarBtnActionPerformed(e));
 
                         //---- borradorBtn ----
                         borradorBtn.setText("Guardar borrador");
                         borradorBtn.setFont(borradorBtn.getFont().deriveFont(borradorBtn.getFont().getSize() + 6f));
+                        borradorBtn.addActionListener(e -> borradorBtnActionPerformed(e));
+
+                        //---- tipoEmailComboBox ----
+                        tipoEmailComboBox.setFont(tipoEmailComboBox.getFont().deriveFont(tipoEmailComboBox.getFont().getSize() + 6f));
+                        tipoEmailComboBox.addItemListener(e -> tipoEmailComboBoxItemStateChanged(e));
+                        tipoEmailComboBox.addItem("NORMAL");
+                        tipoEmailComboBox.addItem("AVISO IMPAGO");
+                        tipoEmailComboBox.addItem("AVISO ABANDONO");
+                        tipoEmailComboBox.addItem("MAL COMPORTAMIENTO");
 
                         GroupLayout emailBtnsWrapperLayout = new GroupLayout(emailBtnsWrapper);
                         emailBtnsWrapper.setLayout(emailBtnsWrapperLayout);
@@ -866,7 +969,7 @@ public class UIContasoc extends JFrame {
                                     .addContainerGap()
                                     .addComponent(enviarBtn)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(comboBox1, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tipoEmailComboBox, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(borradorBtn)
                                     .addContainerGap(471, Short.MAX_VALUE))
@@ -877,7 +980,7 @@ public class UIContasoc extends JFrame {
                                     .addGroup(emailBtnsWrapperLayout.createParallelGroup()
                                         .addComponent(enviarBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(borradorBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(comboBox1))
+                                        .addComponent(tipoEmailComboBox))
                                     .addContainerGap())
                         );
                     }
@@ -945,19 +1048,19 @@ public class UIContasoc extends JFrame {
     protected static JLabel saldoCajaLabel;
     protected static JLabel saldoCajaValue;
     protected static JPanel emailPanel;
-    private JPanel emailDataPanel;
-    private JLabel destinatarioLabel;
-    private JLabel asuntoLabel;
-    private JTextField asuntoField;
-    private JComboBox destinatarioComboBox;
-    private JPanel emailBodyPanel;
-    private JPanel emailBodyWrapper;
+    protected static JPanel emailDataPanel;
+    protected static JLabel destinatarioLabel;
+    protected static JLabel asuntoLabel;
+    protected static JTextField asuntoField;
+    protected static JComboBox<String> destinatarioComboBox;
+    protected static JPanel emailBodyPanel;
+    protected static JPanel emailBodyWrapper;
     private JScrollPane bodyScrollPane;
     private JTextArea bodyTextArea;
-    private JPanel emailBtnsPanel;
-    private JPanel emailBtnsWrapper;
-    private JButton enviarBtn;
-    private JButton borradorBtn;
-    private JComboBox comboBox1;
+    protected static JPanel emailBtnsPanel;
+    protected static JPanel emailBtnsWrapper;
+    protected static JButton enviarBtn;
+    protected static JButton borradorBtn;
+    protected static JComboBox<String> tipoEmailComboBox;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

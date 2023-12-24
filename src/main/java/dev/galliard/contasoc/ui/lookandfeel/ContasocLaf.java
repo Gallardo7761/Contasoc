@@ -47,7 +47,10 @@ public class ContasocLaf extends FlatGitHubIJTheme {
         UIManager.put("ToolTip.background", Color.decode(GREEN));
         UIManager.put("ToolTip.foreground", Color.WHITE);
 
-        UIManager.put("TabbedPane.selected", Color.RED);
+        UIManager.put("TabbedPane.selectedBackground", Color.decode(LIGHT_GREEN));
+        UIManager.put("TabbedPane.selectedForeground", Color.WHITE);
+        UIManager.put("TabbedPane.hoverColor", Color.decode(SELECTION));
+        UIManager.put("TabbedPane.hoverForeground", Color.BLACK);
 
         System.setProperty("flatlaf.useWindowDecorations", "true");
     }
