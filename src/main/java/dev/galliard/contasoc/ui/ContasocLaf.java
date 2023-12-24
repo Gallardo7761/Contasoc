@@ -1,6 +1,7 @@
 package dev.galliard.contasoc.ui;
 
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubIJTheme;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +34,8 @@ public class ContasocLaf extends FlatGitHubIJTheme {
         UIManager.put("TableHeader.selectionForeground", Color.WHITE);
         UIManager.put("Table.selectionBackground", Color.decode(SELECTION));
         UIManager.put("Table.selectionForeground", Color.BLACK);
+
+        UIManager.put("TabbedPane.tabInsets", new Insets(0, 10, 0, 10));
 
         UIManager.put("Component.focusedBorderColor", Color.decode(GREEN));
         UIManager.put("Component.focusWidth", 0);

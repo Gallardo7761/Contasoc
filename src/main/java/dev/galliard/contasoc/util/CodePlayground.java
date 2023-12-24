@@ -1,36 +1,58 @@
 package dev.galliard.contasoc.util;
 
-import dev.galliard.contasoc.database.ContasocDAO;
-
-import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.awt.*;
+import javax.swing.*;
 
 public class CodePlayground {
-    public static void main(String[] args) throws URISyntaxException {
-//        List<String> socios = new ArrayList<>();
-//        for (Socio s : ContasocDAO.leerTabla("Socios").stream().map(Parsers::socioParser).toList()) {
-//            if (s.getEstado() != Estado.INACTIVO) {
-//                String socio = s.getSocio() + ";" + s.getHuerto() + ";" + s.getPersona().getNombre() + ";"
-//                        + s.getPersona().getDni() + ";" + s.getPersona().getTelefono() + ";"
-//                        + s.getPersona().getCorreo() + ";" + Parsers.dateParser(s.getAlta()) + ";"
-//                        + Parsers.dateParser(s.getEntrega()) + ";" + Parsers.dateParser(s.getBaja()) + ";"
-//                        + s.getNotas() + ";"
-//                        + s.getTipo().toString().replace("A_E", "A DE E").replace("O_INVERNADERO", "O + INV") + ";"
-//                        + s.getEstado();
-//                socios.add(Arrays.stream(socio.split(";"))
-//                        .map(x -> x.equals("null") ? "" : x)
-//                        .collect(Collectors.joining(";")));
-//            }
-//        }
-//        PDFPrinter.printStringToPDF(socios, 12,
-//                new float[]{30f, 25f, 200f, 80f, 70f, 170f, 55f, 55f, 55f, 120f, 110f, 50f},
-//                "logohuerto_pdf.png", "Listado de socios", true, new String[]{"S", "H", "Nombre", "DNI",
-//                        "Teléfono", "Correo", "Alta", "Entrega", "Baja", "Notas", "Tipo", "Estado"},
-//                true, 8, Contasoc.ESCRITORIO + "/socios.pdf");
-//        ErrorHandler.pdfCreado();
-        System.out.println(ContasocDAO.select("Balance",new Object[] {"inicialBanco"}, ""));
-        System.out.println(ContasocDAO.select("Balance",new Object[] {"inicialCaja"}, ""));
-        System.out.println(Double.parseDouble(null));
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                new CodePlayground().makeUI();
+            }
+        });
+    }
+
+    public void makeUI() {
+        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setTabPlacement(JTabbedPane.LEFT);
+        JPanel panel = new JPanel(new GridLayout(0, 1));
+
+        for (int i = 0; i < 3; i++) {
+            JPanel tab = new JPanel();
+            tab.setName("tab" + (i + 1));
+            tab.setPreferredSize(new Dimension(400, 400));
+            tabbedPane.add(tab);
+
+            JButton button = new JButton("B" + (i + 1));
+            button.setMargin(new Insets(0, 0, 0, 0));
+            panel.add(button);
+        }
+
+        JFrame frame = new JFrame();
+        frame.add(tabbedPane);
+        frame.pack();
+        Rectangle tabBounds = tabbedPane.getBoundsAt(0);
+
+        Container glassPane = (Container) frame.getGlassPane();
+        glassPane.setVisible(true);
+        glassPane.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.NONE;
+        int margin = - tabbedPane.getWidth() + (tabBounds.x + tabBounds.width);
+        gbc.insets = new Insets(0, margin, 50, 0);
+        gbc.anchor = GridBagConstraints.SOUTHWEST;
+
+        panel.setPreferredSize(new Dimension((int) tabBounds.getWidth() - margin,
+                panel.getPreferredSize().height));
+        glassPane.add(panel, gbc);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }

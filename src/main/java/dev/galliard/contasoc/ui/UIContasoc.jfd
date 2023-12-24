@@ -21,7 +21,7 @@ new FormModel {
 				"tabPlacement": 2
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
-					"JavaCodeGenerator.postInitCode": "tabbedPane1.putClientProperty(\"JTabbedPane.tabHeight\", 50);"
+					"JavaCodeGenerator.postInitCode": "tabbedPane1.putClientProperty(\"JTabbedPane.tabHeight\", 50);\ntabbedPane1.putClientProperty(\"JTabbedPane.minimumTabWidth\", 200);\ntabbedPane1.putClientProperty(\"JTabbedPane.maximumTabWidth\", 200);"
 				}
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
 					name: "sociosPanel"
@@ -207,9 +207,11 @@ new FormModel {
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
+					addEvent( new FormEvent( "java.awt.event.ComponentListener", "componentShown", "balancePanelComponentShown", true ) )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
 						"columns": 2
-						"rows": 3
+						"rows": 4
+						"vgap": 50
 					} ) {
 						name: "balanceCantidadesPanel"
 						auxiliary() {
@@ -398,6 +400,11 @@ new FormModel {
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) ) {
+						name: "emailDataPanel"
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "North"
+					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "EMAIL"
 				} )

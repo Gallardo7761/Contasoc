@@ -20,9 +20,6 @@ public class UIContasoc extends JFrame {
         BalancePanelWatcher watcher = new BalancePanelWatcher();
         Thread thread = new Thread(watcher);
         thread.start();
-        BalanceCalculatorThread balanceCalc = new BalanceCalculatorThread();
-        Thread thread2 = new Thread(balanceCalc);
-        thread2.start();
     }
 
     public JButton getNuevoBtn() {
@@ -74,6 +71,12 @@ public class UIContasoc extends JFrame {
         ((CardLayout) sociosPanel.getLayout()).show(sociosPanel, "cardSocios");
     }
 
+    private void balancePanelComponentShown(ComponentEvent e) {
+        BalanceCalculatorThread balanceCalc = new BalanceCalculatorThread();
+        Thread thread = new Thread(balanceCalc);
+        thread.start();
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
@@ -118,6 +121,7 @@ public class UIContasoc extends JFrame {
         saldoCajaLabel = new JLabel();
         saldoCajaValue = new JLabel();
         emailPanel = new JPanel();
+        emailDataPanel = new JPanel();
         toolBar1 = new JToolBar();
         nuevoBtn = new JButton();
         editarBtn = new JButton();
@@ -144,6 +148,8 @@ public class UIContasoc extends JFrame {
             tabbedPane1.setFont(tabbedPane1.getFont().deriveFont(tabbedPane1.getFont().getSize() + 6f));
             tabbedPane1.setTabPlacement(SwingConstants.LEFT);
             tabbedPane1.putClientProperty("JTabbedPane.tabHeight", 50);
+            tabbedPane1.putClientProperty("JTabbedPane.minimumTabWidth", 200);
+            tabbedPane1.putClientProperty("JTabbedPane.maximumTabWidth", 200);
 
             //======== sociosPanel ========
             {
@@ -374,11 +380,17 @@ public class UIContasoc extends JFrame {
 
             //======== balancePanel ========
             {
+                balancePanel.addComponentListener(new ComponentAdapter() {
+                    @Override
+                    public void componentShown(ComponentEvent e) {
+                        balancePanelComponentShown(e);
+                    }
+                });
                 balancePanel.setLayout(new BorderLayout());
 
                 //======== balanceCantidadesPanel ========
                 {
-                    balanceCantidadesPanel.setLayout(new GridLayout(3, 2));
+                    balanceCantidadesPanel.setLayout(new GridLayout(4, 2, 0, 50));
 
                     //======== tBancoIngresos ========
                     {
@@ -499,6 +511,12 @@ public class UIContasoc extends JFrame {
             //======== emailPanel ========
             {
                 emailPanel.setLayout(new BorderLayout());
+
+                //======== emailDataPanel ========
+                {
+                    emailDataPanel.setLayout(new GridLayout());
+                }
+                emailPanel.add(emailDataPanel, BorderLayout.NORTH);
             }
             tabbedPane1.addTab("EMAIL", emailPanel);
         }
@@ -644,6 +662,7 @@ public class UIContasoc extends JFrame {
     protected static JLabel saldoCajaLabel;
     protected static JLabel saldoCajaValue;
     protected static JPanel emailPanel;
+    private JPanel emailDataPanel;
     protected static JToolBar toolBar1;
     protected static JButton nuevoBtn;
     protected static JButton editarBtn;
