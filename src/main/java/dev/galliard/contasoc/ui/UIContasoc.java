@@ -17,6 +17,12 @@ public class UIContasoc extends JFrame {
     public UIContasoc() {
         initComponents();
         GUIManager.populateGUITables();
+        BalancePanelWatcher watcher = new BalancePanelWatcher();
+        Thread thread = new Thread(watcher);
+        thread.start();
+        BalanceCalculatorThread balanceCalc = new BalanceCalculatorThread();
+        Thread thread2 = new Thread(balanceCalc);
+        thread2.start();
     }
 
     public JButton getNuevoBtn() {
@@ -112,7 +118,6 @@ public class UIContasoc extends JFrame {
         saldoCajaLabel = new JLabel();
         saldoCajaValue = new JLabel();
         emailPanel = new JPanel();
-        label3 = new JLabel();
         toolBar1 = new JToolBar();
         nuevoBtn = new JButton();
         editarBtn = new JButton();
@@ -494,13 +499,6 @@ public class UIContasoc extends JFrame {
             //======== emailPanel ========
             {
                 emailPanel.setLayout(new BorderLayout());
-
-                //---- label3 ----
-                label3.setText("EN PROGRESO...");
-                label3.setHorizontalTextPosition(SwingConstants.CENTER);
-                label3.setHorizontalAlignment(SwingConstants.CENTER);
-                label3.setFont(new Font("Segoe UI", Font.PLAIN, 48));
-                emailPanel.add(label3, BorderLayout.CENTER);
             }
             tabbedPane1.addTab("EMAIL", emailPanel);
         }
@@ -626,27 +624,26 @@ public class UIContasoc extends JFrame {
     protected static JScrollPane gastosTablaPanel;
     protected static JTable gastosTabla;
     protected static JPanel balancePanel;
-    private JPanel balanceCantidadesPanel;
-    private JPanel tBancoIngresos;
-    private JLabel tBancoIngresosLabel;
-    private JLabel tBancoIngresosValue;
-    private JPanel tCajaIngresos;
-    private JLabel tCajaIngresosLabel;
-    private JLabel tCajaIngresosValue;
-    private JPanel tBancoGastos;
-    private JLabel tBancoGastosLabel;
-    private JLabel tBancoGastosValue;
-    private JPanel tCajaGastos;
-    private JLabel tCajaGastosLabel;
-    private JLabel tCajaGastosValue;
-    private JPanel saldoBanco;
-    private JLabel saldoBancoLabel;
-    private JLabel saldoBancoValue;
-    private JPanel saldoCaja;
-    private JLabel saldoCajaLabel;
-    private JLabel saldoCajaValue;
+    protected static JPanel balanceCantidadesPanel;
+    protected static JPanel tBancoIngresos;
+    protected static JLabel tBancoIngresosLabel;
+    protected static JLabel tBancoIngresosValue;
+    protected static JPanel tCajaIngresos;
+    protected static JLabel tCajaIngresosLabel;
+    protected static JLabel tCajaIngresosValue;
+    protected static JPanel tBancoGastos;
+    protected static JLabel tBancoGastosLabel;
+    protected static JLabel tBancoGastosValue;
+    protected static JPanel tCajaGastos;
+    protected static JLabel tCajaGastosLabel;
+    protected static JLabel tCajaGastosValue;
+    protected static JPanel saldoBanco;
+    protected static JLabel saldoBancoLabel;
+    protected static JLabel saldoBancoValue;
+    protected static JPanel saldoCaja;
+    protected static JLabel saldoCajaLabel;
+    protected static JLabel saldoCajaValue;
     protected static JPanel emailPanel;
-    private JLabel label3;
     protected static JToolBar toolBar1;
     protected static JButton nuevoBtn;
     protected static JButton editarBtn;

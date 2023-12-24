@@ -1,0 +1,84 @@
+JFDML JFormDesigner: "8.2.0.0.331" Java: "17.0.9" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.GridLayout ) {
+			"columns": 1
+			"rows": 3
+		} ) {
+			name: "this"
+			"title": "Saldos iniciales"
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/logohuerto_small.png" )
+			"resizable": false
+			"alwaysOnTop": true
+			auxiliary() {
+				"JavaCodeGenerator.variableModifiers": 12
+			}
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, comp inicialBancoLabel:::p::p, space :::p, comp inicialBancoField::::170:x, space :::p}}"
+				"$verticalGroup": "par l {par b {comp inicialBancoField::b:p::p, comp inicialBancoLabel::b:p:39:p}}"
+			} ) {
+				name: "inicialBancoPanel"
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+				}
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "inicialBancoLabel"
+					"text": "Inicial Banco:"
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "inicialBancoField"
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp inicialCajaLabel:::p::p, space :::p, comp inicialCajaField::::180:x, space :::p}}"
+				"$verticalGroup": "par l {par b {comp inicialCajaLabel::b:p:39:p, comp inicialCajaField::b:p::p}}"
+			} ) {
+				name: "inicialCajaPanel"
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+				}
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "inicialCajaLabel"
+					"text": "Inicial Caja:"
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "inicialCajaField"
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq t {space ::164:x, comp saldoInicialGuardarBtn:::p::p, space :::p}}"
+				"$verticalGroup": "par l {seq t {space ::7:x, comp saldoInicialGuardarBtn:::p::p, space :::p}}"
+			} ) {
+				name: "saldoInicialGuardarPanel"
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+				}
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "saldoInicialGuardarBtn"
+					"text": "GUARDAR"
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "saldoInicialGuardarBtnActionPerformed", true ) )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 260, 150 )
+		} )
+	}
+}

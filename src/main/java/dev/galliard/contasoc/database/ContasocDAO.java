@@ -184,6 +184,18 @@ public class ContasocDAO {
         }
     }
 
+    public static void initBalance() {
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement()) {
+            String query = """
+            INSERT INTO Balance (inicialBanco, inicialCaja)
+            VALUES (0.0, 0.0);""";
+            stmt.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static List<String> leerTabla(String nombreTabla) {
         String query = "SELECT * FROM " + nombreTabla;
         List<String> aux = new ArrayList<>();

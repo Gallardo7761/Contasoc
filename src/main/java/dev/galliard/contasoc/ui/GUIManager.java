@@ -28,6 +28,8 @@ import java.util.stream.Collectors;
 
 public class GUIManager {
     protected static String valor = null;
+    protected static Double inicialBanco = 0.0;
+    protected static Double inicialCaja = 0.0;
     protected static void populateGUITables () {
         ContasocDAO.fillTableFrom(UIContasoc.sociosTabla, "Socios");
         ContasocDAO.fillListaEspera(UIContasoc.listaEsperaTabla);
@@ -95,48 +97,33 @@ public class GUIManager {
         }
     }
 
-    private List<JTextField> informeGetTextFields() {
-        List<JTextField> aux = new ArrayList<JTextField>();
-        aux.add(UIContasoc.inici);
-        aux.add(UIContasoc.balanceInicialCajaField);
-        return aux;
-    }
+    protected static void calcularBalance() {
+        Double banco = !ContasocDAO.leerTabla("Balance").isEmpty()
+                ? Double.parseDouble(ContasocDAO.select("Balance",new Object[] {"inicialBanco"}, ""))
+                : inicialBanco;
+        Double caja = !ContasocDAO.leerTabla("Balance").isEmpty()
+                ? Double.parseDouble(ContasocDAO.select("Balance",new Object[] {"inicialCaja"}, ""))
+                : inicialCaja;
 
-    private void calcularBalance() {
-        List<JTextField> lista = informeGetTextFields();
-        Double banco = null;
-        Double caja = null;
+        List<Ingreso> ingresos = ContasocDAO.leerTabla("ingresos").stream().map(Parsers::ingresoParser).toList();
+        List<Pago> pagos = ContasocDAO.leerTabla("gastos").stream().map(Parsers::pagoParser).toList();
 
-        if (lista.get(0).getText().replace("    ","").equals(",   €") && lista.get(1).getText().replace("    ","").equals(",   €")) {
-            String[] aux = ContasocDAO.leerTabla("informe").get(0).split(";");
-            banco = Double.valueOf(aux[0]);
-            caja = Double.valueOf(aux[1]);
-        } else if (!(lista.get(0).getText().equals("    ,   €") && lista.get(1).getText().equals("    ,   €"))) {
-            banco = Double.valueOf(lista.get(0).getText().replace(",", ".").replace(" €", ""));
-            caja = Double.valueOf(lista.get(1).getText().replace(",", ".").replace(" €", ""));
-            ContasocDAO.reemplazarPrimero(String.valueOf(banco), String.valueOf(caja));
-        }
-        List<Ingreso> ingresos = ContasocDAO.leerTabla("ingresos").stream().map(x -> Parsers.ingresoParser(x)).toList();
-        List<Pago> gastos = ContasocDAO.leerTabla("gastos").stream().map(x -> Parsers.pagoParser(x)).toList();
-
-        Double totalIngresosBanco = ingresos.stream().filter(x -> x.getTipo().equals(TipoPago.BANCO))
-                .collect(Collectors.summingDouble(Ingreso::getCantidad));
-        Double totalIngresosCaja = ingresos.stream().filter(x -> x.getTipo().equals(TipoPago.CAJA))
-                .collect(Collectors.summingDouble(Ingreso::getCantidad));
-        Double totalPagosBanco = gastos.stream().filter(x -> x.getTipo().equals(TipoPago.BANCO))
-                .collect(Collectors.summingDouble(Pago::getCantidad));
-        Double totalPagosCaja = gastos.stream().filter(x -> x.getTipo().equals(TipoPago.CAJA))
-                .collect(Collectors.summingDouble(Pago::getCantidad));
+        Double totalIngresosBanco = ingresos.stream().filter(x -> x.getTipo().equals(TipoPago.BANCO)).mapToDouble(Ingreso::getCantidad).sum();
+        Double totalIngresosCaja = ingresos.stream().filter(x -> x.getTipo().equals(TipoPago.CAJA)).mapToDouble(Ingreso::getCantidad).sum();
+        double totalPagosBanco = pagos.stream().filter(x -> x.getTipo().equals(TipoPago.BANCO)).mapToDouble(Pago::getCantidad).sum();
+        double totalPagosCaja = pagos.stream().filter(x -> x.getTipo().equals(TipoPago.CAJA)).mapToDouble(Pago::getCantidad).sum();
 
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.FLOOR);
-        String total = df
-                .format((banco + caja + totalIngresosBanco + totalIngresosCaja - totalPagosBanco - totalPagosCaja));
+        String saldoBanco = df.format((banco + totalIngresosBanco - totalPagosBanco));
+        String saldoCaja = df.format((caja + totalIngresosCaja - totalPagosCaja));
 
-        balanceLista.setText("Inicial banco: " + df.format(banco) + "€\n" + "Inicial caja: " + df.format(caja) + "€\n"
-                + "Total ingresos banco: " + df.format(totalIngresosBanco) + "€\n" + "Total ingresos caja: " + df.format(totalIngresosCaja)
-                + "€\n" + "Total pagos banco: " + df.format(totalPagosBanco) + "€\n" + "Total pagos caja: " + df.format(totalPagosCaja)
-                + "€\n" + "-------------------\n" + "Total: " + total + "€");
+        UIContasoc.tBancoIngresosValue.setText(String.valueOf(totalIngresosBanco)+" €");
+        UIContasoc.tBancoGastosValue.setText(String.valueOf(totalPagosBanco)+" €");
+        UIContasoc.tCajaIngresosValue.setText(String.valueOf(totalIngresosCaja)+" €");
+        UIContasoc.tCajaGastosValue.setText(String.valueOf(totalPagosCaja)+" €");
+        UIContasoc.saldoBancoValue.setText(String.valueOf(saldoBanco)+" €");
+        UIContasoc.saldoCajaValue.setText(String.valueOf(saldoCaja)+" €");
     }
 
     protected static void printContent() {

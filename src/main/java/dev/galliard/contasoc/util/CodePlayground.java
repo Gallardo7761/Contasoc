@@ -29,7 +29,8 @@ public class CodePlayground {
 //                        "Teléfono", "Correo", "Alta", "Entrega", "Baja", "Notas", "Tipo", "Estado"},
 //                true, 8, Contasoc.ESCRITORIO + "/socios.pdf");
 //        ErrorHandler.pdfCreado();
-        Path path = Paths.get(ContasocDAO.class.getResource("assets/createDB.sql").toURI());
-        System.out.println(path);
+        System.out.println(ContasocDAO.select("Balance",new Object[] {"inicialBanco"}, ""));
+        System.out.println(ContasocDAO.select("Balance",new Object[] {"inicialCaja"}, ""));
+        System.out.println(Double.parseDouble(null));
     }
 }
