@@ -1,58 +1,24 @@
 package dev.galliard.contasoc.util;
 
+import dev.galliard.contasoc.database.ContasocDAO;
+import dev.galliard.contasoc.ingreso.Ingreso;
+import dev.galliard.contasoc.pago.Pago;
+
 import java.awt.*;
 import javax.swing.*;
 
 public class CodePlayground {
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                new CodePlayground().makeUI();
-            }
-        });
-    }
-
-    public void makeUI() {
-        JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.setTabPlacement(JTabbedPane.LEFT);
-        JPanel panel = new JPanel(new GridLayout(0, 1));
-
-        for (int i = 0; i < 3; i++) {
-            JPanel tab = new JPanel();
-            tab.setName("tab" + (i + 1));
-            tab.setPreferredSize(new Dimension(400, 400));
-            tabbedPane.add(tab);
-
-            JButton button = new JButton("B" + (i + 1));
-            button.setMargin(new Insets(0, 0, 0, 0));
-            panel.add(button);
+        for (Ingreso i : ContasocDAO.leerTabla("Ingresos").stream().map(Parsers::ingresoParser).toList()) {
+            String[] ingArr = i.toString().split(";");
+            System.out.println(
+                    ingArr[0] + ";" + ContasocDAO.select("Socios", new Object[] {"nombre"}, "WHERE Socios.numeroSocio = Ingresos.numeroSocio")
+                            + ";" + ingArr[1] + ";" + ingArr[2] + ";" + ingArr[3] + ";" + ingArr[4]);
         }
-
-        JFrame frame = new JFrame();
-        frame.add(tabbedPane);
-        frame.pack();
-        Rectangle tabBounds = tabbedPane.getBoundsAt(0);
-
-        Container glassPane = (Container) frame.getGlassPane();
-        glassPane.setVisible(true);
-        glassPane.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.NONE;
-        int margin = - tabbedPane.getWidth() + (tabBounds.x + tabBounds.width);
-        gbc.insets = new Insets(0, margin, 50, 0);
-        gbc.anchor = GridBagConstraints.SOUTHWEST;
-
-        panel.setPreferredSize(new Dimension((int) tabBounds.getWidth() - margin,
-                panel.getPreferredSize().height));
-        glassPane.add(panel, gbc);
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        System.out.println("\n\n\n");
+        for (Pago p : ContasocDAO.leerTabla("Gastos").stream().map(Parsers::pagoParser).toList()) {
+            System.out.println(p.toString());
+        }
     }
 }

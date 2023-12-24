@@ -4,6 +4,7 @@
 
 package dev.galliard.contasoc.ui;
 
+import dev.galliard.contasoc.database.ContasocDAO;
 import dev.galliard.contasoc.ui.tablemodels.GastosTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.IngresosTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.ListaEsperaTablaModel;
@@ -51,19 +52,18 @@ public class UIContasoc extends JFrame {
         // TODO: add custom component creation code here
     }
 
-    private void imprimirTestActionPerformed(ActionEvent e) {
-        GUIManager.printContent();
-    }
-
     private void printBtnActionPerformed(ActionEvent e) {
-        if(cardSociosPanel.isVisible()) {
-            GUIManager.valor = "Socios";
-        } else if(ingresosPanel.isVisible()) {
+        Component selected = UIContasoc.tabbedPane1.getSelectedComponent();
+        if (selected.equals(sociosPanel)) {
+            if (cardSociosPanel.isVisible()) {
+                GUIManager.valor = "Socios";
+            } else if (cardListaEsperaPanel.isVisible()) {
+                GUIManager.valor = "ListaEspera";
+            }
+        } else if (selected.equals(ingresosPanel)) {
             GUIManager.valor = "Ingresos";
-        } else if(gastosPanel.isVisible()) {
+        } else if (selected.equals(gastosPanel)) {
             GUIManager.valor = "Gastos";
-        } else if(cardListaEsperaPanel.isVisible()) {
-            GUIManager.valor = "ListaEspera";
         }
         GUIManager.printContent();
     }
@@ -96,18 +96,73 @@ public class UIContasoc extends JFrame {
         }
     }
 
+    private void nuevoBtnActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        /*for(Component component : tabbedPane1.getComponents()) {
+            if(component.isVisible()) {
+                if(component.equals(sociosPanel)) {
+                    GUIManager.nuevoSocio();
+                } else if(component.equals(ingresosPanel)) {
+                    GUIManager.nuevoIngreso();
+                } else if(component.equals(gastosPanel)) {
+                    GUIManager.nuevoGasto();
+                }
+            }
+        }*/
+    }
+
+    private void editarBtnActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        /*for(Component component : tabbedPane1.getComponents()) {
+            if(component.isVisible()) {
+                if(component.equals(sociosPanel)) {
+                    GUIManager.editarSocio();
+                } else if(component.equals(ingresosPanel)) {
+                    GUIManager.editarIngreso();
+                } else if(component.equals(gastosPanel)) {
+                    GUIManager.editarGasto();
+                }
+            }
+        }*/
+    }
+
+    private void eliminarBtnActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        /*for(Component component : tabbedPane1.getComponents()) {
+            if(component.isVisible()) {
+                if(component.equals(sociosPanel)) {
+                    GUIManager.eliminarSocio();
+                } else if(component.equals(ingresosPanel)) {
+                    GUIManager.eliminarIngreso();
+                } else if(component.equals(gastosPanel)) {
+                    GUIManager.eliminarGasto();
+                }
+            }
+        }*/
+    }
+
+    private void importarBtnActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        GUIManager.importBDD();
+    }
+
+    private void exportarBtnActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        GUIManager.exportBDD();
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
-        menuBar1 = new JMenuBar();
+        searchAndButtonsWrapper = new JPanel();
+        buscarField = new JTextField();
         nuevoBtn = new JButton();
         editarBtn = new JButton();
         eliminarBtn = new JButton();
-        printBtn = new JButton();
+        printBtn2 = new JButton();
         importarBtn = new JButton();
         exportarBtn = new JButton();
-        buscarWrapper = new JPanel();
-        buscarField = new JTextField();
+        label1 = new JLabel();
         tabbedPane1 = new JTabbedPane();
         sociosPanel = new JPanel();
         cardSociosPanel = new JPanel();
@@ -173,81 +228,10 @@ public class UIContasoc extends JFrame {
         var contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        //======== menuBar1 ========
+        //======== searchAndButtonsWrapper ========
         {
-            menuBar1.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-
-            //---- nuevoBtn ----
-            nuevoBtn.setText("Nuevo");
-            nuevoBtn.setFont(nuevoBtn.getFont().deriveFont(nuevoBtn.getFont().getSize() + 4f));
-            nuevoBtn.setIconTextGap(5);
-            nuevoBtn.setMargin(new Insets(0, 0, 0, 12));
-            nuevoBtn.setBackground(new Color(0x549159));
-            nuevoBtn.setForeground(Color.white);
-            nuevoBtn.setBorderPainted(false);
-            nuevoBtn.setIcon(new ImageIcon(getClass().getResource("/images/newpass_small.png")));
-            menuBar1.add(nuevoBtn);
-
-            //---- editarBtn ----
-            editarBtn.setText("Editar");
-            editarBtn.setFont(editarBtn.getFont().deriveFont(editarBtn.getFont().getSize() + 4f));
-            editarBtn.setIconTextGap(5);
-            editarBtn.setMargin(new Insets(0, 0, 0, 12));
-            editarBtn.setBackground(new Color(0x549159));
-            editarBtn.setForeground(Color.white);
-            editarBtn.setBorderPainted(false);
-            editarBtn.setIcon(new ImageIcon(getClass().getResource("/images/edit_small.png")));
-            menuBar1.add(editarBtn);
-
-            //---- eliminarBtn ----
-            eliminarBtn.setText("Eliminar");
-            eliminarBtn.setFont(eliminarBtn.getFont().deriveFont(eliminarBtn.getFont().getSize() + 4f));
-            eliminarBtn.setIconTextGap(5);
-            eliminarBtn.setMargin(new Insets(0, 0, 0, 12));
-            eliminarBtn.setBackground(new Color(0x549159));
-            eliminarBtn.setForeground(Color.white);
-            eliminarBtn.setBorderPainted(false);
-            eliminarBtn.setIcon(new ImageIcon(getClass().getResource("/images/bin_small.png")));
-            menuBar1.add(eliminarBtn);
-
-            //---- printBtn ----
-            printBtn.setText("Imprimir");
-            printBtn.setFont(printBtn.getFont().deriveFont(printBtn.getFont().getSize() + 4f));
-            printBtn.setIconTextGap(5);
-            printBtn.setMargin(new Insets(0, 0, 0, 12));
-            printBtn.setBackground(new Color(0x549159));
-            printBtn.setForeground(Color.white);
-            printBtn.setBorderPainted(false);
-            printBtn.setIcon(new ImageIcon(getClass().getResource("/images/printer_small.png")));
-            printBtn.addActionListener(e -> printBtnActionPerformed(e));
-            menuBar1.add(printBtn);
-
-            //---- importarBtn ----
-            importarBtn.setText("Importar");
-            importarBtn.setFont(importarBtn.getFont().deriveFont(importarBtn.getFont().getSize() + 4f));
-            importarBtn.setIconTextGap(5);
-            importarBtn.setMargin(new Insets(0, 0, 0, 12));
-            importarBtn.setBackground(new Color(0x549159));
-            importarBtn.setForeground(Color.white);
-            importarBtn.setBorderPainted(false);
-            importarBtn.setIcon(new ImageIcon(getClass().getResource("/images/import_small.png")));
-            menuBar1.add(importarBtn);
-
-            //---- exportarBtn ----
-            exportarBtn.setText("Exportar");
-            exportarBtn.setFont(exportarBtn.getFont().deriveFont(exportarBtn.getFont().getSize() + 4f));
-            exportarBtn.setIconTextGap(5);
-            exportarBtn.setMargin(new Insets(0, 0, 0, 12));
-            exportarBtn.setBackground(new Color(0x549159));
-            exportarBtn.setForeground(Color.white);
-            exportarBtn.setBorderPainted(false);
-            exportarBtn.setIcon(new ImageIcon(getClass().getResource("/images/export_small.png")));
-            menuBar1.add(exportarBtn);
-        }
-        setJMenuBar(menuBar1);
-
-        //======== buscarWrapper ========
-        {
+            searchAndButtonsWrapper.setPreferredSize(new Dimension(1008, 78));
+            searchAndButtonsWrapper.setMinimumSize(new Dimension(673, 78));
 
             //---- buscarField ----
             buscarField.setFont(buscarField.getFont().deriveFont(buscarField.getFont().getSize() + 6f));
@@ -257,24 +241,121 @@ public class UIContasoc extends JFrame {
             buscarField.putClientProperty("JTextField.placeholderText", "Buscar socios...");
             buscarField.putClientProperty("JTextField.leadingIcon", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource("/images/search_medium_black.png"))));
 
-            GroupLayout buscarWrapperLayout = new GroupLayout(buscarWrapper);
-            buscarWrapper.setLayout(buscarWrapperLayout);
-            buscarWrapperLayout.setHorizontalGroup(
-                buscarWrapperLayout.createParallelGroup()
-                    .addGroup(buscarWrapperLayout.createSequentialGroup()
+            //---- nuevoBtn ----
+            nuevoBtn.setText("Nuevo");
+            nuevoBtn.setFont(nuevoBtn.getFont().deriveFont(nuevoBtn.getFont().getSize() + 4f));
+            nuevoBtn.setIconTextGap(5);
+            nuevoBtn.setMargin(new Insets(0, 0, 0, 12));
+            nuevoBtn.setBackground(new Color(0xf7f8fa));
+            nuevoBtn.setForeground(Color.black);
+            nuevoBtn.setBorderPainted(false);
+            nuevoBtn.setIcon(new ImageIcon(getClass().getResource("/images/newpass_small_black.png")));
+            nuevoBtn.addActionListener(e -> nuevoBtnActionPerformed(e));
+
+            //---- editarBtn ----
+            editarBtn.setText("Editar");
+            editarBtn.setFont(editarBtn.getFont().deriveFont(editarBtn.getFont().getSize() + 4f));
+            editarBtn.setIconTextGap(5);
+            editarBtn.setMargin(new Insets(0, 0, 0, 12));
+            editarBtn.setBackground(new Color(0xf7f8fa));
+            editarBtn.setForeground(Color.black);
+            editarBtn.setBorderPainted(false);
+            editarBtn.setIcon(new ImageIcon(getClass().getResource("/images/edit_small_black.png")));
+            editarBtn.addActionListener(e -> editarBtnActionPerformed(e));
+
+            //---- eliminarBtn ----
+            eliminarBtn.setText("Eliminar");
+            eliminarBtn.setFont(eliminarBtn.getFont().deriveFont(eliminarBtn.getFont().getSize() + 4f));
+            eliminarBtn.setIconTextGap(5);
+            eliminarBtn.setMargin(new Insets(0, 0, 0, 12));
+            eliminarBtn.setBackground(new Color(0xf7f8fa));
+            eliminarBtn.setForeground(Color.black);
+            eliminarBtn.setBorderPainted(false);
+            eliminarBtn.setIcon(new ImageIcon(getClass().getResource("/images/bin_small_black.png")));
+            eliminarBtn.addActionListener(e -> eliminarBtnActionPerformed(e));
+
+            //---- printBtn2 ----
+            printBtn2.setText("Imprimir");
+            printBtn2.setFont(printBtn2.getFont().deriveFont(printBtn2.getFont().getSize() + 4f));
+            printBtn2.setIconTextGap(5);
+            printBtn2.setMargin(new Insets(0, 0, 0, 12));
+            printBtn2.setBackground(new Color(0xf7f8fa));
+            printBtn2.setForeground(Color.black);
+            printBtn2.setBorderPainted(false);
+            printBtn2.setIcon(new ImageIcon(getClass().getResource("/images/printer.png")));
+            printBtn2.addActionListener(e -> {
+			printBtnActionPerformed(e);
+			printBtnActionPerformed(e);
+		});
+
+            //---- importarBtn ----
+            importarBtn.setText("Importar");
+            importarBtn.setFont(importarBtn.getFont().deriveFont(importarBtn.getFont().getSize() + 4f));
+            importarBtn.setIconTextGap(5);
+            importarBtn.setMargin(new Insets(0, 0, 0, 12));
+            importarBtn.setBackground(new Color(0xf7f8fa));
+            importarBtn.setForeground(Color.black);
+            importarBtn.setBorderPainted(false);
+            importarBtn.setIcon(new ImageIcon(getClass().getResource("/images/import_small_black.png")));
+            importarBtn.addActionListener(e -> importarBtnActionPerformed(e));
+
+            //---- exportarBtn ----
+            exportarBtn.setText("Exportar");
+            exportarBtn.setFont(exportarBtn.getFont().deriveFont(exportarBtn.getFont().getSize() + 4f));
+            exportarBtn.setIconTextGap(5);
+            exportarBtn.setMargin(new Insets(0, 0, 0, 12));
+            exportarBtn.setBackground(new Color(0xf7f8fa));
+            exportarBtn.setForeground(Color.black);
+            exportarBtn.setBorderPainted(false);
+            exportarBtn.setIcon(new ImageIcon(getClass().getResource("/images/export_small_black.png")));
+            exportarBtn.addActionListener(e -> exportarBtnActionPerformed(e));
+
+            //---- label1 ----
+            label1.setText("Ver. 6.0.0");
+            label1.setFocusable(false);
+
+            GroupLayout searchAndButtonsWrapperLayout = new GroupLayout(searchAndButtonsWrapper);
+            searchAndButtonsWrapper.setLayout(searchAndButtonsWrapperLayout);
+            searchAndButtonsWrapperLayout.setHorizontalGroup(
+                searchAndButtonsWrapperLayout.createParallelGroup()
+                    .addGroup(searchAndButtonsWrapperLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 996, Short.MAX_VALUE)
+                        .addGroup(searchAndButtonsWrapperLayout.createParallelGroup()
+                            .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 996, Short.MAX_VALUE)
+                            .addGroup(searchAndButtonsWrapperLayout.createSequentialGroup()
+                                .addComponent(nuevoBtn)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(editarBtn)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(eliminarBtn)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(printBtn2)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(importarBtn)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(exportarBtn)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
+                                .addComponent(label1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
             );
-            buscarWrapperLayout.setVerticalGroup(
-                buscarWrapperLayout.createParallelGroup()
-                    .addGroup(buscarWrapperLayout.createSequentialGroup()
+            searchAndButtonsWrapperLayout.setVerticalGroup(
+                searchAndButtonsWrapperLayout.createParallelGroup()
+                    .addGroup(searchAndButtonsWrapperLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                        .addGroup(searchAndButtonsWrapperLayout.createParallelGroup()
+                            .addComponent(exportarBtn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nuevoBtn)
+                            .addComponent(editarBtn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(eliminarBtn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(printBtn2, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(importarBtn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buscarField, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
             );
         }
-        contentPane.add(buscarWrapper, BorderLayout.NORTH);
+        contentPane.add(searchAndButtonsWrapper, BorderLayout.NORTH);
 
         //======== tabbedPane1 ========
         {
@@ -330,7 +411,7 @@ public class UIContasoc extends JFrame {
                             sociosWrapperLayout.createParallelGroup()
                                 .addGroup(sociosWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -359,7 +440,7 @@ public class UIContasoc extends JFrame {
                             toListaEsperaWrapperLayout.createParallelGroup()
                                 .addGroup(toListaEsperaWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(toListaEsperaBtn, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                                    .addComponent(toListaEsperaBtn, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -394,7 +475,7 @@ public class UIContasoc extends JFrame {
                             toSociosWrapperLayout.createParallelGroup()
                                 .addGroup(toSociosWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(toSociosBtn, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                                    .addComponent(toSociosBtn, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -435,7 +516,7 @@ public class UIContasoc extends JFrame {
                             listaEsperaWrapperLayout.createParallelGroup()
                                 .addGroup(listaEsperaWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -462,6 +543,7 @@ public class UIContasoc extends JFrame {
                     ingresosTabla.setModel(new IngresosTablaModel());
                     ingresosTabla.getTableHeader().setReorderingAllowed(false);
                     ingresosTabla.getTableHeader().setResizingAllowed(false);
+                    ingresosTabla.setRowHeight(50);
                     ingresosTablaPanel.setViewportView(ingresosTabla);
                 }
 
@@ -478,7 +560,7 @@ public class UIContasoc extends JFrame {
                     ingresosPanelLayout.createParallelGroup()
                         .addGroup(ingresosPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(ingresosTablaPanel, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                            .addComponent(ingresosTablaPanel, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
                             .addContainerGap())
                 );
             }
@@ -501,7 +583,7 @@ public class UIContasoc extends JFrame {
                     gastosTabla.setModel(new GastosTablaModel());
                     gastosTabla.getTableHeader().setReorderingAllowed(false);
                     gastosTabla.getTableHeader().setResizingAllowed(false);
-                    sociosTabla.setRowHeight(50);
+                    gastosTabla.setRowHeight(50);
                     gastosTablaPanel.setViewportView(gastosTabla);
                 }
 
@@ -518,7 +600,7 @@ public class UIContasoc extends JFrame {
                     gastosPanelLayout.createParallelGroup()
                         .addGroup(GroupLayout.Alignment.TRAILING, gastosPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(gastosTablaPanel, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                            .addComponent(gastosTablaPanel, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
                             .addContainerGap())
                 );
             }
@@ -660,7 +742,7 @@ public class UIContasoc extends JFrame {
                     balancePanelLayout.createParallelGroup()
                         .addGroup(GroupLayout.Alignment.TRAILING, balancePanelLayout.createSequentialGroup()
                             .addGap(33, 33, 33)
-                            .addComponent(balanceCantidadesPanel, GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE))
+                            .addComponent(balanceCantidadesPanel, GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE))
                 );
             }
             tabbedPane1.addTab("BALANCE", balancePanel);
@@ -748,7 +830,7 @@ public class UIContasoc extends JFrame {
                             emailBodyWrapperLayout.createParallelGroup()
                                 .addGroup(emailBodyWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(bodyScrollPane, GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
+                                    .addComponent(bodyScrollPane, GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -808,15 +890,15 @@ public class UIContasoc extends JFrame {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
-    private JMenuBar menuBar1;
+    private JPanel searchAndButtonsWrapper;
+    protected static JTextField buscarField;
     protected static JButton nuevoBtn;
     protected static JButton editarBtn;
     protected static JButton eliminarBtn;
-    protected static JButton printBtn;
+    protected static JButton printBtn2;
     protected static JButton importarBtn;
     protected static JButton exportarBtn;
-    private JPanel buscarWrapper;
-    protected static JTextField buscarField;
+    private JLabel label1;
     protected static JTabbedPane tabbedPane1;
     protected static JPanel sociosPanel;
     protected static JPanel cardSociosPanel;

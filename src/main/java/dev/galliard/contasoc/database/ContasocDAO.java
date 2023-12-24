@@ -18,66 +18,6 @@ import java.util.List;
 public class ContasocDAO {
     private static final String DB_URL = "jdbc:sqlite:C:/Contasoc/contasoc2.db";
 
-    public static void tablesFromScript(String fichero) {
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             Statement stmt = conn.createStatement()) {
-
-            Path path = Paths.get(ContasocDAO.class.getResource("/assets/" + fichero).toURI());
-            List<String> lineas = Files.readAllLines(path, StandardCharsets.UTF_8);
-            StringBuilder script = new StringBuilder();
-
-            for (String linea : lineas) {
-                script.append(linea).append("\n");
-            }
-
-            String[] queryArr = script.toString().split(";");
-
-            for (String query : queryArr) {
-                if (!query.trim().isEmpty()) {  // Ignorar consultas vacías
-                    System.out.println(query.trim() + ";");
-                    try {
-                        stmt.execute(query.trim());
-                    } catch (SQLException e) {
-                        ErrorHandler.errorAlCrearBDD();
-                    }
-                }
-            }
-
-        } catch (IOException | SQLException | URISyntaxException e) {
-            ErrorHandler.error();
-        }
-    }
-
-    public static void triggersFromScript(String fichero) {
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             Statement stmt = conn.createStatement()) {
-
-            Path path = Paths.get(ContasocDAO.class.getResource("/assets/" + fichero).toURI());
-            List<String> lineas = Files.readAllLines(path, StandardCharsets.UTF_8);
-            StringBuilder script = new StringBuilder();
-
-            for (String linea : lineas) {
-                script.append(linea).append("\n");
-            }
-
-            String[] queryArr = script.toString().split("CREATE TRIGGER IF NOT EXISTS");
-
-            for (String query : queryArr) {
-                if (!query.trim().isEmpty()) {  // Ignorar consultas vacías
-                    System.out.println("CREATE TRIGGER IF NOT EXISTS " + query.trim());
-                    try {
-                        stmt.execute("CREATE TRIGGER IF NOT EXISTS " + query.trim());
-                    } catch (SQLException e) {
-                        ErrorHandler.errorAlCrearBDD();
-                    }
-                }
-            }
-
-        } catch (IOException | SQLException | URISyntaxException e) {
-            ErrorHandler.error();
-        }
-    }
-
     public static void createTablesAndTriggers() {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
@@ -179,18 +119,6 @@ public class ContasocDAO {
 
             stmt.execute(query);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void initBalance() {
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             Statement stmt = conn.createStatement()) {
-            String query = """
-            INSERT INTO Balance (inicialBanco, inicialCaja)
-            VALUES (0.0, 0.0);""";
-            stmt.execute(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }

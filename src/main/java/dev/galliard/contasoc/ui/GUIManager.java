@@ -32,44 +32,37 @@ public class GUIManager {
     protected static Double inicialCaja = 0.0;
     protected static void populateGUITables () {
         ContasocDAO.fillTableFrom(UIContasoc.sociosTabla, "Socios");
+        ContasocDAO.fillTableFrom(UIContasoc.ingresosTabla, "Ingresos");
+        ContasocDAO.fillTableFrom(UIContasoc.gastosTabla, "Gastos");
         ContasocDAO.fillListaEspera(UIContasoc.listaEsperaTabla);
     }
 
-    protected void importBDD(UIContasoc ui, JTable jTable, String sqlTable) {
+    protected static void importBDD() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Selecciona el archivo para importar");
         int seleccion = fileChooser.showOpenDialog(null);
 
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             File archivoSeleccionado = fileChooser.getSelectedFile();
-            File destino = new File("C:/Contasoc/contasoc.db");
+            File destino = new File("C:/Contasoc/contasoc2.db");
 
             try {
                 Files.copy(archivoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 JOptionPane.showMessageDialog(null, "Importación exitosa", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                actualizar();
+                populateGUITables();
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error al importar la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-    
-    private void actualizar() {
-        if(!(ContasocDAO.leerTabla("hortelanos").get(0).equals("0;0;nombre apellidos;00000000T;telefono;correo@mail.dom;1/1/1900;null;null;notas;HORTELANO;ACTIVO"))) {
-            ContasocDAO.fillTableFrom(UIContasoc.sociosTabla, "Socios");
-        }
-        //ContasocDAO.fillTableFrom(UIContasoc.ingresosTabla, "Ingresos");
-        //ContasocDAO.fillTableFrom(UIContasoc.gastosTabla, "Gastos");
-        //ContasocDAO.fillListaEspera(UIContasoc.listaEsperaTabla);
-    }
 
-    protected void exportBDD() {
-        File origen = new File("C:/Contasoc/contasoc.db");
+    protected static void exportBDD() {
+        File origen = new File("C:/Contasoc/contasoc2.db");
 
         if (origen.exists()) {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Selecciona la ubicación para exportar");
-            fileChooser.setSelectedFile(new File(System.getProperty("user.home") + "/Desktop/contasoc.db"));
+            fileChooser.setSelectedFile(new File(System.getProperty("user.home") + "/Desktop/contasoc2.db"));
             int seleccion = fileChooser.showSaveDialog(null);
 
             if (seleccion == JFileChooser.APPROVE_OPTION) {
@@ -128,8 +121,10 @@ public class GUIManager {
 
     protected static void printContent() {
         List<String> socios = new ArrayList<>();
-        List<Socio> aux = new ArrayList<>();
         List<String> listaEspera = new ArrayList<>();
+        List<String> ingresos = new ArrayList<>();
+        List<String> gastos = new ArrayList<>();
+
         for (Socio s : ContasocDAO.leerTabla("Socios").stream().map(Parsers::socioParser).toList()) {
             if (s.getEstado() != Estado.INACTIVO) {
                 String socio =
@@ -147,30 +142,32 @@ public class GUIManager {
                                 .replace("A_E", "A DE E")
                                 .replace("O_INVERNADERO", "O + INV") + ";" +
                         s.getEstado();
+                System.out.println(socio);
                 socios.add(Arrays.stream(socio.split(";"))
                         .map(x -> x.equals("null") ? "" : x)
                         .collect(Collectors.joining(";")));
             }
         }
-        aux = ContasocDAO.leerTabla("Socios").stream().map(Parsers::socioParser).toList().stream()
+
+        ContasocDAO.leerTabla("Socios").stream().map(Parsers::socioParser).toList().stream()
                 .filter(x->x.getTipo().equals(TipoSocio.LISTA_ESPERA))
-                .sorted(Comparator.comparing(Socio::getAlta)).toList();
+                .sorted(Comparator.comparing(Socio::getAlta)).toList()
+                    .forEach(x->listaEspera.add(
+                            x.getSocio() + ";" + x.getPersona().getNombre() + ";" + x.getPersona().getTelefono()
+                                    + ";" + x.getPersona().getCorreo() + ";" + Parsers.dateParser(x.getAlta())));
 
-        aux.forEach(x->listaEspera.add(
-                        x.getSocio() + ";" + x.getPersona().getNombre() + ";" + x.getPersona().getTelefono()
-                                + ";" + x.getPersona().getCorreo() + ";" + Parsers.dateParser(x.getAlta())));
 
-        List<String> ingresos = new ArrayList<>();
         for (Ingreso i : ContasocDAO.leerTabla("Ingresos").stream().map(Parsers::ingresoParser).toList()) {
             String[] ingArr = i.toString().split(";");
             ingresos.add(
-                    ingArr[0] + ";" + ContasocDAO.select("Socios", new Object[] {"nombre"}, "WHERE idIngreso = " + ingArr[0])
+                    ingArr[0] + ";" + ContasocDAO.select("Ingresos", new Object[] {"nombre"}, "WHERE idIngreso = " + ingArr[0])
                             + ";" + ingArr[1] + ";" + ingArr[2] + ";" + ingArr[3] + ";" + ingArr[4]);
         }
-        List<String> gastos = new ArrayList<>();
+
         for (Pago p : ContasocDAO.leerTabla("Gastos").stream().map(Parsers::pagoParser).toList()) {
             gastos.add(p.toString());
         }
+
         switch (valor) {
             case "Socios" -> {
                 PDFPrinter.printStringToPDF(socios, 12,
@@ -180,27 +177,30 @@ public class GUIManager {
                         true, 8, Contasoc.ESCRITORIO + "/socios.pdf");
                 ErrorHandler.pdfCreado();
             }
-            case "Ingresos" -> {
-                PDFPrinter.printStringToPDF(ingresos, 6, new float[]{35f, 170f, 50f, 120f, 45f, 60f},
-                        "logohuerto_pdf.png", "Listado de ingresos", true,
-                        new String[]{"Nº socio", "Nombre y apellidos", "Fecha", "Concepto", "Cantidad", "Tipo"}, false,
-                        10, Contasoc.ESCRITORIO + "/ingresos.pdf");
-                ErrorHandler.pdfCreado();
-            }
-            case "Gastos" -> {
-                PDFPrinter.printStringToPDF(gastos, 6, new float[]{55f, 90f, 150f, 45f, 75f, 90f},
-                        "logohuerto_pdf.png", "Listado de pagos", true,
-                        new String[]{"Fecha", "Proveedor", "Concepto", "Cantidad", "Nº Factura", "Tipo"}, false, 10,
-                        Contasoc.ESCRITORIO + "/gastos.pdf");
-                ErrorHandler.pdfCreado();
-            }
-            case "ListaEspera" -> {
-                PDFPrinter.printStringToPDF(listaEspera, 5, new float[]{40f, 170f, 65f, 145f, 45f},
-                        "logohuerto_pdf.png", "Lista de espera", true,
-                        new String[]{"Nº Socio", "Nombre y apellidos", "Teléfono", "Correo", "F. Alta"}, false, 10,
-                        Contasoc.ESCRITORIO + "/lista_de_espera.pdf");
-                ErrorHandler.pdfCreado();
-            }
+//            case "Ingresos" -> {
+//                PDFPrinter.printStringToPDF(ingresos, 6, new float[]{35f, 170f, 50f, 120f, 45f, 60f},
+//                        "logohuerto_pdf.png", "Listado de ingresos", true,
+//                        new String[]{"Nº socio", "Nombre y apellidos", "Fecha", "Concepto", "Cantidad", "Tipo"}, false,
+//                        10, Contasoc.ESCRITORIO + "/ingresos.pdf");
+//                ErrorHandler.pdfCreado();
+//                System.out.println("Ingresos");
+//            }
+//            case "Gastos" -> {
+//                PDFPrinter.printStringToPDF(gastos, 6, new float[]{55f, 90f, 150f, 45f, 75f, 90f},
+//                        "logohuerto_pdf.png", "Listado de pagos", true,
+//                        new String[]{"Fecha", "Proveedor", "Concepto", "Cantidad", "Nº Factura", "Tipo"}, false, 10,
+//                        Contasoc.ESCRITORIO + "/gastos.pdf");
+//                ErrorHandler.pdfCreado();
+//                System.out.println("Gastos");
+//            }
+//            case "ListaEspera" -> {
+//                PDFPrinter.printStringToPDF(listaEspera, 5, new float[]{40f, 170f, 65f, 145f, 45f},
+//                        "logohuerto_pdf.png", "Lista de espera", true,
+//                        new String[]{"Nº Socio", "Nombre y apellidos", "Teléfono", "Correo", "F. Alta"}, false, 10,
+//                        Contasoc.ESCRITORIO + "/lista_de_espera.pdf");
+//                ErrorHandler.pdfCreado();
+//                System.out.println("ListaEspera");
+//            }
         }
     }
 }
