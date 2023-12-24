@@ -11,12 +11,13 @@ new FormModel {
 			"defaultCloseOperation": 3
 			"preferredSize": new java.awt.Dimension( 900, 600 )
 			"minimumSize": new java.awt.Dimension( 900, 600 )
+			"title": "Contasoc - Huertos la Salud Bellavista"
 			auxiliary() {
 				"JavaCodeGenerator.variableModifiers": 12
 			}
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq l {space :::p, par l {comp buscarField::::996:x, seq {comp nuevoBtn:::p::p, space :::p, comp editarBtn:::p::p, space :::p, comp eliminarBtn:::p::p, space :::p, comp printBtn2:::p::p, space :::p, comp importarBtn:::p::p, space :::p, comp exportarBtn:::p::p, space ::358:x, comp label1:::p:51:p}}, space :::p}}"
-				"$verticalGroup": "par l {seq l {space :::p, par l {comp exportarBtn:::p:28:p, comp nuevoBtn::l:p::p, comp editarBtn::l:p:28:p, comp eliminarBtn::l:p:28:p, comp printBtn2::l:p:28:p, comp importarBtn::l:p:28:p, comp label1::t:::x}, space :::p, comp buscarField:::p:32:p, space :::p}}"
+				"$horizontalGroup": "par l {seq l {space :::p, par l {comp buscarField::::996:x, seq {comp nuevoBtn:::p::p, space :::p, comp editarBtn:::p::p, space :::p, comp eliminarBtn:::p::p, space :::p, comp printBtn:::p::p, space :::p, comp importarBtn:::p::p, space :::p, comp exportarBtn:::p::p, space ::358:x, comp versionLabel:::p:51:p}}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par l {comp exportarBtn:::p:28:p, comp nuevoBtn::l:p::p, comp editarBtn::l:p:28:p, comp eliminarBtn::l:p:28:p, comp printBtn::l:p:28:p, comp importarBtn::l:p:28:p, comp versionLabel::t:::x}, space :::p, comp buscarField:::p:32:p, space :::p}}"
 			} ) {
 				name: "searchAndButtonsWrapper"
 				"preferredSize": new java.awt.Dimension( 1008, 78 )
@@ -78,7 +79,7 @@ new FormModel {
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "eliminarBtnActionPerformed", true ) )
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "printBtn2"
+					name: "printBtn"
 					"text": "Imprimir"
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
 					"iconTextGap": 5
@@ -124,7 +125,7 @@ new FormModel {
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "exportarBtnActionPerformed", true ) )
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "label1"
+					name: "versionLabel"
 					"text": "Ver. 6.0.0"
 					"focusable": false
 				} )

@@ -159,10 +159,10 @@ public class UIContasoc extends JFrame {
         nuevoBtn = new JButton();
         editarBtn = new JButton();
         eliminarBtn = new JButton();
-        printBtn2 = new JButton();
+        printBtn = new JButton();
         importarBtn = new JButton();
         exportarBtn = new JButton();
-        label1 = new JLabel();
+        versionLabel = new JLabel();
         tabbedPane1 = new JTabbedPane();
         sociosPanel = new JPanel();
         cardSociosPanel = new JPanel();
@@ -225,6 +225,7 @@ public class UIContasoc extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(900, 600));
         setMinimumSize(new Dimension(900, 600));
+        setTitle("Contasoc - Huertos la Salud Bellavista");
         var contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
@@ -274,16 +275,16 @@ public class UIContasoc extends JFrame {
             eliminarBtn.setIcon(new ImageIcon(getClass().getResource("/images/bin_small_black.png")));
             eliminarBtn.addActionListener(e -> eliminarBtnActionPerformed(e));
 
-            //---- printBtn2 ----
-            printBtn2.setText("Imprimir");
-            printBtn2.setFont(printBtn2.getFont().deriveFont(printBtn2.getFont().getSize() + 4f));
-            printBtn2.setIconTextGap(5);
-            printBtn2.setMargin(new Insets(0, 0, 0, 12));
-            printBtn2.setBackground(new Color(0xf7f8fa));
-            printBtn2.setForeground(Color.black);
-            printBtn2.setBorderPainted(false);
-            printBtn2.setIcon(new ImageIcon(getClass().getResource("/images/printer.png")));
-            printBtn2.addActionListener(e -> {
+            //---- printBtn ----
+            printBtn.setText("Imprimir");
+            printBtn.setFont(printBtn.getFont().deriveFont(printBtn.getFont().getSize() + 4f));
+            printBtn.setIconTextGap(5);
+            printBtn.setMargin(new Insets(0, 0, 0, 12));
+            printBtn.setBackground(new Color(0xf7f8fa));
+            printBtn.setForeground(Color.black);
+            printBtn.setBorderPainted(false);
+            printBtn.setIcon(new ImageIcon(getClass().getResource("/images/printer.png")));
+            printBtn.addActionListener(e -> {
 			printBtnActionPerformed(e);
 			printBtnActionPerformed(e);
 		});
@@ -310,9 +311,9 @@ public class UIContasoc extends JFrame {
             exportarBtn.setIcon(new ImageIcon(getClass().getResource("/images/export_small_black.png")));
             exportarBtn.addActionListener(e -> exportarBtnActionPerformed(e));
 
-            //---- label1 ----
-            label1.setText("Ver. 6.0.0");
-            label1.setFocusable(false);
+            //---- versionLabel ----
+            versionLabel.setText("Ver. 6.0.0");
+            versionLabel.setFocusable(false);
 
             GroupLayout searchAndButtonsWrapperLayout = new GroupLayout(searchAndButtonsWrapper);
             searchAndButtonsWrapper.setLayout(searchAndButtonsWrapperLayout);
@@ -329,13 +330,13 @@ public class UIContasoc extends JFrame {
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(eliminarBtn)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(printBtn2)
+                                .addComponent(printBtn)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(importarBtn)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(exportarBtn)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
-                                .addComponent(label1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(versionLabel, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
             );
             searchAndButtonsWrapperLayout.setVerticalGroup(
@@ -347,9 +348,9 @@ public class UIContasoc extends JFrame {
                             .addComponent(nuevoBtn)
                             .addComponent(editarBtn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
                             .addComponent(eliminarBtn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(printBtn2, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(printBtn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
                             .addComponent(importarBtn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(versionLabel, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(buscarField, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
@@ -895,10 +896,10 @@ public class UIContasoc extends JFrame {
     protected static JButton nuevoBtn;
     protected static JButton editarBtn;
     protected static JButton eliminarBtn;
-    protected static JButton printBtn2;
+    protected static JButton printBtn;
     protected static JButton importarBtn;
     protected static JButton exportarBtn;
-    private JLabel label1;
+    private JLabel versionLabel;
     protected static JTabbedPane tabbedPane1;
     protected static JPanel sociosPanel;
     protected static JPanel cardSociosPanel;
