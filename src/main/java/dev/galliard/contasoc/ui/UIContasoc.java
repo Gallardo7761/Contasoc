@@ -386,11 +386,10 @@ public class UIContasoc extends JFrame {
                         balancePanelComponentShown(e);
                     }
                 });
-                balancePanel.setLayout(new BorderLayout());
 
                 //======== balanceCantidadesPanel ========
                 {
-                    balanceCantidadesPanel.setLayout(new GridLayout(4, 2, 0, 50));
+                    balanceCantidadesPanel.setLayout(new GridLayout(4, 2));
 
                     //======== tBancoIngresos ========
                     {
@@ -504,7 +503,19 @@ public class UIContasoc extends JFrame {
                     }
                     balanceCantidadesPanel.add(saldoCaja);
                 }
-                balancePanel.add(balanceCantidadesPanel, BorderLayout.CENTER);
+
+                GroupLayout balancePanelLayout = new GroupLayout(balancePanel);
+                balancePanel.setLayout(balancePanelLayout);
+                balancePanelLayout.setHorizontalGroup(
+                    balancePanelLayout.createParallelGroup()
+                        .addComponent(balanceCantidadesPanel, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 903, Short.MAX_VALUE)
+                );
+                balancePanelLayout.setVerticalGroup(
+                    balancePanelLayout.createParallelGroup()
+                        .addGroup(GroupLayout.Alignment.TRAILING, balancePanelLayout.createSequentialGroup()
+                            .addGap(33, 33, 33)
+                            .addComponent(balanceCantidadesPanel, GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE))
+                );
             }
             tabbedPane1.addTab("BALANCE", balancePanel);
 

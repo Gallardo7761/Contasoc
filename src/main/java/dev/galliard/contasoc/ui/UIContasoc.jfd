@@ -202,7 +202,10 @@ new FormModel {
 				}, new FormLayoutConstraints( null ) {
 					"title": "GASTOS"
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {comp balanceCantidadesPanel::t::903:x}"
+					"$verticalGroup": "par l {seq t {space :p:33:p, comp balanceCantidadesPanel::::570:x}}"
+				} ) {
 					name: "balancePanel"
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
@@ -211,7 +214,6 @@ new FormModel {
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
 						"columns": 2
 						"rows": 4
-						"vgap": 50
 					} ) {
 						name: "balanceCantidadesPanel"
 						auxiliary() {
@@ -389,8 +391,6 @@ new FormModel {
 								"value": "Center"
 							} )
 						} )
-					}, new FormLayoutConstraints( class java.lang.String ) {
-						"value": "Center"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "BALANCE"
