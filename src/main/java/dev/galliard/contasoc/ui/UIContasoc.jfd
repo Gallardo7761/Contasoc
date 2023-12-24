@@ -178,6 +178,7 @@ new FormModel {
 										"JavaCodeGenerator.variableModifiers": 12
 										"JavaCodeGenerator.postInitCode": "sociosTabla.setModel(new SociosTablaModel());\nsociosTabla.getTableHeader().setReorderingAllowed(false);\nsociosTabla.getTableHeader().setResizingAllowed(false);\nGUIManager.setColumnWidths(sociosTabla, \n\tnew int[] {55,55,350,100,100,320,100,100,100,400,100,100});\nsociosTabla.setRowHeight(50);"
 									}
+									addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "sociosTablaMouseClicked", true ) )
 								} )
 							} )
 						}, new FormLayoutConstraints( class java.lang.String ) {
@@ -585,7 +586,7 @@ new FormModel {
 						}
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 							"$horizontalGroup": "par l {seq l {space :::p, comp bodyScrollPane:::::x, space :::p}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp bodyScrollPane::::474:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp bodyScrollPane::::475:x, space :::p}}"
 						} ) {
 							name: "emailBodyWrapper"
 							auxiliary() {

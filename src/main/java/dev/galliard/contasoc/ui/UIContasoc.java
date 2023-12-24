@@ -5,6 +5,7 @@
 package dev.galliard.contasoc.ui;
 
 import dev.galliard.contasoc.database.ContasocDAO;
+import dev.galliard.contasoc.ui.common.ContextMenu;
 import dev.galliard.contasoc.ui.tablemodels.GastosTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.IngresosTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.ListaEsperaTablaModel;
@@ -242,6 +243,18 @@ public class UIContasoc extends JFrame {
                     bodyTextArea.setEditable(false);
                     break;
             }
+        }
+    }
+
+    private void sociosTablaMouseClicked(MouseEvent evt) {
+        int selectedRowIndex = sociosTabla.getSelectedRow();
+//        if(selectedRowIndex >= 0 && evt.getButton() == MouseEvent.BUTTON1){
+//            guiManager.setTempUser(table.getValueAt(selectedRowIndex, 0).toString());
+//            guiManager.setTempSite(table.getValueAt(selectedRowIndex, 1).toString());
+//        } else
+        if(selectedRowIndex >= 0 && evt.getButton() == MouseEvent.BUTTON3) {
+            ContextMenu cm = new ContextMenu();
+            cm.show(evt.getComponent(), evt.getX(), evt.getY());
         }
     }
 
@@ -484,10 +497,16 @@ public class UIContasoc extends JFrame {
                             sociosTabla.setShowHorizontalLines(true);
                             sociosTabla.setFillsViewportHeight(true);
                             sociosTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                            sociosTabla.addMouseListener(new MouseAdapter() {
+                                @Override
+                                public void mouseClicked(MouseEvent e) {
+                                    sociosTablaMouseClicked(e);
+                                }
+                            });
                             sociosTabla.setModel(new SociosTablaModel());
                             sociosTabla.getTableHeader().setReorderingAllowed(false);
                             sociosTabla.getTableHeader().setResizingAllowed(false);
-                            GUIManager.setColumnWidths(sociosTabla, 
+                            GUIManager.setColumnWidths(sociosTabla,
                                 new int[] {55,55,350,100,100,320,100,100,100,400,100,100});
                             sociosTabla.setRowHeight(50);
                             sociosTablaPanel.setViewportView(sociosTabla);
@@ -952,7 +971,7 @@ public class UIContasoc extends JFrame {
                             emailBodyWrapperLayout.createParallelGroup()
                                 .addGroup(emailBodyWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(bodyScrollPane, GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
+                                    .addComponent(bodyScrollPane, GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
