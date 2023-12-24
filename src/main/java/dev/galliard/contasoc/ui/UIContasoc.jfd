@@ -151,7 +151,7 @@ new FormModel {
 							"JavaCodeGenerator.variableModifiers": 12
 						}
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq t {space :::p, comp sociosTablaPanel::::859:x, space :::p}}"
+							"$horizontalGroup": "par l {seq t {space :::p, comp sociosTablaPanel::::869:x, space :::p}}"
 							"$verticalGroup": "par l {seq l {space :::p, comp sociosTablaPanel::::549:x, space :::p}}"
 						} ) {
 							name: "sociosWrapper"
@@ -184,19 +184,21 @@ new FormModel {
 							"value": "Center"
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq l {comp toListaEsperaBtn:::p::p, space :0:0:x}}"
+							"$horizontalGroup": "par l {seq l {comp toListaEsperaBtn:::p:22:p, space :0:0:x}}"
 							"$verticalGroup": "par l {seq l {space :::p, comp toListaEsperaBtn::::549:x, space :::p}}"
 						} ) {
 							name: "toListaEsperaWrapper"
 							add( new FormComponent( "javax.swing.JButton" ) {
 								name: "toListaEsperaBtn"
-								"text": ">"
-								"background": new java.awt.Color( 153, 153, 153, 255 )
-								"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 4, false )
-								"foreground": new java.awt.Color( 0, 0, 0, 255 )
+								"background": &Color3 new java.awt.Color( 247, 248, 250, 255 )
+								"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 65536, 4, false )
+								"foreground": &Color4 new java.awt.Color( 91, 97, 104, 255 )
 								"toolTipText": "Ver lista de espera"
+								"borderPainted": false
+								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
+									"JavaCodeGenerator.postInitCode": "toListaEsperaBtn.setText(\"\\u25B6\");"
 								}
 								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toListaEsperaBtnActionPerformed", true ) )
 							} )
@@ -212,19 +214,21 @@ new FormModel {
 							"JavaCodeGenerator.variableModifiers": 12
 						}
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq l {comp toSociosBtn:::p::p, space :0:0:x}}"
+							"$horizontalGroup": "par l {seq l {comp toSociosBtn:::p:22:p, space :0:0:x}}"
 							"$verticalGroup": "par l {seq l {space :::p, comp toSociosBtn::::549:x, space :::p}}"
 						} ) {
 							name: "toSociosWrapper"
 							add( new FormComponent( "javax.swing.JButton" ) {
 								name: "toSociosBtn"
-								"text": "<"
-								"background": new java.awt.Color( 153, 153, 153, 255 )
-								"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 4, false )
-								"foreground": new java.awt.Color( 0, 0, 0, 255 )
+								"background": #Color3
+								"font": #SwingDerivedFont1
+								"foreground": #Color4
 								"toolTipText": "Ver socios"
+								"borderPainted": false
+								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
+									"JavaCodeGenerator.postInitCode": "toSociosBtn.setText(\"\\u25C0\");"
 								}
 								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toSociosBtnActionPerformed", true ) )
 							} )
@@ -232,7 +236,7 @@ new FormModel {
 							"value": "West"
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::859:x, space :::p}}"
+							"$horizontalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::869:x, space :::p}}"
 							"$verticalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::549:x, space :::p}}"
 						} ) {
 							name: "listaEsperaWrapper"
@@ -356,7 +360,7 @@ new FormModel {
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "tBancoIngresosLabel"
 								"text": "TOTAL INGRESOS BANCO"
-								"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 0, 10, false )
+								"font": &SwingDerivedFont2 new com.jformdesigner.model.SwingDerivedFont( null, 0, 10, false )
 								"horizontalAlignment": 0
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
@@ -385,7 +389,7 @@ new FormModel {
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "tCajaIngresosLabel"
 								"text": "TOTAL INGRESOS CAJA"
-								"font": #SwingDerivedFont1
+								"font": #SwingDerivedFont2
 								"horizontalAlignment": 0
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
@@ -414,7 +418,7 @@ new FormModel {
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "tBancoGastosLabel"
 								"text": "TOTAL GASTOS BANCO"
-								"font": #SwingDerivedFont1
+								"font": #SwingDerivedFont2
 								"horizontalAlignment": 0
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
@@ -443,7 +447,7 @@ new FormModel {
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "tCajaGastosLabel"
 								"text": "TOTAL GASTOS CAJA"
-								"font": #SwingDerivedFont1
+								"font": #SwingDerivedFont2
 								"horizontalAlignment": 0
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
@@ -537,12 +541,12 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "destinatarioLabel"
 							"text": "Destinatario:"
-							"font": &SwingDerivedFont2 new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+							"font": &SwingDerivedFont3 new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "asuntoLabel"
 							"text": "Asunto:"
-							"font": #SwingDerivedFont2
+							"font": #SwingDerivedFont3
 						} )
 						add( new FormComponent( "javax.swing.JTextField" ) {
 							name: "asuntoField"

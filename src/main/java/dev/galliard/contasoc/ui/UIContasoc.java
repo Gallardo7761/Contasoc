@@ -405,7 +405,7 @@ public class UIContasoc extends JFrame {
                             sociosWrapperLayout.createParallelGroup()
                                 .addGroup(GroupLayout.Alignment.TRAILING, sociosWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
+                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 869, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                         sociosWrapperLayout.setVerticalGroup(
@@ -422,19 +422,21 @@ public class UIContasoc extends JFrame {
                     {
 
                         //---- toListaEsperaBtn ----
-                        toListaEsperaBtn.setText(">");
-                        toListaEsperaBtn.setBackground(new Color(0x999999));
-                        toListaEsperaBtn.setFont(toListaEsperaBtn.getFont().deriveFont(toListaEsperaBtn.getFont().getStyle() | Font.BOLD, toListaEsperaBtn.getFont().getSize() + 4f));
-                        toListaEsperaBtn.setForeground(Color.black);
+                        toListaEsperaBtn.setBackground(new Color(0xf7f8fa));
+                        toListaEsperaBtn.setFont(toListaEsperaBtn.getFont().deriveFont(toListaEsperaBtn.getFont().getStyle() & ~Font.BOLD, toListaEsperaBtn.getFont().getSize() + 4f));
+                        toListaEsperaBtn.setForeground(new Color(0x5b6168));
                         toListaEsperaBtn.setToolTipText("Ver lista de espera");
+                        toListaEsperaBtn.setBorderPainted(false);
+                        toListaEsperaBtn.setBorder(null);
                         toListaEsperaBtn.addActionListener(e -> toListaEsperaBtnActionPerformed(e));
+                        toListaEsperaBtn.setText("\u25B6");
 
                         GroupLayout toListaEsperaWrapperLayout = new GroupLayout(toListaEsperaWrapper);
                         toListaEsperaWrapper.setLayout(toListaEsperaWrapperLayout);
                         toListaEsperaWrapperLayout.setHorizontalGroup(
                             toListaEsperaWrapperLayout.createParallelGroup()
                                 .addGroup(toListaEsperaWrapperLayout.createSequentialGroup()
-                                    .addComponent(toListaEsperaBtn)
+                                    .addComponent(toListaEsperaBtn, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
                                     .addGap(0, 0, Short.MAX_VALUE))
                         );
                         toListaEsperaWrapperLayout.setVerticalGroup(
@@ -457,19 +459,21 @@ public class UIContasoc extends JFrame {
                     {
 
                         //---- toSociosBtn ----
-                        toSociosBtn.setText("<");
-                        toSociosBtn.setBackground(new Color(0x999999));
-                        toSociosBtn.setFont(toSociosBtn.getFont().deriveFont(toSociosBtn.getFont().getStyle() | Font.BOLD, toSociosBtn.getFont().getSize() + 4f));
-                        toSociosBtn.setForeground(Color.black);
+                        toSociosBtn.setBackground(new Color(0xf7f8fa));
+                        toSociosBtn.setFont(toSociosBtn.getFont().deriveFont(toSociosBtn.getFont().getStyle() & ~Font.BOLD, toSociosBtn.getFont().getSize() + 4f));
+                        toSociosBtn.setForeground(new Color(0x5b6168));
                         toSociosBtn.setToolTipText("Ver socios");
+                        toSociosBtn.setBorderPainted(false);
+                        toSociosBtn.setBorder(null);
                         toSociosBtn.addActionListener(e -> toSociosBtnActionPerformed(e));
+                        toSociosBtn.setText("\u25C0");
 
                         GroupLayout toSociosWrapperLayout = new GroupLayout(toSociosWrapper);
                         toSociosWrapper.setLayout(toSociosWrapperLayout);
                         toSociosWrapperLayout.setHorizontalGroup(
                             toSociosWrapperLayout.createParallelGroup()
                                 .addGroup(toSociosWrapperLayout.createSequentialGroup()
-                                    .addComponent(toSociosBtn)
+                                    .addComponent(toSociosBtn, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
                                     .addGap(0, 0, Short.MAX_VALUE))
                         );
                         toSociosWrapperLayout.setVerticalGroup(
@@ -510,7 +514,7 @@ public class UIContasoc extends JFrame {
                             listaEsperaWrapperLayout.createParallelGroup()
                                 .addGroup(listaEsperaWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
+                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 869, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                         listaEsperaWrapperLayout.setVerticalGroup(
