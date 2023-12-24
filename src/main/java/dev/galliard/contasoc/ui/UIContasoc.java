@@ -169,11 +169,14 @@ public class UIContasoc extends JFrame {
                         .replace("{importe}",
                                 ContasocDAO.select("Ingresos", new Object[] {"60-SUM(cantidad)"},
                                         "numeroSocio = "+ContasocDAO.select("Socios", new Object[] {"numeroSocio"}, "email = '"+destinatario+"'")));
-                new EmailSender2().sendEmail(destinatario, "AVISO IMPAGO", cuerpo);
+                asunto = "AVISO IMPAGO";
+                UIContasoc.asuntoField.setText(asunto);
+                new EmailSender2().sendEmail(destinatario, asunto, cuerpo);
                 break;
             case "AVISO ABANDONO":
                 destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
                 asunto = "AVISO ABANDONO";
+                UIContasoc.asuntoField.setText(asunto);
                 cuerpo = EmailSender2.WARNING_EMAIL
                         .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
                 new EmailSender2().sendEmail(destinatario, asunto, cuerpo);
@@ -181,6 +184,7 @@ public class UIContasoc extends JFrame {
             case "MAL COMPORTAMIENTO":
                 destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
                 asunto = "AVISO MAL COMPORTAMIENTO";
+                UIContasoc.asuntoField.setText(asunto);
                 cuerpo = EmailSender2.MISBEHAVE_EMAIL
                         .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
                 new EmailSender2().sendEmail(destinatario, asunto, cuerpo);
@@ -189,7 +193,27 @@ public class UIContasoc extends JFrame {
     }
 
     private void borradorBtnActionPerformed(ActionEvent e) {
-        // TODO add your code here
+        String body = null;
+        if(UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("NORMAL")) {
+            body = EmailSender2.NORMAL_EMAIL
+                    .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"))
+                    .replace("{mensaje}",bodyTextArea.getText());
+        } else if(UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("AVISO IMPAGO")) {
+            body = EmailSender2.UNPAID_EMAIL
+                    .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"))
+                    .replace("{fecha}", Parsers.dateParser(LocalDate.now()))
+                    .replace("{importe}",
+                            ContasocDAO.select("Ingresos", new Object[] {"60-SUM(cantidad)"},
+                                    "numeroSocio = "+ContasocDAO.select("Socios", new Object[] {"numeroSocio"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'")));
+        } else if(UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("AVISO ABANDONO")) {
+            body = EmailSender2.WARNING_EMAIL
+                    .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"));
+        } else if(UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("MAL COMPORTAMIENTO")) {
+            body = EmailSender2.MISBEHAVE_EMAIL
+                    .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"));
+        }
+        EmailSender2.crearBorrador(UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim(),
+                UIContasoc.asuntoField.getText(), body);
     }
 
     private void emailPanelFocusGained(FocusEvent e) {

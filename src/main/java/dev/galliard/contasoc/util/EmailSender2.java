@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Base64;
 
 public class EmailSender2 {
@@ -18,6 +20,27 @@ public class EmailSender2 {
     private static final int SMTP_PORT = 587;
     private static final String SMTP_PASSWORD = "hjlmtekuogfpsjzw";
     private static final String SENDER_EMAIL = "huertoslasaludbellavista@gmail.com";
+
+    public static void crearBorrador(String destinatario, String asunto, String cuerpo) {
+        EmailPopulatingBuilder emailBuilder = EmailBuilder.startingBlank()
+                .from(SENDER_EMAIL)
+                .to(destinatario)
+                .withSubject(asunto)
+                .withHTMLText(cuerpo);
+        Email borrador = emailBuilder.buildEmail();
+        guardarHTMLenEscritorio(borrador.getHTMLText(), destinatario, asunto);
+    }
+
+    private static void guardarHTMLenEscritorio(String html, String destinatario, String asunto) {
+        String fileName = "Borrador_" + destinatario + "_" + LocalDate.now() + ".html";
+        Path filePath = Paths.get(System.getProperty("user.home"), "Desktop", fileName);
+        try {
+            Files.write(filePath, html.getBytes());
+            ErrorHandler.borradorGuardado();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void sendEmail(String destinatario, String asunto, String cuerpo) {
         Email email = buildEmail(destinatario, asunto, cuerpo);
@@ -29,7 +52,7 @@ public class EmailSender2 {
 
         mailer.sendMail(email);
 
-        System.out.println("Correo enviado correctamente a " + destinatario);
+       ErrorHandler.mailEnviado();
     }
 
     private Email buildEmail(String destinatario, String asunto, String cuerpo) {
