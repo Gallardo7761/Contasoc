@@ -104,7 +104,7 @@ public class AddModifySocios extends JFrame {
         setResizable(false);
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-            "insets 12 24 12 26,gap 10 10",
+            "insets 12 24 12 26",
             // columns
             "[grow,fill]" +
             "[grow,fill]",
@@ -124,7 +124,7 @@ public class AddModifySocios extends JFrame {
 
         //---- nombreField ----
         nombreField.setFont(nombreField.getFont().deriveFont(nombreField.getFont().getSize() + 4f));
-        contentPane.add(nombreField, "cell 0 0,height 24:24:24");
+        contentPane.add(nombreField, "cell 0 0,width 200:200:200,height 24:24:24");
 
         //---- dniLabel ----
         dniLabel.setText("DNI/NIE:");
@@ -134,7 +134,7 @@ public class AddModifySocios extends JFrame {
 
         //---- dniField ----
         dniField.setFont(dniField.getFont().deriveFont(dniField.getFont().getSize() + 4f));
-        contentPane.add(dniField, "cell 0 1,height 24:24:24");
+        contentPane.add(dniField, "cell 0 1,width 200:200:200,height 24:24:24");
 
         //---- telefonoLabel ----
         telefonoLabel.setText("Tel\u00e9fono:");
@@ -144,7 +144,7 @@ public class AddModifySocios extends JFrame {
 
         //---- telefonoField ----
         telefonoField.setFont(telefonoField.getFont().deriveFont(telefonoField.getFont().getSize() + 4f));
-        contentPane.add(telefonoField, "cell 0 2,height 24:24:24");
+        contentPane.add(telefonoField, "cell 0 2,width 200:200:200,height 24:24:24");
 
         //---- emailLabel ----
         emailLabel.setText("Email:");
@@ -154,7 +154,7 @@ public class AddModifySocios extends JFrame {
 
         //---- emailField ----
         emailField.setFont(emailField.getFont().deriveFont(emailField.getFont().getSize() + 4f));
-        contentPane.add(emailField, "cell 0 3,height 24:24:24");
+        contentPane.add(emailField, "cell 0 3,width 200:200:200,height 24:24:24");
 
         //---- socioLabel ----
         socioLabel.setText("Socio:");
@@ -165,7 +165,7 @@ public class AddModifySocios extends JFrame {
         //---- socioField ----
         socioField.setFont(socioField.getFont().deriveFont(socioField.getFont().getSize() + 4f));
         socioField.setToolTipText("Si no se pone se autoincrementa");
-        contentPane.add(socioField, "cell 0 4,height 24:24:24");
+        contentPane.add(socioField, "cell 0 4,width 200:200:200,height 24:24:24");
 
         //---- huertoLabel ----
         huertoLabel.setText("Huerto:");
@@ -175,7 +175,7 @@ public class AddModifySocios extends JFrame {
 
         //---- huertoField ----
         huertoField.setFont(huertoField.getFont().deriveFont(huertoField.getFont().getSize() + 4f));
-        contentPane.add(huertoField, "cell 0 5,height 24:24:24");
+        contentPane.add(huertoField, "cell 0 5,width 200:200:200,height 24:24:24");
 
         //---- altaLabel ----
         altaLabel.setText("Alta:");
@@ -185,7 +185,7 @@ public class AddModifySocios extends JFrame {
 
         //---- altaField ----
         altaField.setFont(altaField.getFont().deriveFont(altaField.getFont().getSize() + 4f));
-        contentPane.add(altaField, "cell 1 0,height 24:24:24");
+        contentPane.add(altaField, "cell 1 0,width 200:200:200,height 24:24:24");
 
         //---- entregaLabel ----
         entregaLabel.setText("Entrega:");
@@ -195,7 +195,7 @@ public class AddModifySocios extends JFrame {
 
         //---- entregaField ----
         entregaField.setFont(entregaField.getFont().deriveFont(entregaField.getFont().getSize() + 4f));
-        contentPane.add(entregaField, "cell 1 1,height 24:24:24");
+        contentPane.add(entregaField, "cell 1 1,width 200:200:200,height 24:24:24");
 
         //---- bajaLabel ----
         bajaLabel.setText("Baja:");
@@ -205,7 +205,7 @@ public class AddModifySocios extends JFrame {
 
         //---- bajaField ----
         bajaField.setFont(bajaField.getFont().deriveFont(bajaField.getFont().getSize() + 4f));
-        contentPane.add(bajaField, "cell 1 2,height 24:24:24");
+        contentPane.add(bajaField, "cell 1 2,width 200:200:200,height 24:24:24");
 
         //---- notasLabel ----
         notasLabel.setText("Notas:");
@@ -215,7 +215,7 @@ public class AddModifySocios extends JFrame {
 
         //---- notasField ----
         notasField.setFont(notasField.getFont().deriveFont(notasField.getFont().getSize() + 4f));
-        contentPane.add(notasField, "cell 1 3,height 24:24:24");
+        contentPane.add(notasField, "cell 1 3,width 200:200:200,height 24:24:24");
 
         //---- estadoLabel ----
         estadoLabel.setText("Tipo:");
@@ -224,12 +224,13 @@ public class AddModifySocios extends JFrame {
         contentPane.add(estadoLabel, "cell 1 4,width 64:64:64,height 32:32:32");
 
         //---- tipoSocioComboBox ----
+        tipoSocioComboBox.setFont(tipoSocioComboBox.getFont().deriveFont(tipoSocioComboBox.getFont().getSize() + 4f));
         tipoSocioComboBox.setSelectedItem("HORTELANO");
         tipoSocioComboBox.addItem("HORTELANO");
         tipoSocioComboBox.addItem("HORTELANO_INVERNADERO");
         tipoSocioComboBox.addItem("COLABORADOR");
         tipoSocioComboBox.addItem("LISTA_ESPERA");
-        contentPane.add(tipoSocioComboBox, "cell 1 4,height 24:24:24");
+        contentPane.add(tipoSocioComboBox, "cell 1 4,width 200:200:200,height 24:24:24");
 
         //---- separator2 ----
         separator2.setBackground(new Color(0xf7f8fa));
@@ -242,7 +243,7 @@ public class AddModifySocios extends JFrame {
         aceptarBtn.setFocusable(false);
         aceptarBtn.addActionListener(e -> aceptarBtnActionPerformed(e));
         contentPane.add(aceptarBtn, "cell 1 5,height 24:24:24");
-        setSize(500, 350);
+        setSize(615, 350);
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }

@@ -145,6 +145,7 @@ public class AddModifyGastos extends JFrame {
         contentPane.add(tipoLabel, "cell 1 2,width 64:64:64,height 32:32:32");
 
         //---- tipoPagoComboBox ----
+        tipoPagoComboBox.setFont(tipoPagoComboBox.getFont().deriveFont(tipoPagoComboBox.getFont().getSize() + 4f));
         tipoPagoComboBox.setSelectedItem("BANCO");
         tipoPagoComboBox.addItem("BANCO");
         tipoPagoComboBox.addItem("CAJA");

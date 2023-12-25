@@ -105,6 +105,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JComboBox" ) {
 				name: "tipoPagoComboBox"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
 				auxiliary() {
 					"JavaCodeGenerator.typeParameters": "String"
 					"JavaCodeGenerator.variableModifiers": 12

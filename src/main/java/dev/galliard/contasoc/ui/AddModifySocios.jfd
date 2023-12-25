@@ -4,7 +4,7 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-			"$layoutConstraints": "insets 12 24 12 26,gap 10 10"
+			"$layoutConstraints": "insets 12 24 12 26"
 			"$columnConstraints": "[grow,fill][grow,fill]"
 			"$rowConstraints": "[grow,fill][grow,fill][grow,fill][grow,fill][grow,fill][grow,fill]"
 		} ) {
@@ -30,7 +30,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 0,height 24:24:24"
+				"value": "cell 0 0,width 200:200:200,height 24:24:24"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "dniLabel"
@@ -50,7 +50,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 1,height 24:24:24"
+				"value": "cell 0 1,width 200:200:200,height 24:24:24"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "telefonoLabel"
@@ -70,7 +70,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 2,height 24:24:24"
+				"value": "cell 0 2,width 200:200:200,height 24:24:24"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "emailLabel"
@@ -90,7 +90,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 3,height 24:24:24"
+				"value": "cell 0 3,width 200:200:200,height 24:24:24"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "socioLabel"
@@ -111,7 +111,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 4,height 24:24:24"
+				"value": "cell 0 4,width 200:200:200,height 24:24:24"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "huertoLabel"
@@ -131,7 +131,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 5,height 24:24:24"
+				"value": "cell 0 5,width 200:200:200,height 24:24:24"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "altaLabel"
@@ -151,7 +151,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 0,height 24:24:24"
+				"value": "cell 1 0,width 200:200:200,height 24:24:24"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "entregaLabel"
@@ -171,7 +171,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 1,height 24:24:24"
+				"value": "cell 1 1,width 200:200:200,height 24:24:24"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "bajaLabel"
@@ -191,7 +191,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 2,height 24:24:24"
+				"value": "cell 1 2,width 200:200:200,height 24:24:24"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "notasLabel"
@@ -211,7 +211,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 3,height 24:24:24"
+				"value": "cell 1 3,width 200:200:200,height 24:24:24"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "estadoLabel"
@@ -226,13 +226,14 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JComboBox" ) {
 				name: "tipoSocioComboBox"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
 				auxiliary() {
 					"JavaCodeGenerator.typeParameters": "String"
 					"JavaCodeGenerator.variableModifiers": 12
 					"JavaCodeGenerator.postInitCode": "tipoSocioComboBox.setSelectedItem(\"HORTELANO\");\ntipoSocioComboBox.addItem(\"HORTELANO\");\ntipoSocioComboBox.addItem(\"HORTELANO_INVERNADERO\");\ntipoSocioComboBox.addItem(\"COLABORADOR\");\ntipoSocioComboBox.addItem(\"LISTA_ESPERA\");"
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 4,height 24:24:24"
+				"value": "cell 1 4,width 200:200:200,height 24:24:24"
 			} )
 			add( new FormComponent( "javax.swing.JSeparator" ) {
 				name: "separator2"
@@ -258,7 +259,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 500, 350 )
+			"size": new java.awt.Dimension( 615, 350 )
 		} )
 	}
 }

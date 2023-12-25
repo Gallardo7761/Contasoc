@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ContasocDAO {
@@ -251,7 +252,7 @@ public class ContasocDAO {
             Connection connection = DriverManager.getConnection(DB_URL);
 
             // Consulta para seleccionar todos los registros de tu tabla
-            String query = "SELECT * FROM " + sqlTable;
+            String query = "SELECT * FROM " + sqlTable +";";
 
             // Preparar la consulta
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -260,9 +261,9 @@ public class ContasocDAO {
 
                 // Llenar la JTable con los resultados de la consulta
                 while (resultSet.next()) {
-                    Object[] row = new Object[model.getColumnCount() - 1]; // Ignorar la primera columna (ID)
-                    for (int i = 2; i <= model.getColumnCount(); i++) { // Comenzar desde la segunda columna
-                        row[i - 2] = resultSet.getObject(i);
+                    Object[] row = new Object[resultSet.getMetaData().getColumnCount() - 1]; // Ignorar la primera columna (ID)
+                    for (int i = 1; i <= row.length; i++) { // Comenzar desde la primera columna
+                        row[i - 1] = resultSet.getObject(i + 1); // Sumar 1 para saltar la primera columna (ID)
                     }
                     model.addRow(row);
                 }

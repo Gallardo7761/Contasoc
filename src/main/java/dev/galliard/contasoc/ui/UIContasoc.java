@@ -128,54 +128,94 @@ public class UIContasoc extends JFrame {
             ams.setTitle("Editar socio");
             ams.setVisible(true);
 
-            String nombre = "";
-            String dni = "";
-            String telefono = "";
-            String correo = "";
-            String socio = "";
-            String huerto = "";
-            String alta = "";
-            String entrega = "";
-            String baja = "";
-            String notas = "";
-            String tipo = "";
-
             if (selectedRow >= 0) {
-                huerto = sociosTabla.getValueAt(selectedRow, 1).toString();
-                socio = sociosTabla.getValueAt(selectedRow, 0).toString();
-                nombre = sociosTabla.getValueAt(selectedRow, 2).toString();
-                dni = sociosTabla.getValueAt(selectedRow, 3).toString();
-                telefono = sociosTabla.getValueAt(selectedRow, 4).toString();
-                correo = sociosTabla.getValueAt(selectedRow, 5).toString();
-                alta = sociosTabla.getValueAt(selectedRow, 6).toString();
-                entrega = sociosTabla.getValueAt(selectedRow, 7).toString();
-                baja = sociosTabla.getValueAt(selectedRow, 8).toString();
-                notas = sociosTabla.getValueAt(selectedRow, 9).toString();
-                tipo = sociosTabla.getValueAt(selectedRow, 10).toString();
+                AddModifySocios.nombreField.setText(
+                        sociosTabla.getValueAt(selectedRow, 2) == null ? ""
+                                : sociosTabla.getValueAt(selectedRow, 2).toString());
+                AddModifySocios.dniField.setText(
+                        sociosTabla.getValueAt(selectedRow, 3) == null ? ""
+                                : sociosTabla.getValueAt(selectedRow, 3).toString());
+                AddModifySocios.telefonoField.setText(
+                        sociosTabla.getValueAt(selectedRow, 4) == null ? ""
+                                : sociosTabla.getValueAt(selectedRow, 4).toString());
+                AddModifySocios.emailField.setText(
+                        sociosTabla.getValueAt(selectedRow, 5) == null ? ""
+                                : sociosTabla.getValueAt(selectedRow, 5).toString());
+                AddModifySocios.huertoField.setText(
+                        sociosTabla.getValueAt(selectedRow, 1) == null ? ""
+                                : sociosTabla.getValueAt(selectedRow, 1).toString());
+                AddModifySocios.altaField.setText(
+                        sociosTabla.getValueAt(selectedRow, 6) == null ? ""
+                                : sociosTabla.getValueAt(selectedRow, 6).toString());
+                AddModifySocios.entregaField.setText(
+                        sociosTabla.getValueAt(selectedRow, 7) == null ? ""
+                                : sociosTabla.getValueAt(selectedRow, 7).toString());
+                AddModifySocios.bajaField.setText(
+                        sociosTabla.getValueAt(selectedRow, 8) == null ? ""
+                                : sociosTabla.getValueAt(selectedRow, 8).toString());
+                AddModifySocios.notasField.setText(
+                        sociosTabla.getValueAt(selectedRow, 9) == null ? ""
+                                : sociosTabla.getValueAt(selectedRow, 9).toString());
+                AddModifySocios.tipoSocioComboBox.setSelectedItem(
+                        sociosTabla.getValueAt(selectedRow, 10) == null ? ""
+                                : sociosTabla.getValueAt(selectedRow, 10).toString());
+                AddModifySocios.socioField.setText(
+                        sociosTabla.getValueAt(selectedRow, 0) == null ? ""
+                                : sociosTabla.getValueAt(selectedRow, 0).toString());
             }
-
-            AddModifySocios.nombreField.setText(nombre);
-            AddModifySocios.dniField.setText(dni);
-            AddModifySocios.telefonoField.setText(telefono);
-            AddModifySocios.emailField.setText(correo);
-            AddModifySocios.huertoField.setText(huerto);
-            AddModifySocios.altaField.setText(alta);
-            AddModifySocios.entregaField.setText(entrega);
-            AddModifySocios.bajaField.setText(baja);
-            AddModifySocios.notasField.setText(notas);
-            AddModifySocios.tipoSocioComboBox.setSelectedItem(tipo);
-            AddModifySocios.socioField.setText(socio);
-
         } else if(ingresosPanel.isVisible()) {
+            int selectedRow = ingresosTabla.getSelectedRow();
             AddModifyIngresos.accion = Action.MODIFY;
             AddModifyIngresos addModifyIngresos = new AddModifyIngresos();
             addModifyIngresos.setTitle("Editar ingreso");
             addModifyIngresos.setVisible(true);
+
+            if (selectedRow >= 0) {
+                AddModifyIngresos.socioField.setText(
+                        ingresosTabla.getValueAt(selectedRow, 0) == null ? ""
+                                : ingresosTabla.getValueAt(selectedRow, 0).toString());
+                AddModifyIngresos.fechaField.setText(
+                        ingresosTabla.getValueAt(selectedRow, 1) == null ? ""
+                                : ingresosTabla.getValueAt(selectedRow, 1).toString());
+                AddModifyIngresos.cantidadField.setText(
+                        ingresosTabla.getValueAt(selectedRow, 3) == null ? ""
+                                : ingresosTabla.getValueAt(selectedRow, 3).toString());
+                AddModifyIngresos.conceptoField.setText(
+                        ingresosTabla.getValueAt(selectedRow, 2) == null ? ""
+                                : ingresosTabla.getValueAt(selectedRow, 2).toString());
+                AddModifyIngresos.tipoPagoComboBox.setSelectedItem(
+                        ingresosTabla.getValueAt(selectedRow, 4) == null ? ""
+                                : ingresosTabla.getValueAt(selectedRow, 4).toString());
+            }
         } else if(gastosPanel.isVisible()) {
+            int selectedRow = gastosTabla.getSelectedRow();
             AddModifyGastos.accion = Action.MODIFY;
             AddModifyGastos addModifyGastos = new AddModifyGastos();
             addModifyGastos.setTitle("Editar gasto");
             addModifyGastos.setVisible(true);
+
+            if (selectedRow >= 0) {
+                AddModifyGastos.fechaField.setText(
+                        gastosTabla.getValueAt(selectedRow, 0) == null ? ""
+                                : gastosTabla.getValueAt(selectedRow, 0).toString());
+                AddModifyGastos.proveedorField.setText(
+                        gastosTabla.getValueAt(selectedRow, 1) == null ? ""
+                                : gastosTabla.getValueAt(selectedRow, 1).toString());
+                AddModifyGastos.conceptoField.setText(
+                        gastosTabla.getValueAt(selectedRow, 2) == null ? ""
+                                : gastosTabla.getValueAt(selectedRow, 2).toString());
+                AddModifyGastos.cantidadField.setText(
+                        gastosTabla.getValueAt(selectedRow, 3) == null ? ""
+                                : gastosTabla.getValueAt(selectedRow, 3).toString());
+                AddModifyGastos.facturaField.setText(
+                        gastosTabla.getValueAt(selectedRow, 4) == null ? ""
+                                : gastosTabla.getValueAt(selectedRow, 4).toString());
+                AddModifyGastos.tipoPagoComboBox.setSelectedItem(
+                        gastosTabla.getValueAt(selectedRow, 5) == null ? ""
+                                : gastosTabla.getValueAt(selectedRow, 5).toString());
+
+
+            }
         }
     }
 

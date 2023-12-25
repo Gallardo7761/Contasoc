@@ -48,7 +48,8 @@ public class AddModifyIngresos extends JFrame {
                 upd.add((String) tipoPagoComboBox.getSelectedItem());
                 ContasocDAO.update("Ingresos", new String[] {"numeroSocio", "fecha", "concepto", "cantidad", "tipo"},
                         upd.toArray(String[]::new),
-                        "numeroSocio = '" + socioField.getText() + "'");
+                        "numeroSocio = '" + socioField.getText() + "'" +
+                        " AND concepto = '" + conceptoField.getText() + "'");
                 GUIManager.populateGUITables();
                 break;
         }
@@ -131,6 +132,7 @@ public class AddModifyIngresos extends JFrame {
         contentPane.add(tipoLabel, "cell 1 1,width 64:64:64,height 32:32:32");
 
         //---- tipoPagoComboBox ----
+        tipoPagoComboBox.setFont(tipoPagoComboBox.getFont().deriveFont(tipoPagoComboBox.getFont().getSize() + 4f));
         tipoPagoComboBox.setSelectedItem("BANCO");
         tipoPagoComboBox.addItem("BANCO");
         tipoPagoComboBox.addItem("CAJA");

@@ -125,51 +125,32 @@ public class GUIManager {
         List<String> ingresos = new ArrayList<>();
         List<String> gastos = new ArrayList<>();
 
-        for (Socio s : ContasocDAO.leerTabla("Socios").stream().map(Parsers::socioParser).toList()) {
-            if (s.getEstado() != Estado.INACTIVO) {
-                String socio =
-                        s.getSocio() + ";" +
-                        s.getHuerto() + ";" +
-                        s.getPersona().getNombre() + ";" +
-                        s.getPersona().getDni() + ";" +
-                        s.getPersona().getTelefono() + ";" +
-                        s.getPersona().getCorreo() + ";" +
-                        Parsers.dateParser(s.getAlta()) + ";" +
-                        Parsers.dateParser(s.getEntrega()) + ";" +
-                        Parsers.dateParser(s.getBaja()) + ";" +
-                        s.getNotas() + ";" +
-                        s.getTipo().toString()
-                                .replace("A_E", "A DE E")
-                                .replace("O_INVERNADERO", "O + INV") + ";" +
-                        s.getEstado();
-                System.out.println(socio);
-                socios.add(Arrays.stream(socio.split(";"))
-                        .map(x -> x.equals("null") ? "" : x)
-                        .collect(Collectors.joining(";")));
-            }
-        }
-
-        ContasocDAO.leerTabla("Socios").stream().map(Parsers::socioParser).toList().stream()
-                .filter(x->x.getTipo().equals(TipoSocio.LISTA_ESPERA))
-                .sorted(Comparator.comparing(Socio::getAlta)).toList()
-                    .forEach(x->listaEspera.add(
-                            x.getSocio() + ";" + x.getPersona().getNombre() + ";" + x.getPersona().getTelefono()
-                                    + ";" + x.getPersona().getCorreo() + ";" + Parsers.dateParser(x.getAlta())));
-
-
-        for (Ingreso i : ContasocDAO.leerTabla("Ingresos").stream().map(Parsers::ingresoParser).toList()) {
-            String[] ingArr = i.toString().split(";");
-            ingresos.add(
-                    ingArr[0] + ";" + ContasocDAO.select("Ingresos", new Object[] {"nombre"}, "WHERE idIngreso = " + ingArr[0])
-                            + ";" + ingArr[1] + ";" + ingArr[2] + ";" + ingArr[3] + ";" + ingArr[4]);
-        }
-
-        for (Pago p : ContasocDAO.leerTabla("Gastos").stream().map(Parsers::pagoParser).toList()) {
-            gastos.add(p.toString());
-        }
-
         switch (valor) {
             case "Socios" -> {
+                for (Socio s : ContasocDAO.leerTabla("Socios").stream().map(Parsers::socioParser).toList()) {
+                    if (s.getEstado() != Estado.INACTIVO) {
+                        String socio =
+                                s.getSocio() + ";" +
+                                        s.getHuerto() + ";" +
+                                        s.getPersona().getNombre() + ";" +
+                                        s.getPersona().getDni() + ";" +
+                                        s.getPersona().getTelefono() + ";" +
+                                        s.getPersona().getCorreo() + ";" +
+                                        Parsers.dateParser(s.getAlta()) + ";" +
+                                        Parsers.dateParser(s.getEntrega()) + ";" +
+                                        Parsers.dateParser(s.getBaja()) + ";" +
+                                        s.getNotas() + ";" +
+                                        s.getTipo().toString()
+                                                .replace("A_E", "A DE E")
+                                                .replace("O_INVERNADERO", "O + INV") + ";" +
+                                        s.getEstado();
+                        System.out.println(socio);
+                        socios.add(Arrays.stream(socio.split(";"))
+                                .map(x -> x.equals("null") ? "" : x)
+                                .collect(Collectors.joining(";")));
+                    }
+                }
+
                 PDFPrinter.printStringToPDF(socios, 12,
                         new float[]{30f, 25f, 200f, 80f, 70f, 170f, 55f, 55f, 55f, 120f, 110f, 50f},
                         "logohuerto_pdf.png", "Listado de socios", true, new String[]{"S", "H", "Nombre", "DNI",
@@ -177,30 +158,48 @@ public class GUIManager {
                         true, 8, Contasoc.ESCRITORIO + "/socios.pdf");
                 ErrorHandler.pdfCreado();
             }
-//            case "Ingresos" -> {
-//                PDFPrinter.printStringToPDF(ingresos, 6, new float[]{35f, 170f, 50f, 120f, 45f, 60f},
-//                        "logohuerto_pdf.png", "Listado de ingresos", true,
-//                        new String[]{"Nº socio", "Nombre y apellidos", "Fecha", "Concepto", "Cantidad", "Tipo"}, false,
-//                        10, Contasoc.ESCRITORIO + "/ingresos.pdf");
-//                ErrorHandler.pdfCreado();
-//                System.out.println("Ingresos");
-//            }
-//            case "Gastos" -> {
-//                PDFPrinter.printStringToPDF(gastos, 6, new float[]{55f, 90f, 150f, 45f, 75f, 90f},
-//                        "logohuerto_pdf.png", "Listado de pagos", true,
-//                        new String[]{"Fecha", "Proveedor", "Concepto", "Cantidad", "Nº Factura", "Tipo"}, false, 10,
-//                        Contasoc.ESCRITORIO + "/gastos.pdf");
-//                ErrorHandler.pdfCreado();
-//                System.out.println("Gastos");
-//            }
-//            case "ListaEspera" -> {
-//                PDFPrinter.printStringToPDF(listaEspera, 5, new float[]{40f, 170f, 65f, 145f, 45f},
-//                        "logohuerto_pdf.png", "Lista de espera", true,
-//                        new String[]{"Nº Socio", "Nombre y apellidos", "Teléfono", "Correo", "F. Alta"}, false, 10,
-//                        Contasoc.ESCRITORIO + "/lista_de_espera.pdf");
-//                ErrorHandler.pdfCreado();
-//                System.out.println("ListaEspera");
-//            }
+            case "Ingresos" -> {
+                for (Ingreso i : ContasocDAO.leerTabla("Ingresos").stream().map(Parsers::ingresoParser).toList()) {
+                    String[] ingArr = i.toString().split(";");
+                    ingresos.add(
+                            ingArr[0] + ";" + ContasocDAO.select("Socios", new Object[] {"nombre"}, "numeroSocio = " + ingArr[0])
+                                    + ";" + ingArr[1] + ";" + ingArr[2] + ";" + ingArr[3] + ";" + ingArr[4]);
+                }
+
+                PDFPrinter.printStringToPDF(ingresos, 6, new float[]{35f, 170f, 50f, 120f, 45f, 60f},
+                        "logohuerto_pdf.png", "Listado de ingresos", true,
+                        new String[]{"Nº socio", "Nombre y apellidos", "Fecha", "Concepto", "Cantidad", "Tipo"}, false,
+                        10, Contasoc.ESCRITORIO + "/ingresos.pdf");
+                ErrorHandler.pdfCreado();
+                System.out.println("Ingresos");
+            }
+            case "Gastos" -> {
+                for (Pago p : ContasocDAO.leerTabla("Gastos").stream().map(Parsers::pagoParser).toList()) {
+                    gastos.add(p.toString());
+                }
+
+                PDFPrinter.printStringToPDF(gastos, 6, new float[]{55f, 90f, 150f, 45f, 75f, 90f},
+                        "logohuerto_pdf.png", "Listado de pagos", true,
+                        new String[]{"Fecha", "Proveedor", "Concepto", "Cantidad", "Nº Factura", "Tipo"}, false, 10,
+                        Contasoc.ESCRITORIO + "/gastos.pdf");
+                ErrorHandler.pdfCreado();
+                System.out.println("Gastos");
+            }
+            case "ListaEspera" -> {
+                ContasocDAO.leerTabla("Socios").stream().map(Parsers::socioParser).toList().stream()
+                        .filter(x->x.getTipo().equals(TipoSocio.LISTA_ESPERA))
+                        .sorted(Comparator.comparing(Socio::getAlta)).toList()
+                        .forEach(x->listaEspera.add(
+                                x.getSocio() + ";" + x.getPersona().getNombre() + ";" + x.getPersona().getTelefono()
+                                        + ";" + x.getPersona().getCorreo() + ";" + Parsers.dateParser(x.getAlta())));
+
+                PDFPrinter.printStringToPDF(listaEspera, 5, new float[]{40f, 170f, 65f, 145f, 45f},
+                        "logohuerto_pdf.png", "Lista de espera", true,
+                        new String[]{"Nº Socio", "Nombre y apellidos", "Teléfono", "Correo", "F. Alta"}, false, 10,
+                        Contasoc.ESCRITORIO + "/lista_de_espera.pdf");
+                ErrorHandler.pdfCreado();
+                System.out.println("ListaEspera");
+            }
         }
     }
 }
