@@ -571,7 +571,7 @@ public class UIContasoc extends JFrame {
                             .addComponent(printBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(importarBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(versionLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
             );
         }
         contentPane.add(searchAndButtonsWrapper, BorderLayout.NORTH);
@@ -637,7 +637,7 @@ public class UIContasoc extends JFrame {
                             sociosWrapperLayout.createParallelGroup()
                                 .addGroup(sociosWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -668,7 +668,7 @@ public class UIContasoc extends JFrame {
                             toListaEsperaWrapperLayout.createParallelGroup()
                                 .addGroup(toListaEsperaWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(toListaEsperaBtn, GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                                    .addComponent(toListaEsperaBtn, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }

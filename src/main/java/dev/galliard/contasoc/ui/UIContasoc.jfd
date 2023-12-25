@@ -17,7 +17,7 @@ new FormModel {
 			}
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq {space :::p, comp nuevoBtn:::p::p, space :::p, comp editarBtn:::p::p, space :::p, comp eliminarBtn:::p::p, space :::p, comp printBtn:::p::p, space :::p, comp importarBtn:::p::p, space :::p, comp exportarBtn:::p::p, space ::358:x, comp versionLabel:::p:51:p, space :::p}}"
-				"$verticalGroup": "par l {seq l {space :::p, par l:::p {comp exportarBtn:::::x, comp nuevoBtn::l:::x, comp editarBtn::l:::x, comp eliminarBtn::l:::x, comp printBtn::l:::x, comp importarBtn::l:::x, comp versionLabel::l:::x}, space :::x}}"
+				"$verticalGroup": "par l {seq l {space :::p, par l:::p {comp exportarBtn:::::x, comp nuevoBtn::l:::x, comp editarBtn::l:::x, comp eliminarBtn::l:::x, comp printBtn::l:::x, comp importarBtn::l:::x, comp versionLabel::l:::x}, space :::p}}"
 			} ) {
 				name: "searchAndButtonsWrapper"
 				"preferredSize": new java.awt.Dimension( 1008, 40 )
@@ -141,7 +141,7 @@ new FormModel {
 						}
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 							"$horizontalGroup": "par l {seq t {space :::p, comp sociosTablaPanel::::869:x, space :::p}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp sociosTablaPanel::::542:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp sociosTablaPanel::::549:x, space :::p}}"
 						} ) {
 							name: "sociosWrapper"
 							auxiliary() {
@@ -176,7 +176,7 @@ new FormModel {
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 							"$horizontalGroup": "par l {seq l {comp toListaEsperaBtn:::p:22:p, space :0:0:x}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp toListaEsperaBtn::::542:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp toListaEsperaBtn::::549:x, space :::p}}"
 						} ) {
 							name: "toListaEsperaWrapper"
 							add( new FormComponent( "javax.swing.JButton" ) {
