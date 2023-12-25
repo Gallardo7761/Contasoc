@@ -211,27 +211,50 @@ public class ContasocDAO {
             System.out.println(query.toString());
             stmt.execute(query.toString());
         } catch (SQLException e) {
-            ErrorHandler.errorAlEscribirBDD(tabla);
+            ErrorHandler.error(e.toString());
         }
     }
 
-    public static void update(String tabla, String[] atributos, String[] nuevosValores, String condicion) {
+    public static void update(String tabla, String[] atributos, String[] nuevosValores, String[] condiciones) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
             StringBuilder query = new StringBuilder("UPDATE " + tabla + " SET ");
+
+            // Construir la parte SET de la consulta
             for (int i = 0; i < atributos.length; i++) {
                 query.append(atributos[i]).append(" = '").append(nuevosValores[i]).append("', ");
             }
             query = new StringBuilder(query.substring(0, query.length() - 2));
 
-            // Añadir la condición
-            query.append(" WHERE ").append(condicion).append(";");
+            // Construir la parte WHERE de la consulta
+            if (condiciones.length > 0) {
+                query.append(" WHERE ");
+
+                // Procesar cada condición
+                for (int i = 0; i < condiciones.length; i++) {
+                    String unaCondicion = condiciones[i].trim();
+
+                    // Eliminar las comillas simples si la condición contiene texto o caracteres especiales
+                    if (unaCondicion.split("=")[1].trim().matches(".*[a-zA-Z].*") ||
+                            unaCondicion.split("=")[1].trim().contains("-")) {
+                        condiciones[i] = unaCondicion.split("=")[0].trim() + " = " +
+                                "'" + unaCondicion.split("=")[1].trim() + "'";
+                    }
+                }
+
+                // Unir las condiciones nuevamente con AND
+                query.append(String.join(" AND ", condiciones));
+            }
+
+            query.append(";");
+            System.out.println(query.toString());
 
             stmt.execute(query.toString());
         } catch (SQLException e) {
-            ErrorHandler.errorAlEscribirBDD(tabla);
+            ErrorHandler.error(e.toString());
         }
     }
+
 
     public static void delete(String tabla, String[] condiciones) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -256,7 +279,7 @@ public class ContasocDAO {
             System.out.println(query);
             stmt.execute(query);
         } catch (SQLException e) {
-            ErrorHandler.errorAlEscribirBDD(tabla);
+            ErrorHandler.error(e.toString());
         }
     }
 
@@ -330,7 +353,7 @@ public class ContasocDAO {
                 }
             }
         } catch (SQLException e) {
-            ErrorHandler.errorAlLeerBDD("Socios");
+            ErrorHandler.error(e.toString());
         }
     }
 }

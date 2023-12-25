@@ -20,6 +20,10 @@ import net.miginfocom.swing.*;
  */
 public class AddModifyIngresos extends JFrame {
     protected static Action accion;
+    protected static String tempFecha;
+    protected static String tempSocio;
+    protected static String tempConcepto;
+
     public AddModifyIngresos() {
         initComponents();
     }
@@ -48,8 +52,11 @@ public class AddModifyIngresos extends JFrame {
                 upd.add((String) tipoPagoComboBox.getSelectedItem());
                 ContasocDAO.update("Ingresos", new String[] {"numeroSocio", "fecha", "concepto", "cantidad", "tipo"},
                         upd.toArray(String[]::new),
-                        "numeroSocio = '" + socioField.getText() + "'" +
-                        " AND concepto = '" + conceptoField.getText() + "'");
+                        new String[] {
+                                "numeroSocio =" + tempSocio,
+                                "fecha =" + tempFecha,
+                                "concepto =" + tempConcepto
+                        });
                 GUIManager.populateGUITables();
                 break;
         }

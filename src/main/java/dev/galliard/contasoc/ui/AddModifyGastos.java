@@ -18,6 +18,8 @@ import net.miginfocom.swing.*;
  */
 public class AddModifyGastos extends JFrame {
     protected static Action accion;
+    protected static String tempFecha;
+    protected static String tempProveedor;
     public AddModifyGastos() {
         initComponents();
     }
@@ -46,10 +48,12 @@ public class AddModifyGastos extends JFrame {
                 upd.add(cantidadField.getText());
                 upd.add(facturaField.getText());
                 upd.add((String) tipoPagoComboBox.getSelectedItem());
-                ContasocDAO.update("Ingresos", new String[] {"fecha", "proveedor", "concepto", "cantidad", "factura", "tipo"},
+                ContasocDAO.update("Gastos", new String[] {"fecha", "proveedor", "concepto", "cantidad", "factura", "tipo"},
                         upd.toArray(String[]::new),
-                        "fecha = '" + fechaField.getText() + "'" +
-                        "AND proveedor = '" + proveedorField.getText() + "'");
+                        new String[] {
+                                "fecha =" + tempFecha,
+                                "proveedor =" + tempProveedor
+                        });
                 GUIManager.populateGUITables();
                 break;
         }

@@ -23,6 +23,7 @@ import net.miginfocom.swing.*;
  */
 public class AddModifySocios extends JFrame {
     protected static Action accion;
+    protected static String tempNumeroSocio;
     public AddModifySocios() {
         initComponents();
     }
@@ -65,7 +66,8 @@ public class AddModifySocios extends JFrame {
                 ContasocDAO.update("Socios", new String[] {"nombre", "dni", "telefono", "email", "numeroSocio",
                                 "numeroHuerto", "fechaDeAlta", "fechaDeEntrega", "fechaDeBaja", "notas", "tipo"},
                         upd.toArray(String[]::new),
-                        "numeroSocio = '" + socioField.getText() + "'");
+                        new String[] {"numeroSocio =" + tempNumeroSocio
+                        });
                 GUIManager.populateGUITables();
                 break;
         }

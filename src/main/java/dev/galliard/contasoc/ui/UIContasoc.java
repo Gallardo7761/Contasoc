@@ -162,6 +162,8 @@ public class UIContasoc extends JFrame {
                 AddModifySocios.socioField.setText(
                         sociosTabla.getValueAt(selectedRow, 0) == null ? ""
                                 : sociosTabla.getValueAt(selectedRow, 0).toString());
+
+                AddModifySocios.tempNumeroSocio = String.valueOf(Integer.parseInt(AddModifySocios.socioField.getText()));
             }
         } else if(ingresosPanel.isVisible()) {
             int selectedRow = ingresosTabla.getSelectedRow();
@@ -186,6 +188,10 @@ public class UIContasoc extends JFrame {
                 AddModifyIngresos.tipoPagoComboBox.setSelectedItem(
                         ingresosTabla.getValueAt(selectedRow, 4) == null ? ""
                                 : ingresosTabla.getValueAt(selectedRow, 4).toString());
+
+                AddModifyIngresos.tempSocio = String.valueOf(Integer.parseInt(AddModifyIngresos.socioField.getText()));
+                AddModifyIngresos.tempFecha = AddModifyIngresos.fechaField.getText();
+                AddModifyIngresos.tempConcepto = AddModifyIngresos.conceptoField.getText();
             }
         } else if(gastosPanel.isVisible()) {
             int selectedRow = gastosTabla.getSelectedRow();
@@ -214,7 +220,8 @@ public class UIContasoc extends JFrame {
                         gastosTabla.getValueAt(selectedRow, 5) == null ? ""
                                 : gastosTabla.getValueAt(selectedRow, 5).toString());
 
-
+                AddModifyGastos.tempFecha = AddModifyGastos.fechaField.getText();
+                AddModifyGastos.tempProveedor = AddModifyGastos.proveedorField.getText();
             }
         }
     }
