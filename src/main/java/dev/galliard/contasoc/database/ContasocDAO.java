@@ -233,15 +233,33 @@ public class ContasocDAO {
         }
     }
 
-    public static void delete(String tabla, String condicion) {
+    public static void delete(String tabla, String[] condiciones) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
+
+            // Procesar cada condición
+            for (int i = 0; i < condiciones.length; i++) {
+                String unaCondicion = condiciones[i].trim();
+
+                // Eliminar las comillas simples si la condición contiene texto o caracteres especiales
+                if (unaCondicion.split("=")[1].trim().matches(".*[a-zA-Z].*") ||
+                        unaCondicion.split("=")[1].trim().contains("-")) {
+                    condiciones[i] = unaCondicion.split("=")[0].trim() + " = " +
+                            "'" + unaCondicion.split("=")[1].trim() + "'";
+                }
+            }
+
+            // Unir las condiciones nuevamente con AND
+            String condicion = String.join(" AND ", condiciones);
+
             String query = "DELETE FROM " + tabla + " WHERE " + condicion + ";";
+            System.out.println(query);
             stmt.execute(query);
         } catch (SQLException e) {
             ErrorHandler.errorAlEscribirBDD(tabla);
         }
     }
+
 
     public static void fillTableFrom(JTable jTable, String sqlTable) {
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();

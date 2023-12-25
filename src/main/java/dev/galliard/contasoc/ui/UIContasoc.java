@@ -225,7 +225,9 @@ public class UIContasoc extends JFrame {
         if(sociosPanel.isVisible()) {
             switch (sel) {
                 case JOptionPane.YES_OPTION:
-                    ContasocDAO.delete("Socios", "numeroSocio = " + UIContasoc.sociosTabla.getValueAt(UIContasoc.sociosTabla.getSelectedRow(), 0));
+                    ContasocDAO.delete("Socios", new String[] {
+                            "numeroSocio = " + UIContasoc.sociosTabla.getValueAt(UIContasoc.sociosTabla.getSelectedRow(), 0)
+                    });
                     GUIManager.populateGUITables();
                     break;
                 case JOptionPane.NO_OPTION:
@@ -234,9 +236,11 @@ public class UIContasoc extends JFrame {
         } else if(ingresosPanel.isVisible()) {
             switch (sel) {
                 case JOptionPane.YES_OPTION:
-                    ContasocDAO.delete("Ingresos", "numeroSocio = " + UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 0) +
-                            "AND fecha = " +
-                            UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 1));
+                    ContasocDAO.delete("Ingresos", new String[] {
+                            "numeroSocio = " + UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 0),
+                            "fecha = " + UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 1),
+                            "concepto = " + UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 2),
+                    });
                     GUIManager.populateGUITables();
                     break;
                 case JOptionPane.NO_OPTION:
@@ -245,10 +249,10 @@ public class UIContasoc extends JFrame {
         } else if(gastosPanel.isVisible()) {
             switch (sel) {
                 case JOptionPane.YES_OPTION:
-                    ContasocDAO.delete("Gastos", "fecha = " +
-                            UIContasoc.gastosTabla.getValueAt(UIContasoc.gastosTabla.getSelectedRow(), 0) +
-                            "AND proveedor = " +
-                            UIContasoc.gastosTabla.getValueAt(UIContasoc.gastosTabla.getSelectedRow(), 1));
+                    ContasocDAO.delete("Gastos", new String[] {
+                            "fecha = " + UIContasoc.gastosTabla.getValueAt(UIContasoc.gastosTabla.getSelectedRow(), 0),
+                            "proveedor = " + UIContasoc.gastosTabla.getValueAt(UIContasoc.gastosTabla.getSelectedRow(), 1)
+                    });
                     GUIManager.populateGUITables();
                     break;
                 case JOptionPane.NO_OPTION:
