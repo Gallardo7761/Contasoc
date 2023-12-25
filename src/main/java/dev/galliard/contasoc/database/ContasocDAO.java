@@ -194,17 +194,27 @@ public class ContasocDAO {
             query = new StringBuilder(query.substring(0, query.length() - 2));
             query.append(") VALUES (");
             for (String valor : valores) {
-                query.append("'").append(valor).append("', ");
+                if(valor.isEmpty()) {
+                    query.append("NULL, ");
+                } else {
+                    if (valor.matches(".*[a-zA-Z].*") || valor.contains("-")) {
+                        query.append("'").append(valor).append("', ");
+                    } else {
+                        query.append(valor).append(", ");
+                    }
+                }
+
             }
             query = new StringBuilder(query.substring(0, query.length() - 2));
             query.append(");");
+            System.out.println(query.toString());
             stmt.execute(query.toString());
         } catch (SQLException e) {
             ErrorHandler.errorAlEscribirBDD(tabla);
         }
     }
 
-    public static void update(String tabla, String[] atributos, String[] nuevosValores) {
+    public static void update(String tabla, String[] atributos, String[] nuevosValores, String condicion) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
             StringBuilder query = new StringBuilder("UPDATE " + tabla + " SET ");
@@ -212,7 +222,10 @@ public class ContasocDAO {
                 query.append(atributos[i]).append(" = '").append(nuevosValores[i]).append("', ");
             }
             query = new StringBuilder(query.substring(0, query.length() - 2));
-            query.append(";");
+
+            // Añadir la condición
+            query.append(" WHERE ").append(condicion).append(";");
+
             stmt.execute(query.toString());
         } catch (SQLException e) {
             ErrorHandler.errorAlEscribirBDD(tabla);

@@ -4,24 +4,25 @@
 
 package dev.galliard.contasoc.ui;
 
+import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.database.ContasocDAO;
-import dev.galliard.contasoc.ui.common.ContextMenu;
 import dev.galliard.contasoc.ui.tablemodels.GastosTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.IngresosTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.ListaEsperaTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.SociosTablaModel;
 import dev.galliard.contasoc.util.EmailSender2;
-import dev.galliard.contasoc.util.ErrorHandler;
 import dev.galliard.contasoc.util.Parsers;
+import dev.galliard.contasoc.util.UpperCaseFilter;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+import javax.swing.text.AbstractDocument;
 
 /**
  * @author jomaa
@@ -101,45 +102,119 @@ public class UIContasoc extends JFrame {
     }
 
     private void nuevoBtnActionPerformed(ActionEvent e) {
-        /*for(Component component : tabbedPane1.getComponents()) {
-            if(component.isVisible()) {
-                if(component.equals(sociosPanel)) {
-                    GUIManager.nuevoSocio();
-                } else if(component.equals(ingresosPanel)) {
-                    GUIManager.nuevoIngreso();
-                } else if(component.equals(gastosPanel)) {
-                    GUIManager.nuevoGasto();
-                }
-            }
-        }*/
+        if(sociosPanel.isVisible()) {
+            AddModifySocios.accion = Action.ADD;
+            AddModifySocios addModifySocios = new AddModifySocios();
+            addModifySocios.setTitle("Añadir nuevo socio");
+            addModifySocios.setVisible(true);
+        } else if(ingresosPanel.isVisible()) {
+            AddModifyIngresos.accion = Action.ADD;
+            AddModifyIngresos addModifyIngresos = new AddModifyIngresos();
+            addModifyIngresos.setTitle("Añadir nuevo ingreso");
+            addModifyIngresos.setVisible(true);
+        } else if(gastosPanel.isVisible()) {
+            AddModifyGastos.accion = Action.ADD;
+            AddModifyGastos addModifyGastos = new AddModifyGastos();
+            addModifyGastos.setTitle("Añadir nuevo gasto");
+            addModifyGastos.setVisible(true);
+        }
     }
 
     private void editarBtnActionPerformed(ActionEvent e) {
-        /*for(Component component : tabbedPane1.getComponents()) {
-            if(component.isVisible()) {
-                if(component.equals(sociosPanel)) {
-                    GUIManager.editarSocio();
-                } else if(component.equals(ingresosPanel)) {
-                    GUIManager.editarIngreso();
-                } else if(component.equals(gastosPanel)) {
-                    GUIManager.editarGasto();
-                }
+        if(sociosPanel.isVisible()) {
+            int selectedRow = sociosTabla.getSelectedRow();
+            AddModifySocios.accion = Action.MODIFY;
+            AddModifySocios ams = new AddModifySocios();
+            ams.setTitle("Editar socio");
+            ams.setVisible(true);
+
+            String nombre = "";
+            String dni = "";
+            String telefono = "";
+            String correo = "";
+            String socio = "";
+            String huerto = "";
+            String alta = "";
+            String entrega = "";
+            String baja = "";
+            String notas = "";
+            String tipo = "";
+
+            if (selectedRow >= 0) {
+                huerto = sociosTabla.getValueAt(selectedRow, 1).toString();
+                socio = sociosTabla.getValueAt(selectedRow, 0).toString();
+                nombre = sociosTabla.getValueAt(selectedRow, 2).toString();
+                dni = sociosTabla.getValueAt(selectedRow, 3).toString();
+                telefono = sociosTabla.getValueAt(selectedRow, 4).toString();
+                correo = sociosTabla.getValueAt(selectedRow, 5).toString();
+                alta = sociosTabla.getValueAt(selectedRow, 6).toString();
+                entrega = sociosTabla.getValueAt(selectedRow, 7).toString();
+                baja = sociosTabla.getValueAt(selectedRow, 8).toString();
+                notas = sociosTabla.getValueAt(selectedRow, 9).toString();
+                tipo = sociosTabla.getValueAt(selectedRow, 10).toString();
             }
-        }*/
+
+            AddModifySocios.nombreField.setText(nombre);
+            AddModifySocios.dniField.setText(dni);
+            AddModifySocios.telefonoField.setText(telefono);
+            AddModifySocios.emailField.setText(correo);
+            AddModifySocios.huertoField.setText(huerto);
+            AddModifySocios.altaField.setText(alta);
+            AddModifySocios.entregaField.setText(entrega);
+            AddModifySocios.bajaField.setText(baja);
+            AddModifySocios.notasField.setText(notas);
+            AddModifySocios.tipoSocioComboBox.setSelectedItem(tipo);
+            AddModifySocios.socioField.setText(socio);
+
+        } else if(ingresosPanel.isVisible()) {
+            AddModifyIngresos.accion = Action.MODIFY;
+            AddModifyIngresos addModifyIngresos = new AddModifyIngresos();
+            addModifyIngresos.setTitle("Editar ingreso");
+            addModifyIngresos.setVisible(true);
+        } else if(gastosPanel.isVisible()) {
+            AddModifyGastos.accion = Action.MODIFY;
+            AddModifyGastos addModifyGastos = new AddModifyGastos();
+            addModifyGastos.setTitle("Editar gasto");
+            addModifyGastos.setVisible(true);
+        }
     }
 
     private void eliminarBtnActionPerformed(ActionEvent e) {
-        /*for(Component component : tabbedPane1.getComponents()) {
-            if(component.isVisible()) {
-                if(component.equals(sociosPanel)) {
-                    GUIManager.eliminarSocio();
-                } else if(component.equals(ingresosPanel)) {
-                    GUIManager.eliminarIngreso();
-                } else if(component.equals(gastosPanel)) {
-                    GUIManager.eliminarGasto();
-                }
+        String[] options = {"Sí", "No"};
+        int sel = JOptionPane.showOptionDialog(null, "¿Seguro que quieres eliminar el dato?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        if(sociosPanel.isVisible()) {
+            switch (sel) {
+                case JOptionPane.YES_OPTION:
+                    ContasocDAO.delete("Socios", "numeroSocio = " + UIContasoc.sociosTabla.getValueAt(UIContasoc.sociosTabla.getSelectedRow(), 0));
+                    GUIManager.populateGUITables();
+                    break;
+                case JOptionPane.NO_OPTION:
+                    break;
             }
-        }*/
+        } else if(ingresosPanel.isVisible()) {
+            switch (sel) {
+                case JOptionPane.YES_OPTION:
+                    ContasocDAO.delete("Ingresos", "numeroSocio = " + UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 0) +
+                            "AND fecha = " +
+                            UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 1));
+                    GUIManager.populateGUITables();
+                    break;
+                case JOptionPane.NO_OPTION:
+                    break;
+            }
+        } else if(gastosPanel.isVisible()) {
+            switch (sel) {
+                case JOptionPane.YES_OPTION:
+                    ContasocDAO.delete("Gastos", "fecha = " +
+                            UIContasoc.gastosTabla.getValueAt(UIContasoc.gastosTabla.getSelectedRow(), 0) +
+                            "AND proveedor = " +
+                            UIContasoc.gastosTabla.getValueAt(UIContasoc.gastosTabla.getSelectedRow(), 1));
+                    GUIManager.populateGUITables();
+                    break;
+                case JOptionPane.NO_OPTION:
+                    break;
+            }
+        }
     }
 
     private void importarBtnActionPerformed(ActionEvent e) {
@@ -248,13 +323,10 @@ public class UIContasoc extends JFrame {
 
     private void sociosTablaMouseClicked(MouseEvent evt) {
         int selectedRowIndex = sociosTabla.getSelectedRow();
-//        if(selectedRowIndex >= 0 && evt.getButton() == MouseEvent.BUTTON1){
-//            guiManager.setTempUser(table.getValueAt(selectedRowIndex, 0).toString());
-//            guiManager.setTempSite(table.getValueAt(selectedRowIndex, 1).toString());
-//        } else
         if(selectedRowIndex >= 0 && evt.getButton() == MouseEvent.BUTTON3) {
-            ContextMenu cm = new ContextMenu();
-            cm.show(evt.getComponent(), evt.getX(), evt.getY());
+            IngresosView ingresosView = new IngresosView();
+            ingresosView.setVisible(true);
+            ingresosView.setLocationRelativeTo(null);
         }
     }
 
@@ -497,6 +569,7 @@ public class UIContasoc extends JFrame {
                             sociosTabla.setShowHorizontalLines(true);
                             sociosTabla.setFillsViewportHeight(true);
                             sociosTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                            sociosTabla.setName("Socios");
                             sociosTabla.addMouseListener(new MouseAdapter() {
                                 @Override
                                 public void mouseClicked(MouseEvent e) {
@@ -658,6 +731,7 @@ public class UIContasoc extends JFrame {
                     ingresosTabla.setShowHorizontalLines(true);
                     ingresosTabla.setFillsViewportHeight(true);
                     ingresosTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    ingresosTabla.setName("Ingresos");
                     ingresosTabla.setModel(new IngresosTablaModel());
                     ingresosTabla.getTableHeader().setReorderingAllowed(false);
                     ingresosTabla.getTableHeader().setResizingAllowed(false);
@@ -698,6 +772,7 @@ public class UIContasoc extends JFrame {
                     gastosTabla.setShowHorizontalLines(true);
                     gastosTabla.setFillsViewportHeight(true);
                     gastosTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    gastosTabla.setName("Gastos");
                     gastosTabla.setModel(new GastosTablaModel());
                     gastosTabla.getTableHeader().setReorderingAllowed(false);
                     gastosTabla.getTableHeader().setResizingAllowed(false);

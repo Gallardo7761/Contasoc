@@ -3,7 +3,7 @@ package dev.galliard.contasoc.ui.tablemodels;
 import javax.swing.table.DefaultTableModel;
 
 public class SociosTablaModel extends DefaultTableModel {
-    private static final String[] columnNames = { "Socio", "Huerto", "Nombre", "DNI", "Teléfono", "Correo",
+    public static final String[] columnNames = { "Socio", "Huerto", "Nombre", "DNI", "Teléfono", "Correo",
             "F. Alta", "F. Entrega", "F. Baja", "Notas", "Tipo", "Estado" };
 
     private static final Class<?>[] columnTypes = { String.class, String.class, String.class, String.class,
