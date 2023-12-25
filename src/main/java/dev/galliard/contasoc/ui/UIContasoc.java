@@ -385,7 +385,6 @@ public class UIContasoc extends JFrame {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
         searchAndButtonsWrapper = new JPanel();
-        buscarField = new JTextField();
         nuevoBtn = new JButton();
         editarBtn = new JButton();
         eliminarBtn = new JButton();
@@ -401,6 +400,8 @@ public class UIContasoc extends JFrame {
         sociosTabla = new JTable();
         toListaEsperaWrapper = new JPanel();
         toListaEsperaBtn = new JButton();
+        buscarWrapper = new JPanel();
+        buscarField = new JTextField();
         cardListaEsperaPanel = new JPanel();
         toSociosWrapper = new JPanel();
         toSociosBtn = new JButton();
@@ -461,16 +462,8 @@ public class UIContasoc extends JFrame {
 
         //======== searchAndButtonsWrapper ========
         {
-            searchAndButtonsWrapper.setPreferredSize(new Dimension(1008, 78));
-            searchAndButtonsWrapper.setMinimumSize(new Dimension(673, 78));
-
-            //---- buscarField ----
-            buscarField.setFont(buscarField.getFont().deriveFont(buscarField.getFont().getSize() + 6f));
-            buscarField.setMinimumSize(new Dimension(68, 38));
-            buscarField.setPreferredSize(new Dimension(68, 38));
-            buscarField.setCaretColor(new Color(0x549159));
-            buscarField.putClientProperty("JTextField.placeholderText", "Buscar socios...");
-            buscarField.putClientProperty("JTextField.leadingIcon", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource("/images/search_medium_black.png"))));
+            searchAndButtonsWrapper.setPreferredSize(new Dimension(1008, 40));
+            searchAndButtonsWrapper.setMinimumSize(new Dimension(673, 40));
 
             //---- nuevoBtn ----
             nuevoBtn.setText("Nuevo");
@@ -551,39 +544,34 @@ public class UIContasoc extends JFrame {
                 searchAndButtonsWrapperLayout.createParallelGroup()
                     .addGroup(searchAndButtonsWrapperLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(searchAndButtonsWrapperLayout.createParallelGroup()
-                            .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 996, Short.MAX_VALUE)
-                            .addGroup(searchAndButtonsWrapperLayout.createSequentialGroup()
-                                .addComponent(nuevoBtn)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(editarBtn)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(eliminarBtn)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(printBtn)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(importarBtn)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(exportarBtn)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
-                                .addComponent(versionLabel, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(nuevoBtn)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editarBtn)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(eliminarBtn)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(printBtn)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(importarBtn)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(exportarBtn)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
+                        .addComponent(versionLabel, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
             );
             searchAndButtonsWrapperLayout.setVerticalGroup(
                 searchAndButtonsWrapperLayout.createParallelGroup()
                     .addGroup(searchAndButtonsWrapperLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(searchAndButtonsWrapperLayout.createParallelGroup()
-                            .addComponent(exportarBtn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nuevoBtn)
-                            .addComponent(editarBtn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(eliminarBtn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(printBtn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(importarBtn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(versionLabel, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(buscarField, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                        .addGroup(searchAndButtonsWrapperLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                            .addComponent(exportarBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(nuevoBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(editarBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(eliminarBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(printBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(importarBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(versionLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
         }
         contentPane.add(searchAndButtonsWrapper, BorderLayout.NORTH);
@@ -630,7 +618,7 @@ public class UIContasoc extends JFrame {
                             sociosTabla.setModel(new SociosTablaModel());
                             sociosTabla.getTableHeader().setReorderingAllowed(false);
                             sociosTabla.getTableHeader().setResizingAllowed(false);
-                            GUIManager.setColumnWidths(sociosTabla,
+                            GUIManager.setColumnWidths(sociosTabla, 
                                 new int[] {55,55,350,100,100,320,100,100,100,400,100,100});
                             sociosTabla.setRowHeight(50);
                             sociosTablaPanel.setViewportView(sociosTabla);
@@ -649,7 +637,7 @@ public class UIContasoc extends JFrame {
                             sociosWrapperLayout.createParallelGroup()
                                 .addGroup(sociosWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -680,11 +668,40 @@ public class UIContasoc extends JFrame {
                             toListaEsperaWrapperLayout.createParallelGroup()
                                 .addGroup(toListaEsperaWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(toListaEsperaBtn, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+                                    .addComponent(toListaEsperaBtn, GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
                     cardSociosPanel.add(toListaEsperaWrapper, BorderLayout.LINE_END);
+
+                    //======== buscarWrapper ========
+                    {
+
+                        //---- buscarField ----
+                        buscarField.setFont(buscarField.getFont().deriveFont(buscarField.getFont().getSize() + 6f));
+                        buscarField.setMinimumSize(new Dimension(68, 38));
+                        buscarField.setPreferredSize(new Dimension(68, 38));
+                        buscarField.setCaretColor(new Color(0x549159));
+                        buscarField.putClientProperty("JTextField.placeholderText", "Buscar socios...");
+                        buscarField.putClientProperty("JTextField.leadingIcon", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource("/images/search_medium_black.png"))));
+
+                        GroupLayout buscarWrapperLayout = new GroupLayout(buscarWrapper);
+                        buscarWrapper.setLayout(buscarWrapperLayout);
+                        buscarWrapperLayout.setHorizontalGroup(
+                            buscarWrapperLayout.createParallelGroup()
+                                .addGroup(buscarWrapperLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
+                                    .addContainerGap())
+                        );
+                        buscarWrapperLayout.setVerticalGroup(
+                            buscarWrapperLayout.createParallelGroup()
+                                .addGroup(buscarWrapperLayout.createSequentialGroup()
+                                    .addComponent(buscarField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                        );
+                    }
+                    cardSociosPanel.add(buscarWrapper, BorderLayout.PAGE_START);
                 }
                 sociosPanel.add(cardSociosPanel, "cardSocios");
 
@@ -717,7 +734,7 @@ public class UIContasoc extends JFrame {
                             toSociosWrapperLayout.createParallelGroup()
                                 .addGroup(toSociosWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(toSociosBtn, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+                                    .addComponent(toSociosBtn, GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -758,7 +775,7 @@ public class UIContasoc extends JFrame {
                             listaEsperaWrapperLayout.createParallelGroup()
                                 .addGroup(listaEsperaWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -803,7 +820,7 @@ public class UIContasoc extends JFrame {
                     ingresosPanelLayout.createParallelGroup()
                         .addGroup(ingresosPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(ingresosTablaPanel, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+                            .addComponent(ingresosTablaPanel, GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
                             .addContainerGap())
                 );
             }
@@ -844,7 +861,7 @@ public class UIContasoc extends JFrame {
                     gastosPanelLayout.createParallelGroup()
                         .addGroup(GroupLayout.Alignment.TRAILING, gastosPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(gastosTablaPanel, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+                            .addComponent(gastosTablaPanel, GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
                             .addContainerGap())
                 );
             }
@@ -986,7 +1003,7 @@ public class UIContasoc extends JFrame {
                     balancePanelLayout.createParallelGroup()
                         .addGroup(GroupLayout.Alignment.TRAILING, balancePanelLayout.createSequentialGroup()
                             .addGap(33, 33, 33)
-                            .addComponent(balanceCantidadesPanel, GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE))
+                            .addComponent(balanceCantidadesPanel, GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE))
                 );
             }
             tabbedPane1.addTab("BALANCE", balancePanel);
@@ -1097,7 +1114,7 @@ public class UIContasoc extends JFrame {
                             emailBodyWrapperLayout.createParallelGroup()
                                 .addGroup(emailBodyWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(bodyScrollPane, GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
+                                    .addComponent(bodyScrollPane, GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -1168,7 +1185,6 @@ public class UIContasoc extends JFrame {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
     private JPanel searchAndButtonsWrapper;
-    protected static JTextField buscarField;
     protected static JButton nuevoBtn;
     protected static JButton editarBtn;
     protected static JButton eliminarBtn;
@@ -1184,6 +1200,8 @@ public class UIContasoc extends JFrame {
     protected static JTable sociosTabla;
     private JPanel toListaEsperaWrapper;
     protected static JButton toListaEsperaBtn;
+    private JPanel buscarWrapper;
+    protected static JTextField buscarField;
     protected static JPanel cardListaEsperaPanel;
     private JPanel toSociosWrapper;
     protected static JButton toSociosBtn;
