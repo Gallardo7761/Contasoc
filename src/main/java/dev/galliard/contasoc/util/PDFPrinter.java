@@ -41,7 +41,15 @@ public class PDFPrinter {
         document.add(header);
 
         // Logo
-        Image logo = Image.getInstance("src/main/resources/images/"+logoPath);
+        String resourcePath;
+        if (PDFPrinter.class.getResource("resources/images/" + logoPath) != null) {
+            // Estás en un entorno de desarrollo (IDE)
+            resourcePath = "resources/images/" + logoPath;
+        } else {
+            // Estás en un JAR
+            resourcePath = "images/" + logoPath;
+        }
+        Image logo = Image.getInstance(PDFPrinter.class.getClassLoader().getResource(resourcePath));
         logo.setAbsolutePosition(10f, document.getPageSize().getHeight()-87f);
         document.add(logo);
 
@@ -90,6 +98,7 @@ public class PDFPrinter {
         table.setWidths(columnWidths);
 
         document.add(table);
+
 
     } catch (Exception e) {
         e.printStackTrace();
