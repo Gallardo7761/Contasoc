@@ -13,7 +13,12 @@ import dev.galliard.contasoc.util.PDFPrinter;
 import dev.galliard.contasoc.util.Parsers;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.math.RoundingMode;
@@ -201,5 +206,45 @@ public class GUIManager {
                 System.out.println("ListaEspera");
             }
         }
+    }
+
+    protected static void addListenerToSearchBar() {
+        UIContasoc.buscarField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                String text = UIContasoc.buscarField.getText();
+                if(!text.isEmpty()) {
+                    fillTableFrom2DArray(
+                            UIContasoc.sociosTabla,
+                            search(text),
+                            new String[]{"Socio", "Huerto", "Nombre", "DNI", "Teléfono", "Correo",
+                                    "F. Alta", "F. Entrega", "F. Baja", "Notas", "Tipo", "Estado"}
+                    );
+                } else {
+                    GUIManager.populateGUITables();
+                }
+            }
+        });
+    }
+
+    protected static Object[][] search(String text) {
+        DefaultTableModel model = (DefaultTableModel) UIContasoc.sociosTabla.getModel();
+        int columnCount = model.getColumnCount();
+        List<String> aux = ContasocDAO.leerTabla("Socios").stream()
+                .filter(s -> s.split(";")[0].toLowerCase().contains(text.toLowerCase()) ||
+                        s.split(";")[2].toLowerCase().contains(text.toLowerCase()))
+                .toList();
+
+        Object[][] result = new Object[aux.size()][columnCount];
+        for (int i = 0; i < aux.size(); i++) {
+            result[i] = aux.get(i).replace("null","").split(";");
+        }
+        return result;
+    }
+
+    protected static void fillTableFrom2DArray(JTable table, Object[][] data, String[] columnNames) {
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+        table.setModel(model);
     }
 }

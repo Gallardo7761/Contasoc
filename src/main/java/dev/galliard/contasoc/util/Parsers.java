@@ -8,6 +8,8 @@ import dev.galliard.contasoc.persona.Persona;
 import dev.galliard.contasoc.persona.Socio;
 import dev.galliard.contasoc.pago.Pago;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -18,6 +20,16 @@ public class Parsers {
 		}
 		return date.getDayOfMonth()+"/"+date.getMonthValue()+"/"+date.getYear();
 	}
+
+	public static String dashDateParser(String date) {
+		SimpleDateFormat formatoOriginal = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formatoNuevo = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return formatoNuevo.format(formatoOriginal.parse(date));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	public static String decimalSymbolParser(String cantidad) {
 		if(cantidad.contains(",")) {

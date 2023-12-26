@@ -8,6 +8,6 @@ import java.util.List;
 public class CodePlayground {
 
     public static void main(String[] args) {
-
+        System.out.println(ContasocDAO.leerTabla("Socios").get(0));
     }
 }

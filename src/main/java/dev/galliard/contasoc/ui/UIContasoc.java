@@ -30,7 +30,9 @@ import javax.swing.text.AbstractDocument;
 public class UIContasoc extends JFrame {
     public UIContasoc() {
         initComponents();
+        setActions();
         GUIManager.populateGUITables();
+        GUIManager.addListenerToSearchBar();
         BalancePanelWatcher watcher = new BalancePanelWatcher();
         Thread thread = new Thread(watcher);
         thread.start();
@@ -390,6 +392,55 @@ public class UIContasoc extends JFrame {
                 }
             }
         }
+    }
+
+    protected void setActions() {
+        // Crear acciones para cada función
+        javax.swing.Action nuevoAction = new AbstractAction("Nuevo") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nuevoBtnActionPerformed(e);
+            }
+        };
+
+        javax.swing.Action editarAction = new AbstractAction("Editar") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editarBtnActionPerformed(e);
+            }
+        };
+
+        javax.swing.Action eliminarAction = new AbstractAction("Eliminar") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminarBtnActionPerformed(e);
+            }
+        };
+
+        javax.swing.Action imprimirAction = new AbstractAction("Imprimir") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                printBtnActionPerformed(e);
+            }
+        };
+
+        // Obtener el panel de contenido
+        JPanel contentPane = (JPanel) this.getContentPane();
+        // Configurar atajos de teclado
+        KeyStroke nuevoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK);
+        KeyStroke editarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK);
+        KeyStroke eliminarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK);
+        KeyStroke imprimirKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK);
+
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(nuevoKeyStroke, "nuevo");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(editarKeyStroke, "editar");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(eliminarKeyStroke, "eliminar");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(imprimirKeyStroke, "imprimir");
+
+        contentPane.getActionMap().put("nuevo", nuevoAction);
+        contentPane.getActionMap().put("editar", editarAction);
+        contentPane.getActionMap().put("eliminar", eliminarAction);
+        contentPane.getActionMap().put("imprimir", imprimirAction);
     }
 
     private void initComponents() {
