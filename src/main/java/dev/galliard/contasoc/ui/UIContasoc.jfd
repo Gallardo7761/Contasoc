@@ -20,7 +20,7 @@ new FormModel {
 			}
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq {space :::p, comp nuevoBtn:::p::p, space :::p, comp editarBtn:::p::p, space :::p, comp eliminarBtn:::p::p, space :::p, comp printBtn:::p::p, space :::p, comp importarBtn:::p::p, space :::p, comp exportarBtn:::p::p, space ::321:x, comp versionLabel:::p:51:p, space :::p, comp helpBtn:::p:31:p, space :::p}}"
-				"$verticalGroup": "par l {seq l {space :::p, par l:::p {comp nuevoBtn::l::32:x, comp editarBtn::l:::x, comp eliminarBtn::l:::x, comp printBtn::l:::x, comp importarBtn::l:::x, par b:t {comp exportarBtn::b:p::p, comp helpBtn::b::31:x, comp versionLabel::b::29:x}}, space ::2:x}}"
+				"$verticalGroup": "par l {seq l {space :::p, par l:::p {par b:l {comp editarBtn::b:::x, comp nuevoBtn::b:p::p, comp eliminarBtn::b:p::p, comp printBtn::b:p::p}, par b:t {comp helpBtn::b::31:x, comp importarBtn::b:p::p, comp exportarBtn::b:p::p, comp versionLabel::b::31:x}}, space ::1:x}}"
 			} ) {
 				name: "searchAndButtonsWrapper"
 				"preferredSize": new java.awt.Dimension( 1008, 40 )
