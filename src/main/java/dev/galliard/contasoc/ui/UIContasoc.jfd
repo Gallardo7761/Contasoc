@@ -84,7 +84,6 @@ new FormModel {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "printBtnActionPerformed", true ) )
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "printBtnActionPerformed", true ) )
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "importarBtn"

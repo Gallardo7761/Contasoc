@@ -41,7 +41,7 @@ public class PDFPrinter {
         document.add(header);
 
         // Logo
-        Image logo = Image.getInstance(PDFPrinter.class.getClassLoader().getResource("resources/images/"+logoPath));
+        Image logo = Image.getInstance("src/main/resources/images/"+logoPath);
         logo.setAbsolutePosition(10f, document.getPageSize().getHeight()-87f);
         document.add(logo);
 

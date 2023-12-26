@@ -638,10 +638,7 @@ public class UIContasoc extends JFrame {
             printBtn.setForeground(Color.black);
             printBtn.setBorderPainted(false);
             printBtn.setIcon(new ImageIcon(getClass().getResource("/images/printer.png")));
-            printBtn.addActionListener(e -> {
-			printBtnActionPerformed(e);
-			printBtnActionPerformed(e);
-		});
+            printBtn.addActionListener(e -> printBtnActionPerformed(e));
 
             //---- importarBtn ----
             importarBtn.setText("Importar");
