@@ -11,13 +11,18 @@ new FormModel {
 			"resizable": false
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 				name: "ingresosTablaPanel"
+				"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 				add( new FormComponent( "javax.swing.JTable" ) {
 					name: "ingresosTabla"
+					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"gridColor": new java.awt.Color( 153, 153, 153, 255 )
+					"showHorizontalLines": true
 					auxiliary() {
-						"JavaCodeGenerator.postInitCode": "ingresosTabla.setModel(new IngresosTablaModel());\ningresosTabla.getTableHeader().setReorderingAllowed(false);\ningresosTabla.getTableHeader().setResizingAllowed(false);\ningresosTabla.setRowHeight(50);"
+						"JavaCodeGenerator.postInitCode": "ingresosTabla.setModel(new IngresosTablaModel());\ningresosTabla.getTableHeader().setReorderingAllowed(false);\ningresosTabla.getTableHeader().setResizingAllowed(false);\ningresosTabla.setRowHeight(50);\nGUIManager.setColumnWidths(ingresosTabla, \n\tnew int[] {70,120,250,80,70});"
 						"JavaCodeGenerator.variableModifiers": 12
 					}
 				} )

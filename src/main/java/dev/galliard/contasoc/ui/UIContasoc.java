@@ -571,7 +571,6 @@ public class UIContasoc extends JFrame {
             printBtn.setIcon(new ImageIcon(getClass().getResource("/images/printer.png")));
             printBtn.addActionListener(e -> {
 			printBtnActionPerformed(e);
-			printBtnActionPerformed(e);
 		});
 
             //---- importarBtn ----

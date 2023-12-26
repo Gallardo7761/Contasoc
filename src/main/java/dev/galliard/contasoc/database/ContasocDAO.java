@@ -168,7 +168,7 @@ public class ContasocDAO {
             if(!condicion.isEmpty()) {
                 query = new StringBuilder(query.substring(0, query.length() - 1) + " WHERE " + condicion + ";");
             }
-            System.out.println(query.toString());
+            System.out.println(query);
             ResultSet rs = stmt.executeQuery(query.toString());
             StringBuilder result = new StringBuilder();
             while (rs.next()) {
@@ -208,7 +208,7 @@ public class ContasocDAO {
             }
             query = new StringBuilder(query.substring(0, query.length() - 2));
             query.append(");");
-            System.out.println(query.toString());
+            System.out.println(query);
             stmt.execute(query.toString());
         } catch (SQLException e) {
             ErrorHandler.error(e.toString());
@@ -248,7 +248,7 @@ public class ContasocDAO {
             }
 
             query.append(";");
-            System.out.println(query.toString());
+            System.out.println(query);
 
             stmt.execute(query.toString());
         } catch (SQLException e) {

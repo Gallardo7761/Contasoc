@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Socio implements Comparable<Socio> {
 	private String huerto;
 	private Integer socio;
-	private Persona persona;
+	private final Persona persona;
 	private LocalDate alta;
 	private LocalDate entrega;
 	private LocalDate baja;

@@ -116,12 +116,12 @@ public class GUIManager {
         String saldoBanco = df.format((banco + totalIngresosBanco - totalPagosBanco));
         String saldoCaja = df.format((caja + totalIngresosCaja - totalPagosCaja));
 
-        UIContasoc.tBancoIngresosValue.setText(String.valueOf(totalIngresosBanco)+" €");
-        UIContasoc.tBancoGastosValue.setText(String.valueOf(totalPagosBanco)+" €");
-        UIContasoc.tCajaIngresosValue.setText(String.valueOf(totalIngresosCaja)+" €");
-        UIContasoc.tCajaGastosValue.setText(String.valueOf(totalPagosCaja)+" €");
-        UIContasoc.saldoBancoValue.setText(String.valueOf(saldoBanco)+" €");
-        UIContasoc.saldoCajaValue.setText(String.valueOf(saldoCaja)+" €");
+        UIContasoc.tBancoIngresosValue.setText(totalIngresosBanco +" €");
+        UIContasoc.tBancoGastosValue.setText(totalPagosBanco +" €");
+        UIContasoc.tCajaIngresosValue.setText(totalIngresosCaja +" €");
+        UIContasoc.tCajaGastosValue.setText(totalPagosCaja +" €");
+        UIContasoc.saldoBancoValue.setText(saldoBanco +" €");
+        UIContasoc.saldoCajaValue.setText(saldoCaja +" €");
     }
 
     protected static void printContent() {

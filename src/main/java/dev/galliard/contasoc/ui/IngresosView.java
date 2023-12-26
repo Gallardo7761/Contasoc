@@ -33,12 +33,19 @@ public class IngresosView extends JFrame {
 
         //======== ingresosTablaPanel ========
         {
+            ingresosTablaPanel.setBorder(null);
 
             //---- ingresosTabla ----
+            ingresosTabla.setFont(ingresosTabla.getFont().deriveFont(ingresosTabla.getFont().getSize() + 4f));
+            ingresosTabla.setBorder(null);
+            ingresosTabla.setGridColor(new Color(0x999999));
+            ingresosTabla.setShowHorizontalLines(true);
             ingresosTabla.setModel(new IngresosTablaModel());
             ingresosTabla.getTableHeader().setReorderingAllowed(false);
             ingresosTabla.getTableHeader().setResizingAllowed(false);
             ingresosTabla.setRowHeight(50);
+            GUIManager.setColumnWidths(ingresosTabla, 
+                new int[] {70,120,250,80,70});
             ingresosTablaPanel.setViewportView(ingresosTabla);
         }
         contentPane.add(ingresosTablaPanel, BorderLayout.CENTER);
