@@ -11,14 +11,12 @@ import java.util.Arrays;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+import javax.swing.text.AbstractDocument;
 
 import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.database.ContasocDAO;
-import dev.galliard.contasoc.util.DNIValidator;
-import dev.galliard.contasoc.util.ErrorHandler;
-import dev.galliard.contasoc.util.Pair;
-import dev.galliard.contasoc.util.Parsers;
+import dev.galliard.contasoc.util.*;
 import net.miginfocom.swing.*;
 
 /**
@@ -30,6 +28,7 @@ public class AddModifySocios extends JFrame {
     public AddModifySocios() {
         initComponents();
         setActions();
+        setFilters();
     }
 
     private void setActions() {
@@ -43,6 +42,14 @@ public class AddModifySocios extends JFrame {
         KeyStroke nuevoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(nuevoKeyStroke, "Enter");
         contentPane.getActionMap().put("Enter", enterAction);
+    }
+
+    private void setFilters() {
+        java.util.List<JTextField> lista = List.of(nombreField,dniField);
+        for (JTextField jtp : lista) {
+            AbstractDocument doc = (AbstractDocument) jtp.getDocument();
+            doc.setDocumentFilter(new UpperCaseFilter());
+        }
     }
 
     private void aceptarBtnActionPerformed(ActionEvent e) {

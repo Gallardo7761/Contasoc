@@ -7,11 +7,14 @@ package dev.galliard.contasoc.ui;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 
 import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.database.ContasocDAO;
 import dev.galliard.contasoc.util.Parsers;
+import dev.galliard.contasoc.util.UpperCaseFilter;
 import net.miginfocom.swing.*;
 
 /**
@@ -24,6 +27,7 @@ public class AddModifyGastos extends JFrame {
     public AddModifyGastos() {
         initComponents();
         setActions();
+        setFilters();
     }
 
     private void setActions() {
@@ -37,6 +41,14 @@ public class AddModifyGastos extends JFrame {
         KeyStroke nuevoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(nuevoKeyStroke, "Enter");
         contentPane.getActionMap().put("Enter", enterAction);
+    }
+
+    private void setFilters() {
+        java.util.List<JTextField> lista = List.of(proveedorField,conceptoField);
+        for (JTextField jtp : lista) {
+            AbstractDocument doc = (AbstractDocument) jtp.getDocument();
+            doc.setDocumentFilter(new UpperCaseFilter());
+        }
     }
 
     private void aceptarBtnActionPerformed(ActionEvent e) {

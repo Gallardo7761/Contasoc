@@ -34,10 +34,6 @@ public class UIContasoc extends JFrame {
         setActions();
         GUIManager.populateGUITables();
         GUIManager.addListenerToSearchBar();
-        BalancePanelWatcher watcher = new BalancePanelWatcher();
-        Thread thread = new Thread(watcher);
-        thread.start();
-
     }
 
     public JButton getNuevoBtn() {
@@ -91,6 +87,9 @@ public class UIContasoc extends JFrame {
         BalanceCalculatorThread balanceCalc = new BalanceCalculatorThread();
         Thread thread = new Thread(balanceCalc);
         thread.start();
+        BalancePanelWatcher watcher = new BalancePanelWatcher();
+        Thread thread2 = new Thread(watcher);
+        thread2.start();
     }
 
     private void bodyTextAreaFocusGained(FocusEvent e) {
@@ -653,8 +652,8 @@ public class UIContasoc extends JFrame {
             tabbedPane1.setFont(tabbedPane1.getFont().deriveFont(tabbedPane1.getFont().getSize() + 6f));
             tabbedPane1.setTabPlacement(SwingConstants.LEFT);
             tabbedPane1.putClientProperty("JTabbedPane.tabHeight", 50);
-            tabbedPane1.putClientProperty("JTabbedPane.minimumTabWidth", 200);
-            tabbedPane1.putClientProperty("JTabbedPane.maximumTabWidth", 200);
+            tabbedPane1.putClientProperty("JTabbedPane.minimumTabWidth", 120);
+            tabbedPane1.putClientProperty("JTabbedPane.maximumTabWidth", 120);
 
             //======== sociosPanel ========
             {

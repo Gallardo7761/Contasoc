@@ -130,7 +130,7 @@ new FormModel {
 				"tabPlacement": 2
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
-					"JavaCodeGenerator.postInitCode": "tabbedPane1.putClientProperty(\"JTabbedPane.tabHeight\", 50);\ntabbedPane1.putClientProperty(\"JTabbedPane.minimumTabWidth\", 200);\ntabbedPane1.putClientProperty(\"JTabbedPane.maximumTabWidth\", 200);"
+					"JavaCodeGenerator.postInitCode": "tabbedPane1.putClientProperty(\"JTabbedPane.tabHeight\", 50);\ntabbedPane1.putClientProperty(\"JTabbedPane.minimumTabWidth\", 120);\ntabbedPane1.putClientProperty(\"JTabbedPane.maximumTabWidth\", 120);"
 				}
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
 					name: "sociosPanel"

@@ -6,10 +6,13 @@ package dev.galliard.contasoc.ui;
 
 import dev.galliard.contasoc.database.ContasocDAO;
 import dev.galliard.contasoc.ui.GUIManager;
+import dev.galliard.contasoc.util.UpperCaseFilter;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 
 /**
  * @author jomaa
@@ -17,6 +20,20 @@ import javax.swing.*;
 public class SaldoInicial extends JFrame {
     public SaldoInicial() {
         initComponents();
+        setActions();
+    }
+
+    private void setActions() {
+        javax.swing.Action enterAction = new AbstractAction("Enter") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saldoInicialGuardarBtnActionPerformed(e);
+            }
+        };
+        JPanel contentPane = (JPanel) this.getContentPane();
+        KeyStroke nuevoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(nuevoKeyStroke, "Enter");
+        contentPane.getActionMap().put("Enter", enterAction);
     }
 
     private void saldoInicialGuardarBtnActionPerformed(ActionEvent e) {
@@ -24,6 +41,7 @@ public class SaldoInicial extends JFrame {
         GUIManager.inicialCaja = Double.parseDouble(inicialCajaField.getText());
         ContasocDAO.insert("Balance", new String[] {"inicialBanco","inicialCaja"},
                 new String[] {inicialBancoField.getText(),inicialCajaField.getText()});
+        this.dispose();
     }
 
     private void initComponents() {

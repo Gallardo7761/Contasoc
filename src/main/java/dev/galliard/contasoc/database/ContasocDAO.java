@@ -18,7 +18,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ContasocDAO {
-    private static final String DB_URL = "jdbc:sqlite:C:/Contasoc/contasoc2.db";
+    private static final String DB_URL = System.getProperty("os.name").toLowerCase().contains("win") ?
+            "jdbc:sqlite:C:/Contasoc/contasoc2.db" :
+            "jdbc:sqlite:"+System.getProperty("user.home") + "/Contasoc/contasoc2.db";
 
     public static void createTablesAndTriggers() {
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -223,7 +225,7 @@ public class ContasocDAO {
 
             // Construir la parte SET de la consulta
             for (int i = 0; i < atributos.length; i++) {
-                query.append(atributos[i]).append(" = ").append(nuevosValores[i].isEmpty() ?
+                query.append(atributos[i]).append(" = ").append((nuevosValores[i] == null || nuevosValores[i].isEmpty()) ?
                         "NULL" : "'" + nuevosValores[i] + "'").append(", ");
             }
             query = new StringBuilder(query.substring(0, query.length() - 2));
