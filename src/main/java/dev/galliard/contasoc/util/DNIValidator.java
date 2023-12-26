@@ -46,6 +46,9 @@ public class DNIValidator {
         }
 
         int resto = numero % 23;
+        if(!valoresLetras.containsKey(letra)) {
+        	return false;
+        }
         int valorLetra = valoresLetras.get(letra);
 
         return resto == valorLetra;
@@ -90,6 +93,9 @@ public class DNIValidator {
         char primeraLetra = Character.toUpperCase(nie.charAt(0));
         char letra = Character.toUpperCase(nie.charAt(8));
         char[] digitos = nie.substring(1, 8).toCharArray();
+        if(!valoresPrimerasLetras.containsKey(primeraLetra)) {
+        	return false;
+        }
         int numero = Integer.parseInt(String.join("", List.of(valoresPrimerasLetras.get(primeraLetra).toString(),new String(digitos))));
         System.out.println(numero);
 

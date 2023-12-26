@@ -52,6 +52,9 @@ public class SaldoInicial extends JFrame {
             //---- inicialBancoLabel ----
             inicialBancoLabel.setText("Inicial Banco:");
 
+            //---- inicialBancoField ----
+            inicialBancoField.setNextFocusableComponent(inicialCajaField);
+
             GroupLayout inicialBancoPanelLayout = new GroupLayout(inicialBancoPanel);
             inicialBancoPanel.setLayout(inicialBancoPanelLayout);
             inicialBancoPanelLayout.setHorizontalGroup(
@@ -77,6 +80,9 @@ public class SaldoInicial extends JFrame {
 
             //---- inicialCajaLabel ----
             inicialCajaLabel.setText("Inicial Caja:");
+
+            //---- inicialCajaField ----
+            inicialCajaField.setNextFocusableComponent(inicialBancoField);
 
             GroupLayout inicialCajaPanelLayout = new GroupLayout(inicialCajaPanel);
             inicialCajaPanel.setLayout(inicialCajaPanelLayout);

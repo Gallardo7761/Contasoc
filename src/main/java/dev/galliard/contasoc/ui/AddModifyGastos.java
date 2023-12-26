@@ -23,6 +23,20 @@ public class AddModifyGastos extends JFrame {
     protected static String tempProveedor;
     public AddModifyGastos() {
         initComponents();
+        setActions();
+    }
+
+    private void setActions() {
+        javax.swing.Action enterAction = new AbstractAction("Enter") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                aceptarBtnActionPerformed(e);
+            }
+        };
+        JPanel contentPane = (JPanel) this.getContentPane();
+        KeyStroke nuevoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(nuevoKeyStroke, "Enter");
+        contentPane.getActionMap().put("Enter", enterAction);
     }
 
     private void aceptarBtnActionPerformed(ActionEvent e) {

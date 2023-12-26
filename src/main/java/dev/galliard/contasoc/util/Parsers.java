@@ -22,23 +22,31 @@ public class Parsers {
 	}
 
 	public static String dashDateParser(String date) {
+		String res = null;
 		SimpleDateFormat formatoOriginal = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat formatoNuevo = new SimpleDateFormat("dd/MM/yyyy");
         try {
-            return formatoNuevo.format(formatoOriginal.parse(date));
+            if(!date.isEmpty()) {
+				res = formatoNuevo.format(formatoOriginal.parse(date));
+			}
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+		return res;
     }
 
 	public static String dashDateParserReversed(String date) {
+		String res = null;
 		SimpleDateFormat formatoOriginal = new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat formatoNuevo = new SimpleDateFormat("yyyy-MM-dd");
 		try {
-			return formatoNuevo.format(formatoOriginal.parse(date));
+			if(!date.isEmpty()) {
+				res = formatoNuevo.format(formatoOriginal.parse(date));
+			}
 		} catch (ParseException e) {
 			throw new RuntimeException(e);
 		}
+		return res;
 	}
 
 	public static String decimalSymbolParser(String cantidad) {

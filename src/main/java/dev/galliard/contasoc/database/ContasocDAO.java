@@ -196,7 +196,7 @@ public class ContasocDAO {
             query = new StringBuilder(query.substring(0, query.length() - 2));
             query.append(") VALUES (");
             for (String valor : valores) {
-                if(valor.isEmpty()) {
+                if(valor == null || valor.isEmpty()) {
                     query.append("NULL, ");
                 } else {
                     if (valor.matches(".*[a-zA-Z].*") || valor.contains("-")) {

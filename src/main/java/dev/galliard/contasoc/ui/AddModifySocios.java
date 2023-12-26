@@ -29,6 +29,20 @@ public class AddModifySocios extends JFrame {
     protected static String tempNumeroSocio;
     public AddModifySocios() {
         initComponents();
+        setActions();
+    }
+
+    private void setActions() {
+        javax.swing.Action enterAction = new AbstractAction("Enter") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                aceptarBtnActionPerformed(e);
+            }
+        };
+        JPanel contentPane = (JPanel) this.getContentPane();
+        KeyStroke nuevoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(nuevoKeyStroke, "Enter");
+        contentPane.getActionMap().put("Enter", enterAction);
     }
 
     private void aceptarBtnActionPerformed(ActionEvent e) {
@@ -70,13 +84,17 @@ public class AddModifySocios extends JFrame {
                 upd.add(Parsers.dashDateParserReversed(bajaField.getText()));
                 upd.add(notasField.getText());
                 upd.add((String) tipoSocioComboBox.getSelectedItem());
-                ContasocDAO.update("Socios", new String[] {"nombre", "dni", "telefono", "email", "numeroSocio",
-                                "numeroHuerto", "fechaDeAlta", "fechaDeEntrega", "fechaDeBaja", "notas", "tipo"},
-                        upd.toArray(String[]::new),
-                        new String[] {"numeroSocio =" + tempNumeroSocio
-                        });
-                GUIManager.populateGUITables();
-                this.dispose();
+                if(DNIValidator.validarDNI(dniField.getText()) || DNIValidator.validarNIE(dniField.getText())) {
+                    ContasocDAO.update("Socios", new String[] {"nombre", "dni", "telefono", "email", "numeroSocio",
+                                    "numeroHuerto", "fechaDeAlta", "fechaDeEntrega", "fechaDeBaja", "notas", "tipo"},
+                            upd.toArray(String[]::new),
+                            new String[] {"numeroSocio =" + tempNumeroSocio
+                            });
+                    GUIManager.populateGUITables();
+                    this.dispose();
+                } else {
+                    ErrorHandler.errorAlLeerDNI();
+                }
                 break;
         }
     }
