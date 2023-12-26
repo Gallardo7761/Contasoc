@@ -4,6 +4,7 @@
 
 package dev.galliard.contasoc.ui;
 
+import java.beans.*;
 import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.database.ContasocDAO;
 import dev.galliard.contasoc.ui.tablemodels.GastosTablaModel;
@@ -36,6 +37,7 @@ public class UIContasoc extends JFrame {
         BalancePanelWatcher watcher = new BalancePanelWatcher();
         Thread thread = new Thread(watcher);
         thread.start();
+
     }
 
     public JButton getNuevoBtn() {
@@ -104,7 +106,7 @@ public class UIContasoc extends JFrame {
     }
 
     private void nuevoBtnActionPerformed(ActionEvent e) {
-        if(sociosPanel.isVisible()) {
+        if(sociosPanel.isVisible() && !cardListaEsperaPanel.isVisible()) {
             AddModifySocios.accion = Action.ADD;
             AddModifySocios addModifySocios = new AddModifySocios();
             addModifySocios.setTitle("Añadir nuevo socio");
@@ -123,7 +125,7 @@ public class UIContasoc extends JFrame {
     }
 
     private void editarBtnActionPerformed(ActionEvent e) {
-        if(sociosPanel.isVisible()) {
+        if(sociosPanel.isVisible() && !cardListaEsperaPanel.isVisible()) {
             int selectedRow = sociosTabla.getSelectedRow();
             AddModifySocios.accion = Action.MODIFY;
             AddModifySocios ams = new AddModifySocios();
@@ -148,13 +150,13 @@ public class UIContasoc extends JFrame {
                                 : sociosTabla.getValueAt(selectedRow, 1).toString());
                 AddModifySocios.altaField.setText(
                         sociosTabla.getValueAt(selectedRow, 6) == null ? ""
-                                : sociosTabla.getValueAt(selectedRow, 6).toString());
+                                : Parsers.dashDateParser(sociosTabla.getValueAt(selectedRow, 6).toString()));
                 AddModifySocios.entregaField.setText(
                         sociosTabla.getValueAt(selectedRow, 7) == null ? ""
-                                : sociosTabla.getValueAt(selectedRow, 7).toString());
+                                : Parsers.dashDateParser(sociosTabla.getValueAt(selectedRow, 7).toString()));
                 AddModifySocios.bajaField.setText(
                         sociosTabla.getValueAt(selectedRow, 8) == null ? ""
-                                : sociosTabla.getValueAt(selectedRow, 8).toString());
+                                : Parsers.dashDateParser(sociosTabla.getValueAt(selectedRow, 8).toString()));
                 AddModifySocios.notasField.setText(
                         sociosTabla.getValueAt(selectedRow, 9) == null ? ""
                                 : sociosTabla.getValueAt(selectedRow, 9).toString());
@@ -180,7 +182,7 @@ public class UIContasoc extends JFrame {
                                 : ingresosTabla.getValueAt(selectedRow, 0).toString());
                 AddModifyIngresos.fechaField.setText(
                         ingresosTabla.getValueAt(selectedRow, 1) == null ? ""
-                                : ingresosTabla.getValueAt(selectedRow, 1).toString());
+                                : Parsers.dashDateParser(ingresosTabla.getValueAt(selectedRow, 1).toString()));
                 AddModifyIngresos.cantidadField.setText(
                         ingresosTabla.getValueAt(selectedRow, 3) == null ? ""
                                 : ingresosTabla.getValueAt(selectedRow, 3).toString());
@@ -205,7 +207,7 @@ public class UIContasoc extends JFrame {
             if (selectedRow >= 0) {
                 AddModifyGastos.fechaField.setText(
                         gastosTabla.getValueAt(selectedRow, 0) == null ? ""
-                                : gastosTabla.getValueAt(selectedRow, 0).toString());
+                                : Parsers.dashDateParser(gastosTabla.getValueAt(selectedRow, 0).toString()));
                 AddModifyGastos.proveedorField.setText(
                         gastosTabla.getValueAt(selectedRow, 1) == null ? ""
                                 : gastosTabla.getValueAt(selectedRow, 1).toString());
@@ -229,8 +231,11 @@ public class UIContasoc extends JFrame {
     }
 
     private void eliminarBtnActionPerformed(ActionEvent e) {
-        String[] options = {"Sí", "No"};
-        int sel = JOptionPane.showOptionDialog(null, "¿Seguro que quieres eliminar el dato?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        int sel = 1;
+        if(!cardListaEsperaPanel.isVisible()) {
+            String[] options = {"Sí", "No"};
+            sel = JOptionPane.showOptionDialog(null, "¿Seguro que quieres eliminar el dato?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        }
         if(sociosPanel.isVisible()) {
             switch (sel) {
                 case JOptionPane.YES_OPTION:
@@ -345,12 +350,6 @@ public class UIContasoc extends JFrame {
                 UIContasoc.asuntoField.getText(), body);
     }
 
-    private void emailPanelFocusGained(FocusEvent e) {
-        PopulateEmailsThread popEmails = new PopulateEmailsThread();
-        Thread thread = new Thread(popEmails);
-        thread.start();
-    }
-
     private void tipoEmailComboBoxItemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
             switch (e.getItem().toString()) {
@@ -441,6 +440,17 @@ public class UIContasoc extends JFrame {
         contentPane.getActionMap().put("editar", editarAction);
         contentPane.getActionMap().put("eliminar", eliminarAction);
         contentPane.getActionMap().put("imprimir", imprimirAction);
+    }
+
+    private void emailPanelComponentShown(ComponentEvent e) {
+        PopulateEmailsThread popEmails = new PopulateEmailsThread();
+        Thread thread = new Thread(popEmails);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     private void initComponents() {
@@ -571,6 +581,7 @@ public class UIContasoc extends JFrame {
             printBtn.setIcon(new ImageIcon(getClass().getResource("/images/printer.png")));
             printBtn.addActionListener(e -> {
 			printBtnActionPerformed(e);
+			printBtnActionPerformed(e);
 		});
 
             //---- importarBtn ----
@@ -682,6 +693,7 @@ public class UIContasoc extends JFrame {
                             GUIManager.setColumnWidths(sociosTabla, 
                                 new int[] {55,55,350,100,100,320,100,100,100,400,100,100});
                             sociosTabla.setRowHeight(50);
+                            sociosTabla.setDefaultRenderer(String.class, new DateCellRenderer());
                             sociosTablaPanel.setViewportView(sociosTabla);
                         }
 
@@ -820,6 +832,7 @@ public class UIContasoc extends JFrame {
                             listaEsperaTabla.getTableHeader().setReorderingAllowed(false);
                             listaEsperaTabla.getTableHeader().setResizingAllowed(false);
                             listaEsperaTabla.setRowHeight(50);
+                            listaEsperaTabla.setDefaultRenderer(String.class, new DateCellRenderer());
                             listaEsperaTablaPanel.setViewportView(listaEsperaTabla);
                         }
 
@@ -865,6 +878,7 @@ public class UIContasoc extends JFrame {
                     ingresosTabla.getTableHeader().setReorderingAllowed(false);
                     ingresosTabla.getTableHeader().setResizingAllowed(false);
                     ingresosTabla.setRowHeight(50);
+                    ingresosTabla.setDefaultRenderer(String.class, new DateCellRenderer());
                     ingresosTablaPanel.setViewportView(ingresosTabla);
                 }
 
@@ -906,6 +920,7 @@ public class UIContasoc extends JFrame {
                     gastosTabla.getTableHeader().setReorderingAllowed(false);
                     gastosTabla.getTableHeader().setResizingAllowed(false);
                     gastosTabla.setRowHeight(50);
+                    gastosTabla.setDefaultRenderer(String.class, new DateCellRenderer());
                     gastosTablaPanel.setViewportView(gastosTabla);
                 }
 
@@ -1071,10 +1086,10 @@ public class UIContasoc extends JFrame {
 
             //======== emailPanel ========
             {
-                emailPanel.addFocusListener(new FocusAdapter() {
+                emailPanel.addComponentListener(new ComponentAdapter() {
                     @Override
-                    public void focusGained(FocusEvent e) {
-                        emailPanelFocusGained(e);
+                    public void componentShown(ComponentEvent e) {
+                        emailPanelComponentShown(e);
                     }
                 });
                 emailPanel.setLayout(new BorderLayout());
@@ -1096,15 +1111,6 @@ public class UIContasoc extends JFrame {
 
                     //---- destinatarioComboBox ----
                     destinatarioComboBox.setFont(destinatarioComboBox.getFont().deriveFont(destinatarioComboBox.getFont().getSize() + 6f));
-                    List<String> l = ContasocDAO.leerTabla("Socios").stream()
-                                    .map(Parsers::socioParser)
-                                    .map(socio -> socio.getPersona().getCorreo().trim()+" ("+socio.getSocio()+")")
-                                    .map(string -> string.contains("null") ? string.replace(string, "") : string)
-                                    .filter(string -> !string.isBlank())
-                                    .toList();
-                    for(String s:l) {
-                        destinatarioComboBox.addItem(s);
-                    }
 
                     GroupLayout emailDataPanelLayout = new GroupLayout(emailDataPanel);
                     emailDataPanel.setLayout(emailDataPanelLayout);

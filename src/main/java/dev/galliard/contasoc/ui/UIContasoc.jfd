@@ -169,7 +169,7 @@ new FormModel {
 									"name": "Socios"
 									auxiliary() {
 										"JavaCodeGenerator.variableModifiers": 12
-										"JavaCodeGenerator.postInitCode": "sociosTabla.setModel(new SociosTablaModel());\nsociosTabla.getTableHeader().setReorderingAllowed(false);\nsociosTabla.getTableHeader().setResizingAllowed(false);\nGUIManager.setColumnWidths(sociosTabla, \n\tnew int[] {55,55,350,100,100,320,100,100,100,400,100,100});\nsociosTabla.setRowHeight(50);"
+										"JavaCodeGenerator.postInitCode": "sociosTabla.setModel(new SociosTablaModel());\nsociosTabla.getTableHeader().setReorderingAllowed(false);\nsociosTabla.getTableHeader().setResizingAllowed(false);\nGUIManager.setColumnWidths(sociosTabla, \n\tnew int[] {55,55,350,100,100,320,100,100,100,400,100,100});\nsociosTabla.setRowHeight(50);\nsociosTabla.setDefaultRenderer(String.class, new DateCellRenderer());"
 									}
 									addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "sociosTablaMouseClicked", true ) )
 								} )
@@ -273,7 +273,7 @@ new FormModel {
 									"selectionMode": 0
 									auxiliary() {
 										"JavaCodeGenerator.variableModifiers": 12
-										"JavaCodeGenerator.postInitCode": "listaEsperaTabla.setModel(new ListaEsperaTablaModel());\nlistaEsperaTabla.getTableHeader().setReorderingAllowed(false);\nlistaEsperaTabla.getTableHeader().setResizingAllowed(false);\nlistaEsperaTabla.setRowHeight(50);"
+										"JavaCodeGenerator.postInitCode": "listaEsperaTabla.setModel(new ListaEsperaTablaModel());\nlistaEsperaTabla.getTableHeader().setReorderingAllowed(false);\nlistaEsperaTabla.getTableHeader().setResizingAllowed(false);\nlistaEsperaTabla.setRowHeight(50);\nlistaEsperaTabla.setDefaultRenderer(String.class, new DateCellRenderer());"
 									}
 								} )
 							} )
@@ -311,7 +311,7 @@ new FormModel {
 							"name": "Ingresos"
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
-								"JavaCodeGenerator.postInitCode": "ingresosTabla.setModel(new IngresosTablaModel());\ningresosTabla.getTableHeader().setReorderingAllowed(false);\ningresosTabla.getTableHeader().setResizingAllowed(false);\ningresosTabla.setRowHeight(50);"
+								"JavaCodeGenerator.postInitCode": "ingresosTabla.setModel(new IngresosTablaModel());\ningresosTabla.getTableHeader().setReorderingAllowed(false);\ningresosTabla.getTableHeader().setResizingAllowed(false);\ningresosTabla.setRowHeight(50);\ningresosTabla.setDefaultRenderer(String.class, new DateCellRenderer());"
 							}
 						} )
 					} )
@@ -343,7 +343,7 @@ new FormModel {
 							"name": "Gastos"
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
-								"JavaCodeGenerator.postInitCode": "gastosTabla.setModel(new GastosTablaModel());\ngastosTabla.getTableHeader().setReorderingAllowed(false);\ngastosTabla.getTableHeader().setResizingAllowed(false);\ngastosTabla.setRowHeight(50);"
+								"JavaCodeGenerator.postInitCode": "gastosTabla.setModel(new GastosTablaModel());\ngastosTabla.getTableHeader().setReorderingAllowed(false);\ngastosTabla.getTableHeader().setResizingAllowed(false);\ngastosTabla.setRowHeight(50);\ngastosTabla.setDefaultRenderer(String.class, new DateCellRenderer());"
 							}
 						} )
 					} )
@@ -548,7 +548,7 @@ new FormModel {
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
-					addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "emailPanelFocusGained", true ) )
+					addEvent( new FormEvent( "java.awt.event.ComponentListener", "componentShown", "emailPanelComponentShown", true ) )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 						"$horizontalGroup": "par l {seq {space :p:12:p, comp destinatarioLabel:::p::p, space u:::p, comp destinatarioComboBox:::p:246:p, space u:::p, comp asuntoLabel:::p::p, space u:::p, comp asuntoField:::p:210:p, space :::p}}"
 						"$verticalGroup": "par l {par b {comp asuntoLabel::b:p:26:p, comp asuntoField::b:p::p, comp destinatarioLabel::b:p:26:p, comp destinatarioComboBox::b:p:32:p}}"
@@ -587,7 +587,6 @@ new FormModel {
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
 								"JavaCodeGenerator.typeParameters": "String"
-								"JavaCodeGenerator.postInitCode": "List<String> l = ContasocDAO.leerTabla(\"Socios\").stream()\n                .map(Parsers::socioParser)\n                .map(socio -> socio.getPersona().getCorreo().trim()+\" (\"+socio.getSocio()+\")\")\n                .map(string -> string.contains(\"null\") ? string.replace(string, \"\") : string)\n                .filter(string -> !string.isBlank())\n                .toList();\nfor(String s:l) {\n\tdestinatarioComboBox.addItem(s);\n}"
 							}
 						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {

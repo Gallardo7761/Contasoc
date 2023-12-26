@@ -32,6 +32,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
 					name: "inicialBancoField"
+					"nextFocusableComponent": new FormReference( "inicialCajaField" )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
@@ -54,6 +55,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
 					name: "inicialCajaField"
+					"nextFocusableComponent": new FormReference( "inicialBancoField" )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}

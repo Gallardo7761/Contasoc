@@ -28,6 +28,7 @@ public class IngresosView extends JFrame {
         setTitle("Ingresos de {socio}");
         setFont(new Font(Font.DIALOG, Font.PLAIN, 16));
         setResizable(false);
+        setIconImage(new ImageIcon(getClass().getResource("/images/logohuerto_small.png")).getImage());
         var contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
@@ -46,6 +47,7 @@ public class IngresosView extends JFrame {
             ingresosTabla.setRowHeight(50);
             GUIManager.setColumnWidths(ingresosTabla, 
                 new int[] {70,120,250,80,70});
+            ingresosTabla.setDefaultRenderer(String.class, new DateCellRenderer());
             ingresosTablaPanel.setViewportView(ingresosTabla);
         }
         contentPane.add(ingresosTablaPanel, BorderLayout.CENTER);

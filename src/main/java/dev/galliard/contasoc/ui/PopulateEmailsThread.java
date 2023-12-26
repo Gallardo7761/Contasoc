@@ -12,9 +12,11 @@ public class PopulateEmailsThread implements Runnable {
         List<String> l = ContasocDAO.leerTabla("Socios").stream()
                 .map(Parsers::socioParser)
                 .map(socio -> socio.getPersona().getCorreo().trim()+" ("+socio.getSocio()+")")
-                .map(string -> string.contains("null") ? string.replace("null", "") : string)
+                .map(string -> string.contains("null") ? string.replace(string, "") : string)
+                .filter(string -> !string.isBlank())
                 .toList();
-        UIContasoc.destinatarioComboBox.removeAllItems();
-        l.forEach(UIContasoc.destinatarioComboBox::addItem);
+        for(String s:l) {
+            UIContasoc.destinatarioComboBox.addItem(s);
+        }
     }
 }

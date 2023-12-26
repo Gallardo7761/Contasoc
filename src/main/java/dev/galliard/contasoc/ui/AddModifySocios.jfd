@@ -12,6 +12,7 @@ new FormModel {
 			"title": "{accion} socio"
 			"$sizePolicy": 1
 			"resizable": false
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/logohuerto_small.png" )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "nombreLabel"
 				"text": "Nombre:"
@@ -26,6 +27,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "nombreField"
 				"font": #SwingDerivedFont0
+				"nextFocusableComponent": new FormReference( "dniField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -46,6 +48,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "dniField"
 				"font": #SwingDerivedFont0
+				"nextFocusableComponent": new FormReference( "telefonoField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -66,6 +69,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "telefonoField"
 				"font": #SwingDerivedFont0
+				"nextFocusableComponent": new FormReference( "emailField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -86,6 +90,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "emailField"
 				"font": #SwingDerivedFont0
+				"nextFocusableComponent": new FormReference( "socioField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -107,6 +112,7 @@ new FormModel {
 				name: "socioField"
 				"font": #SwingDerivedFont0
 				"toolTipText": "Si no se pone se autoincrementa"
+				"nextFocusableComponent": new FormReference( "huertoField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -127,6 +133,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "huertoField"
 				"font": #SwingDerivedFont0
+				"nextFocusableComponent": new FormReference( "altaField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -147,6 +154,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "altaField"
 				"font": #SwingDerivedFont0
+				"nextFocusableComponent": new FormReference( "entregaField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -167,6 +175,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "entregaField"
 				"font": #SwingDerivedFont0
+				"nextFocusableComponent": new FormReference( "bajaField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -187,6 +196,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "bajaField"
 				"font": #SwingDerivedFont0
+				"nextFocusableComponent": new FormReference( "notasField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -207,6 +217,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "notasField"
 				"font": #SwingDerivedFont0
+				"nextFocusableComponent": new FormReference( "nombreField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}

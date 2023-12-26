@@ -13,6 +13,7 @@ import javax.swing.*;
 
 import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.database.ContasocDAO;
+import dev.galliard.contasoc.util.Parsers;
 import net.miginfocom.swing.*;
 
 /**
@@ -33,7 +34,7 @@ public class AddModifyIngresos extends JFrame {
             case "ADD":
                 java.util.List<String> ins = new ArrayList<>();
                 ins.add(socioField.getText());
-                ins.add(fechaField.getText());
+                ins.add(Parsers.dashDateParserReversed(fechaField.getText()));
                 ins.add(conceptoField.getText());
                 ins.add(cantidadField.getText());
                 ins.add((String) tipoPagoComboBox.getSelectedItem());
@@ -46,7 +47,7 @@ public class AddModifyIngresos extends JFrame {
             case "MODIFY":
                 java.util.List<String> upd = new ArrayList<>();
                 upd.add(socioField.getText());
-                upd.add(fechaField.getText());
+                upd.add(Parsers.dashDateParserReversed(fechaField.getText()));
                 upd.add(conceptoField.getText());
                 upd.add(cantidadField.getText());
                 upd.add((String) tipoPagoComboBox.getSelectedItem());
@@ -58,6 +59,7 @@ public class AddModifyIngresos extends JFrame {
                                 "concepto =" + tempConcepto
                         });
                 GUIManager.populateGUITables();
+                this.dispose();
                 break;
         }
     }
@@ -81,6 +83,7 @@ public class AddModifyIngresos extends JFrame {
         //======== this ========
         setTitle("{accion} ingreso");
         setResizable(false);
+        setIconImage(new ImageIcon(getClass().getResource("/images/logohuerto_small.png")).getImage());
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
             "insets 12 24 12 26,gap 10 10",
@@ -100,6 +103,7 @@ public class AddModifyIngresos extends JFrame {
 
         //---- socioField ----
         socioField.setFont(socioField.getFont().deriveFont(socioField.getFont().getSize() + 4f));
+        socioField.setNextFocusableComponent(fechaField);
         contentPane.add(socioField, "cell 0 0,height 24:24:24");
 
         //---- fechalLabel ----
@@ -110,6 +114,7 @@ public class AddModifyIngresos extends JFrame {
 
         //---- fechaField ----
         fechaField.setFont(fechaField.getFont().deriveFont(fechaField.getFont().getSize() + 4f));
+        fechaField.setNextFocusableComponent(conceptoField);
         contentPane.add(fechaField, "cell 0 1,height 24:24:24");
 
         //---- conceptoLabel ----
@@ -120,6 +125,7 @@ public class AddModifyIngresos extends JFrame {
 
         //---- conceptoField ----
         conceptoField.setFont(conceptoField.getFont().deriveFont(conceptoField.getFont().getSize() + 4f));
+        conceptoField.setNextFocusableComponent(cantidadField);
         contentPane.add(conceptoField, "cell 0 2,height 24:24:24");
 
         //---- cantidadLabel ----
@@ -130,6 +136,7 @@ public class AddModifyIngresos extends JFrame {
 
         //---- cantidadField ----
         cantidadField.setFont(cantidadField.getFont().deriveFont(cantidadField.getFont().getSize() + 4f));
+        cantidadField.setNextFocusableComponent(socioField);
         contentPane.add(cantidadField, "cell 1 0,height 24:24:24");
 
         //---- tipoLabel ----

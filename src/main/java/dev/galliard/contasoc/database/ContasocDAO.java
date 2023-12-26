@@ -1,5 +1,6 @@
 package dev.galliard.contasoc.database;
 
+import dev.galliard.contasoc.ui.DateCellRenderer;
 import dev.galliard.contasoc.util.ErrorHandler;
 
 import javax.swing.*;
@@ -321,7 +322,7 @@ public class ContasocDAO {
     public static void fillListaEspera(JTable tabla) {
         // Conexión a la base de datos SQLite
         ((DefaultTableModel) tabla.getModel()).setRowCount(0);
-        final DefaultTableCellRenderer defaultTableCellRenderer = new DefaultTableCellRenderer();
+        final DefaultTableCellRenderer defaultTableCellRenderer = new DateCellRenderer();
         defaultTableCellRenderer.setHorizontalTextPosition(SwingConstants.LEFT);
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
         try {

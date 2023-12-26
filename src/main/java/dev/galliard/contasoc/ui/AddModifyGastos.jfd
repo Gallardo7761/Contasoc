@@ -12,6 +12,7 @@ new FormModel {
 			"title": "{accion} gasto"
 			"$sizePolicy": 1
 			"resizable": false
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/logohuerto_small.png" )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "fechaLabel"
 				"text": "Fecha:"
@@ -26,6 +27,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "fechaField"
 				"font": #SwingDerivedFont0
+				"nextFocusableComponent": new FormReference( "proveedorField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -46,6 +48,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "proveedorField"
 				"font": #SwingDerivedFont0
+				"nextFocusableComponent": new FormReference( "conceptoField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -66,6 +69,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "conceptoField"
 				"font": #SwingDerivedFont0
+				"nextFocusableComponent": new FormReference( "cantidadField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -86,6 +90,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "cantidadField"
 				"font": #SwingDerivedFont0
+				"nextFocusableComponent": new FormReference( "facturaField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -106,6 +111,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "facturaField"
 				"font": #SwingDerivedFont0
+				"nextFocusableComponent": new FormReference( "fechaField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}

@@ -9,6 +9,7 @@ new FormModel {
 			"$sizePolicy": 1
 			"font": new java.awt.Font( "Dialog", 0, 16 )
 			"resizable": false
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/logohuerto_small.png" )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 				name: "ingresosTablaPanel"
 				"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
@@ -22,7 +23,7 @@ new FormModel {
 					"gridColor": new java.awt.Color( 153, 153, 153, 255 )
 					"showHorizontalLines": true
 					auxiliary() {
-						"JavaCodeGenerator.postInitCode": "ingresosTabla.setModel(new IngresosTablaModel());\ningresosTabla.getTableHeader().setReorderingAllowed(false);\ningresosTabla.getTableHeader().setResizingAllowed(false);\ningresosTabla.setRowHeight(50);\nGUIManager.setColumnWidths(ingresosTabla, \n\tnew int[] {70,120,250,80,70});"
+						"JavaCodeGenerator.postInitCode": "ingresosTabla.setModel(new IngresosTablaModel());\ningresosTabla.getTableHeader().setReorderingAllowed(false);\ningresosTabla.getTableHeader().setResizingAllowed(false);\ningresosTabla.setRowHeight(50);\nGUIManager.setColumnWidths(ingresosTabla, \n\tnew int[] {70,120,250,80,70});\ningresosTabla.setDefaultRenderer(String.class, new DateCellRenderer());"
 						"JavaCodeGenerator.variableModifiers": 12
 					}
 				} )
