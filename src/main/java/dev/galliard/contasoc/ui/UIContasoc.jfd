@@ -9,7 +9,7 @@ new FormModel {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 			name: "this"
 			"$locationPolicy": 1
-			"font": new java.awt.Font( "Dialog", 0, 12 )
+			"font": new java.awt.Font( "Segoe UI", 0, 12 )
 			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/logohuerto_small.png" )
 			"defaultCloseOperation": 3
 			"preferredSize": new java.awt.Dimension( 900, 600 )
@@ -19,8 +19,8 @@ new FormModel {
 				"JavaCodeGenerator.variableModifiers": 12
 			}
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq {space :::p, comp nuevoBtn:::p::p, space :::p, comp editarBtn:::p::p, space :::p, comp eliminarBtn:::p::p, space :::p, comp printBtn:::p::p, space :::p, comp importarBtn:::p::p, space :::p, comp exportarBtn:::p::p, space ::358:x, comp versionLabel:::p:51:p, space :::p}}"
-				"$verticalGroup": "par l {seq l {space :::p, par l:::p {comp exportarBtn:::::x, comp nuevoBtn::l:::x, comp editarBtn::l:::x, comp eliminarBtn::l:::x, comp printBtn::l:::x, comp importarBtn::l:::x, comp versionLabel::l:::x}, space :::p}}"
+				"$horizontalGroup": "par l {seq {space :::p, comp nuevoBtn:::p::p, space :::p, comp editarBtn:::p::p, space :::p, comp eliminarBtn:::p::p, space :::p, comp printBtn:::p::p, space :::p, comp importarBtn:::p::p, space :::p, comp exportarBtn:::p::p, space ::321:x, comp versionLabel:::p:51:p, space :::p, comp helpBtn:::p:31:p, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par l:::p {comp nuevoBtn::l::32:x, comp editarBtn::l:::x, comp eliminarBtn::l:::x, comp printBtn::l:::x, comp importarBtn::l:::x, par b:t {comp exportarBtn::b:p::p, comp helpBtn::b::31:x, comp versionLabel::b::29:x}}, space ::2:x}}"
 			} ) {
 				name: "searchAndButtonsWrapper"
 				"preferredSize": new java.awt.Dimension( 1008, 40 )
@@ -120,6 +120,20 @@ new FormModel {
 					name: "versionLabel"
 					"text": "Ver. 6.0.0"
 					"focusable": false
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "helpBtn"
+					"text": "?"
+					"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 4, false )
+					"iconTextGap": 0
+					"margin": new java.awt.Insets( 0, 0, 0, 0 )
+					"background": #Color0
+					"foreground": sfield java.awt.Color black
+					"borderPainted": false
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "helpBtnActionPerformed", true ) )
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "North"

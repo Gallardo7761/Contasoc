@@ -422,6 +422,13 @@ public class UIContasoc extends JFrame {
             }
         };
 
+        javax.swing.Action ayudaAction = new AbstractAction("Ayuda") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                helpBtnActionPerformed(e);
+            }
+        };
+
         // Obtener el panel de contenido
         JPanel contentPane = (JPanel) this.getContentPane();
         // Configurar atajos de teclado
@@ -429,16 +436,19 @@ public class UIContasoc extends JFrame {
         KeyStroke editarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK);
         KeyStroke eliminarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK);
         KeyStroke imprimirKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK);
+        KeyStroke ayudaKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0);
 
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(nuevoKeyStroke, "nuevo");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(editarKeyStroke, "editar");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(eliminarKeyStroke, "eliminar");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(imprimirKeyStroke, "imprimir");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ayudaKeyStroke, "ayuda");
 
         contentPane.getActionMap().put("nuevo", nuevoAction);
         contentPane.getActionMap().put("editar", editarAction);
         contentPane.getActionMap().put("eliminar", eliminarAction);
         contentPane.getActionMap().put("imprimir", imprimirAction);
+        contentPane.getActionMap().put("ayuda", ayudaAction);
     }
 
     private void emailPanelComponentShown(ComponentEvent e) {
@@ -452,6 +462,12 @@ public class UIContasoc extends JFrame {
         }
     }
 
+    private void helpBtnActionPerformed(ActionEvent e) {
+        HelpMenu helpMenu = new HelpMenu();
+        helpMenu.setVisible(true);
+        helpMenu.setLocationRelativeTo(null);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
@@ -463,6 +479,7 @@ public class UIContasoc extends JFrame {
         importarBtn = new JButton();
         exportarBtn = new JButton();
         versionLabel = new JLabel();
+        helpBtn = new JButton();
         tabbedPane1 = new JTabbedPane();
         sociosPanel = new JPanel();
         cardSociosPanel = new JPanel();
@@ -522,7 +539,7 @@ public class UIContasoc extends JFrame {
         tipoEmailComboBox = new JComboBox<>();
 
         //======== this ========
-        setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+        setFont(new Font("Segoe UI", Font.PLAIN, 12));
         setIconImage(new ImageIcon(getClass().getResource("/images/logohuerto_small.png")).getImage());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(900, 600));
@@ -609,6 +626,16 @@ public class UIContasoc extends JFrame {
             versionLabel.setText("Ver. 6.0.0");
             versionLabel.setFocusable(false);
 
+            //---- helpBtn ----
+            helpBtn.setText("?");
+            helpBtn.setFont(helpBtn.getFont().deriveFont(helpBtn.getFont().getStyle() | Font.BOLD, helpBtn.getFont().getSize() + 4f));
+            helpBtn.setIconTextGap(0);
+            helpBtn.setMargin(new Insets(0, 0, 0, 0));
+            helpBtn.setBackground(new Color(0xf7f8fa));
+            helpBtn.setForeground(Color.black);
+            helpBtn.setBorderPainted(false);
+            helpBtn.addActionListener(e -> helpBtnActionPerformed(e));
+
             GroupLayout searchAndButtonsWrapperLayout = new GroupLayout(searchAndButtonsWrapper);
             searchAndButtonsWrapper.setLayout(searchAndButtonsWrapperLayout);
             searchAndButtonsWrapperLayout.setHorizontalGroup(
@@ -626,8 +653,10 @@ public class UIContasoc extends JFrame {
                         .addComponent(importarBtn)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(exportarBtn)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 321, Short.MAX_VALUE)
                         .addComponent(versionLabel, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(helpBtn, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
             );
             searchAndButtonsWrapperLayout.setVerticalGroup(
@@ -635,14 +664,16 @@ public class UIContasoc extends JFrame {
                     .addGroup(searchAndButtonsWrapperLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(searchAndButtonsWrapperLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                            .addComponent(exportarBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(nuevoBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(nuevoBtn, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                             .addComponent(editarBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(eliminarBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(printBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(importarBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(versionLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
+                            .addGroup(GroupLayout.Alignment.TRAILING, searchAndButtonsWrapperLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(exportarBtn)
+                                .addComponent(helpBtn, GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                                .addComponent(versionLabel, GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)))
+                        .addContainerGap(2, Short.MAX_VALUE))
             );
         }
         contentPane.add(searchAndButtonsWrapper, BorderLayout.NORTH);
@@ -1258,6 +1289,7 @@ public class UIContasoc extends JFrame {
     protected static JButton importarBtn;
     protected static JButton exportarBtn;
     protected static JLabel versionLabel;
+    protected static JButton helpBtn;
     protected static JTabbedPane tabbedPane1;
     protected static JPanel sociosPanel;
     protected static JPanel cardSociosPanel;

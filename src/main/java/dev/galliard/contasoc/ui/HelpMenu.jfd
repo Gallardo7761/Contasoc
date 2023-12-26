@@ -1,0 +1,121 @@
+JFDML JFormDesigner: "8.2.0.0.331" Java: "17.0.9" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		auxiliary() {
+			"JavaCodeGenerator.defaultVariableModifiers": 12
+		}
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :::p, comp wrapper::::436:x, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp wrapper:::::x, space :::p}}"
+		} ) {
+			name: "this"
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/logohuerto_small.png" )
+			"title": "Menú de ayuda de Contasoc"
+			"$sizePolicy": 1
+			"resizable": false
+			"defaultCloseOperation": 2
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "insets 0,hidemode 3,gap 0 0"
+				"$columnConstraints": "[grow,fill][fill][fill][grow,fill][grow,fill]"
+				"$rowConstraints": "[grow,fill]"
+			} ) {
+				name: "wrapper"
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "treePanel"
+					"preferredSize": new java.awt.Dimension( 120, 0 )
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"minimumSize": new java.awt.Dimension( 120, 15 )
+					add( new FormComponent( "javax.swing.JTree" ) {
+						name: "tree"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
+						"focusable": false
+						"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0,width 145:145:145"
+				} )
+				add( new FormComponent( "javax.swing.JSeparator" ) {
+					name: "separator1"
+					"border": new javax.swing.border.LineBorder( sfield java.awt.SystemColor activeCaptionBorder, 1, false )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "pad 0,cell 1 0,gapx 6 6"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
+					name: "helpWrapper"
+					"preferredSize": new java.awt.Dimension( 0, 0 )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {comp label1::l:::x, seq {par l {comp label2::l:p:278:p, comp label3::l:p:278:p, comp label4::l:p:278:p}, space :0:0:x}}"
+						"$verticalGroup": "par l {seq l {comp label1:::p:32:p, space :::p, comp label2:::p:32:p, space :::p, comp label3:::p:32:p, space :::p, comp label4:::p:32:p, space :0:411:x}}"
+					} ) {
+						name: "cardKeyShortcuts"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label1"
+							"text": "text"
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label2"
+							"text": "text"
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label3"
+							"text": "text"
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label4"
+							"text": "text"
+						} )
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "card1"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {space :0:278:x}"
+						"$verticalGroup": "par l {space :0:557:x}"
+					} ) {
+						name: "cardSocios"
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "card2"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {space :0:278:x}"
+						"$verticalGroup": "par l {space :0:557:x}"
+					} ) {
+						name: "cardIngresos"
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "card3"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {space :0:278:x}"
+						"$verticalGroup": "par l {space :0:557:x}"
+					} ) {
+						name: "cardGastos"
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "card4"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {space :0:278:x}"
+						"$verticalGroup": "par l {space :0:557:x}"
+					} ) {
+						name: "cardBalance"
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "card5"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {space :0:278:x}"
+						"$verticalGroup": "par l {space :0:557:x}"
+					} ) {
+						name: "cardEmail"
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "card6"
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 3 0,width 278:278:278"
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 450, 600 )
+		} )
+	}
+}
