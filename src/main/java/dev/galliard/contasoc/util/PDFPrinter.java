@@ -7,6 +7,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import javax.swing.*;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class PDFPrinter {
@@ -96,6 +97,45 @@ public class PDFPrinter {
         document.close();
     }
 }
+
+    public static void generarBalancePDF(String outFile) {
+        Document document = new Document();
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream(outFile));
+            document.open();
+
+            PdfPTable table = new PdfPTable(2); // 2 columns
+            PdfPCell cell;
+
+            cell = new PdfPCell(new Phrase("BALANCE AÑO YYYY"));
+            cell.setColspan(2);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(cell);
+
+            table.addCell("INGRESOS BANCO");
+            table.addCell("INGRESOS CAJA");
+
+            for (int i = 0; i < 10; i++) { // Add 10 rows of example data
+                table.addCell("");
+                table.addCell("");
+            }
+
+            cell = new PdfPCell(new Phrase("Total:"));
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(cell);
+
+            cell = new PdfPCell(new Phrase(""));
+            table.addCell(cell);
+
+            // Similar cells can be added for GASTOS BANCO and GASTOS CAJA
+
+            document.add(table);
+        } catch (DocumentException | IOException e) {
+            e.printStackTrace();
+        } finally {
+            document.close();
+        }
+    }
 
 
     public static void printTableToPDF(JTable table, String filename, int tamañoFuente) {

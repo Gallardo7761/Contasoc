@@ -19,7 +19,7 @@ new FormModel {
 				"JavaCodeGenerator.variableModifiers": 12
 			}
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq {space :::p, comp nuevoBtn:::p::p, space :::p, comp editarBtn:::p::p, space :::p, comp eliminarBtn:::p::p, space :::p, comp printBtn:::p::p, space :::p, comp importarBtn:::p::p, space :::p, comp exportarBtn:::p::p, space ::321:x, comp versionLabel:::p:51:p, space :::p, comp helpBtn:::p:31:p, space :::p}}"
+				"$horizontalGroup": "par l {seq {space :::p, comp nuevoBtn:::p::p, space :::p, comp editarBtn:::p::p, space :::p, comp eliminarBtn:::p::p, space :::p, comp printBtn:::p::p, space :::p, comp importarBtn:::p::p, space :::p, comp exportarBtn:::p::p, space ::302:x, comp versionLabel:::p:70:p, space :::p, comp helpBtn:::p:31:p, space :::p}}"
 				"$verticalGroup": "par l {seq l {space :::p, par l:::p {par b:l {comp editarBtn::b:::x, comp nuevoBtn::b:p::p, comp eliminarBtn::b:p::p, comp printBtn::b:p::p}, par b:t {comp helpBtn::b::31:x, comp importarBtn::b:p::p, comp exportarBtn::b:p::p, comp versionLabel::b::31:x}}, space ::1:x}}"
 			} ) {
 				name: "searchAndButtonsWrapper"
@@ -183,7 +183,7 @@ new FormModel {
 									"name": "Socios"
 									auxiliary() {
 										"JavaCodeGenerator.variableModifiers": 12
-										"JavaCodeGenerator.postInitCode": "sociosTabla.setModel(new SociosTablaModel());\nsociosTabla.getTableHeader().setReorderingAllowed(false);\nsociosTabla.getTableHeader().setResizingAllowed(false);\nGUIManager.setColumnWidths(sociosTabla, \n\tnew int[] {55,55,350,100,100,320,100,100,100,400,100,100});\nsociosTabla.setRowHeight(50);\nsociosTabla.setDefaultRenderer(String.class, new DateCellRenderer());"
+										"JavaCodeGenerator.postInitCode": "sociosTabla.setModel(new SociosTablaModel());\nsociosTabla.getTableHeader().setReorderingAllowed(false);\nsociosTabla.getTableHeader().setResizingAllowed(false);\nGUIManager.setColumnWidths(sociosTabla, \n\tnew int[] {60,60,360,110,110,330,110,110,110,330,150,120});\nsociosTabla.setRowHeight(50);\nsociosTabla.setDefaultRenderer(String.class, new DateCellRenderer());"
 									}
 									addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "sociosTablaMouseClicked", true ) )
 								} )
@@ -564,8 +564,8 @@ new FormModel {
 					}
 					addEvent( new FormEvent( "java.awt.event.ComponentListener", "componentShown", "emailPanelComponentShown", true ) )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq {space :p:12:p, comp destinatarioLabel:::p::p, space u:::p, comp destinatarioComboBox:::p:246:p, space u:::p, comp asuntoLabel:::p::p, space u:::p, comp asuntoField:::p:210:p, space :::p}}"
-						"$verticalGroup": "par l {par b {comp asuntoLabel::b:p:26:p, comp asuntoField::b:p::p, comp destinatarioLabel::b:p:26:p, comp destinatarioComboBox::b:p:32:p}}"
+						"$horizontalGroup": "par l {seq {space :p:12:p, comp destinatarioLabel:::p::p, space u:::p, comp destinatarioComboBox:::p:246:p, space u:::p, comp asuntoLabel:::p::p, space u:::p, comp asuntoField:::p:210:p, space :::p, comp adjuntoCheckBox:::p::p, space :::p}}"
+						"$verticalGroup": "par l {par b {comp asuntoLabel::b:p:26:p, comp asuntoField::b:p::p, comp destinatarioLabel::b:p:26:p, comp destinatarioComboBox::b:p:32:p, comp adjuntoCheckBox::b:p::p}}"
 					} ) {
 						name: "emailDataPanel"
 						auxiliary() {
@@ -602,6 +602,11 @@ new FormModel {
 								"JavaCodeGenerator.variableModifiers": 12
 								"JavaCodeGenerator.typeParameters": "String"
 							}
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "adjuntoCheckBox"
+							"text": "Adjunto"
+							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
 						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
 						"value": "North"
@@ -647,8 +652,8 @@ new FormModel {
 							"JavaCodeGenerator.variableModifiers": 12
 						}
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq {space :::p, comp enviarBtn:::p::p, space :::p, comp tipoEmailComboBox:::p:160:p, space :::p, comp borradorBtn:::p::p, space ::471:x}}"
-							"$verticalGroup": "par l {seq {par l {comp enviarBtn:::::x, comp borradorBtn::l:::x, comp tipoEmailComboBox::l:::x}, space :::p}}"
+							"$horizontalGroup": "par l {seq {space :::p, comp enviarBtn:::p::p, space :::p, comp tipoEmailComboBox:::p:160:p, space :::p, comp borradorBtn:::p::p, space :::p, comp adjuntoBtn:::p::p, space ::363:x}}"
+							"$verticalGroup": "par l {seq t {par t {comp enviarBtn::l:::x, par b:l {comp borradorBtn::b:p::p, comp adjuntoBtn::b:::x}, comp tipoEmailComboBox::l:::x}, space :::p}}"
 						} ) {
 							name: "emailBtnsWrapper"
 							auxiliary() {
@@ -681,6 +686,12 @@ new FormModel {
 									"JavaCodeGenerator.postInitCode": "tipoEmailComboBox.addItem(\"NORMAL\");\ntipoEmailComboBox.addItem(\"AVISO IMPAGO\");\ntipoEmailComboBox.addItem(\"AVISO ABANDONO\");\ntipoEmailComboBox.addItem(\"MAL COMPORTAMIENTO\");"
 								}
 								addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "tipoEmailComboBoxItemStateChanged", true ) )
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "adjuntoBtn"
+								"text": "Adjuntar"
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "adjuntoBtnActionPerformed", true ) )
 							} )
 						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {

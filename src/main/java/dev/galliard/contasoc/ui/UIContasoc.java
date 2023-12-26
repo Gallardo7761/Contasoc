@@ -12,11 +12,13 @@ import dev.galliard.contasoc.ui.tablemodels.IngresosTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.ListaEsperaTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.SociosTablaModel;
 import dev.galliard.contasoc.util.EmailSender2;
+import dev.galliard.contasoc.util.ErrorHandler;
 import dev.galliard.contasoc.util.Parsers;
 import dev.galliard.contasoc.util.UpperCaseFilter;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -292,19 +294,26 @@ public class UIContasoc extends JFrame {
                 String cuerpo = EmailSender2.NORMAL_EMAIL
                         .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"))
                         .replace("{mensaje}",bodyTextArea.getText());
-                new EmailSender2().sendEmail(destinatario, asunto, cuerpo);
+                if(adjuntoCheckBox.isSelected()) {
+                    new EmailSender2().sendEmail(destinatario, asunto, cuerpo, EmailSender2.adjunto);
+                } else {
+                    new EmailSender2().sendEmail(destinatario, asunto, cuerpo);
+                }
+                asuntoField.setText("");
+                bodyTextArea.setText("");
                 break;
             case "AVISO IMPAGO":
                 destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
                 cuerpo = EmailSender2.UNPAID_EMAIL
-                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"))
-                        .replace("{fecha}", Parsers.dateParser(LocalDate.now()))
-                        .replace("{importe}",
-                                ContasocDAO.select("Ingresos", new Object[] {"60-SUM(cantidad)"},
-                                        "numeroSocio = "+ContasocDAO.select("Socios", new Object[] {"numeroSocio"}, "email = '"+destinatario+"'")));
+                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
                 asunto = "AVISO IMPAGO";
                 UIContasoc.asuntoField.setText(asunto);
-                new EmailSender2().sendEmail(destinatario, asunto, cuerpo);
+                if(adjuntoCheckBox.isSelected()) {
+                    new EmailSender2().sendEmail(destinatario, asunto, cuerpo, EmailSender2.adjunto);
+                    asuntoField.setText("");
+                } else {
+                    ErrorHandler.error("Este tipo de email requiere adjunto");
+                }
                 break;
             case "AVISO ABANDONO":
                 destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
@@ -312,7 +321,12 @@ public class UIContasoc extends JFrame {
                 UIContasoc.asuntoField.setText(asunto);
                 cuerpo = EmailSender2.WARNING_EMAIL
                         .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
-                new EmailSender2().sendEmail(destinatario, asunto, cuerpo);
+                if(adjuntoCheckBox.isSelected()) {
+                    new EmailSender2().sendEmail(destinatario, asunto, cuerpo, EmailSender2.adjunto);
+                    asuntoField.setText("");
+                } else {
+                    ErrorHandler.error("Este tipo de email requiere adjunto");
+                }
                 break;
             case "MAL COMPORTAMIENTO":
                 destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
@@ -320,7 +334,13 @@ public class UIContasoc extends JFrame {
                 UIContasoc.asuntoField.setText(asunto);
                 cuerpo = EmailSender2.MISBEHAVE_EMAIL
                         .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
-                new EmailSender2().sendEmail(destinatario, asunto, cuerpo);
+                if(adjuntoCheckBox.isSelected()) {
+                    new EmailSender2().sendEmail(destinatario, asunto, cuerpo, EmailSender2.adjunto);
+                    asuntoField.setText("");
+                } else {
+                    ErrorHandler.error("Este tipo de email requiere adjunto");
+                }
+
                 break;
         }
     }
@@ -333,11 +353,7 @@ public class UIContasoc extends JFrame {
                     .replace("{mensaje}",bodyTextArea.getText());
         } else if(UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("AVISO IMPAGO")) {
             body = EmailSender2.UNPAID_EMAIL
-                    .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"))
-                    .replace("{fecha}", Parsers.dateParser(LocalDate.now()))
-                    .replace("{importe}",
-                            ContasocDAO.select("Ingresos", new Object[] {"60-SUM(cantidad)"},
-                                    "numeroSocio = "+ContasocDAO.select("Socios", new Object[] {"numeroSocio"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'")));
+                    .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"));
         } else if(UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("AVISO ABANDONO")) {
             body = EmailSender2.WARNING_EMAIL
                     .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"));
@@ -468,6 +484,31 @@ public class UIContasoc extends JFrame {
         helpMenu.setLocationRelativeTo(null);
     }
 
+    private File adjuntoBtnActionPerformed(ActionEvent e) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Selecciona el archivo a adjuntar");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setMultiSelectionEnabled(false);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                return f.getName().toLowerCase().endsWith(".pdf") || f.isDirectory();
+            }
+
+            @Override
+            public String getDescription() {
+                return "Archivos PDF";
+            }
+        });
+        int result = fileChooser.showOpenDialog(this);
+        if(result == JFileChooser.APPROVE_OPTION) {
+            EmailSender2.adjunto = fileChooser.getSelectedFile();
+        }
+
+        return EmailSender2.adjunto;
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
@@ -528,6 +569,7 @@ public class UIContasoc extends JFrame {
         asuntoLabel = new JLabel();
         asuntoField = new JTextField();
         destinatarioComboBox = new JComboBox<>();
+        adjuntoCheckBox = new JCheckBox();
         emailBodyPanel = new JPanel();
         emailBodyWrapper = new JPanel();
         bodyScrollPane = new JScrollPane();
@@ -537,6 +579,7 @@ public class UIContasoc extends JFrame {
         enviarBtn = new JButton();
         borradorBtn = new JButton();
         tipoEmailComboBox = new JComboBox<>();
+        adjuntoBtn = new JButton();
 
         //======== this ========
         setFont(new Font("Segoe UI", Font.PLAIN, 12));
@@ -653,8 +696,8 @@ public class UIContasoc extends JFrame {
                         .addComponent(importarBtn)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(exportarBtn)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 321, Short.MAX_VALUE)
-                        .addComponent(versionLabel, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 302, Short.MAX_VALUE)
+                        .addComponent(versionLabel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(helpBtn, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
@@ -721,8 +764,8 @@ public class UIContasoc extends JFrame {
                             sociosTabla.setModel(new SociosTablaModel());
                             sociosTabla.getTableHeader().setReorderingAllowed(false);
                             sociosTabla.getTableHeader().setResizingAllowed(false);
-                            GUIManager.setColumnWidths(sociosTabla, 
-                                new int[] {55,55,350,100,100,320,100,100,100,400,100,100});
+                            GUIManager.setColumnWidths(sociosTabla,
+                                new int[] {60,60,360,110,110,330,110,110,110,330,150,120});
                             sociosTabla.setRowHeight(50);
                             sociosTabla.setDefaultRenderer(String.class, new DateCellRenderer());
                             sociosTablaPanel.setViewportView(sociosTabla);
@@ -1143,6 +1186,10 @@ public class UIContasoc extends JFrame {
                     //---- destinatarioComboBox ----
                     destinatarioComboBox.setFont(destinatarioComboBox.getFont().deriveFont(destinatarioComboBox.getFont().getSize() + 6f));
 
+                    //---- adjuntoCheckBox ----
+                    adjuntoCheckBox.setText("Adjunto");
+                    adjuntoCheckBox.setFont(adjuntoCheckBox.getFont().deriveFont(adjuntoCheckBox.getFont().getSize() + 6f));
+
                     GroupLayout emailDataPanelLayout = new GroupLayout(emailDataPanel);
                     emailDataPanel.setLayout(emailDataPanelLayout);
                     emailDataPanelLayout.setHorizontalGroup(
@@ -1156,6 +1203,8 @@ public class UIContasoc extends JFrame {
                                 .addComponent(asuntoLabel)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(asuntoField, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(adjuntoCheckBox)
                                 .addContainerGap())
                     );
                     emailDataPanelLayout.setVerticalGroup(
@@ -1164,7 +1213,8 @@ public class UIContasoc extends JFrame {
                                 .addComponent(asuntoLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(asuntoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(destinatarioLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(destinatarioComboBox, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+                                .addComponent(destinatarioComboBox, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(adjuntoCheckBox))
                     );
                 }
                 emailPanel.add(emailDataPanel, BorderLayout.NORTH);
@@ -1245,6 +1295,11 @@ public class UIContasoc extends JFrame {
                         tipoEmailComboBox.addItem("AVISO ABANDONO");
                         tipoEmailComboBox.addItem("MAL COMPORTAMIENTO");
 
+                        //---- adjuntoBtn ----
+                        adjuntoBtn.setText("Adjuntar");
+                        adjuntoBtn.setFont(adjuntoBtn.getFont().deriveFont(adjuntoBtn.getFont().getSize() + 6f));
+                        adjuntoBtn.addActionListener(e -> adjuntoBtnActionPerformed(e));
+
                         GroupLayout emailBtnsWrapperLayout = new GroupLayout(emailBtnsWrapper);
                         emailBtnsWrapper.setLayout(emailBtnsWrapperLayout);
                         emailBtnsWrapperLayout.setHorizontalGroup(
@@ -1256,15 +1311,19 @@ public class UIContasoc extends JFrame {
                                     .addComponent(tipoEmailComboBox, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(borradorBtn)
-                                    .addContainerGap(471, Short.MAX_VALUE))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(adjuntoBtn)
+                                    .addContainerGap(363, Short.MAX_VALUE))
                         );
                         emailBtnsWrapperLayout.setVerticalGroup(
                             emailBtnsWrapperLayout.createParallelGroup()
-                                .addGroup(emailBtnsWrapperLayout.createSequentialGroup()
-                                    .addGroup(emailBtnsWrapperLayout.createParallelGroup()
-                                        .addComponent(enviarBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(borradorBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(tipoEmailComboBox))
+                                .addGroup(GroupLayout.Alignment.TRAILING, emailBtnsWrapperLayout.createSequentialGroup()
+                                    .addGroup(emailBtnsWrapperLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                        .addComponent(enviarBtn, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(GroupLayout.Alignment.LEADING, emailBtnsWrapperLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                            .addComponent(borradorBtn)
+                                            .addComponent(adjuntoBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(tipoEmailComboBox, GroupLayout.Alignment.LEADING))
                                     .addContainerGap())
                         );
                     }
@@ -1339,6 +1398,7 @@ public class UIContasoc extends JFrame {
     protected static JLabel asuntoLabel;
     protected static JTextField asuntoField;
     protected static JComboBox<String> destinatarioComboBox;
+    protected static JCheckBox adjuntoCheckBox;
     protected static JPanel emailBodyPanel;
     protected static JPanel emailBodyWrapper;
     protected static JScrollPane bodyScrollPane;
@@ -1348,5 +1408,6 @@ public class UIContasoc extends JFrame {
     protected static JButton enviarBtn;
     protected static JButton borradorBtn;
     protected static JComboBox<String> tipoEmailComboBox;
+    protected static JButton adjuntoBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
