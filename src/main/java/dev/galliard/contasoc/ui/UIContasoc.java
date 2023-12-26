@@ -377,7 +377,18 @@ public class UIContasoc extends JFrame {
         if(selectedRowIndex >= 0 && evt.getButton() == MouseEvent.BUTTON3) {
             IngresosView ingresosView = new IngresosView();
             ingresosView.setVisible(true);
+            ingresosView.setTitle("Ingresos de "+sociosTabla.getValueAt(selectedRowIndex, 2));
             ingresosView.setLocationRelativeTo(null);
+            ContasocDAO.fillTableFrom(IngresosView.ingresosTabla, "Ingresos");
+            for(int i = 0; i < IngresosView.ingresosTabla.getRowCount(); i++) {
+                if(!IngresosView.ingresosTabla.getValueAt(i, 0).equals(sociosTabla.getValueAt(selectedRowIndex, 0))) {
+                    IngresosView.ingresosTabla.setValueAt("", i, 0);
+                    IngresosView.ingresosTabla.setValueAt("", i, 1);
+                    IngresosView.ingresosTabla.setValueAt("", i, 2);
+                    IngresosView.ingresosTabla.setValueAt("", i, 3);
+                    IngresosView.ingresosTabla.setValueAt("", i, 4);
+                }
+            }
         }
     }
 
@@ -1184,26 +1195,26 @@ public class UIContasoc extends JFrame {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
-    private JPanel searchAndButtonsWrapper;
+    protected static JPanel searchAndButtonsWrapper;
     protected static JButton nuevoBtn;
     protected static JButton editarBtn;
     protected static JButton eliminarBtn;
     protected static JButton printBtn;
     protected static JButton importarBtn;
     protected static JButton exportarBtn;
-    private JLabel versionLabel;
+    protected static JLabel versionLabel;
     protected static JTabbedPane tabbedPane1;
     protected static JPanel sociosPanel;
     protected static JPanel cardSociosPanel;
     protected static JPanel sociosWrapper;
     protected static JScrollPane sociosTablaPanel;
     protected static JTable sociosTabla;
-    private JPanel toListaEsperaWrapper;
+    protected static JPanel toListaEsperaWrapper;
     protected static JButton toListaEsperaBtn;
-    private JPanel buscarWrapper;
+    protected static JPanel buscarWrapper;
     protected static JTextField buscarField;
     protected static JPanel cardListaEsperaPanel;
-    private JPanel toSociosWrapper;
+    protected static JPanel toSociosWrapper;
     protected static JButton toSociosBtn;
     protected static JPanel listaEsperaWrapper;
     protected static JScrollPane listaEsperaTablaPanel;
@@ -1242,8 +1253,8 @@ public class UIContasoc extends JFrame {
     protected static JComboBox<String> destinatarioComboBox;
     protected static JPanel emailBodyPanel;
     protected static JPanel emailBodyWrapper;
-    private JScrollPane bodyScrollPane;
-    private JTextArea bodyTextArea;
+    protected static JScrollPane bodyScrollPane;
+    protected static JTextArea bodyTextArea;
     protected static JPanel emailBtnsPanel;
     protected static JPanel emailBtnsWrapper;
     protected static JButton enviarBtn;

@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS Socios(
 	tipo VARCHAR(32) NOT NULL,
 	estado VARCHAR(8),
 	CONSTRAINT telefonoNoValido CHECK ((telefono >= 000000000) AND (telefono <= 999999999)),
-	CONSTRAINT tipoNoValido CHECK (tipo IN ('HORTELANO','LISTA_ESPERA','HORTELANO_INVERNADERO','COLABORADOR')),
+	CONSTRAINT tipoNoValido CHECK (tipo IN ('HORTELANO','LISTA_ESPERA','HORTELANO_INVERNADERO','COLABORADOR', 'SUBVENCION')),
 	CONSTRAINT fechaIncoherente CHECK (fechaDeBaja >= fechaDeAlta),
 	CONSTRAINT emailNoValido CHECK (email LIKE '%@%.%'),
 	CONSTRAINT metodoContactoFaltante CHECK ((email IS NOT NULL) OR (telefono IS NOT NULL)),

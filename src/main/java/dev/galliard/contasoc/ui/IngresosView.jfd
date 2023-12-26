@@ -3,14 +3,30 @@ JFDML JFormDesigner: "8.2.0.0.331" Java: "17.0.9" encoding: "UTF-8"
 new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
-		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {space :0:400:x}"
-			"$verticalGroup": "par l {space :0:300:x}"
-		} ) {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 			name: "this"
+			"title": "Ingresos de {socio}"
+			"$sizePolicy": 1
+			"font": new java.awt.Font( "Dialog", 0, 16 )
+			"resizable": false
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "ingresosTablaPanel"
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+				}
+				add( new FormComponent( "javax.swing.JTable" ) {
+					name: "ingresosTabla"
+					auxiliary() {
+						"JavaCodeGenerator.postInitCode": "ingresosTabla.setModel(new IngresosTablaModel());\ningresosTabla.getTableHeader().setReorderingAllowed(false);\ningresosTabla.getTableHeader().setResizingAllowed(false);\ningresosTabla.setRowHeight(50);"
+						"JavaCodeGenerator.variableModifiers": 12
+					}
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 400, 300 )
+			"size": new java.awt.Dimension( 480, 400 )
 		} )
 	}
 }

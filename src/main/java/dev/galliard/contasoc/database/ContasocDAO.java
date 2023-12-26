@@ -222,7 +222,8 @@ public class ContasocDAO {
 
             // Construir la parte SET de la consulta
             for (int i = 0; i < atributos.length; i++) {
-                query.append(atributos[i]).append(" = '").append(nuevosValores[i]).append("', ");
+                query.append(atributos[i]).append(" = ").append(nuevosValores[i].isEmpty() ?
+                        "NULL" : "'" + nuevosValores[i] + "'").append(", ");
             }
             query = new StringBuilder(query.substring(0, query.length() - 2));
 
@@ -232,13 +233,13 @@ public class ContasocDAO {
 
                 // Procesar cada condición
                 for (int i = 0; i < condiciones.length; i++) {
-                    String unaCondicion = condiciones[i].trim();
+                    String[] unaCondicion = condiciones[i].trim().split("=");
 
                     // Eliminar las comillas simples si la condición contiene texto o caracteres especiales
-                    if (unaCondicion.split("=")[1].trim().matches(".*[a-zA-Z].*") ||
-                            unaCondicion.split("=")[1].trim().contains("-")) {
-                        condiciones[i] = unaCondicion.split("=")[0].trim() + " = " +
-                                "'" + unaCondicion.split("=")[1].trim() + "'";
+                    if (unaCondicion[1].trim().matches(".*[a-zA-Z].*") ||
+                            unaCondicion[1].trim().contains("-")) {
+                        condiciones[i] = unaCondicion[0].trim() + " = " +
+                                "'" + unaCondicion[1].trim() + "'";
                     }
                 }
 
