@@ -46,25 +46,143 @@ new FormModel {
 					name: "helpWrapper"
 					"preferredSize": new java.awt.Dimension( 0, 0 )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {comp label1::l:::x, seq {par l {comp label2::l:p:278:p, comp label3::l:p:278:p, comp label4::l:p:278:p}, space :0:0:x}}"
-						"$verticalGroup": "par l {seq l {comp label1:::p:32:p, space :::p, comp label2:::p:32:p, space :::p, comp label3:::p:32:p, space :::p, comp label4:::p:32:p, space :0:411:x}}"
+						"$horizontalGroup": "par l {seq {par l {comp NuevoDatoPanel::t:p:276:p, comp NuevoDatoPanel2::t:p:276:p}, space :p:4:p}, seq t {par l {comp NuevoDatoPanel3::t:p:276:p, comp NuevoDatoPanel4::t:p:276:p, comp NuevoDatoPanel5::t:p:276:p}, space :::p}}"
+						"$verticalGroup": "par l {seq l {comp NuevoDatoPanel:::p:32:p, space :::p, comp NuevoDatoPanel2:::p:32:p, space :::p, comp NuevoDatoPanel3:::p:32:p, space :::p, comp NuevoDatoPanel4:::p:32:p, space :::p, comp NuevoDatoPanel5:::p:32:p, space :0:373:x}}"
 					} ) {
 						name: "cardKeyShortcuts"
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label1"
-							"text": "text"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+							"$layoutConstraints": "insets 0,hidemode 3"
+							"$columnConstraints": "[grow,fill][grow,fill][grow,fill]"
+							"$rowConstraints": "[grow,fill]"
+						} ) {
+							name: "NuevoDatoPanel"
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "Ctrl"
+								"icon": &SwingIcon0 new com.jformdesigner.model.SwingIcon( 0, "/images/help/ctrlBtn_icon.png" )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 0,width 32:32:32"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "N"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/help/nBtn_icon.png" )
+								"text": ":"
+								"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 1 0,width 30:30:30"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "CtrlNLabel"
+								"text": "Añadir nuevo dato"
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 2 0,width 208:208:208"
+							} )
 						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label2"
-							"text": "text"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+							"$layoutConstraints": "insets 0,hidemode 3"
+							"$columnConstraints": "[grow,fill][grow,fill][grow,fill]"
+							"$rowConstraints": "[grow,fill]"
+						} ) {
+							name: "NuevoDatoPanel2"
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "Ctrl2"
+								"icon": #SwingIcon0
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 0,width 32:32:32"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "N2"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/help/eBtn_icon.png" )
+								"text": ":"
+								"font": #SwingDerivedFont0
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 1 0,width 30:30:30"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "CtrlNLabel2"
+								"text": "Editar un dato"
+								"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 2 0,width 208:208:208"
+							} )
 						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label3"
-							"text": "text"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+							"$layoutConstraints": "insets 0,hidemode 3"
+							"$columnConstraints": "[grow,fill][grow,fill][grow,fill]"
+							"$rowConstraints": "[grow,fill]"
+						} ) {
+							name: "NuevoDatoPanel3"
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "Ctrl3"
+								"icon": #SwingIcon0
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 0,width 32:32:32"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "N3"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/help/dBtn_icon.png" )
+								"text": ":"
+								"font": #SwingDerivedFont0
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 1 0,width 30:30:30"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "CtrlNLabel3"
+								"text": "Eliminar un dato"
+								"font": #SwingDerivedFont1
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 2 0,width 208:208:208"
+							} )
 						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label4"
-							"text": "text"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+							"$layoutConstraints": "insets 0,hidemode 3"
+							"$columnConstraints": "[grow,fill][grow,fill][grow,fill]"
+							"$rowConstraints": "[grow,fill]"
+						} ) {
+							name: "NuevoDatoPanel4"
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "Ctrl4"
+								"icon": #SwingIcon0
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 0,width 32:32:32"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "N4"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/help/pBtn_icon.png" )
+								"text": ":"
+								"font": #SwingDerivedFont0
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 1 0,width 30:30:30"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "CtrlNLabel4"
+								"text": "Imprimir la tabla"
+								"font": #SwingDerivedFont1
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 2 0,width 208:208:208"
+							} )
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+							"$layoutConstraints": "insets 0,hidemode 3"
+							"$columnConstraints": "[grow,fill][grow,fill]"
+							"$rowConstraints": "[grow,fill]"
+						} ) {
+							name: "NuevoDatoPanel5"
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "N5"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/help/f1Btn_icon.png" )
+								"text": ":"
+								"font": #SwingDerivedFont0
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 0,width 30:30:30"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "CtrlNLabel5"
+								"text": "Abrir este menú de ayuda"
+								"font": #SwingDerivedFont1
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 0"
+							} )
 						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
 						"value": "card1"

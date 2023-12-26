@@ -57,10 +57,25 @@ public class HelpMenu extends JFrame {
         separator1 = new JSeparator();
         helpWrapper = new JPanel();
         cardKeyShortcuts = new JPanel();
-        label1 = new JLabel();
-        label2 = new JLabel();
-        label3 = new JLabel();
-        label4 = new JLabel();
+        NuevoDatoPanel = new JPanel();
+        Ctrl = new JLabel();
+        N = new JLabel();
+        CtrlNLabel = new JLabel();
+        NuevoDatoPanel2 = new JPanel();
+        Ctrl2 = new JLabel();
+        N2 = new JLabel();
+        CtrlNLabel2 = new JLabel();
+        NuevoDatoPanel3 = new JPanel();
+        Ctrl3 = new JLabel();
+        N3 = new JLabel();
+        CtrlNLabel3 = new JLabel();
+        NuevoDatoPanel4 = new JPanel();
+        Ctrl4 = new JLabel();
+        N4 = new JLabel();
+        CtrlNLabel4 = new JLabel();
+        NuevoDatoPanel5 = new JPanel();
+        N5 = new JLabel();
+        CtrlNLabel5 = new JLabel();
         cardSocios = new JPanel();
         cardIngresos = new JPanel();
         cardGastos = new JPanel();
@@ -113,41 +128,165 @@ public class HelpMenu extends JFrame {
                 //======== cardKeyShortcuts ========
                 {
 
-                    //---- label1 ----
-                    label1.setText("text");
+                    //======== NuevoDatoPanel ========
+                    {
+                        NuevoDatoPanel.setLayout(new MigLayout(
+                            "insets 0,hidemode 3",
+                            // columns
+                            "[grow,fill]" +
+                            "[grow,fill]" +
+                            "[grow,fill]",
+                            // rows
+                            "[grow,fill]"));
 
-                    //---- label2 ----
-                    label2.setText("text");
+                        //---- Ctrl ----
+                        Ctrl.setIcon(new ImageIcon(getClass().getResource("/images/help/ctrlBtn_icon.png")));
+                        NuevoDatoPanel.add(Ctrl, "cell 0 0,width 32:32:32");
 
-                    //---- label3 ----
-                    label3.setText("text");
+                        //---- N ----
+                        N.setIcon(new ImageIcon(getClass().getResource("/images/help/nBtn_icon.png")));
+                        N.setText(":");
+                        N.setFont(N.getFont().deriveFont(N.getFont().getStyle() | Font.BOLD));
+                        NuevoDatoPanel.add(N, "cell 1 0,width 30:30:30");
 
-                    //---- label4 ----
-                    label4.setText("text");
+                        //---- CtrlNLabel ----
+                        CtrlNLabel.setText("A\u00f1adir nuevo dato");
+                        CtrlNLabel.setFont(CtrlNLabel.getFont().deriveFont(CtrlNLabel.getFont().getSize() + 4f));
+                        NuevoDatoPanel.add(CtrlNLabel, "cell 2 0,width 208:208:208");
+                    }
+
+                    //======== NuevoDatoPanel2 ========
+                    {
+                        NuevoDatoPanel2.setLayout(new MigLayout(
+                            "insets 0,hidemode 3",
+                            // columns
+                            "[grow,fill]" +
+                            "[grow,fill]" +
+                            "[grow,fill]",
+                            // rows
+                            "[grow,fill]"));
+
+                        //---- Ctrl2 ----
+                        Ctrl2.setIcon(new ImageIcon(getClass().getResource("/images/help/ctrlBtn_icon.png")));
+                        NuevoDatoPanel2.add(Ctrl2, "cell 0 0,width 32:32:32");
+
+                        //---- N2 ----
+                        N2.setIcon(new ImageIcon(getClass().getResource("/images/help/eBtn_icon.png")));
+                        N2.setText(":");
+                        N2.setFont(N2.getFont().deriveFont(N2.getFont().getStyle() | Font.BOLD));
+                        NuevoDatoPanel2.add(N2, "cell 1 0,width 30:30:30");
+
+                        //---- CtrlNLabel2 ----
+                        CtrlNLabel2.setText("Editar un dato");
+                        CtrlNLabel2.setFont(CtrlNLabel2.getFont().deriveFont(CtrlNLabel2.getFont().getSize() + 4f));
+                        NuevoDatoPanel2.add(CtrlNLabel2, "cell 2 0,width 208:208:208");
+                    }
+
+                    //======== NuevoDatoPanel3 ========
+                    {
+                        NuevoDatoPanel3.setLayout(new MigLayout(
+                            "insets 0,hidemode 3",
+                            // columns
+                            "[grow,fill]" +
+                            "[grow,fill]" +
+                            "[grow,fill]",
+                            // rows
+                            "[grow,fill]"));
+
+                        //---- Ctrl3 ----
+                        Ctrl3.setIcon(new ImageIcon(getClass().getResource("/images/help/ctrlBtn_icon.png")));
+                        NuevoDatoPanel3.add(Ctrl3, "cell 0 0,width 32:32:32");
+
+                        //---- N3 ----
+                        N3.setIcon(new ImageIcon(getClass().getResource("/images/help/dBtn_icon.png")));
+                        N3.setText(":");
+                        N3.setFont(N3.getFont().deriveFont(N3.getFont().getStyle() | Font.BOLD));
+                        NuevoDatoPanel3.add(N3, "cell 1 0,width 30:30:30");
+
+                        //---- CtrlNLabel3 ----
+                        CtrlNLabel3.setText("Eliminar un dato");
+                        CtrlNLabel3.setFont(CtrlNLabel3.getFont().deriveFont(CtrlNLabel3.getFont().getSize() + 4f));
+                        NuevoDatoPanel3.add(CtrlNLabel3, "cell 2 0,width 208:208:208");
+                    }
+
+                    //======== NuevoDatoPanel4 ========
+                    {
+                        NuevoDatoPanel4.setLayout(new MigLayout(
+                            "insets 0,hidemode 3",
+                            // columns
+                            "[grow,fill]" +
+                            "[grow,fill]" +
+                            "[grow,fill]",
+                            // rows
+                            "[grow,fill]"));
+
+                        //---- Ctrl4 ----
+                        Ctrl4.setIcon(new ImageIcon(getClass().getResource("/images/help/ctrlBtn_icon.png")));
+                        NuevoDatoPanel4.add(Ctrl4, "cell 0 0,width 32:32:32");
+
+                        //---- N4 ----
+                        N4.setIcon(new ImageIcon(getClass().getResource("/images/help/pBtn_icon.png")));
+                        N4.setText(":");
+                        N4.setFont(N4.getFont().deriveFont(N4.getFont().getStyle() | Font.BOLD));
+                        NuevoDatoPanel4.add(N4, "cell 1 0,width 30:30:30");
+
+                        //---- CtrlNLabel4 ----
+                        CtrlNLabel4.setText("Imprimir la tabla");
+                        CtrlNLabel4.setFont(CtrlNLabel4.getFont().deriveFont(CtrlNLabel4.getFont().getSize() + 4f));
+                        NuevoDatoPanel4.add(CtrlNLabel4, "cell 2 0,width 208:208:208");
+                    }
+
+                    //======== NuevoDatoPanel5 ========
+                    {
+                        NuevoDatoPanel5.setLayout(new MigLayout(
+                            "insets 0,hidemode 3",
+                            // columns
+                            "[grow,fill]" +
+                            "[grow,fill]",
+                            // rows
+                            "[grow,fill]"));
+
+                        //---- N5 ----
+                        N5.setIcon(new ImageIcon(getClass().getResource("/images/help/f1Btn_icon.png")));
+                        N5.setText(":");
+                        N5.setFont(N5.getFont().deriveFont(N5.getFont().getStyle() | Font.BOLD));
+                        NuevoDatoPanel5.add(N5, "cell 0 0,width 30:30:30");
+
+                        //---- CtrlNLabel5 ----
+                        CtrlNLabel5.setText("Abrir este men\u00fa de ayuda");
+                        CtrlNLabel5.setFont(CtrlNLabel5.getFont().deriveFont(CtrlNLabel5.getFont().getSize() + 4f));
+                        NuevoDatoPanel5.add(CtrlNLabel5, "cell 0 0");
+                    }
 
                     GroupLayout cardKeyShortcutsLayout = new GroupLayout(cardKeyShortcuts);
                     cardKeyShortcuts.setLayout(cardKeyShortcutsLayout);
                     cardKeyShortcutsLayout.setHorizontalGroup(
                         cardKeyShortcutsLayout.createParallelGroup()
-                            .addComponent(label1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(cardKeyShortcutsLayout.createSequentialGroup()
                                 .addGroup(cardKeyShortcutsLayout.createParallelGroup()
-                                    .addComponent(label2, GroupLayout.PREFERRED_SIZE, 278, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(label3, GroupLayout.PREFERRED_SIZE, 278, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(label4, GroupLayout.PREFERRED_SIZE, 278, GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(NuevoDatoPanel, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(NuevoDatoPanel2, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE))
+                                .addGap(4, 4, 4))
+                            .addGroup(GroupLayout.Alignment.TRAILING, cardKeyShortcutsLayout.createSequentialGroup()
+                                .addGroup(cardKeyShortcutsLayout.createParallelGroup()
+                                    .addComponent(NuevoDatoPanel3, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(NuevoDatoPanel4, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(NuevoDatoPanel5, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap())
                     );
                     cardKeyShortcutsLayout.setVerticalGroup(
                         cardKeyShortcutsLayout.createParallelGroup()
                             .addGroup(cardKeyShortcutsLayout.createSequentialGroup()
-                                .addComponent(label1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(NuevoDatoPanel, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(label2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(NuevoDatoPanel2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(label3, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(NuevoDatoPanel3, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(label4, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 411, Short.MAX_VALUE))
+                                .addComponent(NuevoDatoPanel4, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(NuevoDatoPanel5, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 373, Short.MAX_VALUE))
                     );
                 }
                 helpWrapper.add(cardKeyShortcuts, "card1");
@@ -264,10 +403,25 @@ public class HelpMenu extends JFrame {
     protected static JSeparator separator1;
     protected static JPanel helpWrapper;
     protected static JPanel cardKeyShortcuts;
-    protected static JLabel label1;
-    protected static JLabel label2;
-    protected static JLabel label3;
-    protected static JLabel label4;
+    protected static JPanel NuevoDatoPanel;
+    protected static JLabel Ctrl;
+    protected static JLabel N;
+    protected static JLabel CtrlNLabel;
+    protected static JPanel NuevoDatoPanel2;
+    protected static JLabel Ctrl2;
+    protected static JLabel N2;
+    protected static JLabel CtrlNLabel2;
+    protected static JPanel NuevoDatoPanel3;
+    protected static JLabel Ctrl3;
+    protected static JLabel N3;
+    protected static JLabel CtrlNLabel3;
+    protected static JPanel NuevoDatoPanel4;
+    protected static JLabel Ctrl4;
+    protected static JLabel N4;
+    protected static JLabel CtrlNLabel4;
+    protected static JPanel NuevoDatoPanel5;
+    protected static JLabel N5;
+    protected static JLabel CtrlNLabel5;
     protected static JPanel cardSocios;
     protected static JPanel cardIngresos;
     protected static JPanel cardGastos;
