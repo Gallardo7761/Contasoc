@@ -18,7 +18,7 @@ class CodePlayground {
     public static void main(String[] args) {
         ContasocLaf.setup();
         SwingUtilities.invokeLater(() -> {
-            new HelpMenu().setVisible(true);
+            HelpMenu.getInstance().setVisible(true);
         });
     }
 }

@@ -20,7 +20,8 @@ import net.miginfocom.swing.*;
  * @author jomaa
  */
 public class HelpMenu extends JFrame {
-    public HelpMenu() {
+    private static HelpMenu instance = null;
+    private HelpMenu() {
         initComponents();
         inicializarTree();
         agregarElementoAlTree("Atajos teclado");
@@ -29,6 +30,13 @@ public class HelpMenu extends JFrame {
         agregarElementoAlTree("Gastos");
         agregarElementoAlTree("Balance");
         agregarElementoAlTree("Email");
+    }
+
+    public static HelpMenu getInstance() {
+        if (instance == null) {
+            instance = new HelpMenu();
+        }
+        return instance;
     }
 
     private void inicializarTree() {
@@ -223,6 +231,17 @@ public class HelpMenu extends JFrame {
 
                 //======== cardKeyShortcuts ========
                 {
+                    cardKeyShortcuts.setLayout(new MigLayout(
+                        "insets 0,hidemode 3,gap 0 5",
+                        // columns
+                        "[fill]",
+                        // rows
+                        "[fill]" +
+                        "[fill]" +
+                        "[fill]" +
+                        "[fill]" +
+                        "[fill]" +
+                        "[fill]"));
 
                     //======== nuevoDato ========
                     {
@@ -250,6 +269,7 @@ public class HelpMenu extends JFrame {
                         CtrlNLabel.setFont(CtrlNLabel.getFont().deriveFont(CtrlNLabel.getFont().getSize() + 4f));
                         nuevoDato.add(CtrlNLabel, "cell 2 0,width 208:208:208");
                     }
+                    cardKeyShortcuts.add(nuevoDato, "pad 0 5 0 0,cell 0 1");
 
                     //======== editarDato ========
                     {
@@ -277,6 +297,7 @@ public class HelpMenu extends JFrame {
                         CtrlE.setFont(CtrlE.getFont().deriveFont(CtrlE.getFont().getSize() + 4f));
                         editarDato.add(CtrlE, "cell 2 0,width 208:208:208");
                     }
+                    cardKeyShortcuts.add(editarDato, "pad 0 5 0 0,cell 0 2");
 
                     //======== eliminarDato ========
                     {
@@ -304,6 +325,7 @@ public class HelpMenu extends JFrame {
                         CtrlD.setFont(CtrlD.getFont().deriveFont(CtrlD.getFont().getSize() + 4f));
                         eliminarDato.add(CtrlD, "cell 2 0,width 208:208:208");
                     }
+                    cardKeyShortcuts.add(eliminarDato, "pad 0 5 0 0,cell 0 3");
 
                     //======== imprimirTabla ========
                     {
@@ -331,6 +353,7 @@ public class HelpMenu extends JFrame {
                         CtrlP.setFont(CtrlP.getFont().deriveFont(CtrlP.getFont().getSize() + 4f));
                         imprimirTabla.add(CtrlP, "cell 2 0,width 208:208:208");
                     }
+                    cardKeyShortcuts.add(imprimirTabla, "pad 0 5 0 0,cell 0 4");
 
                     //======== menuAyuda ========
                     {
@@ -353,49 +376,13 @@ public class HelpMenu extends JFrame {
                         F1Label.setFont(F1Label.getFont().deriveFont(F1Label.getFont().getSize() + 4f));
                         menuAyuda.add(F1Label, "cell 0 0");
                     }
+                    cardKeyShortcuts.add(menuAyuda, "pad 0 5 0 0,cell 0 5");
 
                     //---- atajosTitle ----
                     atajosTitle.setText("ATAJOS");
                     atajosTitle.setVerticalAlignment(SwingConstants.TOP);
                     atajosTitle.setFont(atajosTitle.getFont().deriveFont(atajosTitle.getFont().getStyle() | Font.BOLD, atajosTitle.getFont().getSize() + 24f));
-
-                    GroupLayout cardKeyShortcutsLayout = new GroupLayout(cardKeyShortcuts);
-                    cardKeyShortcuts.setLayout(cardKeyShortcutsLayout);
-                    cardKeyShortcutsLayout.setHorizontalGroup(
-                        cardKeyShortcutsLayout.createParallelGroup()
-                            .addGroup(cardKeyShortcutsLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(cardKeyShortcutsLayout.createParallelGroup()
-                                    .addComponent(atajosTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(GroupLayout.Alignment.TRAILING, cardKeyShortcutsLayout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addGroup(cardKeyShortcutsLayout.createParallelGroup()
-                                            .addGroup(cardKeyShortcutsLayout.createParallelGroup()
-                                                .addComponent(nuevoDato, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(editarDato, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(cardKeyShortcutsLayout.createParallelGroup()
-                                                .addComponent(eliminarDato, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(imprimirTabla, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(menuAyuda, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE)))))
-                                .addContainerGap())
-                    );
-                    cardKeyShortcutsLayout.setVerticalGroup(
-                        cardKeyShortcutsLayout.createParallelGroup()
-                            .addGroup(cardKeyShortcutsLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(atajosTitle, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nuevoDato, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(editarDato, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(eliminarDato, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(imprimirTabla, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(menuAyuda, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 311, Short.MAX_VALUE))
-                    );
+                    cardKeyShortcuts.add(atajosTitle, "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70");
                 }
                 helpWrapper.add(cardKeyShortcuts, "shortcuts");
 

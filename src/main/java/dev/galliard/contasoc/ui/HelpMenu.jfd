@@ -84,9 +84,10 @@ new FormModel {
 					}, new FormLayoutConstraints( class java.lang.String ) {
 						"value": "guide"
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq {space :::p, par l {comp atajosTitle:::::x, seq t {space :0:0:x, par l {par l:l {comp nuevoDato::t:p:276:p, comp editarDato::t:p:276:p}, par l:l {comp eliminarDato::t:p:276:p, comp imprimirTabla::t:p:276:p, comp menuAyuda::t:p:276:p}}}}, space :::p}}"
-						"$verticalGroup": "par l {seq l {space :::p, comp atajosTitle:::p:50:p, space :::p, comp nuevoDato:::p:32:p, space :::p, comp editarDato:::p:32:p, space :::p, comp eliminarDato:::p:32:p, space :::p, comp imprimirTabla:::p:32:p, space :::p, comp menuAyuda:::p:32:p, space :0:311:x}}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3,gap 0 5"
+						"$columnConstraints": "[fill]"
+						"$rowConstraints": "[fill][fill][fill][fill][fill][fill]"
 					} ) {
 						name: "cardKeyShortcuts"
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
@@ -116,6 +117,8 @@ new FormModel {
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 								"value": "cell 2 0,width 208:208:208"
 							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "pad 0 5 0 0,cell 0 1"
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 							"$layoutConstraints": "insets 0,hidemode 3"
@@ -144,6 +147,8 @@ new FormModel {
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 								"value": "cell 2 0,width 208:208:208"
 							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "pad 0 5 0 0,cell 0 2"
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 							"$layoutConstraints": "insets 0,hidemode 3"
@@ -172,6 +177,8 @@ new FormModel {
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 								"value": "cell 2 0,width 208:208:208"
 							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "pad 0 5 0 0,cell 0 3"
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 							"$layoutConstraints": "insets 0,hidemode 3"
@@ -200,6 +207,8 @@ new FormModel {
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 								"value": "cell 2 0,width 208:208:208"
 							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "pad 0 5 0 0,cell 0 4"
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 							"$layoutConstraints": "insets 0,hidemode 3"
@@ -222,12 +231,16 @@ new FormModel {
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 								"value": "cell 0 0"
 							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "pad 0 5 0 0,cell 0 5"
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "atajosTitle"
 							"text": "ATAJOS"
 							"verticalAlignment": 1
 							"font": &SwingDerivedFont2 new com.jformdesigner.model.SwingDerivedFont( null, 1, 24, false )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70"
 						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
 						"value": "shortcuts"

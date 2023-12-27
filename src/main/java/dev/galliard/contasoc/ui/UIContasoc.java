@@ -479,7 +479,7 @@ public class UIContasoc extends JFrame {
     }
 
     private void helpBtnActionPerformed(ActionEvent e) {
-        HelpMenu helpMenu = new HelpMenu();
+        HelpMenu helpMenu = HelpMenu.getInstance();
         helpMenu.setVisible(true);
         helpMenu.setLocationRelativeTo(null);
     }
