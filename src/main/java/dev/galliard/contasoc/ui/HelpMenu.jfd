@@ -32,9 +32,14 @@ new FormModel {
 						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
 						"focusable": false
 						"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"expandsSelectedPaths": false
+						auxiliary() {
+							"JavaCodeGenerator.postInitCode": "tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);"
+						}
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "treeMouseClicked", true ) )
 					} )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 0 0,width 145:145:145"
+					"value": "cell 0 0,width 140:140:140"
 				} )
 				add( new FormComponent( "javax.swing.JSeparator" ) {
 					name: "separator1"
@@ -45,9 +50,43 @@ new FormModel {
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
 					name: "helpWrapper"
 					"preferredSize": new java.awt.Dimension( 0, 0 )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3"
+						"$columnConstraints": "[grow,fill]"
+						"$rowConstraints": "[grow,fill][grow,fill]"
+					} ) {
+						name: "cardGuide"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label1"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/logohuerto_256.png" )
+							"horizontalAlignment": 0
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0"
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scrollPane1"
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JTextArea" ) {
+								name: "textArea1"
+								"editable": false
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 3, false )
+								"tabSize": 4
+								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"text": "Bienvenido a la página de ayuda de Contasoc.  Si estás aquí es porque necesitas ayuda con alguna de las características de la app. Bien, pues aquí podrás encontrar desde los atajos de tecla para realizar diversas funciones en los distintos apartados hasta que hace cada apartado detalladamente explicado y hasta con imágenes. Espero que esta página te sirva de ayuda. "
+								"lineWrap": true
+								"wrapStyleWord": true
+								"focusable": false
+								"requestFocusEnabled": false
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "pad 10 10 -10 -10,cell 0 1"
+						} )
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "guide"
+					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq {par l {comp NuevoDatoPanel::t:p:276:p, comp NuevoDatoPanel2::t:p:276:p}, space :p:4:p}, seq t {par l {comp NuevoDatoPanel3::t:p:276:p, comp NuevoDatoPanel4::t:p:276:p, comp NuevoDatoPanel5::t:p:276:p}, space :::p}}"
-						"$verticalGroup": "par l {seq l {comp NuevoDatoPanel:::p:32:p, space :::p, comp NuevoDatoPanel2:::p:32:p, space :::p, comp NuevoDatoPanel3:::p:32:p, space :::p, comp NuevoDatoPanel4:::p:32:p, space :::p, comp NuevoDatoPanel5:::p:32:p, space :0:373:x}}"
+						"$horizontalGroup": "par l {seq {space :::p, par l {comp atajosTitle:::::x, seq t {space :0:0:x, par l {par l:l {comp nuevoDato::t:p:276:p, comp editarDato::t:p:276:p}, par l:l {comp eliminarDato::t:p:276:p, comp imprimirTabla::t:p:276:p, comp menuAyuda::t:p:276:p}}}}, space :::p}}"
+						"$verticalGroup": "par l {seq l {space :::p, comp atajosTitle:::p:50:p, space :::p, comp nuevoDato:::p:32:p, space :::p, comp editarDato:::p:32:p, space :::p, comp eliminarDato:::p:32:p, space :::p, comp imprimirTabla:::p:32:p, space :::p, comp menuAyuda:::p:32:p, space :0:311:x}}"
 					} ) {
 						name: "cardKeyShortcuts"
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
@@ -55,7 +94,7 @@ new FormModel {
 							"$columnConstraints": "[grow,fill][grow,fill][grow,fill]"
 							"$rowConstraints": "[grow,fill]"
 						} ) {
-							name: "NuevoDatoPanel"
+							name: "nuevoDato"
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "Ctrl"
 								"icon": &SwingIcon0 new com.jformdesigner.model.SwingIcon( 0, "/images/help/ctrlBtn_icon.png" )
@@ -83,7 +122,7 @@ new FormModel {
 							"$columnConstraints": "[grow,fill][grow,fill][grow,fill]"
 							"$rowConstraints": "[grow,fill]"
 						} ) {
-							name: "NuevoDatoPanel2"
+							name: "editarDato"
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "Ctrl2"
 								"icon": #SwingIcon0
@@ -91,7 +130,7 @@ new FormModel {
 								"value": "cell 0 0,width 32:32:32"
 							} )
 							add( new FormComponent( "javax.swing.JLabel" ) {
-								name: "N2"
+								name: "E"
 								"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/help/eBtn_icon.png" )
 								"text": ":"
 								"font": #SwingDerivedFont0
@@ -99,7 +138,7 @@ new FormModel {
 								"value": "cell 1 0,width 30:30:30"
 							} )
 							add( new FormComponent( "javax.swing.JLabel" ) {
-								name: "CtrlNLabel2"
+								name: "CtrlE"
 								"text": "Editar un dato"
 								"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
@@ -111,7 +150,7 @@ new FormModel {
 							"$columnConstraints": "[grow,fill][grow,fill][grow,fill]"
 							"$rowConstraints": "[grow,fill]"
 						} ) {
-							name: "NuevoDatoPanel3"
+							name: "eliminarDato"
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "Ctrl3"
 								"icon": #SwingIcon0
@@ -119,7 +158,7 @@ new FormModel {
 								"value": "cell 0 0,width 32:32:32"
 							} )
 							add( new FormComponent( "javax.swing.JLabel" ) {
-								name: "N3"
+								name: "D"
 								"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/help/dBtn_icon.png" )
 								"text": ":"
 								"font": #SwingDerivedFont0
@@ -127,7 +166,7 @@ new FormModel {
 								"value": "cell 1 0,width 30:30:30"
 							} )
 							add( new FormComponent( "javax.swing.JLabel" ) {
-								name: "CtrlNLabel3"
+								name: "CtrlD"
 								"text": "Eliminar un dato"
 								"font": #SwingDerivedFont1
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
@@ -139,7 +178,7 @@ new FormModel {
 							"$columnConstraints": "[grow,fill][grow,fill][grow,fill]"
 							"$rowConstraints": "[grow,fill]"
 						} ) {
-							name: "NuevoDatoPanel4"
+							name: "imprimirTabla"
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "Ctrl4"
 								"icon": #SwingIcon0
@@ -147,7 +186,7 @@ new FormModel {
 								"value": "cell 0 0,width 32:32:32"
 							} )
 							add( new FormComponent( "javax.swing.JLabel" ) {
-								name: "N4"
+								name: "P"
 								"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/help/pBtn_icon.png" )
 								"text": ":"
 								"font": #SwingDerivedFont0
@@ -155,7 +194,7 @@ new FormModel {
 								"value": "cell 1 0,width 30:30:30"
 							} )
 							add( new FormComponent( "javax.swing.JLabel" ) {
-								name: "CtrlNLabel4"
+								name: "CtrlP"
 								"text": "Imprimir la tabla"
 								"font": #SwingDerivedFont1
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
@@ -167,9 +206,9 @@ new FormModel {
 							"$columnConstraints": "[grow,fill][grow,fill]"
 							"$rowConstraints": "[grow,fill]"
 						} ) {
-							name: "NuevoDatoPanel5"
+							name: "menuAyuda"
 							add( new FormComponent( "javax.swing.JLabel" ) {
-								name: "N5"
+								name: "F1"
 								"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/help/f1Btn_icon.png" )
 								"text": ":"
 								"font": #SwingDerivedFont0
@@ -177,58 +216,149 @@ new FormModel {
 								"value": "cell 0 0,width 30:30:30"
 							} )
 							add( new FormComponent( "javax.swing.JLabel" ) {
-								name: "CtrlNLabel5"
+								name: "F1Label"
 								"text": "Abrir este menú de ayuda"
 								"font": #SwingDerivedFont1
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 								"value": "cell 0 0"
 							} )
 						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "atajosTitle"
+							"text": "ATAJOS"
+							"verticalAlignment": 1
+							"font": &SwingDerivedFont2 new com.jformdesigner.model.SwingDerivedFont( null, 1, 24, false )
+						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
-						"value": "card1"
+						"value": "shortcuts"
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {space :0:278:x}"
-						"$verticalGroup": "par l {space :0:557:x}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3"
+						"$columnConstraints": "[grow,fill]"
+						"$rowConstraints": "[grow,fill][grow,fill]"
 					} ) {
 						name: "cardSocios"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label2"
+							"text": "SOCIOS"
+							"verticalAlignment": 1
+							"font": #SwingDerivedFont2
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {space :0:283:x}"
+							"$verticalGroup": "par l {space :0:480:x}"
+						} ) {
+							name: "panel1"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1,height 480:480:480"
+						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
-						"value": "card2"
+						"value": "socios"
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {space :0:278:x}"
-						"$verticalGroup": "par l {space :0:557:x}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3"
+						"$columnConstraints": "[grow,fill]"
+						"$rowConstraints": "[grow,fill][grow,fill]"
 					} ) {
 						name: "cardIngresos"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label3"
+							"text": "INGRESOS"
+							"verticalAlignment": 1
+							"font": #SwingDerivedFont2
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {space :0:283:x}"
+							"$verticalGroup": "par l {space :0:480:x}"
+						} ) {
+							name: "panel2"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1,height 480:480:480"
+						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
-						"value": "card3"
+						"value": "ingresos"
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {space :0:278:x}"
-						"$verticalGroup": "par l {space :0:557:x}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3"
+						"$columnConstraints": "[grow,fill]"
+						"$rowConstraints": "[grow,fill][grow,fill]"
 					} ) {
 						name: "cardGastos"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label4"
+							"text": "GASTOS"
+							"verticalAlignment": 1
+							"font": #SwingDerivedFont2
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {space :0:283:x}"
+							"$verticalGroup": "par l {space :0:480:x}"
+						} ) {
+							name: "panel3"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1,height 480:480:480"
+						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
-						"value": "card4"
+						"value": "gastos"
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {space :0:278:x}"
-						"$verticalGroup": "par l {space :0:557:x}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3"
+						"$columnConstraints": "[grow,fill]"
+						"$rowConstraints": "[grow,fill][grow,fill]"
 					} ) {
 						name: "cardBalance"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label5"
+							"text": "BALANCE"
+							"verticalAlignment": 1
+							"font": #SwingDerivedFont2
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {space :0:283:x}"
+							"$verticalGroup": "par l {space :0:480:x}"
+						} ) {
+							name: "panel4"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1,height 480:480:480"
+						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
-						"value": "card5"
+						"value": "balance"
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {space :0:278:x}"
-						"$verticalGroup": "par l {space :0:557:x}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3"
+						"$columnConstraints": "[grow,fill]"
+						"$rowConstraints": "[grow,fill][grow,fill]"
 					} ) {
 						name: "cardEmail"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label6"
+							"text": "EMAIL"
+							"verticalAlignment": 1
+							"font": #SwingDerivedFont2
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {space :0:283:x}"
+							"$verticalGroup": "par l {space :0:480:x}"
+						} ) {
+							name: "panel5"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1,height 480:480:480"
+						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
-						"value": "card6"
+						"value": "email"
 					} )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 3 0,width 278:278:278"
+					"value": "cell 3 0,width 283:283:283"
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
