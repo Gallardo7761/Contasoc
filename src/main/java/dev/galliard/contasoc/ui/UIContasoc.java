@@ -5,6 +5,8 @@
 package dev.galliard.contasoc.ui;
 
 import java.beans.*;
+
+import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.database.ContasocDAO;
 import dev.galliard.contasoc.ui.tablemodels.GastosTablaModel;
@@ -665,6 +667,7 @@ public class UIContasoc extends JFrame {
             //---- versionLabel ----
             versionLabel.setText("Ver. 6.0.0");
             versionLabel.setFocusable(false);
+            versionLabel.setText("Ver. " + Contasoc.VERSION);
 
             //---- helpBtn ----
             helpBtn.setText("?");
@@ -761,7 +764,7 @@ public class UIContasoc extends JFrame {
                             sociosTabla.setModel(new SociosTablaModel());
                             sociosTabla.getTableHeader().setReorderingAllowed(false);
                             sociosTabla.getTableHeader().setResizingAllowed(false);
-                            GUIManager.setColumnWidths(sociosTabla,
+                            GUIManager.setColumnWidths(sociosTabla, 
                                 new int[] {60,60,360,110,110,330,110,110,110,330,150,120});
                             sociosTabla.setRowHeight(50);
                             sociosTabla.setDefaultRenderer(String.class, new DateCellRenderer());

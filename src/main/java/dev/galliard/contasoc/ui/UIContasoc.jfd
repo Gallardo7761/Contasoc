@@ -119,6 +119,9 @@ new FormModel {
 					name: "versionLabel"
 					"text": "Ver. 6.0.0"
 					"focusable": false
+					auxiliary() {
+						"JavaCodeGenerator.postInitCode": "versionLabel.setText(\"Ver. \" + Contasoc.VERSION);"
+					}
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "helpBtn"
