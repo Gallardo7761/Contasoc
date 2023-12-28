@@ -8,13 +8,24 @@
             --main: #549159;
             --bg: #f7f8fa;
         }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+        }
+
         .container {
-            width: 281px;
-            height: 500px;
+            width: 100%;
+            height: 100%;
             background-color: var(--bg);
             padding: 15px;
             font-family: 'Segoe UI';
             overflow: auto;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
         }
 
         h2 {
@@ -30,10 +41,11 @@
             padding: 2px 6px 2px 6px;
             text-align: center;
             text-decoration: none;
+            display: inline-flexbox;
             font-size: 16px;
             cursor: pointer;
             margin: 2px 2px;
-            vertical-align: top;
+            vertical-align: top middle;
         }
 
         .btnimage {
@@ -79,7 +91,6 @@
 
 <body>
     <div class="container">
-        <h1>Menú de ayuda de Socios</h1>
         <div class="nota"><b>Nota:</b> Antes de realizar cualquier acción en la tabla de Socios debes tener la fila seleccionada con <b>CLICK IZQUIERDO</b>, menos al añadir un Socio nuevo.</div>
         <h2>Añadir un socio</h2>
         <p>Para añadir un socio, debes ir a la pestaña de <b>SOCIOS</b>

@@ -38,7 +38,7 @@ class CodePlayground extends JFrame {
             webEngine = webView.getEngine();
             Scene scene = new Scene(webView);
             jfxPanel.setScene(scene);
-            webEngine.load("http://www.google.es");
+            webEngine.load("https://contasoc.galliard.dev/socios.html");
         });
     }
     public static void main(String[] args) {

@@ -14,6 +14,11 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import net.miginfocom.swing.*;
 
 /**
@@ -75,6 +80,15 @@ public class HelpMenu extends JFrame {
                 } else if (selectedNode.toString().equals("Socios")) {
                     CardLayout cl = (CardLayout) (helpWrapper.getLayout());
                     cl.show(helpWrapper, "socios");
+                    JFXPanel jfxPanel = new JFXPanel();
+                    sociosPanel.add(jfxPanel, BorderLayout.CENTER);
+                    Platform.runLater(() -> {
+                        WebView webView = new WebView();
+                        WebEngine webEngine = webView.getEngine();
+                        Scene scene = new Scene(webView);
+                        jfxPanel.setScene(scene);
+                        webEngine.load("https://contasoc.galliard.dev/socios.html");
+                    });
                 } else if (selectedNode.toString().equals("Ingresos")) {
                     CardLayout cl = (CardLayout) (helpWrapper.getLayout());
                     cl.show(helpWrapper, "ingresos");
