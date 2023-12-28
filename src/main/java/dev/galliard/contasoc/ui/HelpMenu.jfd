@@ -252,18 +252,15 @@ new FormModel {
 					} ) {
 						name: "cardSocios"
 						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label2"
+							name: "sociosLabel"
 							"text": "SOCIOS"
 							"verticalAlignment": 1
 							"font": #SwingDerivedFont2
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 							"value": "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70"
 						} )
-						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {space :0:283:x}"
-							"$verticalGroup": "par l {space :0:480:x}"
-						} ) {
-							name: "panel1"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+							name: "sociosPanel"
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 							"value": "cell 0 1,height 480:480:480"
 						} )
@@ -277,18 +274,15 @@ new FormModel {
 					} ) {
 						name: "cardIngresos"
 						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label3"
+							name: "ingresosLabel"
 							"text": "INGRESOS"
 							"verticalAlignment": 1
 							"font": #SwingDerivedFont2
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 							"value": "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70"
 						} )
-						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {space :0:283:x}"
-							"$verticalGroup": "par l {space :0:480:x}"
-						} ) {
-							name: "panel2"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+							name: "ingresosPanel"
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 							"value": "cell 0 1,height 480:480:480"
 						} )
@@ -302,18 +296,15 @@ new FormModel {
 					} ) {
 						name: "cardGastos"
 						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label4"
+							name: "gastosLabel"
 							"text": "GASTOS"
 							"verticalAlignment": 1
 							"font": #SwingDerivedFont2
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 							"value": "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70"
 						} )
-						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {space :0:283:x}"
-							"$verticalGroup": "par l {space :0:480:x}"
-						} ) {
-							name: "panel3"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+							name: "gastosPanel"
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 							"value": "cell 0 1,height 480:480:480"
 						} )
@@ -327,18 +318,15 @@ new FormModel {
 					} ) {
 						name: "cardBalance"
 						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label5"
+							name: "balanceLabel"
 							"text": "BALANCE"
 							"verticalAlignment": 1
 							"font": #SwingDerivedFont2
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 							"value": "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70"
 						} )
-						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {space :0:283:x}"
-							"$verticalGroup": "par l {space :0:480:x}"
-						} ) {
-							name: "panel4"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+							name: "balancePanel"
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 							"value": "cell 0 1,height 480:480:480"
 						} )
@@ -352,18 +340,15 @@ new FormModel {
 					} ) {
 						name: "cardEmail"
 						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label6"
+							name: "emailLabel"
 							"text": "EMAIL"
 							"verticalAlignment": 1
 							"font": #SwingDerivedFont2
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 							"value": "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70"
 						} )
-						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {space :0:283:x}"
-							"$verticalGroup": "par l {space :0:480:x}"
-						} ) {
-							name: "panel5"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+							name: "emailPanel"
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 							"value": "cell 0 1,height 480:480:480"
 						} )

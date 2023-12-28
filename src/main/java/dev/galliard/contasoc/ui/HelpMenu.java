@@ -128,20 +128,20 @@ public class HelpMenu extends JFrame {
         F1Label = new JLabel();
         atajosTitle = new JLabel();
         cardSocios = new JPanel();
-        label2 = new JLabel();
-        panel1 = new JPanel();
+        sociosLabel = new JLabel();
+        sociosPanel = new JPanel();
         cardIngresos = new JPanel();
-        label3 = new JLabel();
-        panel2 = new JPanel();
+        ingresosLabel = new JLabel();
+        ingresosPanel = new JPanel();
         cardGastos = new JPanel();
-        label4 = new JLabel();
-        panel3 = new JPanel();
+        gastosLabel = new JLabel();
+        gastosPanel = new JPanel();
         cardBalance = new JPanel();
-        label5 = new JLabel();
-        panel4 = new JPanel();
+        balanceLabel = new JLabel();
+        balancePanel = new JPanel();
         cardEmail = new JPanel();
-        label6 = new JLabel();
-        panel5 = new JPanel();
+        emailLabel = new JLabel();
+        emailPanel = new JPanel();
 
         //======== this ========
         setIconImage(new ImageIcon(getClass().getResource("/images/logohuerto_small.png")).getImage());
@@ -396,27 +396,17 @@ public class HelpMenu extends JFrame {
                         "[grow,fill]" +
                         "[grow,fill]"));
 
-                    //---- label2 ----
-                    label2.setText("SOCIOS");
-                    label2.setVerticalAlignment(SwingConstants.TOP);
-                    label2.setFont(label2.getFont().deriveFont(label2.getFont().getStyle() | Font.BOLD, label2.getFont().getSize() + 24f));
-                    cardSocios.add(label2, "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70");
+                    //---- sociosLabel ----
+                    sociosLabel.setText("SOCIOS");
+                    sociosLabel.setVerticalAlignment(SwingConstants.TOP);
+                    sociosLabel.setFont(sociosLabel.getFont().deriveFont(sociosLabel.getFont().getStyle() | Font.BOLD, sociosLabel.getFont().getSize() + 24f));
+                    cardSocios.add(sociosLabel, "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70");
 
-                    //======== panel1 ========
+                    //======== sociosPanel ========
                     {
-
-                        GroupLayout panel1Layout = new GroupLayout(panel1);
-                        panel1.setLayout(panel1Layout);
-                        panel1Layout.setHorizontalGroup(
-                            panel1Layout.createParallelGroup()
-                                .addGap(0, 283, Short.MAX_VALUE)
-                        );
-                        panel1Layout.setVerticalGroup(
-                            panel1Layout.createParallelGroup()
-                                .addGap(0, 480, Short.MAX_VALUE)
-                        );
+                        sociosPanel.setLayout(new BorderLayout());
                     }
-                    cardSocios.add(panel1, "cell 0 1,height 480:480:480");
+                    cardSocios.add(sociosPanel, "cell 0 1,height 480:480:480");
                 }
                 helpWrapper.add(cardSocios, "socios");
 
@@ -430,27 +420,17 @@ public class HelpMenu extends JFrame {
                         "[grow,fill]" +
                         "[grow,fill]"));
 
-                    //---- label3 ----
-                    label3.setText("INGRESOS");
-                    label3.setVerticalAlignment(SwingConstants.TOP);
-                    label3.setFont(label3.getFont().deriveFont(label3.getFont().getStyle() | Font.BOLD, label3.getFont().getSize() + 24f));
-                    cardIngresos.add(label3, "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70");
+                    //---- ingresosLabel ----
+                    ingresosLabel.setText("INGRESOS");
+                    ingresosLabel.setVerticalAlignment(SwingConstants.TOP);
+                    ingresosLabel.setFont(ingresosLabel.getFont().deriveFont(ingresosLabel.getFont().getStyle() | Font.BOLD, ingresosLabel.getFont().getSize() + 24f));
+                    cardIngresos.add(ingresosLabel, "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70");
 
-                    //======== panel2 ========
+                    //======== ingresosPanel ========
                     {
-
-                        GroupLayout panel2Layout = new GroupLayout(panel2);
-                        panel2.setLayout(panel2Layout);
-                        panel2Layout.setHorizontalGroup(
-                            panel2Layout.createParallelGroup()
-                                .addGap(0, 283, Short.MAX_VALUE)
-                        );
-                        panel2Layout.setVerticalGroup(
-                            panel2Layout.createParallelGroup()
-                                .addGap(0, 480, Short.MAX_VALUE)
-                        );
+                        ingresosPanel.setLayout(new BorderLayout());
                     }
-                    cardIngresos.add(panel2, "cell 0 1,height 480:480:480");
+                    cardIngresos.add(ingresosPanel, "cell 0 1,height 480:480:480");
                 }
                 helpWrapper.add(cardIngresos, "ingresos");
 
@@ -464,27 +444,17 @@ public class HelpMenu extends JFrame {
                         "[grow,fill]" +
                         "[grow,fill]"));
 
-                    //---- label4 ----
-                    label4.setText("GASTOS");
-                    label4.setVerticalAlignment(SwingConstants.TOP);
-                    label4.setFont(label4.getFont().deriveFont(label4.getFont().getStyle() | Font.BOLD, label4.getFont().getSize() + 24f));
-                    cardGastos.add(label4, "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70");
+                    //---- gastosLabel ----
+                    gastosLabel.setText("GASTOS");
+                    gastosLabel.setVerticalAlignment(SwingConstants.TOP);
+                    gastosLabel.setFont(gastosLabel.getFont().deriveFont(gastosLabel.getFont().getStyle() | Font.BOLD, gastosLabel.getFont().getSize() + 24f));
+                    cardGastos.add(gastosLabel, "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70");
 
-                    //======== panel3 ========
+                    //======== gastosPanel ========
                     {
-
-                        GroupLayout panel3Layout = new GroupLayout(panel3);
-                        panel3.setLayout(panel3Layout);
-                        panel3Layout.setHorizontalGroup(
-                            panel3Layout.createParallelGroup()
-                                .addGap(0, 283, Short.MAX_VALUE)
-                        );
-                        panel3Layout.setVerticalGroup(
-                            panel3Layout.createParallelGroup()
-                                .addGap(0, 480, Short.MAX_VALUE)
-                        );
+                        gastosPanel.setLayout(new BorderLayout());
                     }
-                    cardGastos.add(panel3, "cell 0 1,height 480:480:480");
+                    cardGastos.add(gastosPanel, "cell 0 1,height 480:480:480");
                 }
                 helpWrapper.add(cardGastos, "gastos");
 
@@ -498,27 +468,17 @@ public class HelpMenu extends JFrame {
                         "[grow,fill]" +
                         "[grow,fill]"));
 
-                    //---- label5 ----
-                    label5.setText("BALANCE");
-                    label5.setVerticalAlignment(SwingConstants.TOP);
-                    label5.setFont(label5.getFont().deriveFont(label5.getFont().getStyle() | Font.BOLD, label5.getFont().getSize() + 24f));
-                    cardBalance.add(label5, "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70");
+                    //---- balanceLabel ----
+                    balanceLabel.setText("BALANCE");
+                    balanceLabel.setVerticalAlignment(SwingConstants.TOP);
+                    balanceLabel.setFont(balanceLabel.getFont().deriveFont(balanceLabel.getFont().getStyle() | Font.BOLD, balanceLabel.getFont().getSize() + 24f));
+                    cardBalance.add(balanceLabel, "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70");
 
-                    //======== panel4 ========
+                    //======== balancePanel ========
                     {
-
-                        GroupLayout panel4Layout = new GroupLayout(panel4);
-                        panel4.setLayout(panel4Layout);
-                        panel4Layout.setHorizontalGroup(
-                            panel4Layout.createParallelGroup()
-                                .addGap(0, 283, Short.MAX_VALUE)
-                        );
-                        panel4Layout.setVerticalGroup(
-                            panel4Layout.createParallelGroup()
-                                .addGap(0, 480, Short.MAX_VALUE)
-                        );
+                        balancePanel.setLayout(new BorderLayout());
                     }
-                    cardBalance.add(panel4, "cell 0 1,height 480:480:480");
+                    cardBalance.add(balancePanel, "cell 0 1,height 480:480:480");
                 }
                 helpWrapper.add(cardBalance, "balance");
 
@@ -532,27 +492,17 @@ public class HelpMenu extends JFrame {
                         "[grow,fill]" +
                         "[grow,fill]"));
 
-                    //---- label6 ----
-                    label6.setText("EMAIL");
-                    label6.setVerticalAlignment(SwingConstants.TOP);
-                    label6.setFont(label6.getFont().deriveFont(label6.getFont().getStyle() | Font.BOLD, label6.getFont().getSize() + 24f));
-                    cardEmail.add(label6, "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70");
+                    //---- emailLabel ----
+                    emailLabel.setText("EMAIL");
+                    emailLabel.setVerticalAlignment(SwingConstants.TOP);
+                    emailLabel.setFont(emailLabel.getFont().deriveFont(emailLabel.getFont().getStyle() | Font.BOLD, emailLabel.getFont().getSize() + 24f));
+                    cardEmail.add(emailLabel, "pad 10 10 -10 -10,cell 0 0,aligny top,growy 0,height 70:70:70");
 
-                    //======== panel5 ========
+                    //======== emailPanel ========
                     {
-
-                        GroupLayout panel5Layout = new GroupLayout(panel5);
-                        panel5.setLayout(panel5Layout);
-                        panel5Layout.setHorizontalGroup(
-                            panel5Layout.createParallelGroup()
-                                .addGap(0, 283, Short.MAX_VALUE)
-                        );
-                        panel5Layout.setVerticalGroup(
-                            panel5Layout.createParallelGroup()
-                                .addGap(0, 480, Short.MAX_VALUE)
-                        );
+                        emailPanel.setLayout(new BorderLayout());
                     }
-                    cardEmail.add(panel5, "cell 0 1,height 480:480:480");
+                    cardEmail.add(emailPanel, "cell 0 1,height 480:480:480");
                 }
                 helpWrapper.add(cardEmail, "email");
             }
@@ -613,19 +563,19 @@ public class HelpMenu extends JFrame {
     protected static JLabel F1Label;
     protected static JLabel atajosTitle;
     protected static JPanel cardSocios;
-    protected static JLabel label2;
-    protected static JPanel panel1;
+    protected static JLabel sociosLabel;
+    protected static JPanel sociosPanel;
     protected static JPanel cardIngresos;
-    protected static JLabel label3;
-    protected static JPanel panel2;
+    protected static JLabel ingresosLabel;
+    protected static JPanel ingresosPanel;
     protected static JPanel cardGastos;
-    protected static JLabel label4;
-    protected static JPanel panel3;
+    protected static JLabel gastosLabel;
+    protected static JPanel gastosPanel;
     protected static JPanel cardBalance;
-    protected static JLabel label5;
-    protected static JPanel panel4;
+    protected static JLabel balanceLabel;
+    protected static JPanel balancePanel;
     protected static JPanel cardEmail;
-    protected static JLabel label6;
-    protected static JPanel panel5;
+    protected static JLabel emailLabel;
+    protected static JPanel emailPanel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

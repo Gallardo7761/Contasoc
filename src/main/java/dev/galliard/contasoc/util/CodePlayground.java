@@ -14,11 +14,40 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-class CodePlayground {
-    public static void main(String[] args) {
-        ContasocLaf.setup();
-        SwingUtilities.invokeLater(() -> {
-            HelpMenu.getInstance().setVisible(true);
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+
+class CodePlayground extends JFrame {
+    private JFXPanel jfxPanel;
+    private WebView webView;
+    private WebEngine webEngine;
+
+    public CodePlayground() {
+        initJavaFX();
+    }
+
+    private void initJavaFX() {
+        jfxPanel = new JFXPanel();
+        add(jfxPanel, BorderLayout.CENTER);
+        setSize(900,600);
+        Platform.runLater(() -> {
+            webView = new WebView();
+            webEngine = webView.getEngine();
+            Scene scene = new Scene(webView);
+            jfxPanel.setScene(scene);
+            webEngine.load("http://www.google.es");
         });
     }
+    public static void main(String[] args) {
+//        ContasocLaf.setup();
+//        SwingUtilities.invokeLater(() -> {
+//            HelpMenu.getInstance().setVisible(true);
+//        });
+        new CodePlayground().setVisible(true);
+
+    }
 }
+
