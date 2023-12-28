@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <style>
+        :root {
+            --selection: #C8E8CA;
+            --main: #549159;
+            --bg: #f7f8fa;
+        }
+        .container {
+            width: 281px;
+            height: 500px;
+            background-color: var(--bg);
+            padding: 15px;
+            font-family: 'Segoe UI';
+            overflow: auto;
+        }
+
+        h2 {
+            list-style-type: none;
+            border-bottom: 1px solid var(--main);
+        }
+
+        .button {
+            background-color: var(--bg);
+            border: none;
+            border-radius: 5px;
+            color: black;
+            padding: 2px 6px 2px 6px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-flexbox;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 2px 2px;
+            vertical-align: top middle;
+        }
+
+        .btnimage {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+        }
+
+        .button:hover {
+            background-color: var(--selection);
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        .nota {
+            font-size: 14px;
+            color: var(--main);
+        }
+
+        /* width */
+        ::-webkit-scrollbar {
+        width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+        background: #C8E8CA;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+        background: #549159;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+        background: #549159;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--main);
+        }
+
+        li {
+            list-style-type: circle;
+        }
+
+        li:hover {
+            background-color: var(--selection);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Mapa del sitio</h2>
+        <ul>
+            <li><a href="./socios.html">Socios</a></li>
+            <li><a href="./ingresos.html">Ingresos</a></li>
+            <li><a href="./gastos.html">Gastos</a></li>
+            <li><a href="./balance.html">Balance</a></li>
+            <li><a href="./email.html">Email</a></li>
+        </ul>
+        
+    </div>
+</body>
+
+</html>
