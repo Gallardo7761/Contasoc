@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <style>
+        :root {
+            --selection: #C8E8CA;
+            --main: #549159;
+            --bg: #f7f8fa;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: #5b6168;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg);
+            padding: 15px;
+            font-family: 'Segoe UI';
+            overflow: auto;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            list-style-type: none;
+            border-bottom: 1px solid var(--main);
+        }
+
+        .button {
+            background-color: var(--bg);
+            border: none;
+            border-radius: 5px;
+            color: black;
+            padding: 2px 6px 2px 6px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-flexbox;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 2px 2px;
+            vertical-align: top middle;
+        }
+
+        .btnimage {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+        }
+
+        .button:hover {
+            background-color: var(--selection);
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        .nota {
+            font-size: 14px;
+            color: var(--main);
+        }
+
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #C8E8CA;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #549159;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #549159;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body onmousedown="return false" onselectstart="return false">
+<div class="container">
+    <p>Probablemente el apartado m&aacute;s "dif&iacute;cil" de entender,
+        pero para eso est&aacute;s aqu&iacute;.
+    </p>
+    <h2>Tipos de correo</h2>
+    <p>Desde Contasoc puedes enviar los siguientes tipos de correo:</p>
+    <ul>
+        <li>
+            <b>NORMAL:</b> Correo normal, sin ninguna funcionalidad extra.
+            El adjunto es opcional. Aqu&iacute; tienes una vista previa
+            del correo.<br><br>
+        </li>
+    </ul>
+    <img src="../images/help/normal.png" width="240px" onmousedown="return false" onselectstart="return false"/>
+    <ul>
+        <li>
+            <b>IMPAGO:</b> Este correo se env&iacute;a para avisar
+            de que existen cuotas sin pagar. El adjunto es obligatorio
+            ya que se exige al socio ojear el documento adjunto para
+            conocer m&aacute;s detalles. Aqu&iacute; tienes una vista previa
+            del correo.<br><br>
+        </li>
+    </ul>
+    <img src="../images/help/impago.png" width="240px" onmousedown="return false" onselectstart="return false"/>
+    <ul>
+        <li>
+            <b>ABANDONO:</b> Este correo se env&iacute;a para avisar
+            de que el socio tiene su huerto en estado de abandono.
+            El adjunto es obligatorio ya que se exige al socio ojear
+            el documento adjunto para conocer m&aacute;s detalles.
+            Aqu&iacute; tienes una vista previa del correo.<br><br>
+        </li>
+    </ul>
+    <img src="../images/help/abandono.png" width="240px" onmousedown="return false" onselectstart="return false"/>
+    <ul>
+        <li>
+            <b>MAL COMPORTAMIENTO: </b> Este correo se env&iacute;a para avisar
+            de que el socio se ha comportado de manera inadecuada, no respetando
+            las normas de convivencia de la asociación.
+            El adjunto es obligatorio ya que se exige al socio ojear
+            el documento adjunto para conocer m&aacute;s detalles.
+            Aqu&iacute; tienes una vista previa del correo.<br><br>
+        </li>
+    </ul>
+    <img src="../images/help/conflictivo.png" width="240px" onmousedown="return false" onselectstart="return false"/>
+</div>
+<script type="text/javascript">
+    $(document).bind("contextmenu",function(e){
+        return false;
+    });
+</script>
+</body>
+
+</html>

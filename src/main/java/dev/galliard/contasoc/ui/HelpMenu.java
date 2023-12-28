@@ -6,6 +6,8 @@ package dev.galliard.contasoc.ui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.net.MalformedURLException;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.border.*;
@@ -26,6 +28,11 @@ import net.miginfocom.swing.*;
  */
 public class HelpMenu extends JFrame {
     private static HelpMenu instance = null;
+    private final JFXPanel sociosJfxPanel;
+    private final JFXPanel ingresosJfxPanel;
+    private final JFXPanel gastosJfxPanel;
+    private final JFXPanel balanceJfxPanel;
+    private final JFXPanel emailJfxPanel;
     private HelpMenu() {
         initComponents();
         inicializarTree();
@@ -35,6 +42,18 @@ public class HelpMenu extends JFrame {
         agregarElementoAlTree("Gastos");
         agregarElementoAlTree("Balance");
         agregarElementoAlTree("Email");
+
+        sociosJfxPanel = new JFXPanel();
+        ingresosJfxPanel = new JFXPanel();
+        gastosJfxPanel = new JFXPanel();
+        balanceJfxPanel = new JFXPanel();
+        emailJfxPanel = new JFXPanel();
+
+        sociosPanel.add(sociosJfxPanel, BorderLayout.CENTER);
+        ingresosPanel.add(ingresosJfxPanel, BorderLayout.CENTER);
+        gastosPanel.add(gastosJfxPanel, BorderLayout.CENTER);
+        balancePanel.add(balanceJfxPanel, BorderLayout.CENTER);
+        emailPanel.add(emailJfxPanel, BorderLayout.CENTER);
     }
 
     public static HelpMenu getInstance() {
@@ -80,32 +99,48 @@ public class HelpMenu extends JFrame {
                 } else if (selectedNode.toString().equals("Socios")) {
                     CardLayout cl = (CardLayout) (helpWrapper.getLayout());
                     cl.show(helpWrapper, "socios");
-                    JFXPanel jfxPanel = new JFXPanel();
-                    sociosPanel.add(jfxPanel, BorderLayout.CENTER);
-                    Platform.runLater(() -> {
-                        WebView webView = new WebView();
-                        WebEngine webEngine = webView.getEngine();
-                        Scene scene = new Scene(webView);
-                        jfxPanel.setScene(scene);
-                        webEngine.load("https://contasoc.galliard.dev/socios.html");
-                    });
+
+                    String html = getClass().getResource("/assets/socios.html").toExternalForm();
+                    loadHtmlContent(html, sociosJfxPanel);
                 } else if (selectedNode.toString().equals("Ingresos")) {
                     CardLayout cl = (CardLayout) (helpWrapper.getLayout());
                     cl.show(helpWrapper, "ingresos");
+
+                    String html = getClass().getResource("/assets/ingresos.html").toExternalForm();
+                    loadHtmlContent(html, ingresosJfxPanel);
                 } else if (selectedNode.toString().equals("Gastos")) {
                     CardLayout cl = (CardLayout) (helpWrapper.getLayout());
                     cl.show(helpWrapper, "gastos");
+
+                    String html = getClass().getResource("/assets/gastos.html").toExternalForm();
+                    loadHtmlContent(html, gastosJfxPanel);
                 } else if (selectedNode.toString().equals("Balance")) {
                     CardLayout cl = (CardLayout) (helpWrapper.getLayout());
                     cl.show(helpWrapper, "balance");
+
+                    String html = getClass().getResource("/assets/balance.html").toExternalForm();
+                    loadHtmlContent(html, balanceJfxPanel);
                 } else if (selectedNode.toString().equals("Email")) {
                     CardLayout cl = (CardLayout) (helpWrapper.getLayout());
                     cl.show(helpWrapper, "email");
+
+                    String html = getClass().getResource("/assets/email.html").toExternalForm();
+                    loadHtmlContent(html, emailJfxPanel);
                 }
             }
         } else {
 
         }
+    }
+
+    private void loadHtmlContent(String html, JFXPanel jfxPanel) {
+        Platform.runLater(() -> {
+            WebView webView = new WebView();
+            WebEngine webEngine = webView.getEngine();
+            Scene scene = new Scene(webView);
+            jfxPanel.setScene(scene);
+            webEngine.load(html);
+        });
     }
 
     private void initComponents() {
@@ -197,7 +232,7 @@ public class HelpMenu extends JFrame {
                 tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
                 treePanel.setViewportView(tree);
             }
-            wrapper.add(treePanel, "cell 0 0,width 140:140:140");
+            wrapper.add(treePanel, "cell 0 0,width 130:130:130");
 
             //---- separator1 ----
             separator1.setBorder(new LineBorder(SystemColor.activeCaptionBorder));
@@ -520,7 +555,7 @@ public class HelpMenu extends JFrame {
                 }
                 helpWrapper.add(cardEmail, "email");
             }
-            wrapper.add(helpWrapper, "cell 3 0,width 283:283:283");
+            wrapper.add(helpWrapper, "cell 3 0,width 293:293:293");
         }
 
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);

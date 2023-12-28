@@ -39,7 +39,7 @@ new FormModel {
 						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "treeMouseClicked", true ) )
 					} )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 0 0,width 140:140:140"
+					"value": "cell 0 0,width 130:130:130"
 				} )
 				add( new FormComponent( "javax.swing.JSeparator" ) {
 					name: "separator1"
@@ -356,7 +356,7 @@ new FormModel {
 						"value": "email"
 					} )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 3 0,width 283:283:283"
+					"value": "cell 3 0,width 293:293:293"
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {

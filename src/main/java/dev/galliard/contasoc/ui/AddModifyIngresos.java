@@ -26,11 +26,19 @@ public class AddModifyIngresos extends JFrame {
     protected static String tempFecha;
     protected static String tempSocio;
     protected static String tempConcepto;
+    private static AddModifyIngresos instance;
 
-    public AddModifyIngresos() {
+    private AddModifyIngresos() {
         initComponents();
         setActions();
         setFilters();
+    }
+
+    public static AddModifyIngresos getInstance() {
+        if (instance == null) {
+            instance = new AddModifyIngresos();
+        }
+        return instance;
     }
 
     private void setActions() {

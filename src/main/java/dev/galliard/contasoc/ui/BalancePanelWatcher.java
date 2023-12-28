@@ -8,7 +8,7 @@ public class BalancePanelWatcher implements Runnable {
         double inicialBanco = ContasocDAO.leerTabla("Balance").isEmpty() ? 0.0 : Double.parseDouble(ContasocDAO.select("Balance",new Object[] {"inicialBanco"}, ""));
         double inicialCaja = ContasocDAO.leerTabla("Balance").isEmpty() ? 0.0 : Double.parseDouble(ContasocDAO.select("Balance",new Object[] {"inicialCaja"}, ""));
         if(inicialBanco == 0.0 && inicialCaja == 0.0) {
-            SaldoInicial saldoInicial = new SaldoInicial();
+            SaldoInicial saldoInicial = SaldoInicial.getInstance();
             saldoInicial.setVisible(true);
             saldoInicial.requestFocus();
         }

@@ -25,10 +25,18 @@ import net.miginfocom.swing.*;
 public class AddModifySocios extends JFrame {
     protected static Action accion;
     protected static String tempNumeroSocio;
-    public AddModifySocios() {
+    private static AddModifySocios instance;
+    private AddModifySocios() {
         initComponents();
         setActions();
         setFilters();
+    }
+
+    public static AddModifySocios getInstance() {
+        if (instance == null) {
+            instance = new AddModifySocios();
+        }
+        return instance;
     }
 
     private void setActions() {

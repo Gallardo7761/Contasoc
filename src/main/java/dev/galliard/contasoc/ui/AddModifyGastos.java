@@ -24,10 +24,19 @@ public class AddModifyGastos extends JFrame {
     protected static Action accion;
     protected static String tempFecha;
     protected static String tempProveedor;
-    public AddModifyGastos() {
+
+    private static AddModifyGastos instance;
+    private AddModifyGastos() {
         initComponents();
         setActions();
         setFilters();
+    }
+
+    public static AddModifyGastos getInstance() {
+        if (instance == null) {
+            instance = new AddModifyGastos();
+        }
+        return instance;
     }
 
     private void setActions() {

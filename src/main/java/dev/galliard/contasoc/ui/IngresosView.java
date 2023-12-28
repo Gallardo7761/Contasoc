@@ -14,8 +14,16 @@ import javax.swing.GroupLayout;
  * @author jomaa
  */
 public class IngresosView extends JFrame {
-    public IngresosView() {
+    private static IngresosView instance;
+    private IngresosView() {
         initComponents();
+    }
+
+    public static IngresosView getInstance() {
+        if (instance == null) {
+            instance = new IngresosView();
+        }
+        return instance;
     }
 
     private void initComponents() {

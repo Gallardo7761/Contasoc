@@ -18,9 +18,17 @@ import javax.swing.text.AbstractDocument;
  * @author jomaa
  */
 public class SaldoInicial extends JFrame {
-    public SaldoInicial() {
+    private static SaldoInicial instance;
+    private SaldoInicial() {
         initComponents();
         setActions();
+    }
+
+    public static SaldoInicial getInstance() {
+        if (instance == null) {
+            instance = new SaldoInicial();
+        }
+        return instance;
     }
 
     private void setActions() {

@@ -109,17 +109,17 @@ public class UIContasoc extends JFrame {
     private void nuevoBtnActionPerformed(ActionEvent e) {
         if(sociosPanel.isVisible() && !cardListaEsperaPanel.isVisible()) {
             AddModifySocios.accion = Action.ADD;
-            AddModifySocios addModifySocios = new AddModifySocios();
+            AddModifySocios addModifySocios = AddModifySocios.getInstance();
             addModifySocios.setTitle("Añadir nuevo socio");
             addModifySocios.setVisible(true);
         } else if(ingresosPanel.isVisible()) {
             AddModifyIngresos.accion = Action.ADD;
-            AddModifyIngresos addModifyIngresos = new AddModifyIngresos();
+            AddModifyIngresos addModifyIngresos = AddModifyIngresos.getInstance();
             addModifyIngresos.setTitle("Añadir nuevo ingreso");
             addModifyIngresos.setVisible(true);
         } else if(gastosPanel.isVisible()) {
             AddModifyGastos.accion = Action.ADD;
-            AddModifyGastos addModifyGastos = new AddModifyGastos();
+            AddModifyGastos addModifyGastos = AddModifyGastos.getInstance();
             addModifyGastos.setTitle("Añadir nuevo gasto");
             addModifyGastos.setVisible(true);
         }
@@ -129,7 +129,7 @@ public class UIContasoc extends JFrame {
         if(sociosPanel.isVisible() && !cardListaEsperaPanel.isVisible()) {
             int selectedRow = sociosTabla.getSelectedRow();
             AddModifySocios.accion = Action.MODIFY;
-            AddModifySocios ams = new AddModifySocios();
+            AddModifySocios ams = AddModifySocios.getInstance();
             ams.setTitle("Editar socio");
             ams.setVisible(true);
 
@@ -173,7 +173,7 @@ public class UIContasoc extends JFrame {
         } else if(ingresosPanel.isVisible()) {
             int selectedRow = ingresosTabla.getSelectedRow();
             AddModifyIngresos.accion = Action.MODIFY;
-            AddModifyIngresos addModifyIngresos = new AddModifyIngresos();
+            AddModifyIngresos addModifyIngresos = AddModifyIngresos.getInstance();
             addModifyIngresos.setTitle("Editar ingreso");
             addModifyIngresos.setVisible(true);
 
@@ -201,7 +201,7 @@ public class UIContasoc extends JFrame {
         } else if(gastosPanel.isVisible()) {
             int selectedRow = gastosTabla.getSelectedRow();
             AddModifyGastos.accion = Action.MODIFY;
-            AddModifyGastos addModifyGastos = new AddModifyGastos();
+            AddModifyGastos addModifyGastos = AddModifyGastos.getInstance();
             addModifyGastos.setTitle("Editar gasto");
             addModifyGastos.setVisible(true);
 
@@ -391,7 +391,7 @@ public class UIContasoc extends JFrame {
     private void sociosTablaMouseClicked(MouseEvent evt) {
         int selectedRowIndex = sociosTabla.getSelectedRow();
         if(selectedRowIndex >= 0 && evt.getButton() == MouseEvent.BUTTON3) {
-            IngresosView ingresosView = new IngresosView();
+            IngresosView ingresosView = IngresosView.getInstance();
             ingresosView.setVisible(true);
             ingresosView.setTitle("Ingresos de "+sociosTabla.getValueAt(selectedRowIndex, 2));
             ingresosView.setLocationRelativeTo(null);
