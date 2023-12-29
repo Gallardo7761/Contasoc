@@ -81,6 +81,10 @@ public class AddModifySocios extends JFrame {
                                     "numeroHuerto", "fechaDeAlta", "fechaDeEntrega", "fechaDeBaja", "notas", "tipo"},
                             ins.toArray(String[]::new));
                     GUIManager.populateGUITables();
+                    for(JTextField jtf : List.of(nombreField, dniField, telefonoField, emailField, socioField, huertoField,
+                            altaField, entregaField, bajaField, notasField)) {
+                        jtf.setText("");
+                    }
                     this.dispose();
                 } else {
                     ErrorHandler.errorAlLeerDNI();
@@ -106,6 +110,10 @@ public class AddModifySocios extends JFrame {
                             new String[] {"numeroSocio =" + tempNumeroSocio
                             });
                     GUIManager.populateGUITables();
+                    for(JTextField jtf : List.of(nombreField, dniField, telefonoField, emailField, socioField, huertoField,
+                            altaField, entregaField, bajaField, notasField)) {
+                        jtf.setText("");
+                    }
                     this.dispose();
                 } else {
                     ErrorHandler.errorAlLeerDNI();

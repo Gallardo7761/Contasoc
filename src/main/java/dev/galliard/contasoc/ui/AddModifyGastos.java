@@ -74,6 +74,9 @@ public class AddModifyGastos extends JFrame {
                 ContasocDAO.insert("Gastos", new String[] {"fecha", "proveedor", "concepto", "cantidad", "factura", "tipo"},
                         ins.toArray(String[]::new));
                 GUIManager.populateGUITables();
+                for(JTextField jtf : List.of(fechaField, proveedorField, conceptoField, cantidadField, facturaField)) {
+                    jtf.setText("");
+                }
                 this.dispose();
                 break;
             case "MODIFY":
@@ -91,6 +94,9 @@ public class AddModifyGastos extends JFrame {
                                 "proveedor =" + tempProveedor
                         });
                 GUIManager.populateGUITables();
+                for(JTextField jtf : List.of(fechaField, proveedorField, conceptoField, cantidadField, facturaField)) {
+                    jtf.setText("");
+                }
                 this.dispose();
                 break;
         }

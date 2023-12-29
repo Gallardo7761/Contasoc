@@ -76,6 +76,9 @@ public class AddModifyIngresos extends JFrame {
                         ins.toArray(String[]::new));
                 GUIManager.populateGUITables();
                 this.dispose();
+                for(JTextField jtf : Arrays.asList(socioField, fechaField, conceptoField, cantidadField)) {
+                    jtf.setText("");
+                }
                 break;
             case "MODIFY":
                 java.util.List<String> upd = new ArrayList<>();
@@ -92,6 +95,9 @@ public class AddModifyIngresos extends JFrame {
                                 "concepto =" + tempConcepto
                         });
                 GUIManager.populateGUITables();
+                for(JTextField jtf : Arrays.asList(socioField, fechaField, conceptoField, cantidadField)) {
+                    jtf.setText("");
+                }
                 this.dispose();
                 break;
         }

@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
 
 /**
@@ -392,23 +393,23 @@ public class UIContasoc extends JFrame {
 
     private void sociosTablaMouseClicked(MouseEvent evt) {
         int selectedRowIndex = sociosTabla.getSelectedRow();
-        if(selectedRowIndex >= 0 && evt.getButton() == MouseEvent.BUTTON3) {
+        if (selectedRowIndex >= 0 && evt.getButton() == MouseEvent.BUTTON3) {
             IngresosView ingresosView = IngresosView.getInstance();
             ingresosView.setVisible(true);
-            ingresosView.setTitle("Ingresos de "+sociosTabla.getValueAt(selectedRowIndex, 2));
+            ingresosView.setTitle("Ingresos de " + sociosTabla.getValueAt(selectedRowIndex, 2));
             ingresosView.setLocationRelativeTo(null);
             ContasocDAO.fillTableFrom(IngresosView.ingresosTabla, "Ingresos");
-            for(int i = 0; i < IngresosView.ingresosTabla.getRowCount(); i++) {
-                if(!IngresosView.ingresosTabla.getValueAt(i, 0).equals(sociosTabla.getValueAt(selectedRowIndex, 0))) {
-                    IngresosView.ingresosTabla.setValueAt("", i, 0);
-                    IngresosView.ingresosTabla.setValueAt("", i, 1);
-                    IngresosView.ingresosTabla.setValueAt("", i, 2);
-                    IngresosView.ingresosTabla.setValueAt("", i, 3);
-                    IngresosView.ingresosTabla.setValueAt("", i, 4);
+
+            for (int i = IngresosView.ingresosTabla.getRowCount() - 1; i >= 0; i--) {
+                if (IngresosView.ingresosTabla.getValueAt(i, 0).equals("")
+                        || !IngresosView.ingresosTabla.getValueAt(i, 0).equals(sociosTabla.getValueAt(selectedRowIndex, 0))) {
+                    // Eliminar la fila si está vacía o si el ID no coincide
+                    ((DefaultTableModel) IngresosView.ingresosTabla.getModel()).removeRow(i);
                 }
             }
         }
     }
+
 
     protected void setActions() {
         // Crear acciones para cada función
