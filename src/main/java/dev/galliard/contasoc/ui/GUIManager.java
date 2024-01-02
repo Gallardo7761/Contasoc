@@ -49,7 +49,7 @@ public class GUIManager {
 
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             File archivoSeleccionado = fileChooser.getSelectedFile();
-            File destino = new File("C:/Contasoc/contasoc2.db");
+            File destino = new File(Contasoc.BASEDIR + File.separator + "contasoc2.db");
 
             try {
                 Files.copy(archivoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -62,12 +62,12 @@ public class GUIManager {
     }
 
     protected static void exportBDD() {
-        File origen = new File("C:/Contasoc/contasoc2.db");
+        File origen = new File(Contasoc.BASEDIR + File.separator + "contasoc2.db");
 
         if (origen.exists()) {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Selecciona la ubicación para exportar");
-            fileChooser.setSelectedFile(new File(System.getProperty("user.home") + "/Desktop/contasoc2.db"));
+            fileChooser.setSelectedFile(new File(Contasoc.ESCRITORIO + File.separator + "/contasoc2.db"));
             int seleccion = fileChooser.showSaveDialog(null);
 
             if (seleccion == JFileChooser.APPROVE_OPTION) {

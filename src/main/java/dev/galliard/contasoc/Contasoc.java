@@ -13,9 +13,13 @@ import java.nio.file.Path;
 import java.sql.SQLException;
 
 public class Contasoc {
-    public static final String ESCRITORIO = "C:/Users/" + System.getProperty("user.name") + "/Desktop";
-    public static final String BASEDIR = "C:/Contasoc/";
-    public static final String VERSION = "6.1.1";
+    public static final String ESCRITORIO = System.getProperty("os.name").toLowerCase().contains("win") ?
+            "C:/Users/" + System.getProperty("user.name") + "/Desktop" :
+            "/home/"+System.getProperty("user.home") + "/Escritorio";
+    public static final String BASEDIR = System.getProperty("os.name").toLowerCase().contains("win") ?
+            "C:/Contasoc/" :
+            System.getProperty("user.home") + "/Contasoc/";
+    public static final String VERSION = "6.1.2";
     public static void main(String[] args) throws SQLException {
         ContasocLaf.setup();
         try {
