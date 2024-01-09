@@ -1,5 +1,6 @@
 package dev.galliard.contasoc;
 
+import dev.galliard.contasoc.ui.UpdateChecker;
 import dev.galliard.contasoc.ui.lookandfeel.ContasocLaf;
 import dev.galliard.contasoc.ui.UIContasoc;
 import dev.galliard.contasoc.util.FileManager;
@@ -33,6 +34,7 @@ public class Contasoc {
         SwingUtilities.invokeLater(() -> {
             new UIContasoc().setVisible(true);
         });
+        new Thread(new UpdateChecker()).start();
     }
 
 
