@@ -14,7 +14,7 @@ new FormModel {
 			"defaultCloseOperation": 3
 			"preferredSize": new java.awt.Dimension( 900, 600 )
 			"minimumSize": new java.awt.Dimension( 900, 600 )
-			"title": "Contasoc - Huertos la Salud Bellavista"
+			"title": "Huertos la Salud Bellavista"
 			auxiliary() {
 				"JavaCodeGenerator.variableModifiers": 12
 			}

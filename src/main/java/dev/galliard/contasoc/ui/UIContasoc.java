@@ -674,7 +674,7 @@ public class UIContasoc extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(900, 600));
         setMinimumSize(new Dimension(900, 600));
-        setTitle("Contasoc - Huertos la Salud Bellavista");
+        setTitle("Huertos la Salud Bellavista");
         var contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
