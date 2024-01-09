@@ -2,6 +2,7 @@ package dev.galliard.contasoc.util;
 
 import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.database.ContasocDAO;
+import dev.galliard.contasoc.database.sqltypes.Socio;
 import dev.galliard.contasoc.ui.HelpMenu;
 import dev.galliard.contasoc.ui.UIContasoc;
 import dev.galliard.contasoc.ui.lookandfeel.ContasocLaf;
@@ -20,7 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
-class CodePlayground extends JFrame {
+public class CodePlayground extends JFrame {
     private JFXPanel jfxPanel;
     private WebView webView;
     private WebEngine webEngine;
@@ -46,7 +47,7 @@ class CodePlayground extends JFrame {
 //        SwingUtilities.invokeLater(() -> {
 //            HelpMenu.getInstance().setVisible(true);
 //        });
-        new CodePlayground().setVisible(true);
+//        new CodePlayground().setVisible(true);
 
     }
 }

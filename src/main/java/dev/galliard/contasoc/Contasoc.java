@@ -19,7 +19,7 @@ public class Contasoc {
     public static final String BASEDIR = System.getProperty("os.name").toLowerCase().contains("win") ?
             "C:/Contasoc/" :
             System.getProperty("user.home") + "/Contasoc/";
-    public static final String VERSION = "6.1.2";
+    public static final String VERSION = "6.2.0-beta";
     public static void main(String[] args) throws SQLException {
         ContasocLaf.setup();
         try {

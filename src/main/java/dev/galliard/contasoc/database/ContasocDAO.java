@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ContasocDAO {
-    private static final String DB_URL = System.getProperty("os.name").toLowerCase().contains("win") ?
+    public static final String DB_URL = System.getProperty("os.name").toLowerCase().contains("win") ?
             "jdbc:sqlite:C:/Contasoc/contasoc2.db" :
             "jdbc:sqlite:"+System.getProperty("user.home") + "/Contasoc/contasoc2.db";
 
@@ -217,6 +217,8 @@ public class ContasocDAO {
             ErrorHandler.error(e.toString());
         }
     }
+
+
 
     public static void update(String tabla, String[] atributos, String[] nuevosValores, String[] condiciones) {
         try (Connection conn = DriverManager.getConnection(DB_URL);

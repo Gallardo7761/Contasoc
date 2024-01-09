@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "8.2.0.0.331" Java: "17.0.9" encoding: "UTF-8"
+JFDML JFormDesigner: "9.0.0.0.352" Java: "17.0.9" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -19,7 +19,7 @@ new FormModel {
 				"JavaCodeGenerator.variableModifiers": 12
 			}
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq {space :::p, comp nuevoBtn:::p::p, space :::p, comp editarBtn:::p::p, space :::p, comp eliminarBtn:::p::p, space :::p, comp printBtn:::p::p, space :::p, comp importarBtn:::p::p, space :::p, comp exportarBtn:::p::p, space ::302:x, comp versionLabel:::p:70:p, space :::p, comp helpBtn:::p:31:p, space :::p}}"
+				"$horizontalGroup": "par l {seq {space :::p, comp nuevoBtn:::p::p, space :::p, comp editarBtn:::p::p, space :::p, comp eliminarBtn:::p::p, space :::p, comp printBtn:::p::p, space :::p, comp importarBtn:::p::p, space :::p, comp exportarBtn:::p::p, space ::250:x, comp versionLabel:::p:110:p, space s:::p, comp helpBtn:::p:31:p, space :::p}}"
 				"$verticalGroup": "par l {seq l {space :::p, par l:::p {par b:l {comp editarBtn::b:::x, comp nuevoBtn::b:p::p, comp eliminarBtn::b:p::p, comp printBtn::b:p::p}, par b:t {comp helpBtn::b::31:x, comp importarBtn::b:p::p, comp exportarBtn::b:p::p, comp versionLabel::b::31:x}}, space ::1:x}}"
 			} ) {
 				name: "searchAndButtonsWrapper"
@@ -119,6 +119,7 @@ new FormModel {
 					name: "versionLabel"
 					"text": "Ver. 6.0.0"
 					"focusable": false
+					"horizontalAlignment": 11
 					auxiliary() {
 						"JavaCodeGenerator.postInitCode": "versionLabel.setText(\"Ver. \" + Contasoc.VERSION);"
 					}
@@ -618,14 +619,12 @@ new FormModel {
 						auxiliary() {
 							"JavaCodeGenerator.variableModifiers": 12
 						}
-						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq l {space :::p, comp bodyScrollPane:::::x, space :::p}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp bodyScrollPane::::513:x, space :::p}}"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+							"$layoutConstraints": "insets 0,hidemode 3"
+							"$columnConstraints": "[grow,fill]"
+							"$rowConstraints": "[grow,fill]"
 						} ) {
-							name: "emailBodyWrapper"
-							auxiliary() {
-								"JavaCodeGenerator.variableModifiers": 12
-							}
+							name: "panel1"
 							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 								name: "bodyScrollPane"
 								add( new FormComponent( "javax.swing.JTextArea" ) {
@@ -641,6 +640,21 @@ new FormModel {
 									addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "bodyTextAreaFocusGained", true ) )
 									addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "bodyTextAreaFocusLost", true ) )
 								} )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "pad 10 10 -10 -5,cell 0 0"
+							} )
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+							"$layoutConstraints": "insets 0,hidemode 3"
+							"$columnConstraints": "[grow,fill]"
+							"$rowConstraints": "[grow,fill]"
+						} ) {
+							name: "panel2"
+							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+								name: "htmlRenderPanel"
+								"border": new javax.swing.border.LineBorder( new java.awt.Color( 120, 127, 135, 255 ), 1, false )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "pad 10 5 -10 -10,cell 0 0"
 							} )
 						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {

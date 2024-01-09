@@ -2,12 +2,12 @@ package dev.galliard.contasoc.ui;
 
 import dev.galliard.contasoc.common.TipoPago;
 import dev.galliard.contasoc.common.TipoSocio;
-import dev.galliard.contasoc.ingreso.Ingreso;
-import dev.galliard.contasoc.persona.Socio;
+import dev.galliard.contasoc.database.sqltypes.Ingreso;
+import dev.galliard.contasoc.database.sqltypes.Socio;
 import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Estado;
 import dev.galliard.contasoc.database.ContasocDAO;
-import dev.galliard.contasoc.pago.Pago;
+import dev.galliard.contasoc.database.sqltypes.Pago;
 import dev.galliard.contasoc.util.ErrorHandler;
 import dev.galliard.contasoc.util.PDFPrinter;
 import dev.galliard.contasoc.util.Parsers;
@@ -15,8 +15,6 @@ import dev.galliard.contasoc.util.Parsers;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -135,15 +133,15 @@ public class GUIManager {
                 for (Socio s : ContasocDAO.leerTabla("Socios").stream().map(Parsers::socioParser).toList()) {
                     if (s.getEstado() != Estado.INACTIVO) {
                         String socio =
-                                s.getSocio() + ";" +
-                                        s.getHuerto() + ";" +
-                                        s.getPersona().getNombre() + ";" +
-                                        s.getPersona().getDni() + ";" +
-                                        s.getPersona().getTelefono() + ";" +
-                                        s.getPersona().getCorreo() + ";" +
-                                        Parsers.dateParser(s.getAlta()) + ";" +
-                                        Parsers.dateParser(s.getEntrega()) + ";" +
-                                        Parsers.dateParser(s.getBaja()) + ";" +
+                                s.getNumeroSocio() + ";" +
+                                        s.getNumeroHuerto() + ";" +
+                                        s.getNombre() + ";" +
+                                        s.getDni() + ";" +
+                                        s.getTelefono() + ";" +
+                                        s.getEmail() + ";" +
+                                        Parsers.dateParser(s.getFechaDeAlta()) + ";" +
+                                        Parsers.dateParser(s.getFechaDeEntrega()) + ";" +
+                                        Parsers.dateParser(s.getFechaDeBaja()) + ";" +
                                         s.getNotas() + ";" +
                                         s.getTipo().toString()
                                                 .replace("A_E", "A DE E")
@@ -193,10 +191,10 @@ public class GUIManager {
             case "ListaEspera" -> {
                 ContasocDAO.leerTabla("Socios").stream().map(Parsers::socioParser).toList().stream()
                         .filter(x->x.getTipo().equals(TipoSocio.LISTA_ESPERA))
-                        .sorted(Comparator.comparing(Socio::getAlta)).toList()
+                        .sorted(Comparator.comparing(Socio::getFechaDeAlta)).toList()
                         .forEach(x->listaEspera.add(
-                                x.getSocio() + ";" + x.getPersona().getNombre() + ";" + x.getPersona().getTelefono()
-                                        + ";" + x.getPersona().getCorreo() + ";" + Parsers.dateParser(x.getAlta())));
+                                x.getNumeroSocio() + ";" + x.getNombre() + ";" + x.getTelefono()
+                                        + ";" + x.getEmail() + ";" + Parsers.dateParser(x.getFechaDeAlta())));
 
                 PDFPrinter.printStringToPDF(listaEspera, 5, new float[]{40f, 170f, 65f, 145f, 45f},
                         "logohuerto_pdf.png", "Lista de espera", true,

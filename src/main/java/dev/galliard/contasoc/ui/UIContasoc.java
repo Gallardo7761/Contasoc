@@ -4,8 +4,7 @@
 
 package dev.galliard.contasoc.ui;
 
-import java.beans.*;
-
+import javax.swing.border.*;
 import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.database.ContasocDAO;
@@ -16,29 +15,59 @@ import dev.galliard.contasoc.ui.tablemodels.SociosTablaModel;
 import dev.galliard.contasoc.util.EmailSender2;
 import dev.galliard.contasoc.util.ErrorHandler;
 import dev.galliard.contasoc.util.Parsers;
-import dev.galliard.contasoc.util.UpperCaseFilter;
+import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AbstractDocument;
+import net.miginfocom.swing.*;
 
 /**
  * @author jomaa
  */
 public class UIContasoc extends JFrame {
+    protected static String rendered = null;
+
+    protected static WebView webView = null;
+    protected static WebEngine webEngine = null;
+    protected static JFXPanel jfxPanel = null;
     public UIContasoc() {
         initComponents();
         setActions();
         GUIManager.populateGUITables();
         GUIManager.addListenerToSearchBar();
+        addHTMLRenderer();
+        new Thread(new HTMLRendererThread()).start();
+    }
+
+    public void addHTMLRenderer() {
+        Platform.startup(() -> {
+            jfxPanel = new JFXPanel();
+            webView = new WebView();
+            webView.getChildrenUnmodifiable().addListener(new ListChangeListener<Node>() {
+                @Override public void onChanged(ListChangeListener.Change<? extends Node> change) {
+                    Set<Node> deadSeaScrolls = webView.lookupAll(".scroll-bar");
+                    for (Node scroll : deadSeaScrolls) {
+                        scroll.setVisible(false);
+                    }
+                }
+            });
+            webEngine = webView.getEngine();
+            webEngine.loadContent(rendered);
+            jfxPanel.setScene(new Scene(webView));
+            htmlRenderPanel.add(jfxPanel, BorderLayout.CENTER);
+        });
     }
 
     public JButton getNuevoBtn() {
@@ -59,9 +88,6 @@ public class UIContasoc extends JFrame {
 
     public JButton getExportarBtn() {
         return exportarBtn;
-    }
-
-    private void createUIComponents() {
     }
 
     private void printBtnActionPerformed(ActionEvent e) {
@@ -574,9 +600,11 @@ public class UIContasoc extends JFrame {
         destinatarioComboBox = new JComboBox<>();
         adjuntoCheckBox = new JCheckBox();
         emailBodyPanel = new JPanel();
-        emailBodyWrapper = new JPanel();
+        panel1 = new JPanel();
         bodyScrollPane = new JScrollPane();
         bodyTextArea = new JTextArea();
+        panel2 = new JPanel();
+        htmlRenderPanel = new JPanel();
         emailBtnsPanel = new JPanel();
         emailBtnsWrapper = new JPanel();
         enviarBtn = new JButton();
@@ -668,6 +696,7 @@ public class UIContasoc extends JFrame {
             //---- versionLabel ----
             versionLabel.setText("Ver. 6.0.0");
             versionLabel.setFocusable(false);
+            versionLabel.setHorizontalAlignment(SwingConstants.TRAILING);
             versionLabel.setText("Ver. " + Contasoc.VERSION);
 
             //---- helpBtn ----
@@ -697,9 +726,9 @@ public class UIContasoc extends JFrame {
                         .addComponent(importarBtn)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(exportarBtn)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 302, Short.MAX_VALUE)
-                        .addComponent(versionLabel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
+                        .addComponent(versionLabel, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(helpBtn, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
             );
@@ -765,7 +794,7 @@ public class UIContasoc extends JFrame {
                             sociosTabla.setModel(new SociosTablaModel());
                             sociosTabla.getTableHeader().setReorderingAllowed(false);
                             sociosTabla.getTableHeader().setResizingAllowed(false);
-                            GUIManager.setColumnWidths(sociosTabla, 
+                            GUIManager.setColumnWidths(sociosTabla,
                                 new int[] {60,60,360,110,110,330,110,110,110,330,150,120});
                             sociosTabla.setRowHeight(50);
                             sociosTabla.setDefaultRenderer(String.class, new DateCellRenderer());
@@ -1224,8 +1253,14 @@ public class UIContasoc extends JFrame {
                 {
                     emailBodyPanel.setLayout(new GridLayout());
 
-                    //======== emailBodyWrapper ========
+                    //======== panel1 ========
                     {
+                        panel1.setLayout(new MigLayout(
+                            "insets 0,hidemode 3",
+                            // columns
+                            "[grow,fill]",
+                            // rows
+                            "[grow,fill]"));
 
                         //======== bodyScrollPane ========
                         {
@@ -1249,25 +1284,27 @@ public class UIContasoc extends JFrame {
                             bodyTextArea.setText("Escriba su mensaje...");
                             bodyScrollPane.setViewportView(bodyTextArea);
                         }
-
-                        GroupLayout emailBodyWrapperLayout = new GroupLayout(emailBodyWrapper);
-                        emailBodyWrapper.setLayout(emailBodyWrapperLayout);
-                        emailBodyWrapperLayout.setHorizontalGroup(
-                            emailBodyWrapperLayout.createParallelGroup()
-                                .addGroup(emailBodyWrapperLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(bodyScrollPane)
-                                    .addContainerGap())
-                        );
-                        emailBodyWrapperLayout.setVerticalGroup(
-                            emailBodyWrapperLayout.createParallelGroup()
-                                .addGroup(emailBodyWrapperLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(bodyScrollPane, GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
-                                    .addContainerGap())
-                        );
+                        panel1.add(bodyScrollPane, "pad 10 10 -10 -5,cell 0 0");
                     }
-                    emailBodyPanel.add(emailBodyWrapper);
+                    emailBodyPanel.add(panel1);
+
+                    //======== panel2 ========
+                    {
+                        panel2.setLayout(new MigLayout(
+                            "insets 0,hidemode 3",
+                            // columns
+                            "[grow,fill]",
+                            // rows
+                            "[grow,fill]"));
+
+                        //======== htmlRenderPanel ========
+                        {
+                            htmlRenderPanel.setBorder(new LineBorder(new Color(0x787f87)));
+                            htmlRenderPanel.setLayout(new BorderLayout());
+                        }
+                        panel2.add(htmlRenderPanel, "pad 10 5 -10 -10,cell 0 0");
+                    }
+                    emailBodyPanel.add(panel2);
                 }
                 emailPanel.add(emailBodyPanel, BorderLayout.CENTER);
 
@@ -1401,9 +1438,11 @@ public class UIContasoc extends JFrame {
     protected static JComboBox<String> destinatarioComboBox;
     protected static JCheckBox adjuntoCheckBox;
     protected static JPanel emailBodyPanel;
-    protected static JPanel emailBodyWrapper;
+    protected static JPanel panel1;
     protected static JScrollPane bodyScrollPane;
     protected static JTextArea bodyTextArea;
+    protected static JPanel panel2;
+    protected static JPanel htmlRenderPanel;
     protected static JPanel emailBtnsPanel;
     protected static JPanel emailBtnsWrapper;
     protected static JButton enviarBtn;

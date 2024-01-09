@@ -11,7 +11,7 @@ public class PopulateEmailsThread implements Runnable {
     public void run() {
         List<String> l = ContasocDAO.leerTabla("Socios").stream()
                 .map(Parsers::socioParser)
-                .map(socio -> socio.getPersona().getCorreo().trim()+" ("+socio.getSocio()+")")
+                .map(socio -> socio.getEmail().trim()+" ("+socio.getNumeroSocio()+")")
                 .map(string -> string.contains("null") ? string.replace(string, "") : string)
                 .filter(string -> !string.isBlank())
                 .toList();

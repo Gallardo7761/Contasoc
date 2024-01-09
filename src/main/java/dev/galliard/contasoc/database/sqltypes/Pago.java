@@ -1,11 +1,11 @@
-package dev.galliard.contasoc.pago;
+package dev.galliard.contasoc.database.sqltypes;
 
 import dev.galliard.contasoc.common.TipoPago;
 import dev.galliard.contasoc.util.Checkers;
 import dev.galliard.contasoc.util.Parsers;
 
+import java.sql.Date;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Pago implements Comparable<Pago> {
@@ -26,18 +26,7 @@ public class Pago implements Comparable<Pago> {
 		this.factura = factura;
 		this.tipo = tipo;
 	}
-	
-	public Pago(String s) {
-		super();
-		String[] t = s.split(";");
-		this.fecha = LocalDate.parse(t[0],DateTimeFormatter.ofPattern("d/M/yyyy"));
-		this.proveedor = t[1];
-		this.concepto = t[2];
-		this.cantidad = Double.valueOf(t[3].trim());
-		this.factura = t[4];
-		this.tipo = TipoPago.valueOf(t[5]);
-	}
-	
+
 	public LocalDate getFecha() {
 		return fecha;
 	}

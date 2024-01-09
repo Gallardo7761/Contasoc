@@ -1,9 +1,10 @@
-package dev.galliard.contasoc.ingreso;
+package dev.galliard.contasoc.database.sqltypes;
 
 import dev.galliard.contasoc.common.TipoPago;
 import dev.galliard.contasoc.util.Checkers;
 import dev.galliard.contasoc.util.Parsers;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -29,7 +30,7 @@ public class Ingreso implements Comparable<Ingreso> {
 		String[] t = s.split(";");
 		Integer socio = Integer.valueOf(t[0].trim());
 		String[] fechaArr = t[1].split("/");
-		LocalDate fecha = LocalDate.of(Integer.valueOf(fechaArr[2]),Integer.valueOf(fechaArr[1]),Integer.valueOf(fechaArr[0]));
+		LocalDate fecha = LocalDate.of(Integer.valueOf(fechaArr[2]), Integer.valueOf(fechaArr[1]), Integer.valueOf(fechaArr[0]));
 		String concepto = t[2];
 		Double cantidad = Double.valueOf(t[3].trim());
 		TipoPago tipo = TipoPago.valueOf(t[4]);
@@ -41,7 +42,7 @@ public class Ingreso implements Comparable<Ingreso> {
 		this.tipo = tipo;
 	}
 	
-	public Integer getSocio() {
+	public Integer getNumeroSocio() {
 		return socio;
 	}
 
@@ -96,7 +97,7 @@ public class Ingreso implements Comparable<Ingreso> {
 	@Override
 	public int compareTo(Ingreso p) {
 		// TODO Auto-generated method stub
-		int res = this.socio.compareTo(p.getSocio());
+		int res = this.socio.compareTo(p.getNumeroSocio());
 		if(res==0) {
 			res = fecha.compareTo(p.fecha);
 		}
