@@ -592,7 +592,7 @@ new FormModel {
 						} )
 						add( new FormComponent( "javax.swing.JTextField" ) {
 							name: "asuntoField"
-							"selectionColor": &Color5 new java.awt.Color( 186, 219, 188, 255 )
+							"selectionColor": new java.awt.Color( 186, 219, 188, 255 )
 							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
@@ -625,21 +625,9 @@ new FormModel {
 							"$rowConstraints": "[grow,fill]"
 						} ) {
 							name: "panel1"
-							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-								name: "bodyScrollPane"
-								add( new FormComponent( "javax.swing.JTextArea" ) {
-									name: "bodyTextArea"
-									"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
-									"lineWrap": true
-									"tabSize": 4
-									"wrapStyleWord": true
-									"selectionColor": #Color5
-									auxiliary() {
-										"JavaCodeGenerator.postInitCode": "bodyTextArea.setText(\"Escriba su mensaje...\");"
-									}
-									addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "bodyTextAreaFocusGained", true ) )
-									addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "bodyTextAreaFocusLost", true ) )
-								} )
+							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+								name: "htmlEditorPanel"
+								"border": new javax.swing.border.LineBorder( new java.awt.Color( 120, 127, 135, 255 ), 1, false )
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 								"value": "pad 10 10 -10 -5,cell 0 0"
 							} )

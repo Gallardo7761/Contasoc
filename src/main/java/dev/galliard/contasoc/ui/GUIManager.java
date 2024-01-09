@@ -8,6 +8,7 @@ import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Estado;
 import dev.galliard.contasoc.database.ContasocDAO;
 import dev.galliard.contasoc.database.sqltypes.Pago;
+import dev.galliard.contasoc.util.ContasocLogger;
 import dev.galliard.contasoc.util.ErrorHandler;
 import dev.galliard.contasoc.util.PDFPrinter;
 import dev.galliard.contasoc.util.Parsers;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,10 +36,14 @@ public class GUIManager {
     protected static Double inicialBanco = 0.0;
     protected static Double inicialCaja = 0.0;
     protected static void populateGUITables () {
-        ContasocDAO.fillTableFrom(UIContasoc.sociosTabla, "Socios");
-        ContasocDAO.fillTableFrom(UIContasoc.ingresosTabla, "Ingresos");
-        ContasocDAO.fillTableFrom(UIContasoc.gastosTabla, "Gastos");
-        ContasocDAO.fillListaEspera(UIContasoc.listaEsperaTabla);
+        try {
+            ContasocDAO.fillTableFrom(UIContasoc.sociosTabla, "Socios");
+            ContasocDAO.fillTableFrom(UIContasoc.ingresosTabla, "Ingresos");
+            ContasocDAO.fillTableFrom(UIContasoc.gastosTabla, "Gastos");
+            ContasocDAO.fillListaEspera(UIContasoc.listaEsperaTabla);
+        } catch (SQLException e) {
+            ContasocLogger.dispatchSQLException(e);
+        }
     }
 
     protected static void importBDD() {
@@ -94,15 +100,25 @@ public class GUIManager {
     }
 
     protected static void calcularBalance() {
-        Double banco = !ContasocDAO.leerTabla("Balance").isEmpty()
-                ? Double.parseDouble(ContasocDAO.select("Balance",new Object[] {"inicialBanco"}, ""))
-                : inicialBanco;
-        Double caja = !ContasocDAO.leerTabla("Balance").isEmpty()
-                ? Double.parseDouble(ContasocDAO.select("Balance",new Object[] {"inicialCaja"}, ""))
-                : inicialCaja;
+        Double banco = null;
+        Double caja = null;
+        List<Ingreso> ingresos = null;
+        List<Pago> pagos = null;
+        try {
+            banco = !ContasocDAO.leerTabla("Balance").isEmpty()
+                    ? Double.parseDouble(ContasocDAO.select("Balance",new Object[] {"inicialBanco"}, ""))
+                    : inicialBanco;
 
-        List<Ingreso> ingresos = ContasocDAO.leerTabla("ingresos").stream().map(Parsers::ingresoParser).toList();
-        List<Pago> pagos = ContasocDAO.leerTabla("gastos").stream().map(Parsers::pagoParser).toList();
+            caja = !ContasocDAO.leerTabla("Balance").isEmpty()
+                    ? Double.parseDouble(ContasocDAO.select("Balance",new Object[] {"inicialCaja"}, ""))
+                    : inicialCaja;
+
+            ingresos = ContasocDAO.leerTabla("ingresos").stream().map(Parsers::ingresoParser).toList();
+
+            pagos = ContasocDAO.leerTabla("gastos").stream().map(Parsers::pagoParser).toList();
+        } catch (SQLException e) {
+            ContasocLogger.dispatchSQLException(e);
+        }
 
         Double totalIngresosBanco = ingresos.stream().filter(x -> x.getTipo().equals(TipoPago.BANCO)).mapToDouble(Ingreso::getCantidad).sum();
         Double totalIngresosCaja = ingresos.stream().filter(x -> x.getTipo().equals(TipoPago.CAJA)).mapToDouble(Ingreso::getCantidad).sum();
@@ -130,28 +146,32 @@ public class GUIManager {
 
         switch (valor) {
             case "Socios" -> {
-                for (Socio s : ContasocDAO.leerTabla("Socios").stream().map(Parsers::socioParser).toList()) {
-                    if (s.getEstado() != Estado.INACTIVO) {
-                        String socio =
-                                s.getNumeroSocio() + ";" +
-                                        s.getNumeroHuerto() + ";" +
-                                        s.getNombre() + ";" +
-                                        s.getDni() + ";" +
-                                        s.getTelefono() + ";" +
-                                        s.getEmail() + ";" +
-                                        Parsers.dateParser(s.getFechaDeAlta()) + ";" +
-                                        Parsers.dateParser(s.getFechaDeEntrega()) + ";" +
-                                        Parsers.dateParser(s.getFechaDeBaja()) + ";" +
-                                        s.getNotas() + ";" +
-                                        s.getTipo().toString()
-                                                .replace("A_E", "A DE E")
-                                                .replace("O_INVERNADERO", "O + INV") + ";" +
-                                        s.getEstado();
-                        System.out.println(socio);
-                        socios.add(Arrays.stream(socio.split(";"))
-                                .map(x -> x.equals("null") ? "" : x)
-                                .collect(Collectors.joining(";")));
+                try {
+                    for (Socio s : ContasocDAO.leerTabla("Socios").stream().map(Parsers::socioParser).toList()) {
+                        if (s.getEstado() != Estado.INACTIVO) {
+                            String socio =
+                                    s.getNumeroSocio() + ";" +
+                                            s.getNumeroHuerto() + ";" +
+                                            s.getNombre() + ";" +
+                                            s.getDni() + ";" +
+                                            s.getTelefono() + ";" +
+                                            s.getEmail() + ";" +
+                                            Parsers.dateParser(s.getFechaDeAlta()) + ";" +
+                                            Parsers.dateParser(s.getFechaDeEntrega()) + ";" +
+                                            Parsers.dateParser(s.getFechaDeBaja()) + ";" +
+                                            s.getNotas() + ";" +
+                                            s.getTipo().toString()
+                                                    .replace("A_E", "A DE E")
+                                                    .replace("O_INVERNADERO", "O + INV") + ";" +
+                                            s.getEstado();
+
+                            socios.add(Arrays.stream(socio.split(";"))
+                                    .map(x -> x.equals("null") ? "" : x)
+                                    .collect(Collectors.joining(";")));
+                        }
                     }
+                } catch (SQLException e) {
+                    ContasocLogger.dispatchSQLException(e);
                 }
 
                 PDFPrinter.printStringToPDF(socios, 12,
@@ -162,11 +182,15 @@ public class GUIManager {
                 ErrorHandler.pdfCreado();
             }
             case "Ingresos" -> {
-                for (Ingreso i : ContasocDAO.leerTabla("Ingresos").stream().map(Parsers::ingresoParser).toList()) {
-                    String[] ingArr = i.toString().split(";");
-                    ingresos.add(
-                            ingArr[0] + ";" + ContasocDAO.select("Socios", new Object[] {"nombre"}, "numeroSocio = " + ingArr[0])
-                                    + ";" + ingArr[1] + ";" + ingArr[2] + ";" + ingArr[3] + ";" + ingArr[4]);
+                try {
+                    for (Ingreso i : ContasocDAO.leerTabla("Ingresos").stream().map(Parsers::ingresoParser).toList()) {
+                        String[] ingArr = i.toString().split(";");
+                        ingresos.add(
+                                ingArr[0] + ";" + ContasocDAO.select("Socios", new Object[] {"nombre"}, "numeroSocio = " + ingArr[0])
+                                        + ";" + ingArr[1] + ";" + ingArr[2] + ";" + ingArr[3] + ";" + ingArr[4]);
+                    }
+                } catch (SQLException e) {
+                    ContasocLogger.dispatchSQLException(e);
                 }
 
                 PDFPrinter.printStringToPDF(ingresos, 6, new float[]{35f, 170f, 50f, 120f, 45f, 60f},
@@ -174,11 +198,15 @@ public class GUIManager {
                         new String[]{"Nº socio", "Nombre y apellidos", "Fecha", "Concepto", "Cantidad", "Tipo"}, false,
                         10, Contasoc.ESCRITORIO + "/ingresos.pdf");
                 ErrorHandler.pdfCreado();
-                System.out.println("Ingresos");
+
             }
             case "Gastos" -> {
-                for (Pago p : ContasocDAO.leerTabla("Gastos").stream().map(Parsers::pagoParser).toList()) {
-                    gastos.add(p.toString());
+                try {
+                    for (Pago p : ContasocDAO.leerTabla("Gastos").stream().map(Parsers::pagoParser).toList()) {
+                        gastos.add(p.toString());
+                    }
+                } catch (SQLException e) {
+                    ContasocLogger.dispatchSQLException(e);
                 }
 
                 PDFPrinter.printStringToPDF(gastos, 6, new float[]{55f, 90f, 150f, 45f, 75f, 90f},
@@ -186,22 +214,26 @@ public class GUIManager {
                         new String[]{"Fecha", "Proveedor", "Concepto", "Cantidad", "Nº Factura", "Tipo"}, false, 10,
                         Contasoc.ESCRITORIO + "/gastos.pdf");
                 ErrorHandler.pdfCreado();
-                System.out.println("Gastos");
+
             }
             case "ListaEspera" -> {
-                ContasocDAO.leerTabla("Socios").stream().map(Parsers::socioParser).toList().stream()
-                        .filter(x->x.getTipo().equals(TipoSocio.LISTA_ESPERA))
-                        .sorted(Comparator.comparing(Socio::getFechaDeAlta)).toList()
-                        .forEach(x->listaEspera.add(
-                                x.getNumeroSocio() + ";" + x.getNombre() + ";" + x.getTelefono()
-                                        + ";" + x.getEmail() + ";" + Parsers.dateParser(x.getFechaDeAlta())));
+                try {
+                    ContasocDAO.leerTabla("Socios").stream().map(Parsers::socioParser).toList().stream()
+                            .filter(x->x.getTipo().equals(TipoSocio.LISTA_ESPERA))
+                            .sorted(Comparator.comparing(Socio::getFechaDeAlta)).toList()
+                            .forEach(x->listaEspera.add(
+                                    x.getNumeroSocio() + ";" + x.getNombre() + ";" + x.getTelefono()
+                                            + ";" + x.getEmail() + ";" + Parsers.dateParser(x.getFechaDeAlta())));
+                } catch (SQLException e) {
+                    ContasocLogger.dispatchSQLException(e);
+                }
 
                 PDFPrinter.printStringToPDF(listaEspera, 5, new float[]{40f, 170f, 65f, 145f, 45f},
                         "logohuerto_pdf.png", "Lista de espera", true,
                         new String[]{"Nº Socio", "Nombre y apellidos", "Teléfono", "Correo", "F. Alta"}, false, 10,
                         Contasoc.ESCRITORIO + "/lista_de_espera.pdf");
                 ErrorHandler.pdfCreado();
-                System.out.println("ListaEspera");
+
             }
         }
     }
@@ -229,10 +261,15 @@ public class GUIManager {
     protected static Object[][] search(String text) {
         DefaultTableModel model = (DefaultTableModel) UIContasoc.sociosTabla.getModel();
         int columnCount = model.getColumnCount();
-        List<String> aux = ContasocDAO.leerTabla("Socios").stream()
-                .filter(s -> s.split(";")[0].toLowerCase().contains(text.toLowerCase()) ||
-                        s.split(";")[2].toLowerCase().contains(text.toLowerCase()))
-                .toList();
+        List<String> aux = null;
+        try {
+            aux = ContasocDAO.leerTabla("Socios").stream()
+                    .filter(s -> s.split(";")[0].toLowerCase().contains(text.toLowerCase()) ||
+                            s.split(";")[2].toLowerCase().contains(text.toLowerCase()))
+                    .toList();
+        } catch (SQLException e) {
+            ContasocLogger.dispatchSQLException(e);
+        }
 
         Object[][] result = new Object[aux.size()][columnCount];
         for (int i = 0; i < aux.size(); i++) {

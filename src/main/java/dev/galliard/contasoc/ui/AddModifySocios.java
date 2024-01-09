@@ -6,6 +6,7 @@ package dev.galliard.contasoc.ui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +27,9 @@ public class AddModifySocios extends JFrame {
     protected static Action accion;
     protected static String tempNumeroSocio;
     private static AddModifySocios instance;
+
+    private static boolean sqlExceptionOcurred = false;
+
     private AddModifySocios() {
         initComponents();
         setActions();
@@ -75,22 +79,31 @@ public class AddModifySocios extends JFrame {
                 ins.add(Parsers.dashDateParserReversed(bajaField.getText()));
                 ins.add(notasField.getText());
                 ins.add((String) tipoSocioComboBox.getSelectedItem());
-                System.out.println(ins);
+
                 if(DNIValidator.validarDNI(dniField.getText()) || DNIValidator.validarNIE(dniField.getText())) {
-                    ContasocDAO.insert("Socios", new String[] {"nombre", "dni", "telefono", "email", "numeroSocio",
-                                    "numeroHuerto", "fechaDeAlta", "fechaDeEntrega", "fechaDeBaja", "notas", "tipo"},
-                            ins.toArray(String[]::new));
-                    GUIManager.populateGUITables();
-                    for(JTextField jtf : List.of(nombreField, dniField, telefonoField, emailField, socioField, huertoField,
-                            altaField, entregaField, bajaField, notasField)) {
-                        jtf.setText("");
+                    try {
+                        sqlExceptionOcurred = false;
+                        ContasocDAO.insert("Socios", new String[] {"nombre", "dni", "telefono", "email", "numeroSocio",
+                                        "numeroHuerto", "fechaDeAlta", "fechaDeEntrega", "fechaDeBaja", "notas", "tipo"},
+                                ins.toArray(String[]::new));
+                    } catch (SQLException ex) {
+                        sqlExceptionOcurred = true;
+                        ContasocLogger.dispatchSQLException(ex);
                     }
-                    this.dispose();
+                    if(!sqlExceptionOcurred) {
+                        GUIManager.populateGUITables();
+                        for(JTextField jtf : List.of(nombreField, dniField, telefonoField, emailField, socioField, huertoField,
+                                altaField, entregaField, bajaField, notasField)) {
+                            jtf.setText("");
+                        }
+                        this.dispose();
+                    }
                 } else {
                     ErrorHandler.errorAlLeerDNI();
                 }
                 break;
             case "MODIFY":
+
                 List<String> upd = new ArrayList<>();
                 upd.add(nombreField.getText());
                 upd.add(dniField.getText());
@@ -104,17 +117,25 @@ public class AddModifySocios extends JFrame {
                 upd.add(notasField.getText());
                 upd.add((String) tipoSocioComboBox.getSelectedItem());
                 if(DNIValidator.validarDNI(dniField.getText()) || DNIValidator.validarNIE(dniField.getText())) {
-                    ContasocDAO.update("Socios", new String[] {"nombre", "dni", "telefono", "email", "numeroSocio",
-                                    "numeroHuerto", "fechaDeAlta", "fechaDeEntrega", "fechaDeBaja", "notas", "tipo"},
-                            upd.toArray(String[]::new),
-                            new String[] {"numeroSocio =" + tempNumeroSocio
-                            });
-                    GUIManager.populateGUITables();
-                    for(JTextField jtf : List.of(nombreField, dniField, telefonoField, emailField, socioField, huertoField,
-                            altaField, entregaField, bajaField, notasField)) {
-                        jtf.setText("");
+                    try {
+                        sqlExceptionOcurred = false;
+                        ContasocDAO.update("Socios", new String[] {"nombre", "dni", "telefono", "email", "numeroSocio",
+                                        "numeroHuerto", "fechaDeAlta", "fechaDeEntrega", "fechaDeBaja", "notas", "tipo"},
+                                upd.toArray(String[]::new),
+                                new String[] {"numeroSocio =" + tempNumeroSocio
+                                });
+                    } catch (SQLException ex) {
+                        sqlExceptionOcurred = true;
+                        ContasocLogger.dispatchSQLException(ex);
                     }
-                    this.dispose();
+                    if(!sqlExceptionOcurred) {
+                        GUIManager.populateGUITables();
+                        for(JTextField jtf : List.of(nombreField, dniField, telefonoField, emailField, socioField, huertoField,
+                                altaField, entregaField, bajaField, notasField)) {
+                            jtf.setText("");
+                        }
+                        this.dispose();
+                    }
                 } else {
                     ErrorHandler.errorAlLeerDNI();
                 }

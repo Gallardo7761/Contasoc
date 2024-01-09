@@ -12,6 +12,7 @@ import dev.galliard.contasoc.ui.tablemodels.GastosTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.IngresosTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.ListaEsperaTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.SociosTablaModel;
+import dev.galliard.contasoc.util.ContasocLogger;
 import dev.galliard.contasoc.util.EmailSender2;
 import dev.galliard.contasoc.util.ErrorHandler;
 import dev.galliard.contasoc.util.Parsers;
@@ -20,12 +21,14 @@ import javafx.collections.ListChangeListener;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Set;
 import javax.swing.*;
@@ -41,19 +44,33 @@ public class UIContasoc extends JFrame {
 
     protected static WebView webView = null;
     protected static WebEngine webEngine = null;
-    protected static JFXPanel jfxPanel = null;
+    protected static JFXPanel editorJfxPanel = null;
+    protected static JFXPanel rendererJfxPanel = null;
+    protected static HTMLEditor htmlEditor = null;
     public UIContasoc() {
         initComponents();
         setActions();
         GUIManager.populateGUITables();
         GUIManager.addListenerToSearchBar();
+        addHTMLEditor();
         addHTMLRenderer();
+
         new Thread(new HTMLRendererThread()).start();
     }
 
-    public void addHTMLRenderer() {
+    public void addHTMLEditor() {
         Platform.startup(() -> {
-            jfxPanel = new JFXPanel();
+            editorJfxPanel = new JFXPanel();
+            htmlEditor = new HTMLEditor();
+            htmlEditor.setStyle("-fx-text-fill: #555555;");
+            editorJfxPanel.setScene(new Scene(htmlEditor));
+            htmlEditorPanel.add(editorJfxPanel, BorderLayout.CENTER);
+        });
+    }
+
+    public void addHTMLRenderer() {
+        Platform.runLater(() -> {
+            rendererJfxPanel = new JFXPanel();
             webView = new WebView();
             webView.getChildrenUnmodifiable().addListener(new ListChangeListener<Node>() {
                 @Override public void onChanged(ListChangeListener.Change<? extends Node> change) {
@@ -65,8 +82,8 @@ public class UIContasoc extends JFrame {
             });
             webEngine = webView.getEngine();
             webEngine.loadContent(rendered);
-            jfxPanel.setScene(new Scene(webView));
-            htmlRenderPanel.add(jfxPanel, BorderLayout.CENTER);
+            rendererJfxPanel.setScene(new Scene(webView));
+            htmlRenderPanel.add(rendererJfxPanel, BorderLayout.CENTER);
         });
     }
 
@@ -121,18 +138,6 @@ public class UIContasoc extends JFrame {
         BalancePanelWatcher watcher = new BalancePanelWatcher();
         Thread thread2 = new Thread(watcher);
         thread2.start();
-    }
-
-    private void bodyTextAreaFocusGained(FocusEvent e) {
-        if(bodyTextArea.getText().equals("Escriba su mensaje...")) {
-            bodyTextArea.setText("");
-        }
-    }
-
-    private void bodyTextAreaFocusLost(FocusEvent e) {
-        if(bodyTextArea.getText().isEmpty()) {
-            bodyTextArea.setText("Escriba su mensaje...");
-        }
     }
 
     private void nuevoBtnActionPerformed(ActionEvent e) {
@@ -269,9 +274,13 @@ public class UIContasoc extends JFrame {
         if(sociosPanel.isVisible()) {
             switch (sel) {
                 case JOptionPane.YES_OPTION:
-                    ContasocDAO.delete("Socios", new String[] {
-                            "numeroSocio = " + UIContasoc.sociosTabla.getValueAt(UIContasoc.sociosTabla.getSelectedRow(), 0)
-                    });
+                    try {
+                        ContasocDAO.delete("Socios", new String[] {
+                                "numeroSocio = " + UIContasoc.sociosTabla.getValueAt(UIContasoc.sociosTabla.getSelectedRow(), 0)
+                        });
+                    } catch (SQLException ex) {
+                        ContasocLogger.dispatchSQLException(ex);
+                    }
                     GUIManager.populateGUITables();
                     break;
                 case JOptionPane.NO_OPTION:
@@ -280,11 +289,15 @@ public class UIContasoc extends JFrame {
         } else if(ingresosPanel.isVisible()) {
             switch (sel) {
                 case JOptionPane.YES_OPTION:
-                    ContasocDAO.delete("Ingresos", new String[] {
-                            "numeroSocio = " + UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 0),
-                            "fecha = " + UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 1),
-                            "concepto = " + UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 2),
-                    });
+                    try {
+                        ContasocDAO.delete("Ingresos", new String[] {
+                                "numeroSocio = " + UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 0),
+                                "fecha = " + UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 1),
+                                "concepto = " + UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 2),
+                        });
+                    } catch (SQLException ex) {
+                        ContasocLogger.dispatchSQLException(ex);
+                    }
                     GUIManager.populateGUITables();
                     break;
                 case JOptionPane.NO_OPTION:
@@ -293,10 +306,14 @@ public class UIContasoc extends JFrame {
         } else if(gastosPanel.isVisible()) {
             switch (sel) {
                 case JOptionPane.YES_OPTION:
-                    ContasocDAO.delete("Gastos", new String[] {
-                            "fecha = " + UIContasoc.gastosTabla.getValueAt(UIContasoc.gastosTabla.getSelectedRow(), 0),
-                            "proveedor = " + UIContasoc.gastosTabla.getValueAt(UIContasoc.gastosTabla.getSelectedRow(), 1)
-                    });
+                    try {
+                        ContasocDAO.delete("Gastos", new String[] {
+                                "fecha = " + UIContasoc.gastosTabla.getValueAt(UIContasoc.gastosTabla.getSelectedRow(), 0),
+                                "proveedor = " + UIContasoc.gastosTabla.getValueAt(UIContasoc.gastosTabla.getSelectedRow(), 1)
+                        });
+                    } catch (SQLException ex) {
+                        ContasocLogger.dispatchSQLException(ex);
+                    }
                     GUIManager.populateGUITables();
                     break;
                 case JOptionPane.NO_OPTION:
@@ -320,21 +337,31 @@ public class UIContasoc extends JFrame {
             case "NORMAL":
                 String destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
                 String asunto = UIContasoc.asuntoField.getText();
-                String cuerpo = EmailSender2.NORMAL_EMAIL
-                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"))
-                        .replace("{mensaje}",bodyTextArea.getText());
+                String cuerpo = "";
+                try {
+                    cuerpo = EmailSender2.NORMAL_EMAIL
+                            .replace("{nombre}", ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"))
+                            .replace("{mensaje}",htmlEditor.getHtmlText());
+                } catch (SQLException ex) {
+                    ContasocLogger.dispatchSQLException(ex);
+                }
                 if(adjuntoCheckBox.isSelected()) {
                     new EmailSender2().sendEmail(destinatario, asunto, cuerpo, EmailSender2.adjunto);
                 } else {
                     new EmailSender2().sendEmail(destinatario, asunto, cuerpo);
                 }
                 asuntoField.setText("");
-                bodyTextArea.setText("");
+                htmlEditor.setHtmlText("");
                 break;
             case "AVISO IMPAGO":
+                cuerpo = "";
                 destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
-                cuerpo = EmailSender2.UNPAID_EMAIL
-                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
+                try {
+                    cuerpo = EmailSender2.UNPAID_EMAIL
+                            .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
+                } catch (SQLException ex) {
+                    ContasocLogger.dispatchSQLException(ex);
+                }
                 asunto = "AVISO IMPAGO";
                 UIContasoc.asuntoField.setText(asunto);
                 if(adjuntoCheckBox.isSelected()) {
@@ -345,11 +372,16 @@ public class UIContasoc extends JFrame {
                 }
                 break;
             case "AVISO ABANDONO":
+                cuerpo = "";
                 destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
                 asunto = "AVISO ABANDONO";
                 UIContasoc.asuntoField.setText(asunto);
-                cuerpo = EmailSender2.WARNING_EMAIL
-                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
+                try {
+                    cuerpo = EmailSender2.WARNING_EMAIL
+                            .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
+                } catch (SQLException ex) {
+                    ContasocLogger.dispatchSQLException(ex);
+                }
                 if(adjuntoCheckBox.isSelected()) {
                     new EmailSender2().sendEmail(destinatario, asunto, cuerpo, EmailSender2.adjunto);
                     asuntoField.setText("");
@@ -358,11 +390,16 @@ public class UIContasoc extends JFrame {
                 }
                 break;
             case "MAL COMPORTAMIENTO":
+                cuerpo = "";
                 destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
                 asunto = "AVISO MAL COMPORTAMIENTO";
                 UIContasoc.asuntoField.setText(asunto);
-                cuerpo = EmailSender2.MISBEHAVE_EMAIL
-                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
+                try {
+                    cuerpo = EmailSender2.MISBEHAVE_EMAIL
+                            .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
+                } catch (SQLException ex) {
+                    ContasocLogger.dispatchSQLException(ex);
+                }
                 if(adjuntoCheckBox.isSelected()) {
                     new EmailSender2().sendEmail(destinatario, asunto, cuerpo, EmailSender2.adjunto);
                     asuntoField.setText("");
@@ -377,41 +414,57 @@ public class UIContasoc extends JFrame {
     private void borradorBtnActionPerformed(ActionEvent e) {
         String body = null;
         if(UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("NORMAL")) {
-            body = EmailSender2.NORMAL_EMAIL
-                    .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"))
-                    .replace("{mensaje}",bodyTextArea.getText());
+            try {
+                body = EmailSender2.NORMAL_EMAIL
+                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"))
+                        .replace("{mensaje}",htmlEditor.getHtmlText());
+            } catch (SQLException ex) {
+                ContasocLogger.dispatchSQLException(ex);
+            }
         } else if(UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("AVISO IMPAGO")) {
-            body = EmailSender2.UNPAID_EMAIL
-                    .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"));
+            try {
+                body = EmailSender2.UNPAID_EMAIL
+                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"));
+            } catch (SQLException ex) {
+                ContasocLogger.dispatchSQLException(ex);
+            }
         } else if(UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("AVISO ABANDONO")) {
-            body = EmailSender2.WARNING_EMAIL
-                    .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"));
+            try {
+                body = EmailSender2.WARNING_EMAIL
+                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"));
+            } catch (SQLException ex) {
+                ContasocLogger.dispatchSQLException(ex);
+            }
         } else if(UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("MAL COMPORTAMIENTO")) {
-            body = EmailSender2.MISBEHAVE_EMAIL
-                    .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"));
+            try {
+                body = EmailSender2.MISBEHAVE_EMAIL
+                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"));
+            } catch (SQLException ex) {
+                ContasocLogger.dispatchSQLException(ex);
+            }
         }
         EmailSender2.crearBorrador(UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim(),
                 UIContasoc.asuntoField.getText(), body);
     }
 
     private void tipoEmailComboBoxItemStateChanged(ItemEvent e) {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
+        if (e.getStateChange() == ItemEvent.SELECTED && htmlEditor != null) {
             switch (e.getItem().toString()) {
                 case "NORMAL":
                     asuntoField.setEditable(true);
-                    bodyTextArea.setEditable(true);
+                    htmlEditor.setDisable(false);
                     break;
                 case "AVISO IMPAGO":
                     asuntoField.setEditable(false);
-                    bodyTextArea.setEditable(false);
+                    htmlEditor.setDisable(true);
                     break;
                 case "AVISO ABANDONO":
                     asuntoField.setEditable(false);
-                    bodyTextArea.setEditable(false);
+                    htmlEditor.setDisable(true);
                     break;
                 case "MAL COMPORTAMIENTO":
                     asuntoField.setEditable(false);
-                    bodyTextArea.setEditable(false);
+                    htmlEditor.setDisable(true);
                     break;
             }
         }
@@ -424,7 +477,11 @@ public class UIContasoc extends JFrame {
             ingresosView.setVisible(true);
             ingresosView.setTitle("Ingresos de " + sociosTabla.getValueAt(selectedRowIndex, 2));
             ingresosView.setLocationRelativeTo(null);
-            ContasocDAO.fillTableFrom(IngresosView.ingresosTabla, "Ingresos");
+            try {
+                ContasocDAO.fillTableFrom(IngresosView.ingresosTabla, "Ingresos");
+            } catch (SQLException e) {
+                ContasocLogger.dispatchSQLException(e);
+            }
 
             for (int i = IngresosView.ingresosTabla.getRowCount() - 1; i >= 0; i--) {
                 if (IngresosView.ingresosTabla.getValueAt(i, 0).equals("")
@@ -601,8 +658,7 @@ public class UIContasoc extends JFrame {
         adjuntoCheckBox = new JCheckBox();
         emailBodyPanel = new JPanel();
         panel1 = new JPanel();
-        bodyScrollPane = new JScrollPane();
-        bodyTextArea = new JTextArea();
+        htmlEditorPanel = new JPanel();
         panel2 = new JPanel();
         htmlRenderPanel = new JPanel();
         emailBtnsPanel = new JPanel();
@@ -1262,29 +1318,12 @@ public class UIContasoc extends JFrame {
                             // rows
                             "[grow,fill]"));
 
-                        //======== bodyScrollPane ========
+                        //======== htmlEditorPanel ========
                         {
-
-                            //---- bodyTextArea ----
-                            bodyTextArea.setFont(bodyTextArea.getFont().deriveFont(bodyTextArea.getFont().getSize() + 6f));
-                            bodyTextArea.setLineWrap(true);
-                            bodyTextArea.setTabSize(4);
-                            bodyTextArea.setWrapStyleWord(true);
-                            bodyTextArea.setSelectionColor(new Color(0xbadbbc));
-                            bodyTextArea.addFocusListener(new FocusAdapter() {
-                                @Override
-                                public void focusGained(FocusEvent e) {
-                                    bodyTextAreaFocusGained(e);
-                                }
-                                @Override
-                                public void focusLost(FocusEvent e) {
-                                    bodyTextAreaFocusLost(e);
-                                }
-                            });
-                            bodyTextArea.setText("Escriba su mensaje...");
-                            bodyScrollPane.setViewportView(bodyTextArea);
+                            htmlEditorPanel.setBorder(new LineBorder(new Color(0x787f87)));
+                            htmlEditorPanel.setLayout(new BorderLayout());
                         }
-                        panel1.add(bodyScrollPane, "pad 10 10 -10 -5,cell 0 0");
+                        panel1.add(htmlEditorPanel, "pad 10 10 -10 -5,cell 0 0");
                     }
                     emailBodyPanel.add(panel1);
 
@@ -1439,8 +1478,7 @@ public class UIContasoc extends JFrame {
     protected static JCheckBox adjuntoCheckBox;
     protected static JPanel emailBodyPanel;
     protected static JPanel panel1;
-    protected static JScrollPane bodyScrollPane;
-    protected static JTextArea bodyTextArea;
+    protected static JPanel htmlEditorPanel;
     protected static JPanel panel2;
     protected static JPanel htmlRenderPanel;
     protected static JPanel emailBtnsPanel;

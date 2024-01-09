@@ -97,7 +97,7 @@ public class DNIValidator {
         	return false;
         }
         int numero = Integer.parseInt(String.join("", List.of(valoresPrimerasLetras.get(primeraLetra).toString(),new String(digitos))));
-        System.out.println(numero);
+
 
         int resto = numero % 23;
         int valorLetra = valoresLetras.get(letra);

@@ -86,7 +86,7 @@ public class Parsers {
 		Integer huerto = Integer.valueOf(t[1].trim());
 		String nombre = t[2];
 		String dni = t[3];
-		Integer telefono = Integer.valueOf(t[4]);
+		Integer telefono = t[4].equals("null") ? null : Integer.valueOf(t[4].trim());
 		String correo = t[5];
 		LocalDate alta = LocalDate.parse(t[6], formatter);
 		LocalDate entrega = t[7].equals("null") ? null : LocalDate.parse(t[7], formatter);

@@ -82,7 +82,7 @@ public class PDFPrinter {
         for (String input : inputs) {
             String[] fields = input.split(";");
             if (fields.length != numColumns) {
-                System.out.println("La cadena de entrada debe tener " + numColumns + " campos separados por ';'");
+                ContasocLogger.error("La cadena de entrada debe tener " + numColumns + " campos separados por ';'");
                 return;
             }
             for (String field : fields) {
@@ -101,7 +101,7 @@ public class PDFPrinter {
 
 
     } catch (Exception e) {
-        e.printStackTrace();
+        ContasocLogger.error(e.getMessage(), e);
     } finally {
         document.close();
     }
@@ -140,7 +140,7 @@ public class PDFPrinter {
 
             document.add(table);
         } catch (DocumentException | IOException e) {
-            e.printStackTrace();
+            ContasocLogger.error(e.getMessage(), e);
         } finally {
             document.close();
         }
@@ -167,7 +167,7 @@ public class PDFPrinter {
             }
             document.add(pdfTable);
         } catch (Exception e) {
-            e.printStackTrace();
+            ContasocLogger.error(e.getMessage(), e);
         } finally {
             // Cerrar el documento
             document.close();

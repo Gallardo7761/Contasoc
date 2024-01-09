@@ -1,6 +1,7 @@
 package dev.galliard.contasoc.database;
 
 import dev.galliard.contasoc.ui.DateCellRenderer;
+import dev.galliard.contasoc.util.ContasocLogger;
 import dev.galliard.contasoc.util.ErrorHandler;
 
 import javax.swing.*;
@@ -28,7 +29,7 @@ public class ContasocDAO {
             String query = """            
             CREATE TABLE IF NOT EXISTS Socios(
             	idSocio INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL ,
-            	numeroSocio INTEGER UNIQUE NOT NULL,
+            	numeroSocio INTEGER UNIQUE,
             	numeroHuerto INTEGER NOT NULL,
             	nombre VARCHAR(128) NOT NULL,
             	dni CHAR(9) UNIQUE NOT NULL,
@@ -124,11 +125,11 @@ public class ContasocDAO {
             stmt.execute(query);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            ContasocLogger.dispatchSQLException(e);
         }
     }
 
-    public static List<String> leerTabla(String nombreTabla) {
+    public static List<String> leerTabla(String nombreTabla) throws SQLException {
         String query = "SELECT * FROM " + nombreTabla;
         List<String> aux = new ArrayList<>();
 
@@ -152,14 +153,11 @@ public class ContasocDAO {
 
                 aux.add(dataBuilder.toString());
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
         return aux;
     }
 
-    public static String select(String table, Object[] atributos, String condicion) {
+    public static String select(String table, Object[] atributos, String condicion) throws SQLException {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
             StringBuilder query = new StringBuilder("SELECT ");
@@ -171,7 +169,7 @@ public class ContasocDAO {
             if(!condicion.isEmpty()) {
                 query = new StringBuilder(query.substring(0, query.length() - 1) + " WHERE " + condicion + ";");
             }
-            System.out.println(query);
+
             ResultSet rs = stmt.executeQuery(query.toString());
             StringBuilder result = new StringBuilder();
             while (rs.next()) {
@@ -182,13 +180,10 @@ public class ContasocDAO {
                 result.append("\n");
             }
             return result.toString();
-        } catch (SQLException e) {
-            ErrorHandler.error(e.toString());
         }
-        return null;
     }
 
-    public static void insert(String tabla, String[] atributos, String[] valores) {
+    public static void insert(String tabla, String[] atributos, String[] valores) throws SQLException {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
             StringBuilder query = new StringBuilder("INSERT INTO " + tabla + " (");
@@ -211,16 +206,14 @@ public class ContasocDAO {
             }
             query = new StringBuilder(query.substring(0, query.length() - 2));
             query.append(");");
-            System.out.println(query);
+
             stmt.execute(query.toString());
-        } catch (SQLException e) {
-            ErrorHandler.error(e.toString());
         }
     }
 
 
 
-    public static void update(String tabla, String[] atributos, String[] nuevosValores, String[] condiciones) {
+    public static void update(String tabla, String[] atributos, String[] nuevosValores, String[] condiciones) throws SQLException {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
             StringBuilder query = new StringBuilder("UPDATE " + tabla + " SET ");
@@ -253,16 +246,14 @@ public class ContasocDAO {
             }
 
             query.append(";");
-            System.out.println(query);
+
 
             stmt.execute(query.toString());
-        } catch (SQLException e) {
-            ErrorHandler.error(e.toString());
         }
     }
 
 
-    public static void delete(String tabla, String[] condiciones) {
+    public static void delete(String tabla, String[] condiciones) throws SQLException {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
 
@@ -282,84 +273,74 @@ public class ContasocDAO {
             String condicion = String.join(" AND ", condiciones);
 
             String query = "DELETE FROM " + tabla + " WHERE " + condicion + ";";
-            System.out.println(query);
+
             stmt.execute(query);
-        } catch (SQLException e) {
-            ErrorHandler.error(e.toString());
         }
     }
 
 
-    public static void fillTableFrom(JTable jTable, String sqlTable) {
+    public static void fillTableFrom(JTable jTable, String sqlTable) throws SQLException {
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();
         model.setRowCount(0); // Limpiar la tabla antes de llenarla
 
-        try {
-            // Conectar a la base de datos SQLite
-            Connection connection = DriverManager.getConnection(DB_URL);
+        // Conectar a la base de datos SQLite
+        Connection connection = DriverManager.getConnection(DB_URL);
 
-            // Consulta para seleccionar todos los registros de tu tabla
-            String query = "SELECT * FROM " + sqlTable +";";
+        // Consulta para seleccionar todos los registros de tu tabla
+        String query = "SELECT * FROM " + sqlTable +";";
 
-            // Preparar la consulta
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                // Ejecutar la consulta
-                ResultSet resultSet = statement.executeQuery();
+        // Preparar la consulta
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            // Ejecutar la consulta
+            ResultSet resultSet = statement.executeQuery();
 
-                // Llenar la JTable con los resultados de la consulta
-                while (resultSet.next()) {
-                    Object[] row = new Object[resultSet.getMetaData().getColumnCount() - 1]; // Ignorar la primera columna (ID)
-                    for (int i = 1; i <= row.length; i++) { // Comenzar desde la primera columna
-                        row[i - 1] = resultSet.getObject(i + 1); // Sumar 1 para saltar la primera columna (ID)
-                    }
-                    model.addRow(row);
+            // Llenar la JTable con los resultados de la consulta
+            while (resultSet.next()) {
+                Object[] row = new Object[resultSet.getMetaData().getColumnCount() - 1]; // Ignorar la primera columna (ID)
+                for (int i = 1; i <= row.length; i++) { // Comenzar desde la primera columna
+                    row[i - 1] = resultSet.getObject(i + 1); // Sumar 1 para saltar la primera columna (ID)
                 }
+                model.addRow(row);
             }
-
-            // Cerrar la conexión
-            connection.close();
-        } catch (SQLException e) {
-            ErrorHandler.error(e.toString());
         }
+
+        // Cerrar la conexión
+        connection.close();
     }
 
-    public static void fillListaEspera(JTable tabla) {
+    public static void fillListaEspera(JTable tabla) throws SQLException {
         // Conexión a la base de datos SQLite
         ((DefaultTableModel) tabla.getModel()).setRowCount(0);
         final DefaultTableCellRenderer defaultTableCellRenderer = new DateCellRenderer();
         defaultTableCellRenderer.setHorizontalTextPosition(SwingConstants.LEFT);
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
-        try {
-            try (Connection connection = DriverManager.getConnection(DB_URL);
-                 Statement statement = connection.createStatement()) {
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             Statement statement = connection.createStatement()) {
 
-                // Nombre de la tabla y consulta SQL para seleccionar todos los datos
-                String equal = "LISTA_ESPERA";
-                String query = "SELECT numeroSocio, nombre, telefono, email, fechaDeAlta FROM Socios WHERE tipo = '" + equal + "'";
+            // Nombre de la tabla y consulta SQL para seleccionar todos los datos
+            String equal = "LISTA_ESPERA";
+            String query = "SELECT numeroSocio, nombre, telefono, email, fechaDeAlta FROM Socios WHERE tipo = '" + equal + "'";
 
+            // Obtener metadatos de las columnas
+            try ( // Ejecutar la consulta
+                  ResultSet resultSet = statement.executeQuery(query)) {
                 // Obtener metadatos de las columnas
-                try ( // Ejecutar la consulta
-                      ResultSet resultSet = statement.executeQuery(query)) {
-                    // Obtener metadatos de las columnas
-                    int columnCount = resultSet.getMetaData().getColumnCount();
-                    // Agregar filas a la JTable utilizando los datos del resultado de la consulta
-                    while (resultSet.next()) {
-                        Object[] row = new Object[columnCount];
+                int columnCount = resultSet.getMetaData().getColumnCount();
+                // Agregar filas a la JTable utilizando los datos del resultado de la consulta
+                while (resultSet.next()) {
+                    Object[] row = new Object[columnCount];
 
-                        // Obtener los valores de cada columna
-                        for (int i = 1; i <= columnCount; i++) {
-                            tabla.getColumnModel().getColumn(i-1).setCellRenderer(defaultTableCellRenderer);
-                            row[i - 1] = resultSet.getObject(i);
-                        }
-
-                        // Agregar la fila al modelo de tabla
-                        model.addRow(row);
+                    // Obtener los valores de cada columna
+                    for (int i = 1; i <= columnCount; i++) {
+                        tabla.getColumnModel().getColumn(i-1).setCellRenderer(defaultTableCellRenderer);
+                        row[i - 1] = resultSet.getObject(i);
                     }
-                    // Cerrar la conexión y liberar recursos
+
+                    // Agregar la fila al modelo de tabla
+                    model.addRow(row);
                 }
+                // Cerrar la conexión y liberar recursos
             }
-        } catch (SQLException e) {
-            ErrorHandler.error(e.toString());
         }
     }
     }

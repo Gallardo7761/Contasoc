@@ -42,7 +42,7 @@ public class EmailSender2 {
             Files.write(filePath, html.getBytes());
             ErrorHandler.borradorGuardado();
         } catch (IOException e) {
-            e.printStackTrace();
+            ContasocLogger.error(e.getMessage(), e);
         }
     }
 
@@ -93,7 +93,7 @@ public class EmailSender2 {
                     .withAttachment(adjunto.getName(), new FileDataSource(EmailSender2.adjunto))
                     .buildEmail();
         } catch (IOException e) {
-            e.printStackTrace(); // Manejo de errores, puedes personalizar esto según tus necesidades
+            ContasocLogger.error(e.getMessage(), e); // Manejo de errores, puedes personalizar esto según tus necesidades
             return null; // O lanzar una excepción, dependiendo de tus requisitos
         }
     }
@@ -216,7 +216,7 @@ public class EmailSender2 {
            
            <body>
                <div class="container">
-                   <img src="../images/logohuerto.png" width="150" class="logo">
+                   <img src="https://raw.githubusercontent.com/GalliardDev/ContasocRemake/master/src/main/resources/images/logohuerto.png" width="150" class="logo">
                    <h4 class="title">Huertos la Salud Bellavista</h4>
                    <center><h5 class="subtitle">AVISO DE ABANDONO</h5></center>
                    <p class="body">Estimado/a {nombre},</p>
@@ -293,7 +293,7 @@ public class EmailSender2 {
            
            <body>
                <div class="container">
-                   <img src="../images/logohuerto.png" width="150" class="logo">
+                   <img src="https://raw.githubusercontent.com/GalliardDev/ContasocRemake/master/src/main/resources/images/logohuerto.png" width="150" class="logo">
                    <h4 class="title">Huertos la Salud Bellavista</h4>
                    <center><h5 class="subtitle">AVISO DE IMPAGO</h5></center>
                    <p class="body">Estimado/a {nombre},</p>
@@ -370,7 +370,7 @@ public class EmailSender2 {
                         
             <body>
                 <div class="container">
-                    <img src="../images/logohuerto.png" width="150" class="logo">
+                    <img src="https://raw.githubusercontent.com/GalliardDev/ContasocRemake/master/src/main/resources/images/logohuerto.png" width="150" class="logo">
                     <h4 class="title">Huertos la Salud Bellavista</h4>
                     <center><h5 class="subtitle">LLAMADA DE ATENCI&Oacute;N</h5></center>
                     <p class="body">Estimado/a {nombre},</p>

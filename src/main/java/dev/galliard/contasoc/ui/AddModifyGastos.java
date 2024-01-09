@@ -6,6 +6,7 @@ package dev.galliard.contasoc.ui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -13,6 +14,7 @@ import javax.swing.text.AbstractDocument;
 
 import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.database.ContasocDAO;
+import dev.galliard.contasoc.util.ContasocLogger;
 import dev.galliard.contasoc.util.Parsers;
 import dev.galliard.contasoc.util.UpperCaseFilter;
 import net.miginfocom.swing.*;
@@ -26,6 +28,8 @@ public class AddModifyGastos extends JFrame {
     protected static String tempProveedor;
 
     private static AddModifyGastos instance;
+
+    private static boolean sqlExceptionOcurred = false;
     private AddModifyGastos() {
         initComponents();
         setActions();
@@ -70,14 +74,22 @@ public class AddModifyGastos extends JFrame {
                 ins.add(cantidadField.getText());
                 ins.add(facturaField.getText());
                 ins.add((String) tipoPagoComboBox.getSelectedItem());
-                System.out.println(ins);
-                ContasocDAO.insert("Gastos", new String[] {"fecha", "proveedor", "concepto", "cantidad", "factura", "tipo"},
-                        ins.toArray(String[]::new));
-                GUIManager.populateGUITables();
-                for(JTextField jtf : List.of(fechaField, proveedorField, conceptoField, cantidadField, facturaField)) {
-                    jtf.setText("");
+
+                try {
+                    sqlExceptionOcurred = false;
+                    ContasocDAO.insert("Gastos", new String[] {"fecha", "proveedor", "concepto", "cantidad", "factura", "tipo"},
+                            ins.toArray(String[]::new));
+                } catch (SQLException ex) {
+                    sqlExceptionOcurred = true;
+                    ContasocLogger.dispatchSQLException(ex);
                 }
-                this.dispose();
+                if(!sqlExceptionOcurred) {
+                    GUIManager.populateGUITables();
+                    for(JTextField jtf : List.of(fechaField, proveedorField, conceptoField, cantidadField, facturaField)) {
+                        jtf.setText("");
+                    }
+                    this.dispose();
+                }
                 break;
             case "MODIFY":
                 java.util.List<String> upd = new ArrayList<>();
@@ -87,17 +99,25 @@ public class AddModifyGastos extends JFrame {
                 upd.add(cantidadField.getText());
                 upd.add(facturaField.getText());
                 upd.add((String) tipoPagoComboBox.getSelectedItem());
-                ContasocDAO.update("Gastos", new String[] {"fecha", "proveedor", "concepto", "cantidad", "factura", "tipo"},
-                        upd.toArray(String[]::new),
-                        new String[] {
-                                "fecha =" + tempFecha,
-                                "proveedor =" + tempProveedor
-                        });
-                GUIManager.populateGUITables();
-                for(JTextField jtf : List.of(fechaField, proveedorField, conceptoField, cantidadField, facturaField)) {
-                    jtf.setText("");
+                try {
+                    sqlExceptionOcurred = false;
+                    ContasocDAO.update("Gastos", new String[] {"fecha", "proveedor", "concepto", "cantidad", "factura", "tipo"},
+                            upd.toArray(String[]::new),
+                            new String[] {
+                                    "fecha =" + tempFecha,
+                                    "proveedor =" + tempProveedor
+                            });
+                } catch (SQLException ex) {
+                    sqlExceptionOcurred = true;
+                    ContasocLogger.dispatchSQLException(ex);
                 }
-                this.dispose();
+                if(!sqlExceptionOcurred) {
+                    GUIManager.populateGUITables();
+                    for(JTextField jtf : List.of(fechaField, proveedorField, conceptoField, cantidadField, facturaField)) {
+                        jtf.setText("");
+                    }
+                    this.dispose();
+                }
                 break;
         }
     }

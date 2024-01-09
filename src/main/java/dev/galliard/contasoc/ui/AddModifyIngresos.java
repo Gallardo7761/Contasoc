@@ -6,6 +6,7 @@ package dev.galliard.contasoc.ui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.swing.text.AbstractDocument;
 
 import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.database.ContasocDAO;
+import dev.galliard.contasoc.util.ContasocLogger;
 import dev.galliard.contasoc.util.Parsers;
 import dev.galliard.contasoc.util.UpperCaseFilter;
 import net.miginfocom.swing.*;
@@ -27,6 +29,8 @@ public class AddModifyIngresos extends JFrame {
     protected static String tempSocio;
     protected static String tempConcepto;
     private static AddModifyIngresos instance;
+
+    private static boolean sqlExceptionOcurred = false;
 
     private AddModifyIngresos() {
         initComponents();
@@ -71,13 +75,21 @@ public class AddModifyIngresos extends JFrame {
                 ins.add(conceptoField.getText());
                 ins.add(cantidadField.getText());
                 ins.add((String) tipoPagoComboBox.getSelectedItem());
-                System.out.println(ins);
-                ContasocDAO.insert("Ingresos", new String[] {"numeroSocio", "fecha", "concepto", "cantidad", "tipo"},
-                        ins.toArray(String[]::new));
-                GUIManager.populateGUITables();
-                this.dispose();
-                for(JTextField jtf : Arrays.asList(socioField, fechaField, conceptoField, cantidadField)) {
-                    jtf.setText("");
+
+                try {
+                    sqlExceptionOcurred = false;
+                    ContasocDAO.insert("Ingresos", new String[] {"numeroSocio", "fecha", "concepto", "cantidad", "tipo"},
+                            ins.toArray(String[]::new));
+                } catch (SQLException ex) {
+                    sqlExceptionOcurred = true;
+                    ContasocLogger.dispatchSQLException(ex);
+                }
+                if(!sqlExceptionOcurred) {
+                    GUIManager.populateGUITables();
+                    for(JTextField jtf : Arrays.asList(socioField, fechaField, conceptoField, cantidadField)) {
+                        jtf.setText("");
+                    }
+                    this.dispose();
                 }
                 break;
             case "MODIFY":
@@ -87,18 +99,26 @@ public class AddModifyIngresos extends JFrame {
                 upd.add(conceptoField.getText());
                 upd.add(cantidadField.getText());
                 upd.add((String) tipoPagoComboBox.getSelectedItem());
-                ContasocDAO.update("Ingresos", new String[] {"numeroSocio", "fecha", "concepto", "cantidad", "tipo"},
-                        upd.toArray(String[]::new),
-                        new String[] {
-                                "numeroSocio =" + tempSocio,
-                                "fecha =" + tempFecha,
-                                "concepto =" + tempConcepto
-                        });
-                GUIManager.populateGUITables();
-                for(JTextField jtf : Arrays.asList(socioField, fechaField, conceptoField, cantidadField)) {
-                    jtf.setText("");
+                try {
+                    sqlExceptionOcurred = false;
+                    ContasocDAO.update("Ingresos", new String[] {"numeroSocio", "fecha", "concepto", "cantidad", "tipo"},
+                            upd.toArray(String[]::new),
+                            new String[] {
+                                    "numeroSocio =" + tempSocio,
+                                    "fecha =" + tempFecha,
+                                    "concepto =" + tempConcepto
+                            });
+                } catch (SQLException ex) {
+                    sqlExceptionOcurred = true;
+                    ContasocLogger.dispatchSQLException(ex);
                 }
-                this.dispose();
+                if(!sqlExceptionOcurred) {
+                    GUIManager.populateGUITables();
+                    for(JTextField jtf : Arrays.asList(socioField, fechaField, conceptoField, cantidadField)) {
+                        jtf.setText("");
+                    }
+                    this.dispose();
+                }
                 break;
         }
     }

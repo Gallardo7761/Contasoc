@@ -6,10 +6,12 @@ package dev.galliard.contasoc.ui;
 
 import dev.galliard.contasoc.database.ContasocDAO;
 import dev.galliard.contasoc.ui.GUIManager;
+import dev.galliard.contasoc.util.ContasocLogger;
 import dev.galliard.contasoc.util.UpperCaseFilter;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
@@ -47,8 +49,12 @@ public class SaldoInicial extends JFrame {
     private void saldoInicialGuardarBtnActionPerformed(ActionEvent e) {
         GUIManager.inicialBanco = Double.parseDouble(inicialBancoField.getText());
         GUIManager.inicialCaja = Double.parseDouble(inicialCajaField.getText());
-        ContasocDAO.insert("Balance", new String[] {"inicialBanco","inicialCaja"},
-                new String[] {inicialBancoField.getText(),inicialCajaField.getText()});
+        try {
+            ContasocDAO.insert("Balance", new String[] {"inicialBanco","inicialCaja"},
+                    new String[] {inicialBancoField.getText(),inicialCajaField.getText()});
+        } catch (SQLException ex) {
+            ContasocLogger.dispatchSQLException(ex);
+        }
         this.dispose();
     }
 
