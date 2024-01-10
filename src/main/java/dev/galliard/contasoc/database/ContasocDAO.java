@@ -154,6 +154,7 @@ public class ContasocDAO {
                 aux.add(dataBuilder.toString());
             }
         }
+        System.out.println(query);
         return aux;
     }
 
@@ -179,6 +180,7 @@ public class ContasocDAO {
                 result = new StringBuilder(result.substring(0, result.length() - 1));
                 result.append("\n");
             }
+            System.out.println(query);
             return result.toString();
         }
     }
@@ -206,7 +208,7 @@ public class ContasocDAO {
             }
             query = new StringBuilder(query.substring(0, query.length() - 2));
             query.append(");");
-
+            System.out.println(query);
             stmt.execute(query.toString());
         }
     }
@@ -247,7 +249,7 @@ public class ContasocDAO {
 
             query.append(";");
 
-
+            System.out.println(query);
             stmt.execute(query.toString());
         }
     }
@@ -273,7 +275,7 @@ public class ContasocDAO {
             String condicion = String.join(" AND ", condiciones);
 
             String query = "DELETE FROM " + tabla + " WHERE " + condicion + ";";
-
+            System.out.println(query);
             stmt.execute(query);
         }
     }
@@ -303,7 +305,7 @@ public class ContasocDAO {
                 model.addRow(row);
             }
         }
-
+        System.out.println(query);
         // Cerrar la conexión
         connection.close();
     }
@@ -341,6 +343,8 @@ public class ContasocDAO {
                 }
                 // Cerrar la conexión y liberar recursos
             }
+            System.out.println(query);
         }
+
     }
     }

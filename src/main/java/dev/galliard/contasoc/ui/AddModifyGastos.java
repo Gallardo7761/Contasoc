@@ -104,7 +104,7 @@ public class AddModifyGastos extends JFrame {
                     ContasocDAO.update("Gastos", new String[] {"fecha", "proveedor", "concepto", "cantidad", "factura", "tipo"},
                             upd.toArray(String[]::new),
                             new String[] {
-                                    "fecha =" + tempFecha,
+                                    "fecha =" + Parsers.dashDateParserReversed(tempFecha),
                                     "proveedor =" + tempProveedor
                             });
                 } catch (SQLException ex) {

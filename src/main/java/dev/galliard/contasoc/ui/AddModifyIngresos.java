@@ -105,7 +105,7 @@ public class AddModifyIngresos extends JFrame {
                             upd.toArray(String[]::new),
                             new String[] {
                                     "numeroSocio =" + tempSocio,
-                                    "fecha =" + tempFecha,
+                                    "fecha =" + Parsers.dashDateParserReversed(tempFecha),
                                     "concepto =" + tempConcepto
                             });
                 } catch (SQLException ex) {
