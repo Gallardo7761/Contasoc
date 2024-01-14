@@ -10,6 +10,7 @@ public class DateCellRenderer extends DefaultTableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
                                                    boolean hasFocus, int row, int column) {
+
         if(!(value==null) && (value.toString().matches("\\d{4}-\\d{2}-\\d{2}"))) {
             value = Parsers.dashDateParser((String) value);
         }

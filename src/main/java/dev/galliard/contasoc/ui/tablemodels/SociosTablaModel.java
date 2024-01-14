@@ -13,8 +13,8 @@ public class SociosTablaModel extends DefaultTableModel {
     public static final String[] columnNames = { "Socio", "Huerto", "Nombre", "DNI", "Teléfono", "Correo",
             "F. Alta", "F. Entrega", "F. Baja", "Notas", "Tipo", "Estado" };
 
-    private static final Class<?>[] columnTypes = { String.class, String.class, String.class, String.class,
-            String.class, String.class, String.class, String.class,
+    private static final Class<?>[] columnTypes = { Integer.class, Integer.class, String.class, String.class,
+            Integer.class, String.class, String.class, String.class,
             String.class, String.class, String.class, String.class };
 
     public SociosTablaModel() {

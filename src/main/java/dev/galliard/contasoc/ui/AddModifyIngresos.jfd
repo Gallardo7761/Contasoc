@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "8.2.0.0.331" Java: "17.0.9" encoding: "UTF-8"
+JFDML JFormDesigner: "8.2.1.0.348" Java: "17.0.9" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -22,7 +22,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 0,width 64:64:64,height 32:32:32"
+				"value": "cell 0 0,width 80:80:80,height 32:32:32"
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "socioField"
@@ -43,7 +43,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 1,width 64:64:64,height 32:32:32"
+				"value": "cell 0 1,width 80:80:80,height 32:32:32"
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "fechaField"
@@ -64,7 +64,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 2,width 72:72:72,height 32:32:32"
+				"value": "cell 0 2,width 80:80:80,height 32:32:32"
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "conceptoField"
@@ -85,7 +85,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 0,width 72:72:72,height 32:32:32"
+				"value": "cell 1 0,width 80:80:80,height 32:32:32"
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "cantidadField"
@@ -106,7 +106,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 1,width 64:64:64,height 32:32:32"
+				"value": "cell 1 1,width 80:80:80,height 32:32:32"
 			} )
 			add( new FormComponent( "javax.swing.JComboBox" ) {
 				name: "tipoPagoComboBox"

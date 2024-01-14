@@ -5,8 +5,8 @@ import javax.swing.table.DefaultTableModel;
 public class IngresosTablaModel extends DefaultTableModel {
     private static final String[] columnNames = { "Nº Socio", "Fecha", "Concepto", "Cantidad", "Tipo" };
 
-    private static final Class<?>[] columnTypes = { String.class, String.class, String.class,
-            String.class, String.class };
+    private static final Class<?>[] columnTypes = { Integer.class, String.class, String.class,
+            Double.class, String.class };
 
     private static final boolean[] canEdit = { false, false, false, false, false };
 

@@ -782,7 +782,7 @@ public class UIContasoc extends JFrame {
                         .addComponent(importarBtn)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(exportarBtn)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
                         .addComponent(versionLabel, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(helpBtn, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
@@ -803,7 +803,7 @@ public class UIContasoc extends JFrame {
                                 .addComponent(importarBtn)
                                 .addComponent(exportarBtn)
                                 .addComponent(versionLabel, GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)))
-                        .addContainerGap(1, Short.MAX_VALUE))
+                        .addContainerGap(2, Short.MAX_VALUE))
             );
         }
         contentPane.add(searchAndButtonsWrapper, BorderLayout.NORTH);
@@ -841,6 +841,7 @@ public class UIContasoc extends JFrame {
                             sociosTabla.setFillsViewportHeight(true);
                             sociosTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                             sociosTabla.setName("Socios");
+                            sociosTabla.setAutoCreateRowSorter(true);
                             sociosTabla.addMouseListener(new MouseAdapter() {
                                 @Override
                                 public void mouseClicked(MouseEvent e) {
@@ -850,8 +851,8 @@ public class UIContasoc extends JFrame {
                             sociosTabla.setModel(new SociosTablaModel());
                             sociosTabla.getTableHeader().setReorderingAllowed(false);
                             sociosTabla.getTableHeader().setResizingAllowed(false);
-                            GUIManager.setColumnWidths(sociosTabla,
-                                new int[] {60,60,360,110,110,330,110,110,110,330,150,120});
+                            GUIManager.setColumnWidths(sociosTabla, 
+                                new int[] {80,80,360,110,110,330,140,140,140,330,150,120});
                             sociosTabla.setRowHeight(50);
                             sociosTabla.setDefaultRenderer(String.class, new DateCellRenderer());
                             sociosTablaPanel.setViewportView(sociosTabla);
@@ -863,14 +864,14 @@ public class UIContasoc extends JFrame {
                             sociosWrapperLayout.createParallelGroup()
                                 .addGroup(GroupLayout.Alignment.TRAILING, sociosWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 869, Short.MAX_VALUE)
+                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 863, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                         sociosWrapperLayout.setVerticalGroup(
                             sociosWrapperLayout.createParallelGroup()
                                 .addGroup(sociosWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -901,7 +902,7 @@ public class UIContasoc extends JFrame {
                             toListaEsperaWrapperLayout.createParallelGroup()
                                 .addGroup(toListaEsperaWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(toListaEsperaBtn, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+                                    .addComponent(toListaEsperaBtn, GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -924,7 +925,7 @@ public class UIContasoc extends JFrame {
                             buscarWrapperLayout.createParallelGroup()
                                 .addGroup(buscarWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
+                                    .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 885, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                         buscarWrapperLayout.setVerticalGroup(
@@ -967,7 +968,7 @@ public class UIContasoc extends JFrame {
                             toSociosWrapperLayout.createParallelGroup()
                                 .addGroup(toSociosWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(toSociosBtn, GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
+                                    .addComponent(toSociosBtn, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -1002,14 +1003,14 @@ public class UIContasoc extends JFrame {
                             listaEsperaWrapperLayout.createParallelGroup()
                                 .addGroup(listaEsperaWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 869, Short.MAX_VALUE)
+                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 863, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                         listaEsperaWrapperLayout.setVerticalGroup(
                             listaEsperaWrapperLayout.createParallelGroup()
                                 .addGroup(listaEsperaWrapperLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
+                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
                                     .addContainerGap())
                         );
                     }
@@ -1034,6 +1035,7 @@ public class UIContasoc extends JFrame {
                     ingresosTabla.setFillsViewportHeight(true);
                     ingresosTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                     ingresosTabla.setName("Ingresos");
+                    ingresosTabla.setAutoCreateRowSorter(true);
                     ingresosTabla.setModel(new IngresosTablaModel());
                     ingresosTabla.getTableHeader().setReorderingAllowed(false);
                     ingresosTabla.getTableHeader().setResizingAllowed(false);
@@ -1048,14 +1050,14 @@ public class UIContasoc extends JFrame {
                     ingresosPanelLayout.createParallelGroup()
                         .addGroup(GroupLayout.Alignment.TRAILING, ingresosPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(ingresosTablaPanel, GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
+                            .addComponent(ingresosTablaPanel, GroupLayout.DEFAULT_SIZE, 885, Short.MAX_VALUE)
                             .addContainerGap())
                 );
                 ingresosPanelLayout.setVerticalGroup(
                     ingresosPanelLayout.createParallelGroup()
                         .addGroup(ingresosPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(ingresosTablaPanel, GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
+                            .addComponent(ingresosTablaPanel, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
                             .addContainerGap())
                 );
             }
@@ -1076,6 +1078,7 @@ public class UIContasoc extends JFrame {
                     gastosTabla.setFillsViewportHeight(true);
                     gastosTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                     gastosTabla.setName("Gastos");
+                    gastosTabla.setAutoCreateRowSorter(true);
                     gastosTabla.setModel(new GastosTablaModel());
                     gastosTabla.getTableHeader().setReorderingAllowed(false);
                     gastosTabla.getTableHeader().setResizingAllowed(false);
@@ -1090,14 +1093,14 @@ public class UIContasoc extends JFrame {
                     gastosPanelLayout.createParallelGroup()
                         .addGroup(gastosPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(gastosTablaPanel, GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
+                            .addComponent(gastosTablaPanel, GroupLayout.DEFAULT_SIZE, 885, Short.MAX_VALUE)
                             .addContainerGap())
                 );
                 gastosPanelLayout.setVerticalGroup(
                     gastosPanelLayout.createParallelGroup()
                         .addGroup(GroupLayout.Alignment.TRAILING, gastosPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(gastosTablaPanel, GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
+                            .addComponent(gastosTablaPanel, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
                             .addContainerGap())
                 );
             }
@@ -1233,13 +1236,13 @@ public class UIContasoc extends JFrame {
                 balancePanel.setLayout(balancePanelLayout);
                 balancePanelLayout.setHorizontalGroup(
                     balancePanelLayout.createParallelGroup()
-                        .addComponent(balanceCantidadesPanel, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 903, Short.MAX_VALUE)
+                        .addComponent(balanceCantidadesPanel, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 897, Short.MAX_VALUE)
                 );
                 balancePanelLayout.setVerticalGroup(
                     balancePanelLayout.createParallelGroup()
                         .addGroup(GroupLayout.Alignment.TRAILING, balancePanelLayout.createSequentialGroup()
                             .addGap(33, 33, 33)
-                            .addComponent(balanceCantidadesPanel, GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE))
+                            .addComponent(balanceCantidadesPanel, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE))
                 );
             }
             tabbedPane1.addTab("BALANCE", balancePanel);
@@ -1390,7 +1393,7 @@ public class UIContasoc extends JFrame {
                                     .addComponent(borradorBtn)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(adjuntoBtn)
-                                    .addContainerGap(363, Short.MAX_VALUE))
+                                    .addContainerGap(333, Short.MAX_VALUE))
                         );
                         emailBtnsWrapperLayout.setVerticalGroup(
                             emailBtnsWrapperLayout.createParallelGroup()

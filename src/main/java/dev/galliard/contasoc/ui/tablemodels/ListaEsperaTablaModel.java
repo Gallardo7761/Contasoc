@@ -6,8 +6,8 @@ public class ListaEsperaTablaModel extends DefaultTableModel {
 
     private static final String[] columnNames = { "Nº socio", "Nombre", "Teléfono", "Email", "Fecha de Alta" };
 
-    private static final Class<?>[] columnTypes = { java.lang.String.class, java.lang.String.class, java.lang.String.class,
-            java.lang.String.class, java.lang.String.class };
+    private static final Class<?>[] columnTypes = { Integer.class, String.class, Integer.class,
+            String.class, String.class };
 
     private static final boolean[] canEdit = { false, false, false, false, false };
 

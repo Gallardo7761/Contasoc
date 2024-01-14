@@ -34,6 +34,7 @@ public class ContasocLaf extends FlatGitHubIJTheme {
         UIManager.put("TableHeader.selectionForeground", Color.BLACK);
         UIManager.put("Table.selectionBackground", Color.decode(SELECTION));
         UIManager.put("Table.selectionForeground", Color.BLACK);
+        UIManager.put("Table.sortIconColor", Color.WHITE);
 
         UIManager.put("Component.focusedBorderColor", Color.decode(GREEN));
         UIManager.put("Component.focusWidth", 1);
