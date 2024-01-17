@@ -193,7 +193,7 @@ public class HelpMenu extends JFrame {
         emailPanel = new JPanel();
 
         //======== this ========
-        setIconImage(new ImageIcon(getClass().getResource("/images/logohuerto_small.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/images/contasoc_small.png")).getImage());
         setTitle("Men\u00fa de ayuda de Contasoc");
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

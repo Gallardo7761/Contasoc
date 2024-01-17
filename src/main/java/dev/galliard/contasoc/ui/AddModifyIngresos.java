@@ -142,7 +142,7 @@ public class AddModifyIngresos extends JFrame {
         //======== this ========
         setTitle("{accion} ingreso");
         setResizable(false);
-        setIconImage(new ImageIcon(getClass().getResource("/images/logohuerto_small.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/images/contasoc_small.png")).getImage());
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
             "insets 12 24 12 26,gap 10 10",

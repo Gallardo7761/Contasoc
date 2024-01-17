@@ -72,7 +72,7 @@ public class SaldoInicial extends JFrame {
 
         //======== this ========
         setTitle("Saldos iniciales");
-        setIconImage(new ImageIcon(getClass().getResource("/images/logohuerto_small.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/images/contasoc_small.png")).getImage());
         setResizable(false);
         setAlwaysOnTop(true);
         var contentPane = getContentPane();

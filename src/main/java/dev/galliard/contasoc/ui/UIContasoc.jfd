@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "8.2.1.0.348" Java: "17.0.9" encoding: "UTF-8"
+JFDML JFormDesigner: "9.0.0.0.352" Java: "17.0.9" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -10,7 +10,7 @@ new FormModel {
 			name: "this"
 			"$locationPolicy": 1
 			"font": new java.awt.Font( "Segoe UI", 0, 12 )
-			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/logohuerto_small.png" )
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/contasoc_small.png" )
 			"defaultCloseOperation": 3
 			"preferredSize": new java.awt.Dimension( 900, 600 )
 			"minimumSize": new java.awt.Dimension( 900, 600 )
@@ -19,8 +19,8 @@ new FormModel {
 				"JavaCodeGenerator.variableModifiers": 12
 			}
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq {space :::p, comp nuevoBtn:::p::p, space :::p, comp editarBtn:::p::p, space :::p, comp eliminarBtn:::p::p, space :::p, comp printBtn:::p::p, space :::p, comp importarBtn:::p::p, space :::p, comp exportarBtn:::p::p, space ::205:x, comp versionLabel:::p:110:p, space s:::p, comp helpBtn:::p:31:p, space :::p}}"
-				"$verticalGroup": "par l {seq l {space :::p, par l:::p {par b:l {comp editarBtn::b:::x, comp nuevoBtn::b:p::p, comp eliminarBtn::b:p::p, comp printBtn::b:p::p}, par b:t {comp helpBtn::b::31:x, comp importarBtn::b:p::p, comp exportarBtn::b:p::p, comp versionLabel::b::31:x}}, space ::2:x}}"
+				"$horizontalGroup": "par l {seq {space :::p, comp nuevoBtn:::p::p, space :::p, comp editarBtn:::p::p, space :::p, comp eliminarBtn:::p::p, space :::p, comp printBtn:::p::p, space :::p, comp importarBtn:::p::p, space :::p, comp exportarBtn:::p::p, space ::250:x, comp versionLabel:::p:110:p, space s:::p, comp helpBtn:::p:31:p, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par l:::p {par b:l {comp editarBtn::b:::x, comp nuevoBtn::b:p::p, comp eliminarBtn::b:p::p, comp printBtn::b:p::p}, par b:t {comp helpBtn::b::31:x, comp importarBtn::b:p::p, comp exportarBtn::b:p::p, comp versionLabel::b::31:x}}, space ::1:x}}"
 			} ) {
 				name: "searchAndButtonsWrapper"
 				"preferredSize": new java.awt.Dimension( 1008, 40 )
@@ -160,8 +160,8 @@ new FormModel {
 							"JavaCodeGenerator.variableModifiers": 12
 						}
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq t {space :::p, comp sociosTablaPanel::::863:x, space :::p}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp sociosTablaPanel::::543:x, space :::p}}"
+							"$horizontalGroup": "par l {seq t {space :::p, comp sociosTablaPanel::::869:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp sociosTablaPanel::::549:x, space :::p}}"
 						} ) {
 							name: "sociosWrapper"
 							auxiliary() {
@@ -197,7 +197,7 @@ new FormModel {
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 							"$horizontalGroup": "par l {seq l {comp toListaEsperaBtn:::p:22:p, space :0:0:x}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp toListaEsperaBtn::::543:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp toListaEsperaBtn::::549:x, space :::p}}"
 						} ) {
 							name: "toListaEsperaWrapper"
 							add( new FormComponent( "javax.swing.JButton" ) {
@@ -218,7 +218,7 @@ new FormModel {
 							"value": "After"
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq l {space :::p, comp buscarField::::885:x, space :::p}}"
+							"$horizontalGroup": "par l {seq l {space :::p, comp buscarField::::891:x, space :::p}}"
 							"$verticalGroup": "par l {seq l {comp buscarField:::p::p, space :0:0:x}}"
 						} ) {
 							name: "buscarWrapper"
@@ -246,7 +246,7 @@ new FormModel {
 						}
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 							"$horizontalGroup": "par l {seq l {comp toSociosBtn:::p:22:p, space :0:0:x}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp toSociosBtn::::581:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp toSociosBtn::::587:x, space :::p}}"
 						} ) {
 							name: "toSociosWrapper"
 							add( new FormComponent( "javax.swing.JButton" ) {
@@ -267,8 +267,8 @@ new FormModel {
 							"value": "West"
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::863:x, space :::p}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::581:x, space :::p}}"
+							"$horizontalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::869:x, space :::p}}"
+							"$verticalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::587:x, space :::p}}"
 						} ) {
 							name: "listaEsperaWrapper"
 							auxiliary() {
@@ -305,8 +305,8 @@ new FormModel {
 					"title": "SOCIOS"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq t {space :::p, comp ingresosTablaPanel::::885:x, space :::p}}"
-					"$verticalGroup": "par l {seq l {space :::p, comp ingresosTablaPanel::::581:x, space :::p}}"
+					"$horizontalGroup": "par l {seq t {space :::p, comp ingresosTablaPanel::::891:x, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp ingresosTablaPanel::::587:x, space :::p}}"
 				} ) {
 					name: "ingresosPanel"
 					auxiliary() {
@@ -338,8 +338,8 @@ new FormModel {
 					"title": "INGRESOS"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq l {space :::p, comp gastosTablaPanel::::885:x, space :::p}}"
-					"$verticalGroup": "par l {seq t {space :::p, comp gastosTablaPanel::::581:x, space :::p}}"
+					"$horizontalGroup": "par l {seq l {space :::p, comp gastosTablaPanel::::891:x, space :::p}}"
+					"$verticalGroup": "par l {seq t {space :::p, comp gastosTablaPanel::::587:x, space :::p}}"
 				} ) {
 					name: "gastosPanel"
 					auxiliary() {
@@ -371,8 +371,8 @@ new FormModel {
 					"title": "GASTOS"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {comp balanceCantidadesPanel::t::897:x}"
-					"$verticalGroup": "par l {seq t {space :p:33:p, comp balanceCantidadesPanel::::560:x}}"
+					"$horizontalGroup": "par l {comp balanceCantidadesPanel::t::903:x}"
+					"$verticalGroup": "par l {seq t {space :p:33:p, comp balanceCantidadesPanel::::566:x}}"
 				} ) {
 					name: "balancePanel"
 					auxiliary() {
@@ -659,7 +659,7 @@ new FormModel {
 							"JavaCodeGenerator.variableModifiers": 12
 						}
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq {space :::p, comp enviarBtn:::p::p, space :::p, comp tipoEmailComboBox:::p:160:p, space :::p, comp borradorBtn:::p::p, space :::p, comp adjuntoBtn:::p::p, space ::333:x}}"
+							"$horizontalGroup": "par l {seq {space :::p, comp enviarBtn:::p::p, space :::p, comp tipoEmailComboBox:::p:160:p, space :::p, comp borradorBtn:::p::p, space :::p, comp adjuntoBtn:::p::p, space ::363:x}}"
 							"$verticalGroup": "par l {seq t {par t {comp enviarBtn::l:::x, par b:l {comp borradorBtn::b:p::p, comp adjuntoBtn::b:::x}, comp tipoEmailComboBox::l:::x}, space :::p}}"
 						} ) {
 							name: "emailBtnsWrapper"

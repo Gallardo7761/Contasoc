@@ -36,7 +36,7 @@ public class IngresosView extends JFrame {
         setTitle("Ingresos de {socio}");
         setFont(new Font(Font.DIALOG, Font.PLAIN, 16));
         setResizable(false);
-        setIconImage(new ImageIcon(getClass().getResource("/images/logohuerto_small.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/images/contasoc_small.png")).getImage());
         var contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
