@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "9.0.0.0.352" Java: "17.0.9" encoding: "UTF-8"
+JFDML JFormDesigner: "8.2.1.0.348" Java: "17.0.9" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -23,7 +23,7 @@ new FormModel {
 					"gridColor": new java.awt.Color( 153, 153, 153, 255 )
 					"showHorizontalLines": true
 					auxiliary() {
-						"JavaCodeGenerator.postInitCode": "ingresosTabla.setModel(new IngresosTablaModel());\ningresosTabla.getTableHeader().setReorderingAllowed(false);\ningresosTabla.getTableHeader().setResizingAllowed(false);\ningresosTabla.setRowHeight(50);\nGUIManager.setColumnWidths(ingresosTabla, \n\tnew int[] {70,120,250,80,70});\ningresosTabla.setDefaultRenderer(String.class, new DateCellRenderer());"
+						"JavaCodeGenerator.postInitCode": "ingresosTabla.setModel(new IngresosTablaModel());\ningresosTabla.getTableHeader().setReorderingAllowed(false);\ningresosTabla.getTableHeader().setResizingAllowed(false);\ningresosTabla.setRowHeight(50);\nGUIManager.setColumnWidths(ingresosTabla, \n\tnew int[] {70,120,250,80,70});\ningresosTabla.setDefaultRenderer(String.class, new CustomCellRenderer());\ningresosTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());\ningresosTabla.setDefaultRenderer(Double.class, new CustomCellRenderer());"
 						"JavaCodeGenerator.variableModifiers": 12
 					}
 				} )

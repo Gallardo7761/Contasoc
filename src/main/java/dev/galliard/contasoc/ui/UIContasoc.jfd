@@ -186,7 +186,7 @@ new FormModel {
 									"autoCreateRowSorter": true
 									auxiliary() {
 										"JavaCodeGenerator.variableModifiers": 12
-										"JavaCodeGenerator.postInitCode": "sociosTabla.setModel(new SociosTablaModel());\nsociosTabla.getTableHeader().setReorderingAllowed(false);\nsociosTabla.getTableHeader().setResizingAllowed(false);\nGUIManager.setColumnWidths(sociosTabla, \n\tnew int[] {80,80,360,110,110,330,140,140,140,330,150,120});\nsociosTabla.setRowHeight(50);\nsociosTabla.setDefaultRenderer(String.class, new DateCellRenderer());"
+										"JavaCodeGenerator.postInitCode": "sociosTabla.setModel(new SociosTablaModel());\nsociosTabla.getTableHeader().setReorderingAllowed(false);\nsociosTabla.getTableHeader().setResizingAllowed(false);\nGUIManager.setColumnWidths(sociosTabla, \n\tnew int[] {80,80,360,110,110,330,140,140,140,330,150,120});\nsociosTabla.setRowHeight(50);\nsociosTabla.setDefaultRenderer(String.class, new CustomCellRenderer());\nsociosTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());"
 									}
 									addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "sociosTablaMouseClicked", true ) )
 								} )
@@ -290,7 +290,7 @@ new FormModel {
 									"selectionMode": 0
 									auxiliary() {
 										"JavaCodeGenerator.variableModifiers": 12
-										"JavaCodeGenerator.postInitCode": "listaEsperaTabla.setModel(new ListaEsperaTablaModel());\nlistaEsperaTabla.getTableHeader().setReorderingAllowed(false);\nlistaEsperaTabla.getTableHeader().setResizingAllowed(false);\nlistaEsperaTabla.setRowHeight(50);\nlistaEsperaTabla.setDefaultRenderer(String.class, new DateCellRenderer());"
+										"JavaCodeGenerator.postInitCode": "listaEsperaTabla.setModel(new ListaEsperaTablaModel());\nlistaEsperaTabla.getTableHeader().setReorderingAllowed(false);\nlistaEsperaTabla.getTableHeader().setResizingAllowed(false);\nlistaEsperaTabla.setRowHeight(50);\nlistaEsperaTabla.setDefaultRenderer(String.class, new CustomCellRenderer());\nlistaEsperaTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());"
 									}
 								} )
 							} )
@@ -329,7 +329,7 @@ new FormModel {
 							"autoCreateRowSorter": true
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
-								"JavaCodeGenerator.postInitCode": "ingresosTabla.setModel(new IngresosTablaModel());\ningresosTabla.getTableHeader().setReorderingAllowed(false);\ningresosTabla.getTableHeader().setResizingAllowed(false);\ningresosTabla.setRowHeight(50);\ningresosTabla.setDefaultRenderer(String.class, new DateCellRenderer());"
+								"JavaCodeGenerator.postInitCode": "ingresosTabla.setModel(new IngresosTablaModel());\ningresosTabla.getTableHeader().setReorderingAllowed(false);\ningresosTabla.getTableHeader().setResizingAllowed(false);\ningresosTabla.setRowHeight(50);\ningresosTabla.setDefaultRenderer(String.class, new CustomCellRenderer());\ningresosTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());\ningresosTabla.setDefaultRenderer(Double.class, new CustomCellRenderer());"
 							}
 						} )
 					} )
@@ -362,7 +362,7 @@ new FormModel {
 							"autoCreateRowSorter": true
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
-								"JavaCodeGenerator.postInitCode": "gastosTabla.setModel(new GastosTablaModel());\ngastosTabla.getTableHeader().setReorderingAllowed(false);\ngastosTabla.getTableHeader().setResizingAllowed(false);\ngastosTabla.setRowHeight(50);\ngastosTabla.setDefaultRenderer(String.class, new DateCellRenderer());"
+								"JavaCodeGenerator.postInitCode": "gastosTabla.setModel(new GastosTablaModel());\ngastosTabla.getTableHeader().setReorderingAllowed(false);\ngastosTabla.getTableHeader().setResizingAllowed(false);\ngastosTabla.setRowHeight(50);\ngastosTabla.setDefaultRenderer(String.class, new CustomCellRenderer());\ngastosTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());\ngastosTabla.setDefaultRenderer(Double.class, new CustomCellRenderer());"
 							}
 						} )
 					} )

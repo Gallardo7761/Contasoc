@@ -9,6 +9,7 @@ import java.awt.event.*;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
@@ -48,6 +49,12 @@ public class AddModifyGastos extends JFrame {
         }
     }
 
+    protected void clear() {
+        for(JTextField jtf : Arrays.asList(fechaField, proveedorField, conceptoField, cantidadField, facturaField)) {
+            jtf.setText("");
+        }
+    }
+
     public static AddModifyGastos getInstance() {
         if (instance == null) {
             instance = new AddModifyGastos();
@@ -83,7 +90,7 @@ public class AddModifyGastos extends JFrame {
                 ins.add(Parsers.dashDateParserReversed(fechaField.getText()));
                 ins.add(proveedorField.getText());
                 ins.add(conceptoField.getText());
-                ins.add(cantidadField.getText());
+                ins.add(cantidadField.getText().contains(",") ? cantidadField.getText().replace(",",".") : cantidadField.getText());
                 ins.add(facturaField.getText());
                 ins.add((String) tipoPagoComboBox.getSelectedItem());
 
@@ -108,7 +115,7 @@ public class AddModifyGastos extends JFrame {
                 upd.add(Parsers.dashDateParserReversed(fechaField.getText()));
                 upd.add(proveedorField.getText());
                 upd.add(conceptoField.getText());
-                upd.add(cantidadField.getText());
+                upd.add(cantidadField.getText().contains(",") ? cantidadField.getText().replace(",",".") : cantidadField.getText());
                 upd.add(facturaField.getText());
                 upd.add((String) tipoPagoComboBox.getSelectedItem());
                 try {

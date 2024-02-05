@@ -51,6 +51,12 @@ public class AddModifyIngresos extends JFrame {
         }
     }
 
+    protected void clear() {
+        for(JTextField jtf : Arrays.asList(socioField, fechaField, conceptoField, cantidadField)) {
+            jtf.setText("");
+        }
+    }
+
     public static AddModifyIngresos getInstance() {
         if (instance == null) {
             instance = new AddModifyIngresos();
@@ -86,7 +92,7 @@ public class AddModifyIngresos extends JFrame {
                 ins.add(socioField.getText());
                 ins.add(Parsers.dashDateParserReversed(fechaField.getText()));
                 ins.add(conceptoField.getText());
-                ins.add(cantidadField.getText());
+                ins.add(cantidadField.getText().contains(",") ? cantidadField.getText().replace(",",".") : cantidadField.getText());
                 ins.add((String) tipoPagoComboBox.getSelectedItem());
 
                 try {
@@ -110,7 +116,7 @@ public class AddModifyIngresos extends JFrame {
                 upd.add(socioField.getText());
                 upd.add(Parsers.dashDateParserReversed(fechaField.getText()));
                 upd.add(conceptoField.getText());
-                upd.add(cantidadField.getText());
+                upd.add(cantidadField.getText().contains(",") ? cantidadField.getText().replace(",",".") : cantidadField.getText());
                 upd.add((String) tipoPagoComboBox.getSelectedItem());
                 try {
                     sqlExceptionOcurred = false;

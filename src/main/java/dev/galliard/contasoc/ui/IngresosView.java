@@ -55,7 +55,9 @@ public class IngresosView extends JFrame {
             ingresosTabla.setRowHeight(50);
             GUIManager.setColumnWidths(ingresosTabla, 
                 new int[] {70,120,250,80,70});
-            ingresosTabla.setDefaultRenderer(String.class, new DateCellRenderer());
+            ingresosTabla.setDefaultRenderer(String.class, new CustomCellRenderer());
+            ingresosTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());
+            ingresosTabla.setDefaultRenderer(Double.class, new CustomCellRenderer());
             ingresosTablaPanel.setViewportView(ingresosTabla);
         }
         contentPane.add(ingresosTablaPanel, BorderLayout.CENTER);

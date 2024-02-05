@@ -302,7 +302,8 @@ public class GUIManager {
                         char c = e.getKeyChar();
                         boolean isNumber = !((c >= '0') && (c <= '9') ||
                                 (c == KeyEvent.VK_BACK_SPACE) ||
-                                (c == KeyEvent.VK_DELETE));
+                                (c == KeyEvent.VK_DELETE) ||
+                                (c == KeyEvent.VK_ENTER));
                         if(textField.getText().length() >= 3 || isNumber) {
                             toolkit.beep();
                             e.consume();
@@ -325,7 +326,7 @@ public class GUIManager {
                     @Override
                     public void keyTyped(KeyEvent e) {
                         char c = e.getKeyChar();
-                        if (!(Character.isLetterOrDigit(c) || c == '_' || c == '.' || c == '-' || c == '@' || c == KeyEvent.VK_BACK_SPACE)) {
+                        if (!(Character.isLetterOrDigit(c) || c == '_' || c == '.' || c == '-' || c == '@' || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_ENTER)) {
                             toolkit.beep();
                             e.consume();  // ignore the event
                         }
@@ -337,7 +338,7 @@ public class GUIManager {
                     @Override
                     public void keyTyped(KeyEvent e) {
                         char c = e.getKeyChar();
-                        if (!(Character.isDigit(c) || c == '.' || c == KeyEvent.VK_BACK_SPACE)) {
+                        if (!(Character.isDigit(c) || c == '.' || c == ',' || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_ENTER)) {
                             toolkit.beep();
                             e.consume();  // ignore the event
                         }

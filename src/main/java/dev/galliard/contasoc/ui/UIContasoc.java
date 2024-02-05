@@ -145,16 +145,19 @@ public class UIContasoc extends JFrame {
         if(sociosPanel.isVisible() && !cardListaEsperaPanel.isVisible()) {
             AddModifySocios.accion = Action.ADD;
             AddModifySocios addModifySocios = AddModifySocios.getInstance();
+            addModifySocios.clear();
             addModifySocios.setTitle("Añadir nuevo socio");
             addModifySocios.setVisible(true);
         } else if(ingresosPanel.isVisible()) {
             AddModifyIngresos.accion = Action.ADD;
             AddModifyIngresos addModifyIngresos = AddModifyIngresos.getInstance();
+            addModifyIngresos.clear();
             addModifyIngresos.setTitle("Añadir nuevo ingreso");
             addModifyIngresos.setVisible(true);
         } else if(gastosPanel.isVisible()) {
             AddModifyGastos.accion = Action.ADD;
             AddModifyGastos addModifyGastos = AddModifyGastos.getInstance();
+            addModifyGastos.clear();
             addModifyGastos.setTitle("Añadir nuevo gasto");
             addModifyGastos.setVisible(true);
         }
@@ -854,7 +857,8 @@ public class UIContasoc extends JFrame {
                             GUIManager.setColumnWidths(sociosTabla, 
                                 new int[] {80,80,360,110,110,330,140,140,140,330,150,120});
                             sociosTabla.setRowHeight(50);
-                            sociosTabla.setDefaultRenderer(String.class, new DateCellRenderer());
+                            sociosTabla.setDefaultRenderer(String.class, new CustomCellRenderer());
+                            sociosTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());
                             sociosTablaPanel.setViewportView(sociosTabla);
                         }
 
@@ -993,7 +997,8 @@ public class UIContasoc extends JFrame {
                             listaEsperaTabla.getTableHeader().setReorderingAllowed(false);
                             listaEsperaTabla.getTableHeader().setResizingAllowed(false);
                             listaEsperaTabla.setRowHeight(50);
-                            listaEsperaTabla.setDefaultRenderer(String.class, new DateCellRenderer());
+                            listaEsperaTabla.setDefaultRenderer(String.class, new CustomCellRenderer());
+                            listaEsperaTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());
                             listaEsperaTablaPanel.setViewportView(listaEsperaTabla);
                         }
 
@@ -1040,7 +1045,9 @@ public class UIContasoc extends JFrame {
                     ingresosTabla.getTableHeader().setReorderingAllowed(false);
                     ingresosTabla.getTableHeader().setResizingAllowed(false);
                     ingresosTabla.setRowHeight(50);
-                    ingresosTabla.setDefaultRenderer(String.class, new DateCellRenderer());
+                    ingresosTabla.setDefaultRenderer(String.class, new CustomCellRenderer());
+                    ingresosTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());
+                    ingresosTabla.setDefaultRenderer(Double.class, new CustomCellRenderer());
                     ingresosTablaPanel.setViewportView(ingresosTabla);
                 }
 
@@ -1083,7 +1090,9 @@ public class UIContasoc extends JFrame {
                     gastosTabla.getTableHeader().setReorderingAllowed(false);
                     gastosTabla.getTableHeader().setResizingAllowed(false);
                     gastosTabla.setRowHeight(50);
-                    gastosTabla.setDefaultRenderer(String.class, new DateCellRenderer());
+                    gastosTabla.setDefaultRenderer(String.class, new CustomCellRenderer());
+                    gastosTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());
+                    gastosTabla.setDefaultRenderer(Double.class, new CustomCellRenderer());
                     gastosTablaPanel.setViewportView(gastosTabla);
                 }
 

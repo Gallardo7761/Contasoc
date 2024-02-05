@@ -82,6 +82,13 @@ public class AddModifySocios extends JFrame {
         }
     }
 
+    protected void clear() {
+        for(JTextField jtf : Arrays.asList(nombreField, dniField, telefonoField, emailField, socioField, huertoField,
+                altaField, entregaField, bajaField, notasField, dniField)) {
+            jtf.setText("");
+        }
+    }
+
     private void aceptarBtnActionPerformed(ActionEvent e) {
         switch(accion.name()) {
             case "ADD":
