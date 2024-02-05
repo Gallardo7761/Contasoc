@@ -1,6 +1,7 @@
 package dev.galliard.contasoc.ui.lookandfeel;
 
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubIJTheme;
+import com.formdev.flatlaf.util.SystemInfo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,6 +55,11 @@ public class ContasocLaf extends FlatGitHubIJTheme {
         UIManager.put("TabbedPane.hoverForeground", Color.BLACK);
 
         System.setProperty("flatlaf.useWindowDecorations", "true");
+
+        if(SystemInfo.isLinux) {
+            JFrame.setDefaultLookAndFeelDecorated( true );
+            JDialog.setDefaultLookAndFeelDecorated( true );
+        }
     }
 
     @Override
