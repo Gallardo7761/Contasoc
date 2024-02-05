@@ -12,10 +12,7 @@ import dev.galliard.contasoc.ui.tablemodels.GastosTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.IngresosTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.ListaEsperaTablaModel;
 import dev.galliard.contasoc.ui.tablemodels.SociosTablaModel;
-import dev.galliard.contasoc.util.ContasocLogger;
-import dev.galliard.contasoc.util.EmailSender2;
-import dev.galliard.contasoc.util.ErrorHandler;
-import dev.galliard.contasoc.util.Parsers;
+import dev.galliard.contasoc.util.*;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.embed.swing.JFXPanel;
@@ -33,7 +30,11 @@ import java.util.Objects;
 import java.util.Set;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.Document;
+
 import net.miginfocom.swing.*;
 
 /**
@@ -813,8 +814,8 @@ public class UIContasoc extends JFrame {
             tabbedPane1.setFont(tabbedPane1.getFont().deriveFont(tabbedPane1.getFont().getSize() + 6f));
             tabbedPane1.setTabPlacement(SwingConstants.LEFT);
             tabbedPane1.putClientProperty("JTabbedPane.tabHeight", 50);
-            tabbedPane1.putClientProperty("JTabbedPane.minimumTabWidth", 120);
-            tabbedPane1.putClientProperty("JTabbedPane.maximumTabWidth", 120);
+            tabbedPane1.putClientProperty("JTabbedPane.minimumTabWidth", 160);
+            tabbedPane1.putClientProperty("JTabbedPane.maximumTabWidth", 160);
 
             //======== sociosPanel ========
             {
@@ -830,7 +831,6 @@ public class UIContasoc extends JFrame {
                         //======== sociosTablaPanel ========
                         {
                             sociosTablaPanel.setBorder(null);
-                            sociosTablaPanel.putClientProperty("JComponent.outline",Color.decode("#549159"));
 
                             //---- sociosTabla ----
                             sociosTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);

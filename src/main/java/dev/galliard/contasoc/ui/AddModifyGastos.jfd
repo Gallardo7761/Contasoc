@@ -1,12 +1,12 @@
-JFDML JFormDesigner: "9.0.0.0.352" Java: "17.0.9" encoding: "UTF-8"
+JFDML JFormDesigner: "8.2.1.0.348" Java: "17.0.9" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-			"$layoutConstraints": "insets 12 24 12 26,gap 10 10"
-			"$columnConstraints": "[grow,fill][grow,fill]"
-			"$rowConstraints": "[grow,fill][grow,fill][grow,fill][grow,fill]"
+			"$layoutConstraints": "insets 12,gap 10 10"
+			"$columnConstraints": "[grow,fill]"
+			"$rowConstraints": "[grow,fill][grow,fill][grow,fill][grow,fill][grow,fill][grow,fill][grow,fill]"
 		} ) {
 			name: "this"
 			"title": "{accion} gasto"
@@ -16,29 +16,29 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "fechaLabel"
 				"text": "Fecha:"
-				"horizontalAlignment": 11
-				"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
+				"horizontalAlignment": 2
+				"font": &Font0 new java.awt.Font( "Segoe UI", 0, 18 )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 0,width 90:90:90,height 32:32:32"
 			} )
-			add( new FormComponent( "javax.swing.JTextField" ) {
+			add( new FormComponent( "javax.swing.JFormattedTextField" ) {
 				name: "fechaField"
-				"font": #SwingDerivedFont0
+				"font": &Font1 new java.awt.Font( "Segoe UI", 0, 18 )
 				"nextFocusableComponent": new FormReference( "proveedorField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 0,height 24:24:24"
+				"value": "cell 0 0,height 32:32:32"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "proveedorLabel"
 				"text": "Proveedor:"
-				"horizontalAlignment": 11
-				"font": #SwingDerivedFont0
+				"horizontalAlignment": 2
+				"font": #Font0
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -47,19 +47,19 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "proveedorField"
-				"font": #SwingDerivedFont0
+				"font": #Font1
 				"nextFocusableComponent": new FormReference( "conceptoField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 1,height 24:24:24"
+				"value": "cell 0 1,height 32:32:32"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "conceptoLabel"
 				"text": "Concepto:"
-				"horizontalAlignment": 11
-				"font": #SwingDerivedFont0
+				"horizontalAlignment": 2
+				"font": #Font0
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
@@ -68,87 +68,77 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "conceptoField"
-				"font": #SwingDerivedFont0
+				"font": #Font1
 				"nextFocusableComponent": new FormReference( "cantidadField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 2,height 24:24:24"
+				"value": "cell 0 2,height 32:32:32"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "cantidadLabel"
 				"text": "Cantidad:"
-				"horizontalAlignment": 11
-				"font": #SwingDerivedFont0
+				"horizontalAlignment": 2
+				"font": #Font0
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 0,width 90:90:90,height 32:32:32"
+				"value": "cell 0 3,width 90:90:90,height 32:32:32"
 			} )
-			add( new FormComponent( "javax.swing.JTextField" ) {
+			add( new FormComponent( "javax.swing.JFormattedTextField" ) {
 				name: "cantidadField"
-				"font": #SwingDerivedFont0
+				"font": #Font1
 				"nextFocusableComponent": new FormReference( "facturaField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 0,height 24:24:24"
+				"value": "cell 0 3,height 32:32:32"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "facturaLabel"
 				"text": "Factura:"
-				"horizontalAlignment": 11
-				"font": #SwingDerivedFont0
+				"horizontalAlignment": 2
+				"font": #Font0
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 1,width 90:90:90,height 32:32:32"
+				"value": "cell 0 4,width 90:90:90,height 32:32:32"
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "facturaField"
-				"font": #SwingDerivedFont0
+				"font": #Font1
 				"nextFocusableComponent": new FormReference( "fechaField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 1,height 24:24:24"
+				"value": "cell 0 4,height 32:32:32"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "tipoLabel"
 				"text": "Tipo:"
-				"horizontalAlignment": 11
-				"font": #SwingDerivedFont0
+				"horizontalAlignment": 2
+				"font": #Font0
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 2,width 90:90:90,height 32:32:32"
+				"value": "cell 0 5,width 90:90:90,height 32:32:32"
 			} )
 			add( new FormComponent( "javax.swing.JComboBox" ) {
 				name: "tipoPagoComboBox"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
+				"font": #Font1
 				auxiliary() {
 					"JavaCodeGenerator.typeParameters": "String"
 					"JavaCodeGenerator.variableModifiers": 12
 					"JavaCodeGenerator.postInitCode": "tipoPagoComboBox.setSelectedItem(\"BANCO\");\ntipoPagoComboBox.addItem(\"BANCO\");\ntipoPagoComboBox.addItem(\"CAJA\");"
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 2,height 24:24:24"
-			} )
-			add( new FormComponent( "javax.swing.JSeparator" ) {
-				name: "separator2"
-				"background": new java.awt.Color( 247, 248, 250, 255 )
-				"foreground": new java.awt.Color( 247, 248, 250, 255 )
-				auxiliary() {
-					"JavaCodeGenerator.variableModifiers": 12
-				}
-			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 3"
+				"value": "cell 0 5,height 32:32:32"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "aceptarBtn"
@@ -160,11 +150,11 @@ new FormModel {
 				}
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "aceptarBtnActionPerformed", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 3,height 24:24:24"
+				"value": "cell 0 6,alignx right,growx 0,width 128:128:128,height 32:32:32"
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 500, 250 )
+			"size": new java.awt.Dimension( 400, 350 )
 		} )
 	}
 }

@@ -1,5 +1,6 @@
 package dev.galliard.contasoc.ui;
 
+import dev.galliard.contasoc.common.FormatterType;
 import dev.galliard.contasoc.common.TipoPago;
 import dev.galliard.contasoc.common.TipoSocio;
 import dev.galliard.contasoc.database.sqltypes.Ingreso;
@@ -16,6 +17,8 @@ import dev.galliard.contasoc.util.Parsers;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.DefaultFormatterFactory;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -25,6 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -35,6 +39,7 @@ public class GUIManager {
     protected static String valor = null;
     protected static Double inicialBanco = 0.0;
     protected static Double inicialCaja = 0.0;
+    protected static final Toolkit toolkit = Toolkit.getDefaultToolkit();
     protected static void populateGUITables () {
         try {
             ContasocDAO.fillTableFrom(UIContasoc.sociosTabla, "Socios");
@@ -281,5 +286,65 @@ public class GUIManager {
     protected static void fillTableFrom2DArray(JTable table, Object[][] data, String[] columnNames) {
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
         table.setModel(model);
+    }
+
+    public static void addFormatterFactory(JFormattedTextField textField, FormatterType formatterType) throws ParseException {
+        switch (formatterType) {
+            case DATE:
+                textField.setFormatterFactory(new DefaultFormatterFactory(
+                        new javax.swing.text.MaskFormatter("##/##/####")
+                ));
+                break;
+            case ID:
+                textField.addKeyListener(new KeyAdapter() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        char c = e.getKeyChar();
+                        boolean isNumber = !((c >= '0') && (c <= '9') ||
+                                (c == KeyEvent.VK_BACK_SPACE) ||
+                                (c == KeyEvent.VK_DELETE));
+                        if(textField.getText().length() >= 3 || isNumber) {
+                            toolkit.beep();
+                            e.consume();
+                        }
+                    }
+                });
+                break;
+            case DNI:
+                textField.setFormatterFactory(new DefaultFormatterFactory(
+                        new javax.swing.text.MaskFormatter("########U")
+                ));
+                break;
+            case PHONE:
+                textField.setFormatterFactory(new DefaultFormatterFactory(
+                        new javax.swing.text.MaskFormatter("#########")
+                ));
+                break;
+            case EMAIL:
+                textField.addKeyListener(new KeyAdapter() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        char c = e.getKeyChar();
+                        if (!(Character.isLetterOrDigit(c) || c == '_' || c == '.' || c == '-' || c == '@' || c == KeyEvent.VK_BACK_SPACE)) {
+                            toolkit.beep();
+                            e.consume();  // ignore the event
+                        }
+                    }
+                });
+                break;
+            case DECIMAL:
+                textField.addKeyListener(new KeyAdapter() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        char c = e.getKeyChar();
+                        if (!(Character.isDigit(c) || c == '.' || c == KeyEvent.VK_BACK_SPACE)) {
+                            toolkit.beep();
+                            e.consume();  // ignore the event
+                        }
+                    }
+                });
+                break;
+
+        }
     }
 }

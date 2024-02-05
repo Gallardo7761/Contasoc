@@ -7,6 +7,7 @@ package dev.galliard.contasoc.ui;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
 import dev.galliard.contasoc.common.Action;
+import dev.galliard.contasoc.common.FormatterType;
 import dev.galliard.contasoc.database.ContasocDAO;
 import dev.galliard.contasoc.util.ContasocLogger;
 import dev.galliard.contasoc.util.Parsers;
@@ -36,6 +38,17 @@ public class AddModifyIngresos extends JFrame {
         initComponents();
         setActions();
         setFilters();
+        addFormatterFactories();
+    }
+
+    private void addFormatterFactories() {
+        try {
+            GUIManager.addFormatterFactory(fechaField, FormatterType.DATE);
+            GUIManager.addFormatterFactory(socioField, FormatterType.ID);
+            GUIManager.addFormatterFactory(cantidadField, FormatterType.DECIMAL);
+        } catch (ParseException e) {
+            ContasocLogger.error("Error",e);
+        }
     }
 
     public static AddModifyIngresos getInstance() {
@@ -127,16 +140,15 @@ public class AddModifyIngresos extends JFrame {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
         nombreLabel = new JLabel();
-        socioField = new JTextField();
+        socioField = new JFormattedTextField();
         fechalLabel = new JLabel();
-        fechaField = new JTextField();
+        fechaField = new JFormattedTextField();
         conceptoLabel = new JLabel();
         conceptoField = new JTextField();
         cantidadLabel = new JLabel();
-        cantidadField = new JTextField();
+        cantidadField = new JFormattedTextField();
         tipoLabel = new JLabel();
         tipoPagoComboBox = new JComboBox<>();
-        separator2 = new JSeparator();
         aceptarBtn = new JButton();
 
         //======== this ========
@@ -145,84 +157,81 @@ public class AddModifyIngresos extends JFrame {
         setIconImage(new ImageIcon(getClass().getResource("/images/contasoc_small.png")).getImage());
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-            "insets 12 24 12 26,gap 10 10",
+            "insets 12 12 12 12,gap 10 10",
             // columns
-            "[grow,fill]" +
             "[grow,fill]",
             // rows
+            "[grow,fill]" +
+            "[grow,fill]" +
+            "[grow,fill]" +
             "[grow,fill]" +
             "[grow,fill]" +
             "[grow,fill]"));
 
         //---- nombreLabel ----
         nombreLabel.setText("Socio:");
-        nombreLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-        nombreLabel.setFont(nombreLabel.getFont().deriveFont(nombreLabel.getFont().getSize() + 4f));
-        contentPane.add(nombreLabel, "cell 0 0,width 80:80:80,height 32:32:32");
+        nombreLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        nombreLabel.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        contentPane.add(nombreLabel, "cell 0 0,width 100:100:100,height 32:32:32");
 
         //---- socioField ----
-        socioField.setFont(socioField.getFont().deriveFont(socioField.getFont().getSize() + 4f));
+        socioField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         socioField.setNextFocusableComponent(fechaField);
-        contentPane.add(socioField, "cell 0 0,height 24:24:24");
+        contentPane.add(socioField, "cell 0 0,height 32:32:32");
 
         //---- fechalLabel ----
         fechalLabel.setText("Fecha:");
-        fechalLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-        fechalLabel.setFont(fechalLabel.getFont().deriveFont(fechalLabel.getFont().getSize() + 4f));
-        contentPane.add(fechalLabel, "cell 0 1,width 80:80:80,height 32:32:32");
+        fechalLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        fechalLabel.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        contentPane.add(fechalLabel, "cell 0 1,width 100:100:100,height 32:32:32");
 
         //---- fechaField ----
-        fechaField.setFont(fechaField.getFont().deriveFont(fechaField.getFont().getSize() + 4f));
+        fechaField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         fechaField.setNextFocusableComponent(conceptoField);
-        contentPane.add(fechaField, "cell 0 1,height 24:24:24");
+        contentPane.add(fechaField, "cell 0 1,height 32:32:32");
 
         //---- conceptoLabel ----
         conceptoLabel.setText("Concepto:");
-        conceptoLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-        conceptoLabel.setFont(conceptoLabel.getFont().deriveFont(conceptoLabel.getFont().getSize() + 4f));
-        contentPane.add(conceptoLabel, "cell 0 2,width 80:80:80,height 32:32:32");
+        conceptoLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        conceptoLabel.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        contentPane.add(conceptoLabel, "cell 0 2,width 100:100:100,height 32:32:32");
 
         //---- conceptoField ----
-        conceptoField.setFont(conceptoField.getFont().deriveFont(conceptoField.getFont().getSize() + 4f));
+        conceptoField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         conceptoField.setNextFocusableComponent(cantidadField);
-        contentPane.add(conceptoField, "cell 0 2,height 24:24:24");
+        contentPane.add(conceptoField, "cell 0 2,height 32:32:32");
 
         //---- cantidadLabel ----
         cantidadLabel.setText("Cantidad:");
-        cantidadLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-        cantidadLabel.setFont(cantidadLabel.getFont().deriveFont(cantidadLabel.getFont().getSize() + 4f));
-        contentPane.add(cantidadLabel, "cell 1 0,width 80:80:80,height 32:32:32");
+        cantidadLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        cantidadLabel.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        contentPane.add(cantidadLabel, "cell 0 3,width 100:100:100,height 32:32:32");
 
         //---- cantidadField ----
-        cantidadField.setFont(cantidadField.getFont().deriveFont(cantidadField.getFont().getSize() + 4f));
+        cantidadField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         cantidadField.setNextFocusableComponent(socioField);
-        contentPane.add(cantidadField, "cell 1 0,height 24:24:24");
+        contentPane.add(cantidadField, "cell 0 3");
 
         //---- tipoLabel ----
         tipoLabel.setText("Tipo:");
-        tipoLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-        tipoLabel.setFont(tipoLabel.getFont().deriveFont(tipoLabel.getFont().getSize() + 4f));
-        contentPane.add(tipoLabel, "cell 1 1,width 80:80:80,height 32:32:32");
+        tipoLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        tipoLabel.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        contentPane.add(tipoLabel, "cell 0 4,width 100:100:100,height 32:32:32");
 
         //---- tipoPagoComboBox ----
-        tipoPagoComboBox.setFont(tipoPagoComboBox.getFont().deriveFont(tipoPagoComboBox.getFont().getSize() + 4f));
+        tipoPagoComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         tipoPagoComboBox.setSelectedItem("BANCO");
         tipoPagoComboBox.addItem("BANCO");
         tipoPagoComboBox.addItem("CAJA");
-        contentPane.add(tipoPagoComboBox, "cell 1 1,height 24:24:24");
-
-        //---- separator2 ----
-        separator2.setBackground(new Color(0xf7f8fa));
-        separator2.setForeground(new Color(0xf7f8fa));
-        contentPane.add(separator2, "cell 1 2");
+        contentPane.add(tipoPagoComboBox, "cell 0 4");
 
         //---- aceptarBtn ----
         aceptarBtn.setText("ACEPTAR");
-        aceptarBtn.setFont(aceptarBtn.getFont().deriveFont(aceptarBtn.getFont().getSize() + 4f));
+        aceptarBtn.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         aceptarBtn.setFocusable(false);
         aceptarBtn.addActionListener(e -> aceptarBtnActionPerformed(e));
-        contentPane.add(aceptarBtn, "cell 1 2,height 24:24:24");
-        setSize(500, 250);
+        contentPane.add(aceptarBtn, "cell 0 5,alignx right,growx 0,width 128:128:128,height 32:32:32");
+        setSize(400, 300);
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
@@ -230,16 +239,15 @@ public class AddModifyIngresos extends JFrame {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
     protected static JLabel nombreLabel;
-    protected static JTextField socioField;
+    protected static JFormattedTextField socioField;
     protected static JLabel fechalLabel;
-    protected static JTextField fechaField;
+    protected static JFormattedTextField fechaField;
     protected static JLabel conceptoLabel;
     protected static JTextField conceptoField;
     protected static JLabel cantidadLabel;
-    protected static JTextField cantidadField;
+    protected static JFormattedTextField cantidadField;
     protected static JLabel tipoLabel;
     protected static JComboBox<String> tipoPagoComboBox;
-    protected static JSeparator separator2;
     protected static JButton aceptarBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
