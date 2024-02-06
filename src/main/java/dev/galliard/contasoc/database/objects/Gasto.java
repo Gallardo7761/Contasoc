@@ -3,21 +3,40 @@ package dev.galliard.contasoc.database.objects;
 import dev.galliard.contasoc.common.TipoPago;
 import dev.galliard.contasoc.util.Checkers;
 import dev.galliard.contasoc.util.Parsers;
+import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.Objects;
 
-public class Pago implements Comparable<Pago> {
-	private LocalDate fecha;
+@Entity
+@Table(name = "Gastos")
+public class Gasto implements Comparable<Gasto> {
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Gastos_SEQ")
+	@SequenceGenerator(name = "Gastos_SEQ", sequenceName = "Gastos_SEQ", allocationSize = 1)
+	@Column(name = "idGasto")
+	private Integer idGasto;
+
+	@Column(name = "fecha")
+	private Date fecha;
+
+	@Column(name = "proveedor")
 	private String proveedor;
+
+	@Column(name = "concepto")
 	private String concepto;
+
+	@Column(name = "cantidad")
 	private Double cantidad;
+
+	@Column(name = "factura")
 	private String factura;
+
+	@Column(name = "tipo")
 	private TipoPago tipo;
 	
-	public Pago(LocalDate fecha, String proveedor, String concepto, Double cantidad, String factura, TipoPago tipo) {
+	public Gasto(Date fecha, String proveedor, String concepto, Double cantidad, String factura, TipoPago tipo) {
 		super();
-		Checkers.checkNoNull(fecha,proveedor,concepto,cantidad,factura,tipo);
 		this.fecha = fecha;
 		this.proveedor = proveedor;
 		this.concepto = concepto;
@@ -26,10 +45,14 @@ public class Pago implements Comparable<Pago> {
 		this.tipo = tipo;
 	}
 
-	public LocalDate getFecha() {
+	public Gasto() {
+
+	}
+
+	public Date getFecha() {
 		return fecha;
 	}
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 	public String getProveedor() {
@@ -76,12 +99,12 @@ public class Pago implements Comparable<Pago> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Pago other = (Pago) obj;
+		Gasto other = (Gasto) obj;
 		return Objects.equals(factura, other.factura);
 	}
 
 	@Override
-	public int compareTo(Pago o) {
+	public int compareTo(Gasto o) {
 		int res = proveedor.compareTo(o.getProveedor());
 		if(res==0) {
 			res = fecha.compareTo(o.getFecha());

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="ddf7c281-158e-4c22-8ce4-8955f39b4a3a" name="contasoc@212.227.230.89 Mapping">
+      <data-sources db="a317c6c4-822b-4364-a9d0-8fb385d551ff" ddl="f798c81a-cfbf-43f7-b7a7-b3c5cac1bcf6" />
+      <scope>
+        <node kind="schema" qname="contasoc" />
+      </scope>
+    </mapping>
+  </component>
+</project>

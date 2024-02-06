@@ -3,21 +3,39 @@ package dev.galliard.contasoc.database.objects;
 import dev.galliard.contasoc.common.TipoPago;
 import dev.galliard.contasoc.util.Checkers;
 import dev.galliard.contasoc.util.Parsers;
+import jakarta.persistence.*;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Entity
+@Table(name = "Ingresos")
 public class Ingreso implements Comparable<Ingreso> {
-	private Integer socio;
-	private LocalDate fecha;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Ingresos_SEQ")
+	@SequenceGenerator(name = "Ingresos_SEQ", sequenceName = "Ingresos_SEQ", allocationSize = 1)
+	@Column(name = "idIngreso")
+	private Integer idIngreso;
+
+	@Column(name = "numeroSocio")
+	private Integer numeroSocio;
+
+	@Column(name = "fecha")
+	private Date fecha;
+
+	@Column(name = "concepto")
 	private String concepto;
+
+	@Column(name = "cantidad")
 	private Double cantidad;
+
+	@Column(name = "tipo")
 	private TipoPago tipo;
 	
-	public Ingreso(Integer socio, LocalDate fecha, String concepto, Double cantidad, TipoPago tipo) {
+	public Ingreso(Integer numeroSocio, Date fecha, String concepto, Double cantidad, TipoPago tipo) {
 		super();
-		Checkers.checkNoNull(socio,fecha,concepto,cantidad,tipo);
-		this.socio = socio;
+		this.numeroSocio = numeroSocio;
 		this.fecha = fecha;
 		this.concepto = concepto;
 		this.cantidad = cantidad;
@@ -29,31 +47,35 @@ public class Ingreso implements Comparable<Ingreso> {
 		String[] t = s.split(";");
 		Integer socio = Integer.valueOf(t[0].trim());
 		String[] fechaArr = t[1].split("/");
-		LocalDate fecha = LocalDate.of(Integer.valueOf(fechaArr[2]), Integer.valueOf(fechaArr[1]), Integer.valueOf(fechaArr[0]));
+		Date fecha = Date.valueOf(LocalDate.of(Integer.valueOf(fechaArr[2]), Integer.valueOf(fechaArr[1]), Integer.valueOf(fechaArr[0])));
 		String concepto = t[2];
 		Double cantidad = Double.valueOf(t[3].trim());
 		TipoPago tipo = TipoPago.valueOf(t[4]);
 		
-		this.socio = socio;
+		this.numeroSocio = socio;
 		this.fecha = fecha;
 		this.concepto = concepto;
 		this.cantidad = cantidad;
 		this.tipo = tipo;
 	}
-	
+
+	public Ingreso() {
+
+	}
+
 	public Integer getNumeroSocio() {
-		return socio;
+		return numeroSocio;
 	}
 
-	public void setSocio(Integer socio) {
-		this.socio = socio;
+	public void setNumeroSocio(Integer socio) {
+		this.numeroSocio = socio;
 	}
 
-	public LocalDate getFecha() {
+	public Date getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 
@@ -96,7 +118,7 @@ public class Ingreso implements Comparable<Ingreso> {
 	@Override
 	public int compareTo(Ingreso p) {
 		// TODO Auto-generated method stub
-		int res = this.socio.compareTo(p.getNumeroSocio());
+		int res = this.numeroSocio.compareTo(p.getNumeroSocio());
 		if(res==0) {
 			res = fecha.compareTo(p.fecha);
 		}
@@ -105,7 +127,7 @@ public class Ingreso implements Comparable<Ingreso> {
 
 	@Override
 	public String toString() {
-		return socio+";"+Parsers.dateParser(fecha)+";"+concepto+";"+cantidad+";"+tipo;
+		return numeroSocio +";"+Parsers.dateParser(fecha)+";"+concepto+";"+cantidad+";"+tipo;
 	}
 		
 }

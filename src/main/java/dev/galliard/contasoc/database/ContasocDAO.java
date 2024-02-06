@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Deprecated
 public class ContasocDAO {
     public static final String DB_URL = System.getProperty("os.name").toLowerCase().contains("win") ?
             "jdbc:sqlite:C:/Contasoc/contasoc2.db" :

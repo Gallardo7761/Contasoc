@@ -8,7 +8,7 @@ import dev.galliard.contasoc.database.objects.Socio;
 import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Estado;
 import dev.galliard.contasoc.database.ContasocDAO;
-import dev.galliard.contasoc.database.objects.Pago;
+import dev.galliard.contasoc.database.objects.Gasto;
 import dev.galliard.contasoc.util.ContasocLogger;
 import dev.galliard.contasoc.util.ErrorHandler;
 import dev.galliard.contasoc.util.PDFPrinter;
@@ -108,7 +108,7 @@ public class GUIManager {
         Double banco = null;
         Double caja = null;
         List<Ingreso> ingresos = null;
-        List<Pago> pagos = null;
+        List<Gasto> gastos = null;
         try {
             banco = !ContasocDAO.leerTabla("Balance").isEmpty()
                     ? Double.parseDouble(ContasocDAO.select("Balance",new Object[] {"inicialBanco"}, ""))
@@ -120,15 +120,15 @@ public class GUIManager {
 
             ingresos = ContasocDAO.leerTabla("ingresos").stream().map(Parsers::ingresoParser).toList();
 
-            pagos = ContasocDAO.leerTabla("gastos").stream().map(Parsers::pagoParser).toList();
+            gastos = ContasocDAO.leerTabla("gastos").stream().map(Parsers::pagoParser).toList();
         } catch (SQLException e) {
             ContasocLogger.dispatchSQLException(e);
         }
 
         Double totalIngresosBanco = ingresos.stream().filter(x -> x.getTipo().equals(TipoPago.BANCO)).mapToDouble(Ingreso::getCantidad).sum();
         Double totalIngresosCaja = ingresos.stream().filter(x -> x.getTipo().equals(TipoPago.CAJA)).mapToDouble(Ingreso::getCantidad).sum();
-        double totalPagosBanco = pagos.stream().filter(x -> x.getTipo().equals(TipoPago.BANCO)).mapToDouble(Pago::getCantidad).sum();
-        double totalPagosCaja = pagos.stream().filter(x -> x.getTipo().equals(TipoPago.CAJA)).mapToDouble(Pago::getCantidad).sum();
+        double totalPagosBanco = gastos.stream().filter(x -> x.getTipo().equals(TipoPago.BANCO)).mapToDouble(Gasto::getCantidad).sum();
+        double totalPagosCaja = gastos.stream().filter(x -> x.getTipo().equals(TipoPago.CAJA)).mapToDouble(Gasto::getCantidad).sum();
 
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.FLOOR);
@@ -207,7 +207,7 @@ public class GUIManager {
             }
             case "Gastos" -> {
                 try {
-                    for (Pago p : ContasocDAO.leerTabla("Gastos").stream().map(Parsers::pagoParser).toList()) {
+                    for (Gasto p : ContasocDAO.leerTabla("Gastos").stream().map(Parsers::pagoParser).toList()) {
                         gastos.add(p.toString());
                     }
                 } catch (SQLException e) {
