@@ -3,11 +3,10 @@ package dev.galliard.contasoc.util;
 import dev.galliard.contasoc.common.Estado;
 import dev.galliard.contasoc.common.TipoPago;
 import dev.galliard.contasoc.common.TipoSocio;
-import dev.galliard.contasoc.database.sqltypes.Ingreso;
-import dev.galliard.contasoc.database.sqltypes.Socio;
-import dev.galliard.contasoc.database.sqltypes.Pago;
+import dev.galliard.contasoc.database.objects.Ingreso;
+import dev.galliard.contasoc.database.objects.Socio;
+import dev.galliard.contasoc.database.objects.Pago;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -42,6 +41,9 @@ public class Parsers {
 		SimpleDateFormat formatoNuevo = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			if(!date.isEmpty()) {
+				if(date.equals("  /  /    ")) {
+					return null;
+				}
 				res = formatoNuevo.format(formatoOriginal.parse(date));
 			}
 		} catch (ParseException e) {

@@ -1,9 +1,8 @@
-package dev.galliard.contasoc.database.sqltypes;
+package dev.galliard.contasoc.database.objects;
 
 import dev.galliard.contasoc.common.Estado;
 import dev.galliard.contasoc.common.TipoSocio;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
 
