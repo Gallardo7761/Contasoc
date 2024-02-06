@@ -1,0 +1,20 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <!-- Configurar colores -->
+    <property name="COLOR_TRACE" value="cyan" />
+    <property name="COLOR_DEBUG" value="green" />
+    <property name="COLOR_INFO" value="blue" />
+    <property name="COLOR_WARN" value="yellow" />
+    <property name="COLOR_ERROR" value="red" />
+    <property name="COLOR_FATAL" value="red" />
+
+</configuration>

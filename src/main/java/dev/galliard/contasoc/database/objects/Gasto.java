@@ -33,7 +33,7 @@ public class Gasto implements Comparable<Gasto> {
 	private String factura;
 
 	@Column(name = "tipo")
-	private TipoPago tipo;
+	private String tipo;
 	
 	public Gasto(Date fecha, String proveedor, String concepto, Double cantidad, String factura, TipoPago tipo) {
 		super();
@@ -42,7 +42,7 @@ public class Gasto implements Comparable<Gasto> {
 		this.concepto = concepto;
 		this.cantidad = cantidad;
 		this.factura = factura;
-		this.tipo = tipo;
+		this.tipo = tipo.name();
 	}
 
 	public Gasto() {
@@ -79,10 +79,10 @@ public class Gasto implements Comparable<Gasto> {
 	public void setFactura(String factura) {
 		this.factura = factura;
 	}
-	public TipoPago getTipo() {
+	public String getTipo() {
 		return tipo;
 	}
-	public void setTipo(TipoPago tipo) {
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 	

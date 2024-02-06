@@ -46,7 +46,7 @@ public class JpaIngresoDao implements Dao<Ingreso> {
         ingreso.setFecha(fecha);
         ingreso.setConcepto(concepto);
         ingreso.setCantidad(cantidad);
-        ingreso.setTipo(tipo);
+        ingreso.setTipo(tipo.name());
 
         transaction(entityManager -> entityManager.merge(ingreso));
     }

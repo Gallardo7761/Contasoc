@@ -39,7 +39,7 @@ public class JpaGastoDao implements Dao<Gasto> {
         String concepto = params[2];
         Double cantidad = Double.valueOf(params[3]);
         String factura = params[4];
-        TipoPago tipo = TipoPago.valueOf(params[5]);
+        String tipo = TipoPago.valueOf(params[5]).name();
 
         gasto.setFecha(fecha);
         gasto.setProveedor(proveedor);

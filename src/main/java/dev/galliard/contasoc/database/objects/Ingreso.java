@@ -31,7 +31,7 @@ public class Ingreso implements Comparable<Ingreso> {
 	private Double cantidad;
 
 	@Column(name = "tipo")
-	private TipoPago tipo;
+	private String tipo;
 	
 	public Ingreso(Integer numeroSocio, Date fecha, String concepto, Double cantidad, TipoPago tipo) {
 		super();
@@ -39,7 +39,7 @@ public class Ingreso implements Comparable<Ingreso> {
 		this.fecha = fecha;
 		this.concepto = concepto;
 		this.cantidad = cantidad;
-		this.tipo = tipo;
+		this.tipo = tipo.name();
 	}
 	
 	public Ingreso(String s) {
@@ -56,7 +56,7 @@ public class Ingreso implements Comparable<Ingreso> {
 		this.fecha = fecha;
 		this.concepto = concepto;
 		this.cantidad = cantidad;
-		this.tipo = tipo;
+		this.tipo = tipo.name();
 	}
 
 	public Ingreso() {
@@ -95,11 +95,11 @@ public class Ingreso implements Comparable<Ingreso> {
 		this.cantidad = cantidad;
 	}
 
-	public TipoPago getTipo() {
+	public String getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(TipoPago tipo) {
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 

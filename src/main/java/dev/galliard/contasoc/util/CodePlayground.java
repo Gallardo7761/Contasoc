@@ -14,12 +14,28 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class CodePlayground {
-    private static Dao<Socio> jpaSocioDao = new JpaSocioDao();
-    private static Dao<Ingreso> jpaIngresoDao = new JpaIngresoDao();
-    private static Dao<Gasto> jpaGastoDao = new JpaGastoDao();
+    private static final Dao<Socio> jpaSocioDao = new JpaSocioDao();
+    private static final Dao<Ingreso> jpaIngresoDao = new JpaIngresoDao();
+    private static final Dao<Gasto> jpaGastoDao = new JpaGastoDao();
 
     public static void main(String[] args) throws SQLException {
-        jpaGastoDao.save(
+        jpaSocioDao.save(
+                new Socio(
+                        1,
+                        1,
+                        "Nombre",
+                        "0000000T",
+                        123456789,
+                        null,
+                        Date.valueOf(LocalDate.now()),
+                        null,
+                        null,
+                        null,
+                        TipoSocio.HORTELANO,
+                        Estado.ACTIVO
+                )
+        );
+        /*jpaGastoDao.save(
                 new Gasto(
                         Date.valueOf(LocalDate.now()),
                         "Proveedor",
@@ -29,6 +45,15 @@ public class CodePlayground {
                         TipoPago.BANCO
                 )
         );
+        jpaIngresoDao.save(
+                new Ingreso(
+                        1,
+                        Date.valueOf(LocalDate.now()),
+                        "Concepto",
+                        100.0,
+                        TipoPago.BANCO
+                )
+        );*/
     }
 }
 
