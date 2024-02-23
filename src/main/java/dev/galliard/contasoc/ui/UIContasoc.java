@@ -4,6 +4,7 @@
 
 package dev.galliard.contasoc.ui;
 
+import javax.swing.event.*;
 import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.common.PrintAction;
@@ -536,6 +537,16 @@ public class UIContasoc extends JFrame {
         }
     }
 
+    private void tabbedPane1StateChanged(ChangeEvent e) {
+        if(tabbedPane1.getSelectedComponent().equals(sociosPanel)) {
+            aux.setVisible(true);
+            buscarField.setVisible(true);
+        } else {
+            aux.setVisible(false);
+            buscarField.setVisible(false);
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
@@ -720,6 +731,7 @@ public class UIContasoc extends JFrame {
         //======== tabbedPane1 ========
         {
             tabbedPane1.setFont(tabbedPane1.getFont().deriveFont(tabbedPane1.getFont().getSize() + 6f));
+            tabbedPane1.addChangeListener(e -> tabbedPane1StateChanged(e));
             tabbedPane1.putClientProperty("JTabbedPane.minimumTabWidth", 160);
             tabbedPane1.putClientProperty("JTabbedPane.maximumTabWidth", 160);
 

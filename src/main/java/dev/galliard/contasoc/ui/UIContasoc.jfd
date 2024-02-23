@@ -162,6 +162,7 @@ new FormModel {
 					"JavaCodeGenerator.variableModifiers": 12
 					"JavaCodeGenerator.postInitCode": "tabbedPane1.putClientProperty(\"JTabbedPane.minimumTabWidth\", 160);\ntabbedPane1.putClientProperty(\"JTabbedPane.maximumTabWidth\", 160);"
 				}
+				addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "tabbedPane1StateChanged", true ) )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
 					name: "sociosPanel"
 					auxiliary() {
