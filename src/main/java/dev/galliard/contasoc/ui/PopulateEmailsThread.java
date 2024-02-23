@@ -1,29 +1,21 @@
 package dev.galliard.contasoc.ui;
 
-import dev.galliard.contasoc.database.ContasocDAO;
-import dev.galliard.contasoc.util.ContasocLogger;
-import dev.galliard.contasoc.util.Parsers;
+import dev.galliard.contasoc.Contasoc;
+import org.hibernate.exception.ConstraintViolationException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class PopulateEmailsThread implements Runnable {
 
     @Override
     public void run() {
-        List<String> l = null;
         try {
-            l = ContasocDAO.leerTabla("Socios").stream()
-                    .map(Parsers::socioParser)
-                    .map(socio -> socio.getEmail().trim()+" ("+socio.getNumeroSocio()+")")
-                    .map(string -> string.contains("null") ? string.replace(string, "") : string)
-                    .filter(string -> !string.isBlank())
-                    .toList();
-        } catch (SQLException e) {
-            ContasocLogger.dispatchSQLException(e);
-        }
-        for(String s:l) {
-            UIContasoc.destinatarioComboBox.addItem(s);
+            GUIManager.getSocios().stream()
+                    .filter(s -> s.getEmail() != null && !s.getEmail().isEmpty()) // Filtrar los socios con email válido
+                    .map(s -> s.getEmail() + "(" + s.getNumeroSocio() + ")")
+                    .forEach(UIContasoc.destinatarioComboBox::addItem);
+        } catch (ConstraintViolationException e) {
+            Contasoc.logger.error("Error SQL", e);
         }
     }
 }

@@ -3,7 +3,6 @@ package dev.galliard.contasoc.ui;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.galliard.contasoc.Contasoc;
-import dev.galliard.contasoc.util.ContasocLogger;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -11,7 +10,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class UpdateChecker implements Runnable{
+public class UpdateChecker implements Runnable {
     public UpdateChecker() {
         super();
     }
@@ -20,15 +19,15 @@ public class UpdateChecker implements Runnable{
     public void run() {
         try {
             String API_URL = "https://api.github.com/repos/GalliardDev/Contasoc/releases/latest";
-            if(compareVersions(getLatestRelease(API_URL), Contasoc.VERSION) > 0) {
+            if (compareVersions(getLatestRelease(API_URL), Contasoc.VERSION) > 0) {
                 int answer = JOptionPane.showConfirmDialog(null, "Hay una nueva versión disponible. ¿Quieres descargarla?", "Actualización disponible", JOptionPane.OK_CANCEL_OPTION);
-                if(answer == JOptionPane.OK_OPTION) {
+                if (answer == JOptionPane.OK_OPTION) {
                     new Thread(new UpdateInstaller()).start();
                 } else if (answer == JOptionPane.CANCEL_OPTION) {
-                    ContasocLogger.info("Actualización cancelada.");
+                    Contasoc.logger.info("Actualización cancelada");
                 }
             } else {
-                ContasocLogger.info("No hay actualizaciones disponibles.");
+                Contasoc.logger.info("No hay actualizaciones disponibles");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -56,7 +55,7 @@ public class UpdateChecker implements Runnable{
 
                 // Obtén el valor de 'tag_name' que contiene la versión.
                 String version = jsonNode.get("tag_name").asText();
-                return version.replace("v","");
+                return version.replace("v", "");
             }
         } else {
             throw new IOException("Error en la solicitud HTTP: " + responseCode);
@@ -64,15 +63,16 @@ public class UpdateChecker implements Runnable{
     }
 
     private static int compareVersions(String version1, String version2) {
-        String[] v1 = version1.split("\\.");
-        String[] v2 = version2.split("\\.");
+        // Eliminar las cadenas tipo "-rcX" antes de realizar la comparación
+        String regex = "-[a-zA-Z]{2}\\d+";
+        String[] v1 = version1.replaceAll(regex, "").split("\\.");
+        String[] v2 = version2.replaceAll(regex, "").split("\\.");
 
         int length = Math.max(v1.length, v2.length);
 
         for (int i = 0; i < length; i++) {
             int num1 = (i < v1.length) ? Integer.parseInt(v1[i]) : 0;
             int num2 = (i < v2.length) ? Integer.parseInt(v2[i]) : 0;
-
             if (num1 < num2) {
                 return -1;
             } else if (num1 > num2) {
@@ -82,6 +82,7 @@ public class UpdateChecker implements Runnable{
 
         return 0;
     }
+
 
 
 }

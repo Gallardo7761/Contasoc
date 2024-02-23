@@ -1,0 +1,25 @@
+module Contasoc {
+    requires javafx.controls;
+    requires javafx.web;
+    requires javafx.swing;
+    requires org.slf4j;
+    requires java.sql;
+    requires jakarta.persistence;
+    requires org.hibernate.orm.core;
+    requires com.github.lgooddatepicker;
+    requires miglayout;
+    requires org.checkerframework.checker.qual;
+    requires com.formdev.flatlaf.intellijthemes;
+    requires com.formdev.flatlaf;
+    requires com.fasterxml.jackson.databind;
+    requires jakarta.activation;
+    requires org.apache.commons.io;
+    requires org.simplejavamail.core;
+    requires org.simplejavamail;
+    requires jakarta.mail;
+    requires layout;
+    requires kernel;
+    requires font.asian;
+    requires io;
+    opens dev.galliard.contasoc.database.objects to org.hibernate.orm.core;
+}

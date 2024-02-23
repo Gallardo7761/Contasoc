@@ -24,12 +24,13 @@ new FormModel {
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 0,width 90:90:90,height 32:32:32"
 			} )
-			add( new FormComponent( "javax.swing.JFormattedTextField" ) {
+			add( new FormComponent( "com.github.lgooddatepicker.components.DatePicker" ) {
 				name: "fechaField"
 				"font": &Font1 new java.awt.Font( "Segoe UI", 0, 18 )
 				"nextFocusableComponent": new FormReference( "proveedorField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
+					"JavaCodeGenerator.postInitCode": "setDatePickerProperties(fechaField);"
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 0,height 32:32:32"
@@ -87,7 +88,7 @@ new FormModel {
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 3,width 90:90:90,height 32:32:32"
 			} )
-			add( new FormComponent( "javax.swing.JFormattedTextField" ) {
+			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "cantidadField"
 				"font": #Font1
 				"nextFocusableComponent": new FormReference( "facturaField" )

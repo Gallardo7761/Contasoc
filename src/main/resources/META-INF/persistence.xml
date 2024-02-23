@@ -7,12 +7,17 @@
     <persistence-unit name="PersistenceUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>dev.galliard.contasoc.database.JpaUtil</class>
-        <class>dev.galliard.contasoc.database.objects.Socio</class>
+        <class>dev.galliard.contasoc.database.objects.Socios</class>
+        <class>dev.galliard.contasoc.database.objects.Gastos</class>
+        <class>dev.galliard.contasoc.database.objects.Ingresos</class>
+        <class>dev.galliard.contasoc.database.objects.Balance</class>
+
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://212.227.230.89:3306/contasoc"/>
             <property name="jakarta.persistence.jdbc.user" value="contasoc_user"/>
             <property name="jakarta.persistence.jdbc.password" value="contasoc$user"/>
+
         </properties>
     </persistence-unit>
 </persistence>

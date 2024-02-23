@@ -1,82 +1,96 @@
 package dev.galliard.contasoc.database;
 
+import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Estado;
 import dev.galliard.contasoc.common.TipoSocio;
-import dev.galliard.contasoc.database.objects.Socio;
+import dev.galliard.contasoc.database.objects.Socios;
+import dev.galliard.contasoc.util.Parsers;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Query;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class JpaSocioDao implements Dao<Socio> {
+public class JpaSocioDao implements Dao<Socios> {
     private EntityManager entityManager = JpaUtil.getEntityManager();
 
     @Override
-    public Optional<Socio> get(long id) {
-        return Optional.ofNullable(entityManager.find(Socio.class, id));
+    public Optional<Socios> get(long id) {
+        return Optional.ofNullable(entityManager.find(Socios.class, id));
     }
 
     @Override
-    public List<Socio> getAll() {
-        Query query = entityManager.createQuery("SELECT e FROM Socio e");
+    public List<Socios> getAll() {
+        Query query = entityManager.createQuery("SELECT e FROM Socios e");
         return query.getResultList();
     }
 
     @Override
-    public void save(Socio socio) {
-        transaction(entityManager -> entityManager.persist(socio));
+    public void save(Socios socios) {
+        transaction(entityManager -> entityManager.persist(socios));
     }
 
     @Override
-    public void update(Socio socio, String[] params) {
+    public void update(Socios socios, String[] params) {
         Integer numeroSocio = Integer.valueOf(params[0]);
         Integer numeroHuerto = Integer.valueOf(params[1]);
         String nombre = params[2];
         String dni = params[3];
         Integer telefono = Integer.valueOf(params[4]);
         String email = params[5];
-        Date fechaDeAlta = Date.valueOf(LocalDate.parse(params[6]));
-        Date fechaDeEntrega = Date.valueOf(LocalDate.parse(params[7]));
-        Date fechaDeBaja = Date.valueOf(LocalDate.parse(params[8]));
+        Date fechaDeAlta = params[6].isEmpty() ? null : Date.valueOf(Parsers.dashDateParserReversed(params[6]));
+        Date fechaDeEntrega = params[7].isEmpty() ? null : Date.valueOf(Parsers.dashDateParserReversed(params[7]));
+        Date fechaDeBaja = params[8].isEmpty() ? null : Date.valueOf(Parsers.dashDateParserReversed(params[8]));
         String notas = params[9];
         TipoSocio tipo = TipoSocio.valueOf(params[10]);
-        Estado estado = Estado.valueOf(params[11]);
 
-        socio.setNumeroSocio(numeroSocio);
-        socio.setNumeroHuerto(numeroHuerto);
-        socio.setNombre(nombre);
-        socio.setDni(dni);
-        socio.setTelefono(telefono);
-        socio.setEmail(email);
-        socio.setFechaDeAlta(fechaDeAlta);
-        socio.setFechaDeEntrega(fechaDeEntrega);
-        socio.setFechaDeBaja(fechaDeBaja);
-        socio.setNotas(notas);
-        socio.setTipo(tipo);
-        socio.setEstado(estado);
+        socios.setNumeroSocio(numeroSocio);
+        socios.setNumeroHuerto(numeroHuerto);
+        socios.setNombre(nombre);
+        socios.setDni(dni);
+        socios.setTelefono(telefono);
+        socios.setEmail(email);
+        socios.setFechaDeAlta(fechaDeAlta);
+        socios.setFechaDeEntrega(fechaDeEntrega);
+        socios.setFechaDeBaja(fechaDeBaja);
+        socios.setNotas(notas);
+        socios.setTipo(tipo);
+        socios.setEstado(fechaDeBaja == null ? Estado.ACTIVO : Estado.INACTIVO);
 
-        transaction(entityManager -> entityManager.merge(socio));
+        transaction(entityManager -> entityManager.merge(socios));
     }
 
     @Override
-    public void delete(Socio socio) {
-        transaction(entityManager -> entityManager.remove(socio));
+    public Object execute(String query, String[] params) {
+        Object result = null;
+        Query q = entityManager.createQuery(query);
+        for (int i = 0; i < params.length; i++) {
+            q.setParameter(i + 1, params[i]);
+        }
+        try {
+            result = q.getSingleResult();
+        } catch (Exception e) {
+            Contasoc.logger.error("Error executing query: " + e.getMessage());
+        }
+        return result;
     }
 
-    private void transaction(Consumer<EntityManager> action) {
+    @Override
+    public void delete(Socios socios) {
+        transaction(entityManager -> entityManager.remove(socios));
+    }
+
+    @Override
+    public void transaction(Consumer<EntityManager> action) {
         EntityTransaction tx = entityManager.getTransaction();
         try {
             tx.begin();
             action.accept(entityManager);
             tx.commit();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             tx.rollback();
             throw e;
         }

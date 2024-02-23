@@ -24,7 +24,7 @@ new FormModel {
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 0,width 100:100:100,height 32:32:32"
 			} )
-			add( new FormComponent( "javax.swing.JFormattedTextField" ) {
+			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "socioField"
 				"font": &Font1 new java.awt.Font( "Segoe UI", 0, 18 )
 				"nextFocusableComponent": new FormReference( "fechaField" )
@@ -45,12 +45,13 @@ new FormModel {
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 1,width 100:100:100,height 32:32:32"
 			} )
-			add( new FormComponent( "javax.swing.JFormattedTextField" ) {
+			add( new FormComponent( "com.github.lgooddatepicker.components.DatePicker" ) {
 				name: "fechaField"
 				"font": #Font1
 				"nextFocusableComponent": new FormReference( "conceptoField" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
+					"JavaCodeGenerator.postInitCode": "setDatePickerProperties(fechaField);"
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 1,height 32:32:32"
@@ -87,7 +88,7 @@ new FormModel {
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 3,width 100:100:100,height 32:32:32"
 			} )
-			add( new FormComponent( "javax.swing.JFormattedTextField" ) {
+			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "cantidadField"
 				"font": #Font1
 				"nextFocusableComponent": new FormReference( "socioField" )

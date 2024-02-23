@@ -1,0 +1,96 @@
+JFDML JFormDesigner: "8.2.1.0.348" Java: "17.0.9" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "hidemode 3,gapx 0"
+			"$columnConstraints": "[fill][grow,fill][fill]"
+			"$rowConstraints": "[grow,fill]"
+		} ) {
+			name: "this"
+			"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.SystemColor controlShadow )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "insets 0,hidemode 3,gapy 0"
+				"$columnConstraints": "[grow,fill]"
+				"$rowConstraints": "[fill][grow,fill]"
+			} ) {
+				name: "iconoEstadoPanel"
+				"opaque": false
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+				}
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "iconoLabel"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/bank.png" )
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0,alignx center,growx 0,width 44:44:44,height 44:44:44"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "cantidadLabel"
+					"horizontalAlignment": 0
+					"font": new java.awt.Font( "Segoe UI", 1, 24 )
+					"text": "35,00€"
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1,aligny center,grow 100 0,height 32:32:32"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0,width 106:106:106,gapx null 12"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "insets 0,hidemode 3,gap 0 0"
+				"$columnConstraints": "[grow,fill]"
+				"$rowConstraints": "[grow,fill]"
+			} ) {
+				name: "provFacConPanel"
+				"opaque": false
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "conceptoLabel"
+					"text": "SEMESTRE 1 2024 + INVERNADERO"
+					"font": new java.awt.Font( "Segoe UI", 0, 24 )
+					"horizontalTextPosition": 0
+					"horizontalAlignment": 2
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "proveedorLabel"
+					"text": "EMASESA"
+					"font": &Font0 new java.awt.Font( "Segoe UI", 0, 16 )
+					"border": new javax.swing.border.TitledBorder( null, "Proveedor", 4, 0, new java.awt.Font( "Segoe UI", 0, 14 ), null )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "facturaLabel"
+					"text": "text"
+					"font": #Font0
+					"border": new javax.swing.border.TitledBorder( null, "Factura", 4, 0, new java.awt.Font( "Segoe UI", 0, 14 ), null )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 0"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "fechaLabel"
+				"text": "31 dec 2024"
+				"font": new java.awt.Font( "Segoe UI", 0, 36 )
+				"border": new javax.swing.border.TitledBorder( null, "Fecha", 4, 0, new java.awt.Font( "Segoe UI", 0, 14 ), null )
+				"horizontalTextPosition": 0
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 2 0"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 865, 95 )
+		} )
+	}
+}

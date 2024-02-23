@@ -5,121 +5,73 @@
 package dev.galliard.contasoc.ui;
 
 import javax.swing.border.*;
+import javax.swing.event.*;
 import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Action;
-import dev.galliard.contasoc.database.ContasocDAO;
-import dev.galliard.contasoc.ui.tablemodels.GastosTablaModel;
-import dev.galliard.contasoc.ui.tablemodels.IngresosTablaModel;
-import dev.galliard.contasoc.ui.tablemodels.ListaEsperaTablaModel;
-import dev.galliard.contasoc.ui.tablemodels.SociosTablaModel;
-import dev.galliard.contasoc.util.*;
+import dev.galliard.contasoc.common.PrintAction;
+import dev.galliard.contasoc.database.DBUtils;
+import dev.galliard.contasoc.database.objects.Gastos;
+import dev.galliard.contasoc.database.objects.Ingresos;
+import dev.galliard.contasoc.database.objects.Socios;
+import dev.galliard.contasoc.ui.models.*;
+import dev.galliard.contasoc.util.EmailSender2;
+import dev.galliard.contasoc.util.Parsers;
 import javafx.application.Platform;
-import javafx.collections.ListChangeListener;
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import net.miginfocom.swing.MigLayout;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.sql.SQLException;
-import java.util.Objects;
-import java.util.Set;
-import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.Document;
-
-import net.miginfocom.swing.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * @author jomaa
  */
+@SuppressWarnings("ALL")
 public class UIContasoc extends JFrame {
-    protected static String rendered = null;
-
-    protected static WebView webView = null;
-    protected static WebEngine webEngine = null;
-    protected static JFXPanel editorJfxPanel = null;
-    protected static JFXPanel rendererJfxPanel = null;
-    protected static HTMLEditor htmlEditor = null;
+    private String mail = "";
     public UIContasoc() {
         initComponents();
         setActions();
         GUIManager.populateGUITables();
-        GUIManager.addListenerToSearchBar();
-        addHTMLEditor();
+        GUIManager.addListenerToSearchBar(sociosLista, (DefaultListModel<SocioPanel>) sociosLista.getModel());
         addHTMLRenderer();
-
-        new Thread(new HTMLRendererThread()).start();
     }
 
-    public void addHTMLEditor() {
+    private void addHTMLRenderer() {
         Platform.startup(() -> {
-            editorJfxPanel = new JFXPanel();
-            htmlEditor = new HTMLEditor();
-            Scene scene = new Scene(htmlEditor);
-            editorJfxPanel.setScene(scene);
-            htmlEditorPanel.add(editorJfxPanel, BorderLayout.CENTER);
-        });
-    }
-
-    public void addHTMLRenderer() {
-        Platform.runLater(() -> {
-            rendererJfxPanel = new JFXPanel();
-            webView = new WebView();
-            webView.getChildrenUnmodifiable().addListener(new ListChangeListener<Node>() {
-                @Override public void onChanged(ListChangeListener.Change<? extends Node> change) {
-                    Set<Node> deadSeaScrolls = webView.lookupAll(".scroll-bar");
-                    for (Node scroll : deadSeaScrolls) {
-                        scroll.setVisible(false);
-                    }
-                }
+            Platform.runLater(() -> {
+                WebView webView = new WebView();
+                WebEngine webEngine = webView.getEngine();
+                webEngine.load(mail);
+                Scene scene = new Scene(webView);
+                JFXPanel jfxPanel = new JFXPanel();
+                jfxPanel.setScene(scene);
+                htmlRenderPanel.add(jfxPanel, BorderLayout.CENTER);
             });
-            webEngine = webView.getEngine();
-            webEngine.loadContent(rendered);
-            rendererJfxPanel.setScene(new Scene(webView));
-            htmlRenderPanel.add(rendererJfxPanel, BorderLayout.CENTER);
         });
-    }
-
-    public JButton getNuevoBtn() {
-        return nuevoBtn;
-    }
-
-    public JButton getEditarBtn() {
-        return editarBtn;
-    }
-
-    public JButton getEliminarBtn() {
-        return eliminarBtn;
-    }
-
-    public JButton getImportarBtn() {
-        return importarBtn;
-    }
-
-    public JButton getExportarBtn() {
-        return exportarBtn;
     }
 
     private void printBtnActionPerformed(ActionEvent e) {
         Component selected = UIContasoc.tabbedPane1.getSelectedComponent();
         if (selected.equals(sociosPanel)) {
             if (cardSociosPanel.isVisible()) {
-                GUIManager.valor = "Socios";
+                GUIManager.valor = PrintAction.SOCIOS;
             } else if (cardListaEsperaPanel.isVisible()) {
-                GUIManager.valor = "ListaEspera";
+                GUIManager.valor = PrintAction.LISTA_ESPERA;
             }
         } else if (selected.equals(ingresosPanel)) {
-            GUIManager.valor = "Ingresos";
+            GUIManager.valor = PrintAction.INGRESOS;
         } else if (selected.equals(gastosPanel)) {
-            GUIManager.valor = "Gastos";
+            GUIManager.valor = PrintAction.GASTOS;
         }
         GUIManager.printContent();
     }
@@ -133,28 +85,29 @@ public class UIContasoc extends JFrame {
     }
 
     private void balancePanelComponentShown(ComponentEvent e) {
+        if (DBUtils.isEmpty("Balance")) {
+            SaldoInicial saldoInicial = SaldoInicial.getInstance();
+            saldoInicial.setVisible(true);
+            saldoInicial.requestFocus();
+        }
         BalanceCalculatorThread balanceCalc = new BalanceCalculatorThread();
         Thread thread = new Thread(balanceCalc);
         thread.start();
-        BalancePanelWatcher watcher = new BalancePanelWatcher();
-        Thread thread2 = new Thread(watcher);
-        thread2.start();
     }
 
     private void nuevoBtnActionPerformed(ActionEvent e) {
-        if(sociosPanel.isVisible() && !cardListaEsperaPanel.isVisible()) {
-            AddModifySocios.accion = Action.ADD;
-            AddModifySocios addModifySocios = AddModifySocios.getInstance();
-            addModifySocios.clear();
-            addModifySocios.setTitle("Añadir nuevo socio");
-            addModifySocios.setVisible(true);
-        } else if(ingresosPanel.isVisible()) {
+        if (sociosPanel.isVisible() && !cardListaEsperaPanel.isVisible()) {
+            AddSocios addSocios = AddSocios.getInstance();
+            addSocios.clear();
+            addSocios.setTitle("Añadir nuevo socio");
+            addSocios.setVisible(true);
+        } else if (ingresosPanel.isVisible()) {
             AddModifyIngresos.accion = Action.ADD;
             AddModifyIngresos addModifyIngresos = AddModifyIngresos.getInstance();
             addModifyIngresos.clear();
             addModifyIngresos.setTitle("Añadir nuevo ingreso");
             addModifyIngresos.setVisible(true);
-        } else if(gastosPanel.isVisible()) {
+        } else if (gastosPanel.isVisible()) {
             AddModifyGastos.accion = Action.ADD;
             AddModifyGastos addModifyGastos = AddModifyGastos.getInstance();
             addModifyGastos.clear();
@@ -163,212 +116,80 @@ public class UIContasoc extends JFrame {
         }
     }
 
-    private void editarBtnActionPerformed(ActionEvent e) {
-        if(sociosPanel.isVisible() && !cardListaEsperaPanel.isVisible()) {
-            int selectedRow = sociosTabla.getSelectedRow();
-            AddModifySocios.accion = Action.MODIFY;
-            AddModifySocios ams = AddModifySocios.getInstance();
-            ams.setTitle("Editar socio");
-            ams.setVisible(true);
-
-            if (selectedRow >= 0) {
-                AddModifySocios.nombreField.setText(
-                        sociosTabla.getValueAt(selectedRow, 2) == null ? ""
-                                : sociosTabla.getValueAt(selectedRow, 2).toString());
-                AddModifySocios.dniField.setText(
-                        sociosTabla.getValueAt(selectedRow, 3) == null ? ""
-                                : sociosTabla.getValueAt(selectedRow, 3).toString());
-                AddModifySocios.telefonoField.setText(
-                        sociosTabla.getValueAt(selectedRow, 4) == null ? ""
-                                : sociosTabla.getValueAt(selectedRow, 4).toString());
-                AddModifySocios.emailField.setText(
-                        sociosTabla.getValueAt(selectedRow, 5) == null ? ""
-                                : sociosTabla.getValueAt(selectedRow, 5).toString());
-                AddModifySocios.huertoField.setText(
-                        sociosTabla.getValueAt(selectedRow, 1) == null ? ""
-                                : sociosTabla.getValueAt(selectedRow, 1).toString());
-                AddModifySocios.altaField.setText(
-                        sociosTabla.getValueAt(selectedRow, 6) == null ? ""
-                                : Parsers.dashDateParser(sociosTabla.getValueAt(selectedRow, 6).toString()));
-                AddModifySocios.entregaField.setText(
-                        sociosTabla.getValueAt(selectedRow, 7) == null ? ""
-                                : Parsers.dashDateParser(sociosTabla.getValueAt(selectedRow, 7).toString()));
-                AddModifySocios.bajaField.setText(
-                        sociosTabla.getValueAt(selectedRow, 8) == null ? ""
-                                : Parsers.dashDateParser(sociosTabla.getValueAt(selectedRow, 8).toString()));
-                AddModifySocios.notasField.setText(
-                        sociosTabla.getValueAt(selectedRow, 9) == null ? ""
-                                : sociosTabla.getValueAt(selectedRow, 9).toString());
-                AddModifySocios.tipoSocioComboBox.setSelectedItem(
-                        sociosTabla.getValueAt(selectedRow, 10) == null ? ""
-                                : sociosTabla.getValueAt(selectedRow, 10).toString());
-                AddModifySocios.socioField.setText(
-                        sociosTabla.getValueAt(selectedRow, 0) == null ? ""
-                                : sociosTabla.getValueAt(selectedRow, 0).toString());
-
-                AddModifySocios.tempNumeroSocio = String.valueOf(Integer.parseInt(AddModifySocios.socioField.getText()));
-            }
-        } else if(ingresosPanel.isVisible()) {
-            int selectedRow = ingresosTabla.getSelectedRow();
-            AddModifyIngresos.accion = Action.MODIFY;
-            AddModifyIngresos addModifyIngresos = AddModifyIngresos.getInstance();
-            addModifyIngresos.setTitle("Editar ingreso");
-            addModifyIngresos.setVisible(true);
-
-            if (selectedRow >= 0) {
-                AddModifyIngresos.socioField.setText(
-                        ingresosTabla.getValueAt(selectedRow, 0) == null ? ""
-                                : ingresosTabla.getValueAt(selectedRow, 0).toString());
-                AddModifyIngresos.fechaField.setText(
-                        ingresosTabla.getValueAt(selectedRow, 1) == null ? ""
-                                : Parsers.dashDateParser(ingresosTabla.getValueAt(selectedRow, 1).toString()));
-                AddModifyIngresos.cantidadField.setText(
-                        ingresosTabla.getValueAt(selectedRow, 3) == null ? ""
-                                : ingresosTabla.getValueAt(selectedRow, 3).toString());
-                AddModifyIngresos.conceptoField.setText(
-                        ingresosTabla.getValueAt(selectedRow, 2) == null ? ""
-                                : ingresosTabla.getValueAt(selectedRow, 2).toString());
-                AddModifyIngresos.tipoPagoComboBox.setSelectedItem(
-                        ingresosTabla.getValueAt(selectedRow, 4) == null ? ""
-                                : ingresosTabla.getValueAt(selectedRow, 4).toString());
-
-                AddModifyIngresos.tempSocio = String.valueOf(Integer.parseInt(AddModifyIngresos.socioField.getText()));
-                AddModifyIngresos.tempFecha = AddModifyIngresos.fechaField.getText();
-                AddModifyIngresos.tempConcepto = AddModifyIngresos.conceptoField.getText();
-            }
-        } else if(gastosPanel.isVisible()) {
-            int selectedRow = gastosTabla.getSelectedRow();
-            AddModifyGastos.accion = Action.MODIFY;
-            AddModifyGastos addModifyGastos = AddModifyGastos.getInstance();
-            addModifyGastos.setTitle("Editar gasto");
-            addModifyGastos.setVisible(true);
-
-            if (selectedRow >= 0) {
-                AddModifyGastos.fechaField.setText(
-                        gastosTabla.getValueAt(selectedRow, 0) == null ? ""
-                                : Parsers.dashDateParser(gastosTabla.getValueAt(selectedRow, 0).toString()));
-                AddModifyGastos.proveedorField.setText(
-                        gastosTabla.getValueAt(selectedRow, 1) == null ? ""
-                                : gastosTabla.getValueAt(selectedRow, 1).toString());
-                AddModifyGastos.conceptoField.setText(
-                        gastosTabla.getValueAt(selectedRow, 2) == null ? ""
-                                : gastosTabla.getValueAt(selectedRow, 2).toString());
-                AddModifyGastos.cantidadField.setText(
-                        gastosTabla.getValueAt(selectedRow, 3) == null ? ""
-                                : gastosTabla.getValueAt(selectedRow, 3).toString());
-                AddModifyGastos.facturaField.setText(
-                        gastosTabla.getValueAt(selectedRow, 4) == null ? ""
-                                : gastosTabla.getValueAt(selectedRow, 4).toString());
-                AddModifyGastos.tipoPagoComboBox.setSelectedItem(
-                        gastosTabla.getValueAt(selectedRow, 5) == null ? ""
-                                : gastosTabla.getValueAt(selectedRow, 5).toString());
-
-                AddModifyGastos.tempFecha = AddModifyGastos.fechaField.getText();
-                AddModifyGastos.tempProveedor = AddModifyGastos.proveedorField.getText();
-            }
-        }
-    }
-
     private void eliminarBtnActionPerformed(ActionEvent e) {
         int sel = 1;
-        if(!cardListaEsperaPanel.isVisible()) {
+        if (!cardListaEsperaPanel.isVisible()) {
             String[] options = {"Sí", "No"};
             sel = JOptionPane.showOptionDialog(null, "¿Seguro que quieres eliminar el dato?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-        }
-        if(sociosPanel.isVisible()) {
-            switch (sel) {
-                case JOptionPane.YES_OPTION:
-                    try {
-                        ContasocDAO.delete("Socios", new String[] {
-                                "numeroSocio = " + UIContasoc.sociosTabla.getValueAt(UIContasoc.sociosTabla.getSelectedRow(), 0)
-                        });
-                    } catch (SQLException ex) {
-                        ContasocLogger.dispatchSQLException(ex);
-                    }
-                    GUIManager.populateGUITables();
-                    break;
-                case JOptionPane.NO_OPTION:
-                    break;
-            }
-        } else if(ingresosPanel.isVisible()) {
-            switch (sel) {
-                case JOptionPane.YES_OPTION:
-                    try {
-                        ContasocDAO.delete("Ingresos", new String[] {
-                                "numeroSocio = " + UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 0),
-                                "fecha = " + UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 1),
-                                "concepto = " + UIContasoc.ingresosTabla.getValueAt(UIContasoc.ingresosTabla.getSelectedRow(), 2),
-                        });
-                    } catch (SQLException ex) {
-                        ContasocLogger.dispatchSQLException(ex);
-                    }
-                    GUIManager.populateGUITables();
-                    break;
-                case JOptionPane.NO_OPTION:
-                    break;
-            }
-        } else if(gastosPanel.isVisible()) {
-            switch (sel) {
-                case JOptionPane.YES_OPTION:
-                    try {
-                        ContasocDAO.delete("Gastos", new String[] {
-                                "fecha = " + UIContasoc.gastosTabla.getValueAt(UIContasoc.gastosTabla.getSelectedRow(), 0),
-                                "proveedor = " + UIContasoc.gastosTabla.getValueAt(UIContasoc.gastosTabla.getSelectedRow(), 1)
-                        });
-                    } catch (SQLException ex) {
-                        ContasocLogger.dispatchSQLException(ex);
-                    }
-                    GUIManager.populateGUITables();
-                    break;
-                case JOptionPane.NO_OPTION:
-                    break;
+            if (sociosPanel.isVisible()) {
+                int selected = UIContasoc.sociosLista.getSelectedIndex();
+                Socios socios = selected >= 0 ? GUIManager.getSocios().get(selected) : null;
+                DefaultListModel<SocioPanel> model = (DefaultListModel<SocioPanel>) UIContasoc.sociosLista.getModel();
+                switch (sel) {
+                    case JOptionPane.YES_OPTION:
+                        model.removeElementAt(selected);
+                        Contasoc.sqlMemory.socioEliminado(socios);
+                        Contasoc.sqlMemory.socioAgregado(socios);
+                        break;
+                    case JOptionPane.NO_OPTION:
+                        break;
+                }
+            } else if (ingresosPanel.isVisible()) {
+                int selected = UIContasoc.ingresosLista.getSelectedIndex();
+                Ingresos ingresos = selected >= 0 ? GUIManager.getIngresos().get(selected) : null;
+                DefaultListModel<IngresoPanel> model = (DefaultListModel<IngresoPanel>) UIContasoc.ingresosLista.getModel();
+                switch (sel) {
+                    case JOptionPane.YES_OPTION:
+                        model.removeElementAt(selected);
+                        Contasoc.sqlMemory.ingresoEliminado(ingresos);
+                        Contasoc.sqlMemory.ingresoAgregado(ingresos);
+                        break;
+                    case JOptionPane.NO_OPTION:
+                        break;
+                }
+            } else if (gastosPanel.isVisible()) {
+                int selected = UIContasoc.gastosLista.getSelectedIndex();
+                Gastos gastos = selected >= 0 ? GUIManager.getGastos().get(selected) : null;
+                DefaultListModel<GastoPanel> model = (DefaultListModel<GastoPanel>) UIContasoc.gastosLista.getModel();
+                switch (sel) {
+                    case JOptionPane.YES_OPTION:
+                        model.removeElementAt(selected);
+                        Contasoc.sqlMemory.gastoEliminado(gastos);
+                        Contasoc.sqlMemory.gastoAgregado(gastos);
+                        break;
+                    case JOptionPane.NO_OPTION:
+                        break;
+                }
             }
         }
     }
 
-    private void importarBtnActionPerformed(ActionEvent e) {
-        // TODO add your code here
-        GUIManager.importBDD();
-    }
-
-    private void exportarBtnActionPerformed(ActionEvent e) {
-        // TODO add your code here
-        GUIManager.exportBDD();
-    }
-
-    private void enviarBtnActionPerformed(ActionEvent e)  {
-        switch (UIContasoc.tipoEmailComboBox.getSelectedItem().toString()) {
+    private void enviarBtnActionPerformed(ActionEvent e) {
+        /*
+        * switch (UIContasoc.tipoEmailComboBox.getSelectedItem().toString()) {
             case "NORMAL":
                 String destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
                 String asunto = UIContasoc.asuntoField.getText();
                 String cuerpo = "";
-                try {
-                    cuerpo = EmailSender2.NORMAL_EMAIL
-                            .replace("{nombre}", ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"))
-                            .replace("{mensaje}",htmlEditor.getHtmlText());
-                } catch (SQLException ex) {
-                    ContasocLogger.dispatchSQLException(ex);
-                }
-                if(adjuntoCheckBox.isSelected()) {
+                cuerpo = EmailSender2.NORMAL_EMAIL
+                        .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre())
+                        .replace("{mensaje}", htmlEditor.getText());
+                if (adjuntoCheckBox.isSelected()) {
                     new EmailSender2().sendEmail(destinatario, asunto, cuerpo, EmailSender2.adjunto);
                 } else {
                     new EmailSender2().sendEmail(destinatario, asunto, cuerpo);
                 }
                 asuntoField.setText("");
-                htmlEditor.setHtmlText("");
+                htmlEditor.setText("");
                 break;
             case "AVISO IMPAGO":
                 cuerpo = "";
                 destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
-                try {
-                    cuerpo = EmailSender2.UNPAID_EMAIL
-                            .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
-                } catch (SQLException ex) {
-                    ContasocLogger.dispatchSQLException(ex);
-                }
+                cuerpo = EmailSender2.NORMAL_EMAIL
+                        .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre());
                 asunto = "AVISO IMPAGO";
                 UIContasoc.asuntoField.setText(asunto);
-                if(adjuntoCheckBox.isSelected()) {
+                if (adjuntoCheckBox.isSelected()) {
                     new EmailSender2().sendEmail(destinatario, asunto, cuerpo, EmailSender2.adjunto);
                     asuntoField.setText("");
                 } else {
@@ -380,13 +201,9 @@ public class UIContasoc extends JFrame {
                 destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
                 asunto = "AVISO ABANDONO";
                 UIContasoc.asuntoField.setText(asunto);
-                try {
-                    cuerpo = EmailSender2.WARNING_EMAIL
-                            .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
-                } catch (SQLException ex) {
-                    ContasocLogger.dispatchSQLException(ex);
-                }
-                if(adjuntoCheckBox.isSelected()) {
+                cuerpo = EmailSender2.NORMAL_EMAIL
+                        .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre());
+                if (adjuntoCheckBox.isSelected()) {
                     new EmailSender2().sendEmail(destinatario, asunto, cuerpo, EmailSender2.adjunto);
                     asuntoField.setText("");
                 } else {
@@ -398,13 +215,9 @@ public class UIContasoc extends JFrame {
                 destinatario = UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim();
                 asunto = "AVISO MAL COMPORTAMIENTO";
                 UIContasoc.asuntoField.setText(asunto);
-                try {
-                    cuerpo = EmailSender2.MISBEHAVE_EMAIL
-                            .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+destinatario+"'"));
-                } catch (SQLException ex) {
-                    ContasocLogger.dispatchSQLException(ex);
-                }
-                if(adjuntoCheckBox.isSelected()) {
+                cuerpo = EmailSender2.NORMAL_EMAIL
+                        .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre());
+                if (adjuntoCheckBox.isSelected()) {
                     new EmailSender2().sendEmail(destinatario, asunto, cuerpo, EmailSender2.adjunto);
                     asuntoField.setText("");
                 } else {
@@ -413,91 +226,58 @@ public class UIContasoc extends JFrame {
 
                 break;
         }
+        * */
     }
 
     private void borradorBtnActionPerformed(ActionEvent e) {
-        String body = null;
-        if(UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("NORMAL")) {
+        /*
+        * String body = null;
+        if (UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("NORMAL")) {
             try {
                 body = EmailSender2.NORMAL_EMAIL
-                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"))
-                        .replace("{mensaje}",htmlEditor.getHtmlText());
-            } catch (SQLException ex) {
-                ContasocLogger.dispatchSQLException(ex);
+                        .replace("{nombre}", Contasoc.socios.stream()
+                                .filter(socio -> socio.getEmail().equals(
+                                        UIContasoc.destinatarioComboBox.getSelectedItem().toString()
+                                                .replaceAll("\\(\\d+\\)", "").trim())).findFirst().get().getNombre())
+                        .replace("{mensaje}", htmlEditor.getText());
+            } catch (ConstraintViolationException ex) {
+                Contasoc.logger.error("Error SQL", e);
             }
-        } else if(UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("AVISO IMPAGO")) {
+        } else if (UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("AVISO IMPAGO")) {
             try {
                 body = EmailSender2.UNPAID_EMAIL
-                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"));
-            } catch (SQLException ex) {
-                ContasocLogger.dispatchSQLException(ex);
+                        .replace("{nombre}", Contasoc.socios.stream()
+                                .filter(socio -> socio.getEmail().equals(
+                                        UIContasoc.destinatarioComboBox.getSelectedItem().toString()
+                                                .replaceAll("\\(\\d+\\)", "").trim())).findFirst().get().getNombre());
+            } catch (ConstraintViolationException ex) {
+                Contasoc.logger.error("Error SQL", e);
             }
-        } else if(UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("AVISO ABANDONO")) {
+        } else if (UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("AVISO ABANDONO")) {
             try {
                 body = EmailSender2.WARNING_EMAIL
-                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"));
-            } catch (SQLException ex) {
-                ContasocLogger.dispatchSQLException(ex);
+                        .replace("{nombre}", Contasoc.socios.stream()
+                                .filter(socio -> socio.getEmail().equals(
+                                        UIContasoc.destinatarioComboBox.getSelectedItem().toString()
+                                                .replaceAll("\\(\\d+\\)", "").trim())).findFirst().get().getNombre());
+            } catch (ConstraintViolationException ex) {
+                Contasoc.logger.error("Error SQL", e);
             }
-        } else if(UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("MAL COMPORTAMIENTO")) {
+        } else if (UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("MAL COMPORTAMIENTO")) {
             try {
                 body = EmailSender2.MISBEHAVE_EMAIL
-                        .replace("{nombre}",ContasocDAO.select("Socios", new Object[] {"nombre"}, "email = '"+UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim()+"'"));
-            } catch (SQLException ex) {
-                ContasocLogger.dispatchSQLException(ex);
+                        .replace("{nombre}", Contasoc.socios.stream()
+                                .filter(socio -> socio.getEmail().equals(
+                                        UIContasoc.destinatarioComboBox.getSelectedItem().toString()
+                                                .replaceAll("\\(\\d+\\)", "").trim())).findFirst().get().getNombre());
+            } catch (ConstraintViolationException ex) {
+                Contasoc.logger.error("Error SQL", e);
             }
         }
         EmailSender2.crearBorrador(UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim(),
                 UIContasoc.asuntoField.getText(), body);
+                * */
     }
-
-    private void tipoEmailComboBoxItemStateChanged(ItemEvent e) {
-        if (e.getStateChange() == ItemEvent.SELECTED && htmlEditor != null) {
-            switch (e.getItem().toString()) {
-                case "NORMAL":
-                    asuntoField.setEditable(true);
-                    htmlEditor.setDisable(false);
-                    break;
-                case "AVISO IMPAGO":
-                    asuntoField.setEditable(false);
-                    htmlEditor.setDisable(true);
-                    break;
-                case "AVISO ABANDONO":
-                    asuntoField.setEditable(false);
-                    htmlEditor.setDisable(true);
-                    break;
-                case "MAL COMPORTAMIENTO":
-                    asuntoField.setEditable(false);
-                    htmlEditor.setDisable(true);
-                    break;
-            }
-        }
-    }
-
-    private void sociosTablaMouseClicked(MouseEvent evt) {
-        int selectedRowIndex = sociosTabla.getSelectedRow();
-        if (selectedRowIndex >= 0 && evt.getButton() == MouseEvent.BUTTON3) {
-            IngresosView ingresosView = IngresosView.getInstance();
-            ingresosView.setVisible(true);
-            ingresosView.setTitle("Ingresos de " + sociosTabla.getValueAt(selectedRowIndex, 2));
-            ingresosView.setLocationRelativeTo(null);
-            try {
-                ContasocDAO.fillTableFrom(IngresosView.ingresosTabla, "Ingresos");
-            } catch (SQLException e) {
-                ContasocLogger.dispatchSQLException(e);
-            }
-
-            for (int i = IngresosView.ingresosTabla.getRowCount() - 1; i >= 0; i--) {
-                if (IngresosView.ingresosTabla.getValueAt(i, 0).equals("")
-                        || !IngresosView.ingresosTabla.getValueAt(i, 0).equals(sociosTabla.getValueAt(selectedRowIndex, 0))) {
-                    // Eliminar la fila si está vacía o si el ID no coincide
-                    ((DefaultTableModel) IngresosView.ingresosTabla.getModel()).removeRow(i);
-                }
-            }
-        }
-    }
-
-
     protected void setActions() {
         // Crear acciones para cada función
         javax.swing.Action nuevoAction = new AbstractAction("Nuevo") {
@@ -510,7 +290,7 @@ public class UIContasoc extends JFrame {
         javax.swing.Action editarAction = new AbstractAction("Editar") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editarBtnActionPerformed(e);
+                verBtn(e);
             }
         };
 
@@ -535,6 +315,59 @@ public class UIContasoc extends JFrame {
             }
         };
 
+        javax.swing.Action derechaAction = new AbstractAction("Derecha") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (sociosPanel.isVisible() && !cardListaEsperaPanel.isVisible()) {
+                    toListaEsperaBtnActionPerformed(e);
+                }
+            }
+        };
+
+        javax.swing.Action izquierdaAction = new AbstractAction("Izquierda") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (sociosPanel.isVisible() && cardListaEsperaPanel.isVisible()) {
+                    toSociosBtnActionPerformed(e);
+                }
+            }
+        };
+
+        javax.swing.Action sociosAltAction = new AbstractAction("Socios") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tabbedPane1.setSelectedIndex(0);
+            }
+        };
+
+        javax.swing.Action ingresosAltAction = new AbstractAction("Ingresos") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tabbedPane1.setSelectedIndex(1);
+            }
+        };
+
+        javax.swing.Action gastosAltAction = new AbstractAction("Gastos") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tabbedPane1.setSelectedIndex(2);
+            }
+        };
+
+        javax.swing.Action balanceAltAction = new AbstractAction("Balance") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tabbedPane1.setSelectedIndex(3);
+            }
+        };
+
+        javax.swing.Action emailAltAction = new AbstractAction("Email") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tabbedPane1.setSelectedIndex(4);
+            }
+        };
+
         // Obtener el panel de contenido
         JPanel contentPane = (JPanel) this.getContentPane();
         // Configurar atajos de teclado
@@ -543,18 +376,39 @@ public class UIContasoc extends JFrame {
         KeyStroke eliminarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK);
         KeyStroke imprimirKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK);
         KeyStroke ayudaKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0);
+        KeyStroke derechaKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0);
+        KeyStroke izquierdaKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0);
+        KeyStroke sociosAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.ALT_DOWN_MASK);
+        KeyStroke ingresosAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.ALT_DOWN_MASK);
+        KeyStroke gastosAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.ALT_DOWN_MASK);
+        KeyStroke balanceAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.ALT_DOWN_MASK);
+        KeyStroke emailAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.ALT_DOWN_MASK);
 
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(nuevoKeyStroke, "nuevo");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(editarKeyStroke, "editar");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(eliminarKeyStroke, "eliminar");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(imprimirKeyStroke, "imprimir");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ayudaKeyStroke, "ayuda");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(derechaKeyStroke, "derecha");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(izquierdaKeyStroke, "izquierda");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(sociosAltKeyStroke, "socios");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ingresosAltKeyStroke, "ingresos");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(gastosAltKeyStroke, "gastos");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(balanceAltKeyStroke, "balance");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(emailAltKeyStroke, "email");
 
         contentPane.getActionMap().put("nuevo", nuevoAction);
         contentPane.getActionMap().put("editar", editarAction);
         contentPane.getActionMap().put("eliminar", eliminarAction);
         contentPane.getActionMap().put("imprimir", imprimirAction);
         contentPane.getActionMap().put("ayuda", ayudaAction);
+        contentPane.getActionMap().put("derecha", derechaAction);
+        contentPane.getActionMap().put("izquierda", izquierdaAction);
+        contentPane.getActionMap().put("socios", sociosAltAction);
+        contentPane.getActionMap().put("ingresos", ingresosAltAction);
+        contentPane.getActionMap().put("gastos", gastosAltAction);
+        contentPane.getActionMap().put("balance", balanceAltAction);
+        contentPane.getActionMap().put("email", emailAltAction);
     }
 
     private void emailPanelComponentShown(ComponentEvent e) {
@@ -580,7 +434,7 @@ public class UIContasoc extends JFrame {
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setMultiSelectionEnabled(false);
         fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+        fileChooser.setFileFilter(new FileFilter() {
             @Override
             public boolean accept(File f) {
                 return f.getName().toLowerCase().endsWith(".pdf") || f.isDirectory();
@@ -592,47 +446,259 @@ public class UIContasoc extends JFrame {
             }
         });
         int result = fileChooser.showOpenDialog(this);
-        if(result == JFileChooser.APPROVE_OPTION) {
+        if (result == JFileChooser.APPROVE_OPTION) {
             EmailSender2.adjunto = fileChooser.getSelectedFile();
         }
 
         return EmailSender2.adjunto;
     }
 
+    private void thisWindowClosing(WindowEvent e) {
+        save();
+        System.exit(0);
+    }
+
+    private void save() {
+        if (Contasoc.sqlMemory.dataModified()) {
+            List<Socios> sociosEditados = Contasoc.sqlMemory.getSociosEditados();
+            List<Ingresos> ingresosEditados = Contasoc.sqlMemory.getIngresosEditados();
+            List<Gastos> gastosEditados = Contasoc.sqlMemory.getGastosEditados();
+            List<Socios> sociosAgregados = Contasoc.sqlMemory.getSociosAgregados();
+            List<Ingresos> ingresosAgregados = Contasoc.sqlMemory.getIngresosAgregados();
+            List<Gastos> gastosAgregados = Contasoc.sqlMemory.getGastosAgregados();
+            List<Socios> sociosEliminados = Contasoc.sqlMemory.getSociosEliminados();
+            List<Ingresos> ingresosEliminados = Contasoc.sqlMemory.getIngresosEliminados();
+            List<Gastos> gastosEliminados = Contasoc.sqlMemory.getGastosEliminados();
+
+            JOptionPane optionPane = new JOptionPane("Hay cambios sin guardar, ¿quieres guardarlos?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
+            optionPane.setOptions(new Object[]{"Sí", "No"});
+            int result2 = optionPane.showConfirmDialog(this, "Hay cambios sin guardar, ¿quieres guardarlos?", "Guardar cambios", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (result2 == JOptionPane.YES_OPTION) {
+                if(sociosEditados.size() > 0) {
+                    for (Socios socio : sociosEditados) {
+                        DBUtils.updateSocioOnClose(
+                                SocioView.tempNumeroSocio,
+                                new String[]{
+                                        socio.getNumeroSocio().toString(),
+                                        socio.getNumeroHuerto().toString(),
+                                        socio.getNombre(),
+                                        socio.getDni(),
+                                        socio.getTelefono() == null ? "NULL" : socio.getTelefono().toString(),
+                                        socio.getEmail() == null ? "NULL" : socio.getEmail(),
+                                        socio.getFechaDeAlta() == null ? "NULL" : socio.getFechaDeAlta().toString(),
+                                        socio.getFechaDeEntrega() == null ? "NULL" : socio.getFechaDeEntrega().toString(),
+                                        socio.getFechaDeBaja() == null ? "NULL" : socio.getFechaDeBaja().toString(),
+                                        socio.getNotas(),
+                                        socio.getTipo().name() == null ? "HORTELANO" : socio.getTipo().name()
+                                });
+                    }
+                }
+                if(ingresosEditados.size() > 0) {
+                    for (Ingresos ingreso : ingresosEditados) {
+                        DBUtils.updateIngresoOnClose(
+                                Integer.parseInt(AddModifyIngresos.tempSocio),
+                                AddModifyIngresos.tempConcepto,
+                                new String[]{
+                                        ingreso.getNumeroSocio().toString(),
+                                        ingreso.getFecha().toString(),
+                                        ingreso.getConcepto(),
+                                        ingreso.getCantidad().toString(),
+                                        ingreso.getTipo()
+                                });
+                    }
+                }
+                if(gastosEditados.size() > 0) {
+                    for (Gastos gasto : gastosEditados) {
+                        DBUtils.updateGastoOnClose(
+                                AddModifyGastos.tempFecha,
+                                AddModifyGastos.tempProveedor,
+                                AddModifyGastos.tempFactura,
+                                new String[]{
+                                        gasto.getFecha().toString(),
+                                        gasto.getProveedor(),
+                                        gasto.getConcepto(),
+                                        gasto.getCantidad().toString(),
+                                        gasto.getFactura(),
+                                        gasto.getTipo()
+                                });
+                    }
+                }
+                if(gastosAgregados.size() > 0) {
+                    for (Gastos gasto : gastosAgregados) {
+                        Contasoc.jpaGastoDao.save(gasto);
+                    }
+                }
+                if(gastosEliminados.size() > 0) {
+                    for (Gastos gasto : gastosEliminados) {
+                        DBUtils.removeGastoOnClose(gasto.getId());
+                    }
+                }
+                if(ingresosAgregados.size() > 0) {
+                    for (Ingresos ingreso : ingresosAgregados) {
+                        Contasoc.jpaIngresoDao.save(ingreso);
+                    }
+                }
+                if(ingresosEliminados.size() > 0) {
+                    for (Ingresos ingreso : ingresosEliminados) {
+                        DBUtils.removeIngresoOnClose(ingreso.getId());
+                    }
+                }
+                if(sociosAgregados.size() > 0) {
+                    for (Socios socio : sociosAgregados) {
+                        Contasoc.jpaSocioDao.save(socio);
+                    }
+                }
+                if(sociosEliminados.size() > 0) {
+                    for (Socios socio : sociosEliminados) {
+                        DBUtils.removeSocioOnClose(socio.getId());
+                    }
+                }
+            }
+        }
+    }
+
+    private void cerrarAnyoBtn(ActionEvent e) {
+        DBUtils.cerrarAnyo();
+        SaldoInicial saldoInicial = SaldoInicial.getInstance();
+        saldoInicial.setVisible(true);
+        saldoInicial.requestFocus();
+    }
+
+    private void verBtn(ActionEvent e) {
+
+    }
+
+    private void ayudaBtn(ActionEvent e) {
+        HelpMenu helpMenu = HelpMenu.getInstance();
+        helpMenu.setVisible(true);
+        helpMenu.setLocationRelativeTo(null);
+    }
+
+    private void editarBtn(ActionEvent e) {
+        if (sociosPanel.isVisible() && !cardListaEsperaPanel.isVisible()) {
+            SocioView view = SocioView.getInstance();
+            Socios socio = UIContasoc.sociosLista.getSelectedValue().getSocio();
+
+            SocioView.tempNumeroSocio = socio.getNumeroSocio();
+
+            view.socioField.setText(socio.getNumeroSocio().toString());
+            view.nombreField.setText(socio.getNombre());
+            view.dniField.setText(socio.getDni());
+            view.telefonoField.setText(socio.getTelefono().toString());
+            view.emailField.setText(socio.getEmail());
+            view.huertoField.setText(socio.getNumeroHuerto().toString());
+            view.altaField.setText(
+                    socio.getFechaDeAlta() != null ? Parsers.dashDateParser(socio.getFechaDeAlta().toString()) : ""
+            );
+            view.entregaField.setText(
+                    socio.getFechaDeEntrega() != null ? Parsers.dashDateParser(socio.getFechaDeEntrega().toString()) : ""
+            );
+            view.bajaField.setText(
+                    socio.getFechaDeBaja() != null ? Parsers.dashDateParser(socio.getFechaDeBaja().toString()) : ""
+            );
+            view.notasField.setText(socio.getNotas());
+            view.tipoSocioComboBox.setSelectedItem(socio.getTipo().name());
+
+            List<Ingresos> ingresos = GUIManager.getIngresos().stream()
+                    .filter(ingreso -> ingreso.getNumeroSocio().equals(socio.getNumeroSocio()))
+                    .toList();
+            DefaultListModel<IngresoPanel> model = new DefaultListModel<>();
+            view.ingresosLista.setModel(model);
+            ingresos.forEach(ingreso -> model.addElement(new IngresoPanel(ingreso)));
+
+            view.setVisible(true);
+            view.requestFocus();
+        } else if (ingresosPanel.isVisible()) {
+            AddModifyIngresos.accion = Action.MODIFY;
+            AddModifyIngresos addModifyIngresos = AddModifyIngresos.getInstance();
+            Ingresos ingreso = UIContasoc.ingresosLista.getSelectedValue().getIngreso();
+
+            AddModifyIngresos.tempSocio = ingreso.getNumeroSocio().toString();
+            AddModifyIngresos.tempConcepto = ingreso.getConcepto();
+
+            addModifyIngresos.socioField.setText(ingreso.getNumeroSocio().toString());
+            addModifyIngresos.fechaField.setText(Parsers.dashDateParser(ingreso.getFecha().toString()));
+            addModifyIngresos.conceptoField.setText(ingreso.getConcepto());
+            addModifyIngresos.cantidadField.setText(ingreso.getCantidad().toString());
+            addModifyIngresos.tipoPagoComboBox.setSelectedItem(ingreso.getTipo());
+            addModifyIngresos.setVisible(true);
+        } else if (gastosPanel.isVisible()) {
+            AddModifyGastos.accion = Action.MODIFY;
+            AddModifyGastos addModifyGastos = AddModifyGastos.getInstance();
+            Gastos gasto = UIContasoc.gastosLista.getSelectedValue().getGasto();
+
+            AddModifyGastos.tempFecha = gasto.getFecha().toString();
+            AddModifyGastos.tempProveedor = gasto.getProveedor();
+            AddModifyGastos.tempFactura = gasto.getFactura();
+
+            addModifyGastos.fechaField.setText(Parsers.dashDateParser(gasto.getFecha().toString()));
+            addModifyGastos.proveedorField.setText(gasto.getProveedor());
+            addModifyGastos.conceptoField.setText(gasto.getConcepto());
+            addModifyGastos.cantidadField.setText(gasto.getCantidad().toString());
+            addModifyGastos.facturaField.setText(gasto.getFactura());
+            addModifyGastos.tipoPagoComboBox.setSelectedItem(gasto.getTipo());
+            addModifyGastos.setVisible(true);
+        }
+    }
+
+    private void tabbedPane1StateChanged(ChangeEvent e) {
+        if(tabbedPane1.getSelectedComponent().equals(emailPanel)) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Esta sección se encuentra en re-desarrollo",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            /*
+            * String destinatario = UIContasoc.destinatarioComboBox.getSelectedItem() == null ? "" : UIContasoc.destinatarioComboBox.getSelectedItem().toString();
+            mail = switch (UIContasoc.tipoEmailComboBox.getSelectedItem().toString()) {
+                case "NORMAL":
+                    yield EmailSender2.NORMAL_EMAIL
+                            .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre())
+                            .replace("{mensaje}", htmlEditor.getText());
+                case "AVISO IMPAGO":
+                    yield EmailSender2.NORMAL_EMAIL
+                            .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre());
+                case "AVISO ABANDONO":
+                    yield EmailSender2.NORMAL_EMAIL
+                            .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre());
+                case "MAL COMPORTAMIENTO":
+                    yield EmailSender2.NORMAL_EMAIL
+                            .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre());
+                default:
+                    yield new String();
+            };
+            * */
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
-        searchAndButtonsWrapper = new JPanel();
+        btnSearchPanel = new JPanel();
         nuevoBtn = new JButton();
         editarBtn = new JButton();
         eliminarBtn = new JButton();
         printBtn = new JButton();
-        importarBtn = new JButton();
-        exportarBtn = new JButton();
-        versionLabel = new JLabel();
-        helpBtn = new JButton();
+        aux = new JPanel();
+        buscarField = new JTextField();
+        ayudaBtn = new JButton();
         tabbedPane1 = new JTabbedPane();
         sociosPanel = new JPanel();
         cardSociosPanel = new JPanel();
-        sociosWrapper = new JPanel();
-        sociosTablaPanel = new JScrollPane();
-        sociosTabla = new JTable();
-        toListaEsperaWrapper = new JPanel();
+        sociosListaPanel = new JScrollPane();
+        sociosLista = new JList<>();
         toListaEsperaBtn = new JButton();
-        buscarWrapper = new JPanel();
-        buscarField = new JTextField();
         cardListaEsperaPanel = new JPanel();
-        toSociosWrapper = new JPanel();
         toSociosBtn = new JButton();
-        listaEsperaWrapper = new JPanel();
-        listaEsperaTablaPanel = new JScrollPane();
-        listaEsperaTabla = new JTable();
+        listaEsperaListaPanel = new JScrollPane();
+        listaEsperaLista = new JList<>();
         ingresosPanel = new JPanel();
-        ingresosTablaPanel = new JScrollPane();
-        ingresosTabla = new JTable();
+        ingresosListaPanel = new JScrollPane();
+        ingresosLista = new JList<>();
         gastosPanel = new JPanel();
-        gastosTablaPanel = new JScrollPane();
-        gastosTabla = new JTable();
+        gastosListaPanel = new JScrollPane();
+        gastosLista = new JList<>();
         balancePanel = new JPanel();
         balanceCantidadesPanel = new JPanel();
         tBancoIngresos = new JPanel();
@@ -653,16 +719,19 @@ public class UIContasoc extends JFrame {
         saldoCaja = new JPanel();
         saldoCajaLabel = new JLabel();
         saldoCajaValue = new JLabel();
+        cerrarAnyoPanel = new JPanel();
+        cerrarAnyoBtn = new JButton();
         emailPanel = new JPanel();
         emailDataPanel = new JPanel();
         destinatarioLabel = new JLabel();
         asuntoLabel = new JLabel();
         asuntoField = new JTextField();
         destinatarioComboBox = new JComboBox<>();
-        adjuntoCheckBox = new JCheckBox();
         emailBodyPanel = new JPanel();
         panel1 = new JPanel();
         htmlEditorPanel = new JPanel();
+        editorScrollPane = new JScrollPane();
+        htmlEditor = new JTextPane();
         panel2 = new JPanel();
         htmlRenderPanel = new JPanel();
         emailBtnsPanel = new JPanel();
@@ -671,152 +740,143 @@ public class UIContasoc extends JFrame {
         borradorBtn = new JButton();
         tipoEmailComboBox = new JComboBox<>();
         adjuntoBtn = new JButton();
+        adjuntoCheckBox = new JCheckBox();
 
         //======== this ========
         setFont(new Font("Segoe UI", Font.PLAIN, 12));
         setIconImage(new ImageIcon(getClass().getResource("/images/contasoc_small.png")).getImage());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(900, 600));
-        setMinimumSize(new Dimension(900, 600));
+        setPreferredSize(new Dimension(1000, 617));
+        setMinimumSize(new Dimension(1000, 617));
         setTitle("Huertos la Salud Bellavista");
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                thisWindowClosing(e);
+            }
+        });
         var contentPane = getContentPane();
-        contentPane.setLayout(new BorderLayout());
+        contentPane.setLayout(new BorderLayout(6, 0));
 
-        //======== searchAndButtonsWrapper ========
+        //======== btnSearchPanel ========
         {
-            searchAndButtonsWrapper.setPreferredSize(new Dimension(1008, 40));
-            searchAndButtonsWrapper.setMinimumSize(new Dimension(673, 40));
+            btnSearchPanel.setBorder(new MatteBorder(0, 0, 1, 0, SystemColor.controlShadow));
+            btnSearchPanel.setLayout(new MigLayout(
+                "insets panel,hidemode 1,gap 12 0",
+                // columns
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[grow,fill]" +
+                "[fill]",
+                // rows
+                "[fill]"));
 
             //---- nuevoBtn ----
-            nuevoBtn.setText("Nuevo");
-            nuevoBtn.setFont(nuevoBtn.getFont().deriveFont(nuevoBtn.getFont().getSize() + 4f));
-            nuevoBtn.setIconTextGap(5);
-            nuevoBtn.setMargin(new Insets(0, 0, 0, 12));
-            nuevoBtn.setBackground(new Color(0xf7f8fa));
+            nuevoBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+            nuevoBtn.setMargin(new Insets(0, 0, 0, 0));
             nuevoBtn.setForeground(Color.black);
+            nuevoBtn.setAlignmentY(0.0F);
+            nuevoBtn.setMaximumSize(new Dimension(79, 32));
+            nuevoBtn.setMinimumSize(new Dimension(79, 32));
+            nuevoBtn.setPreferredSize(new Dimension(79, 32));
+            nuevoBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/add2_32.png")));
+            nuevoBtn.setToolTipText("Nuevo [Ctrl+N]");
+            nuevoBtn.setBackground(new Color(0xf7f8fa));
             nuevoBtn.setBorderPainted(false);
-            nuevoBtn.setIcon(new ImageIcon(getClass().getResource("/images/newpass_small_black.png")));
             nuevoBtn.addActionListener(e -> nuevoBtnActionPerformed(e));
+            nuevoBtn.putClientProperty( "JButton.buttonType", "borderless");
+            btnSearchPanel.add(nuevoBtn, "cell 0 0,width 40:40:40,height 40:40:40");
 
             //---- editarBtn ----
-            editarBtn.setText("Editar");
-            editarBtn.setFont(editarBtn.getFont().deriveFont(editarBtn.getFont().getSize() + 4f));
-            editarBtn.setIconTextGap(5);
-            editarBtn.setMargin(new Insets(0, 0, 0, 12));
-            editarBtn.setBackground(new Color(0xf7f8fa));
+            editarBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
             editarBtn.setForeground(Color.black);
+            editarBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/corel2_32.png")));
+            editarBtn.setMargin(new Insets(0, 0, 0, 0));
+            editarBtn.setToolTipText("Editar [Ctrl+E]");
+            editarBtn.setBackground(new Color(0xf7f8fa));
             editarBtn.setBorderPainted(false);
-            editarBtn.setIcon(new ImageIcon(getClass().getResource("/images/edit_small_black.png")));
-            editarBtn.addActionListener(e -> editarBtnActionPerformed(e));
+            editarBtn.addActionListener(e -> editarBtn(e));
+            editarBtn.putClientProperty( "JButton.buttonType", "borderless");
+            btnSearchPanel.add(editarBtn, "cell 1 0,width 40:40:40,height 40:40:40");
 
             //---- eliminarBtn ----
-            eliminarBtn.setText("Eliminar");
-            eliminarBtn.setFont(eliminarBtn.getFont().deriveFont(eliminarBtn.getFont().getSize() + 4f));
-            eliminarBtn.setIconTextGap(5);
-            eliminarBtn.setMargin(new Insets(0, 0, 0, 12));
-            eliminarBtn.setBackground(new Color(0xf7f8fa));
+            eliminarBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+            eliminarBtn.setMargin(new Insets(0, 0, 0, 0));
             eliminarBtn.setForeground(Color.black);
+            eliminarBtn.setAlignmentY(0.0F);
+            eliminarBtn.setMaximumSize(new Dimension(79, 32));
+            eliminarBtn.setMinimumSize(new Dimension(79, 32));
+            eliminarBtn.setPreferredSize(new Dimension(79, 32));
+            eliminarBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/delete2_32.png")));
+            eliminarBtn.setToolTipText("Eliminar [Ctrl+D]");
+            eliminarBtn.setBackground(new Color(0xf7f8fa));
             eliminarBtn.setBorderPainted(false);
-            eliminarBtn.setIcon(new ImageIcon(getClass().getResource("/images/bin_small_black.png")));
             eliminarBtn.addActionListener(e -> eliminarBtnActionPerformed(e));
+            eliminarBtn.putClientProperty( "JButton.buttonType", "borderless");
+            btnSearchPanel.add(eliminarBtn, "cell 2 0,width 40:40:40,height 40:40:40");
 
             //---- printBtn ----
-            printBtn.setText("Imprimir");
-            printBtn.setFont(printBtn.getFont().deriveFont(printBtn.getFont().getSize() + 4f));
-            printBtn.setIconTextGap(5);
-            printBtn.setMargin(new Insets(0, 0, 0, 12));
-            printBtn.setBackground(new Color(0xf7f8fa));
+            printBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+            printBtn.setMargin(new Insets(0, 0, 0, 0));
             printBtn.setForeground(Color.black);
+            printBtn.setAlignmentY(0.0F);
+            printBtn.setMaximumSize(new Dimension(79, 32));
+            printBtn.setMinimumSize(new Dimension(79, 32));
+            printBtn.setPreferredSize(new Dimension(79, 32));
+            printBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/printer2_32.png")));
+            printBtn.setToolTipText("Imprimir [Ctrl+P]");
+            printBtn.setBackground(new Color(0xf7f8fa));
             printBtn.setBorderPainted(false);
-            printBtn.setIcon(new ImageIcon(getClass().getResource("/images/printer.png")));
             printBtn.addActionListener(e -> printBtnActionPerformed(e));
+            printBtn.putClientProperty( "JButton.buttonType", "borderless");
+            btnSearchPanel.add(printBtn, "cell 3 0,width 40:40:40,height 40:40:40");
 
-            //---- importarBtn ----
-            importarBtn.setText("Importar");
-            importarBtn.setFont(importarBtn.getFont().deriveFont(importarBtn.getFont().getSize() + 4f));
-            importarBtn.setIconTextGap(5);
-            importarBtn.setMargin(new Insets(0, 0, 0, 12));
-            importarBtn.setBackground(new Color(0xf7f8fa));
-            importarBtn.setForeground(Color.black);
-            importarBtn.setBorderPainted(false);
-            importarBtn.setIcon(new ImageIcon(getClass().getResource("/images/import_small_black.png")));
-            importarBtn.addActionListener(e -> importarBtnActionPerformed(e));
+            //======== aux ========
+            {
+                aux.setOpaque(false);
+                aux.setLayout(new MigLayout(
+                    "insets 0,hidemode 3",
+                    // columns
+                    "[grow,fill]",
+                    // rows
+                    "[grow,fill]"));
 
-            //---- exportarBtn ----
-            exportarBtn.setText("Exportar");
-            exportarBtn.setFont(exportarBtn.getFont().deriveFont(exportarBtn.getFont().getSize() + 4f));
-            exportarBtn.setIconTextGap(5);
-            exportarBtn.setMargin(new Insets(0, 0, 0, 12));
-            exportarBtn.setBackground(new Color(0xf7f8fa));
-            exportarBtn.setForeground(Color.black);
-            exportarBtn.setBorderPainted(false);
-            exportarBtn.setIcon(new ImageIcon(getClass().getResource("/images/export_small_black.png")));
-            exportarBtn.addActionListener(e -> exportarBtnActionPerformed(e));
+                //---- buscarField ----
+                buscarField.setFont(buscarField.getFont().deriveFont(buscarField.getFont().getSize() + 6f));
+                buscarField.setCaretColor(new Color(0x549159));
+                buscarField.setPreferredSize(new Dimension(68, 28));
+                buscarField.setMinimumSize(new Dimension(68, 28));
+                buscarField.setMaximumSize(new Dimension(2147483647, 28));
+                buscarField.putClientProperty("JTextField.placeholderText", "Buscar socios...");
+                buscarField.putClientProperty("JTextField.leadingIcon", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource("/images/icons/search_medium_black.png"))));
+                aux.add(buscarField, "cell 0 0,height 40:40:40");
+            }
+            btnSearchPanel.add(aux, "cell 4 0,width 500:500:500");
 
-            //---- versionLabel ----
-            versionLabel.setText("Ver. 6.0.0");
-            versionLabel.setFocusable(false);
-            versionLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-            versionLabel.setText("Ver. " + Contasoc.VERSION);
-
-            //---- helpBtn ----
-            helpBtn.setText("?");
-            helpBtn.setFont(helpBtn.getFont().deriveFont(helpBtn.getFont().getStyle() | Font.BOLD, helpBtn.getFont().getSize() + 4f));
-            helpBtn.setIconTextGap(0);
-            helpBtn.setMargin(new Insets(0, 0, 0, 0));
-            helpBtn.setBackground(new Color(0xf7f8fa));
-            helpBtn.setForeground(Color.black);
-            helpBtn.setBorderPainted(false);
-            helpBtn.addActionListener(e -> helpBtnActionPerformed(e));
-
-            GroupLayout searchAndButtonsWrapperLayout = new GroupLayout(searchAndButtonsWrapper);
-            searchAndButtonsWrapper.setLayout(searchAndButtonsWrapperLayout);
-            searchAndButtonsWrapperLayout.setHorizontalGroup(
-                searchAndButtonsWrapperLayout.createParallelGroup()
-                    .addGroup(searchAndButtonsWrapperLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(nuevoBtn)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(editarBtn)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(eliminarBtn)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(printBtn)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(importarBtn)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(exportarBtn)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 199, Short.MAX_VALUE)
-                        .addComponent(versionLabel, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(helpBtn, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-            );
-            searchAndButtonsWrapperLayout.setVerticalGroup(
-                searchAndButtonsWrapperLayout.createParallelGroup()
-                    .addGroup(searchAndButtonsWrapperLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(searchAndButtonsWrapperLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                            .addGroup(searchAndButtonsWrapperLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(editarBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nuevoBtn)
-                                .addComponent(eliminarBtn)
-                                .addComponent(printBtn))
-                            .addGroup(GroupLayout.Alignment.TRAILING, searchAndButtonsWrapperLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(helpBtn, GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                                .addComponent(importarBtn)
-                                .addComponent(exportarBtn)
-                                .addComponent(versionLabel, GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)))
-                        .addContainerGap(2, Short.MAX_VALUE))
-            );
+            //---- ayudaBtn ----
+            ayudaBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+            ayudaBtn.setMargin(new Insets(0, 0, 0, 0));
+            ayudaBtn.setForeground(Color.black);
+            ayudaBtn.setAlignmentY(0.0F);
+            ayudaBtn.setMaximumSize(new Dimension(79, 32));
+            ayudaBtn.setMinimumSize(new Dimension(79, 32));
+            ayudaBtn.setPreferredSize(new Dimension(79, 32));
+            ayudaBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/help2_32.png")));
+            ayudaBtn.setToolTipText("Ayuda [F1]");
+            ayudaBtn.setBackground(new Color(0xf7f8fa));
+            ayudaBtn.setBorderPainted(false);
+            ayudaBtn.addActionListener(e -> ayudaBtn(e));
+            ayudaBtn.putClientProperty( "JButton.buttonType", "borderless");
+            btnSearchPanel.add(ayudaBtn, "cell 5 0,width 40:40:40,height 40:40:40");
         }
-        contentPane.add(searchAndButtonsWrapper, BorderLayout.NORTH);
+        contentPane.add(btnSearchPanel, BorderLayout.NORTH);
 
         //======== tabbedPane1 ========
         {
             tabbedPane1.setFont(tabbedPane1.getFont().deriveFont(tabbedPane1.getFont().getSize() + 6f));
-            tabbedPane1.setTabPlacement(SwingConstants.LEFT);
-            tabbedPane1.putClientProperty("JTabbedPane.tabHeight", 50);
+            tabbedPane1.addChangeListener(e -> tabbedPane1StateChanged(e));
             tabbedPane1.putClientProperty("JTabbedPane.minimumTabWidth", 160);
             tabbedPane1.putClientProperty("JTabbedPane.maximumTabWidth", 160);
 
@@ -826,200 +886,67 @@ public class UIContasoc extends JFrame {
 
                 //======== cardSociosPanel ========
                 {
-                    cardSociosPanel.setLayout(new BorderLayout());
+                    cardSociosPanel.setLayout(new MigLayout(
+                        "insets 12 12 12 0,hidemode 3,gap 0 0",
+                        // columns
+                        "[grow,fill]" +
+                        "[fill]",
+                        // rows
+                        "[grow,fill]"));
 
-                    //======== sociosWrapper ========
+                    //======== sociosListaPanel ========
                     {
 
-                        //======== sociosTablaPanel ========
-                        {
-                            sociosTablaPanel.setBorder(null);
-
-                            //---- sociosTabla ----
-                            sociosTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-                            sociosTabla.setFont(sociosTabla.getFont().deriveFont(sociosTabla.getFont().getSize() + 4f));
-                            sociosTabla.setSelectionBackground(new Color(0xc8e8ca));
-                            sociosTabla.setGridColor(new Color(0x999999));
-                            sociosTabla.setShowHorizontalLines(true);
-                            sociosTabla.setFillsViewportHeight(true);
-                            sociosTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                            sociosTabla.setName("Socios");
-                            sociosTabla.setAutoCreateRowSorter(true);
-                            sociosTabla.addMouseListener(new MouseAdapter() {
-                                @Override
-                                public void mouseClicked(MouseEvent e) {
-                                    sociosTablaMouseClicked(e);
-                                }
-                            });
-                            sociosTabla.setModel(new SociosTablaModel());
-                            sociosTabla.getTableHeader().setReorderingAllowed(false);
-                            sociosTabla.getTableHeader().setResizingAllowed(false);
-                            GUIManager.setColumnWidths(sociosTabla, 
-                                new int[] {80,80,360,110,110,330,140,140,140,330,150,120});
-                            sociosTabla.setRowHeight(50);
-                            sociosTabla.setDefaultRenderer(String.class, new CustomCellRenderer());
-                            sociosTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());
-                            sociosTablaPanel.setViewportView(sociosTabla);
-                        }
-
-                        GroupLayout sociosWrapperLayout = new GroupLayout(sociosWrapper);
-                        sociosWrapper.setLayout(sociosWrapperLayout);
-                        sociosWrapperLayout.setHorizontalGroup(
-                            sociosWrapperLayout.createParallelGroup()
-                                .addGroup(GroupLayout.Alignment.TRAILING, sociosWrapperLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 861, Short.MAX_VALUE)
-                                    .addContainerGap())
-                        );
-                        sociosWrapperLayout.setVerticalGroup(
-                            sociosWrapperLayout.createParallelGroup()
-                                .addGroup(sociosWrapperLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(sociosTablaPanel, GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
-                                    .addContainerGap())
-                        );
+                        //---- sociosLista ----
+                        sociosLista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                        sociosLista.setCellRenderer(new SocioPanelRenderer());
+                        sociosListaPanel.setViewportView(sociosLista);
                     }
-                    cardSociosPanel.add(sociosWrapper, BorderLayout.CENTER);
+                    cardSociosPanel.add(sociosListaPanel, "cell 0 0");
 
-                    //======== toListaEsperaWrapper ========
-                    {
-
-                        //---- toListaEsperaBtn ----
-                        toListaEsperaBtn.setBackground(new Color(0xf7f8fa));
-                        toListaEsperaBtn.setFont(toListaEsperaBtn.getFont().deriveFont(toListaEsperaBtn.getFont().getStyle() & ~Font.BOLD, toListaEsperaBtn.getFont().getSize() + 4f));
-                        toListaEsperaBtn.setForeground(new Color(0x5b6168));
-                        toListaEsperaBtn.setToolTipText("Ver lista de espera");
-                        toListaEsperaBtn.setBorderPainted(false);
-                        toListaEsperaBtn.setBorder(null);
-                        toListaEsperaBtn.addActionListener(e -> toListaEsperaBtnActionPerformed(e));
-                        toListaEsperaBtn.setText("\u25B6");
-
-                        GroupLayout toListaEsperaWrapperLayout = new GroupLayout(toListaEsperaWrapper);
-                        toListaEsperaWrapper.setLayout(toListaEsperaWrapperLayout);
-                        toListaEsperaWrapperLayout.setHorizontalGroup(
-                            toListaEsperaWrapperLayout.createParallelGroup()
-                                .addGroup(toListaEsperaWrapperLayout.createSequentialGroup()
-                                    .addComponent(toListaEsperaBtn, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, Short.MAX_VALUE))
-                        );
-                        toListaEsperaWrapperLayout.setVerticalGroup(
-                            toListaEsperaWrapperLayout.createParallelGroup()
-                                .addGroup(toListaEsperaWrapperLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(toListaEsperaBtn, GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
-                                    .addContainerGap())
-                        );
-                    }
-                    cardSociosPanel.add(toListaEsperaWrapper, BorderLayout.LINE_END);
-
-                    //======== buscarWrapper ========
-                    {
-
-                        //---- buscarField ----
-                        buscarField.setFont(buscarField.getFont().deriveFont(buscarField.getFont().getSize() + 6f));
-                        buscarField.setMinimumSize(new Dimension(68, 38));
-                        buscarField.setPreferredSize(new Dimension(68, 38));
-                        buscarField.setCaretColor(new Color(0x549159));
-                        buscarField.putClientProperty("JTextField.placeholderText", "Buscar socios...");
-                        buscarField.putClientProperty("JTextField.leadingIcon", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource("/images/search_medium_black.png"))));
-
-                        GroupLayout buscarWrapperLayout = new GroupLayout(buscarWrapper);
-                        buscarWrapper.setLayout(buscarWrapperLayout);
-                        buscarWrapperLayout.setHorizontalGroup(
-                            buscarWrapperLayout.createParallelGroup()
-                                .addGroup(buscarWrapperLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(buscarField, GroupLayout.DEFAULT_SIZE, 883, Short.MAX_VALUE)
-                                    .addContainerGap())
-                        );
-                        buscarWrapperLayout.setVerticalGroup(
-                            buscarWrapperLayout.createParallelGroup()
-                                .addGroup(buscarWrapperLayout.createSequentialGroup()
-                                    .addComponent(buscarField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, Short.MAX_VALUE))
-                        );
-                    }
-                    cardSociosPanel.add(buscarWrapper, BorderLayout.PAGE_START);
+                    //---- toListaEsperaBtn ----
+                    toListaEsperaBtn.setBackground(new Color(0xf7f8fa));
+                    toListaEsperaBtn.setFont(toListaEsperaBtn.getFont().deriveFont(toListaEsperaBtn.getFont().getStyle() & ~Font.BOLD, toListaEsperaBtn.getFont().getSize() + 4f));
+                    toListaEsperaBtn.setForeground(new Color(0x5b6168));
+                    toListaEsperaBtn.setToolTipText("Ver lista de espera [->]");
+                    toListaEsperaBtn.setBorderPainted(false);
+                    toListaEsperaBtn.setBorder(null);
+                    toListaEsperaBtn.addActionListener(e -> toListaEsperaBtnActionPerformed(e));
+                    toListaEsperaBtn.setText("\u25B6");
+                    cardSociosPanel.add(toListaEsperaBtn, "cell 1 0,width 24:24:24");
                 }
                 sociosPanel.add(cardSociosPanel, "cardSocios");
 
                 //======== cardListaEsperaPanel ========
                 {
-                    cardListaEsperaPanel.setLayout(new BorderLayout());
+                    cardListaEsperaPanel.setLayout(new MigLayout(
+                        "insets 12 0 12 12,hidemode 3,gap 0 0",
+                        // columns
+                        "[fill]" +
+                        "[grow,fill]",
+                        // rows
+                        "[grow,fill]"));
 
-                    //======== toSociosWrapper ========
+                    //---- toSociosBtn ----
+                    toSociosBtn.setBackground(new Color(0xf7f8fa));
+                    toSociosBtn.setFont(toSociosBtn.getFont().deriveFont(toSociosBtn.getFont().getStyle() & ~Font.BOLD, toSociosBtn.getFont().getSize() + 4f));
+                    toSociosBtn.setForeground(new Color(0x5b6168));
+                    toSociosBtn.setToolTipText("Ver socios [<-]");
+                    toSociosBtn.setBorderPainted(false);
+                    toSociosBtn.setBorder(null);
+                    toSociosBtn.addActionListener(e -> toSociosBtnActionPerformed(e));
+                    toSociosBtn.setText("\u25C0");
+                    cardListaEsperaPanel.add(toSociosBtn, "cell 0 0,width 24:24:24");
+
+                    //======== listaEsperaListaPanel ========
                     {
 
-                        //---- toSociosBtn ----
-                        toSociosBtn.setBackground(new Color(0xf7f8fa));
-                        toSociosBtn.setFont(toSociosBtn.getFont().deriveFont(toSociosBtn.getFont().getStyle() & ~Font.BOLD, toSociosBtn.getFont().getSize() + 4f));
-                        toSociosBtn.setForeground(new Color(0x5b6168));
-                        toSociosBtn.setToolTipText("Ver socios");
-                        toSociosBtn.setBorderPainted(false);
-                        toSociosBtn.setBorder(null);
-                        toSociosBtn.addActionListener(e -> toSociosBtnActionPerformed(e));
-                        toSociosBtn.setText("\u25C0");
-
-                        GroupLayout toSociosWrapperLayout = new GroupLayout(toSociosWrapper);
-                        toSociosWrapper.setLayout(toSociosWrapperLayout);
-                        toSociosWrapperLayout.setHorizontalGroup(
-                            toSociosWrapperLayout.createParallelGroup()
-                                .addGroup(toSociosWrapperLayout.createSequentialGroup()
-                                    .addComponent(toSociosBtn, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, Short.MAX_VALUE))
-                        );
-                        toSociosWrapperLayout.setVerticalGroup(
-                            toSociosWrapperLayout.createParallelGroup()
-                                .addGroup(toSociosWrapperLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(toSociosBtn, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
-                                    .addContainerGap())
-                        );
+                        //---- listaEsperaLista ----
+                        listaEsperaLista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                        listaEsperaLista.setCellRenderer(new ListaEsperaPanelRenderer());
+                        listaEsperaListaPanel.setViewportView(listaEsperaLista);
                     }
-                    cardListaEsperaPanel.add(toSociosWrapper, BorderLayout.WEST);
-
-                    //======== listaEsperaWrapper ========
-                    {
-
-                        //======== listaEsperaTablaPanel ========
-                        {
-                            listaEsperaTablaPanel.setBorder(null);
-
-                            //---- listaEsperaTabla ----
-                            listaEsperaTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-                            listaEsperaTabla.setFont(listaEsperaTabla.getFont().deriveFont(listaEsperaTabla.getFont().getSize() + 4f));
-                            listaEsperaTabla.setGridColor(new Color(0x999999));
-                            listaEsperaTabla.setSelectionBackground(new Color(0xc8e8ca));
-                            listaEsperaTabla.setShowHorizontalLines(true);
-                            listaEsperaTabla.setFillsViewportHeight(true);
-                            listaEsperaTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                            listaEsperaTabla.setModel(new ListaEsperaTablaModel());
-                            listaEsperaTabla.getTableHeader().setReorderingAllowed(false);
-                            listaEsperaTabla.getTableHeader().setResizingAllowed(false);
-                            listaEsperaTabla.setRowHeight(50);
-                            listaEsperaTabla.setDefaultRenderer(String.class, new CustomCellRenderer());
-                            listaEsperaTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());
-                            listaEsperaTablaPanel.setViewportView(listaEsperaTabla);
-                        }
-
-                        GroupLayout listaEsperaWrapperLayout = new GroupLayout(listaEsperaWrapper);
-                        listaEsperaWrapper.setLayout(listaEsperaWrapperLayout);
-                        listaEsperaWrapperLayout.setHorizontalGroup(
-                            listaEsperaWrapperLayout.createParallelGroup()
-                                .addGroup(listaEsperaWrapperLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 861, Short.MAX_VALUE)
-                                    .addContainerGap())
-                        );
-                        listaEsperaWrapperLayout.setVerticalGroup(
-                            listaEsperaWrapperLayout.createParallelGroup()
-                                .addGroup(listaEsperaWrapperLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(listaEsperaTablaPanel, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
-                                    .addContainerGap())
-                        );
-                    }
-                    cardListaEsperaPanel.add(listaEsperaWrapper, BorderLayout.CENTER);
+                    cardListaEsperaPanel.add(listaEsperaListaPanel, "cell 1 0");
                 }
                 sociosPanel.add(cardListaEsperaPanel, "cardListaEspera");
             }
@@ -1027,91 +954,43 @@ public class UIContasoc extends JFrame {
 
             //======== ingresosPanel ========
             {
+                ingresosPanel.setLayout(new MigLayout(
+                    "insets 12,hidemode 3",
+                    // columns
+                    "[grow,fill]",
+                    // rows
+                    "[grow,fill]"));
 
-                //======== ingresosTablaPanel ========
+                //======== ingresosListaPanel ========
                 {
 
-                    //---- ingresosTabla ----
-                    ingresosTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-                    ingresosTabla.setFont(ingresosTabla.getFont().deriveFont(ingresosTabla.getFont().getSize() + 4f));
-                    ingresosTabla.setSelectionBackground(new Color(0xc8e8ca));
-                    ingresosTabla.setGridColor(new Color(0x999999));
-                    ingresosTabla.setShowHorizontalLines(true);
-                    ingresosTabla.setFillsViewportHeight(true);
-                    ingresosTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                    ingresosTabla.setName("Ingresos");
-                    ingresosTabla.setAutoCreateRowSorter(true);
-                    ingresosTabla.setModel(new IngresosTablaModel());
-                    ingresosTabla.getTableHeader().setReorderingAllowed(false);
-                    ingresosTabla.getTableHeader().setResizingAllowed(false);
-                    ingresosTabla.setRowHeight(50);
-                    ingresosTabla.setDefaultRenderer(String.class, new CustomCellRenderer());
-                    ingresosTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());
-                    ingresosTabla.setDefaultRenderer(Double.class, new CustomCellRenderer());
-                    ingresosTablaPanel.setViewportView(ingresosTabla);
+                    //---- ingresosLista ----
+                    ingresosLista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    ingresosLista.setCellRenderer(new IngresoPanelRenderer());
+                    ingresosListaPanel.setViewportView(ingresosLista);
                 }
-
-                GroupLayout ingresosPanelLayout = new GroupLayout(ingresosPanel);
-                ingresosPanel.setLayout(ingresosPanelLayout);
-                ingresosPanelLayout.setHorizontalGroup(
-                    ingresosPanelLayout.createParallelGroup()
-                        .addGroup(GroupLayout.Alignment.TRAILING, ingresosPanelLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(ingresosTablaPanel, GroupLayout.DEFAULT_SIZE, 883, Short.MAX_VALUE)
-                            .addContainerGap())
-                );
-                ingresosPanelLayout.setVerticalGroup(
-                    ingresosPanelLayout.createParallelGroup()
-                        .addGroup(ingresosPanelLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(ingresosTablaPanel, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
-                            .addContainerGap())
-                );
+                ingresosPanel.add(ingresosListaPanel, "cell 0 0");
             }
             tabbedPane1.addTab("INGRESOS", ingresosPanel);
 
             //======== gastosPanel ========
             {
+                gastosPanel.setLayout(new MigLayout(
+                    "insets 12,hidemode 3",
+                    // columns
+                    "[grow,fill]",
+                    // rows
+                    "[grow,fill]"));
 
-                //======== gastosTablaPanel ========
+                //======== gastosListaPanel ========
                 {
 
-                    //---- gastosTabla ----
-                    gastosTabla.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-                    gastosTabla.setFont(gastosTabla.getFont().deriveFont(gastosTabla.getFont().getSize() + 4f));
-                    gastosTabla.setSelectionBackground(new Color(0xc8e8ca));
-                    gastosTabla.setGridColor(new Color(0x999999));
-                    gastosTabla.setShowHorizontalLines(true);
-                    gastosTabla.setFillsViewportHeight(true);
-                    gastosTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                    gastosTabla.setName("Gastos");
-                    gastosTabla.setAutoCreateRowSorter(true);
-                    gastosTabla.setModel(new GastosTablaModel());
-                    gastosTabla.getTableHeader().setReorderingAllowed(false);
-                    gastosTabla.getTableHeader().setResizingAllowed(false);
-                    gastosTabla.setRowHeight(50);
-                    gastosTabla.setDefaultRenderer(String.class, new CustomCellRenderer());
-                    gastosTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());
-                    gastosTabla.setDefaultRenderer(Double.class, new CustomCellRenderer());
-                    gastosTablaPanel.setViewportView(gastosTabla);
+                    //---- gastosLista ----
+                    gastosLista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    gastosLista.setCellRenderer(new GastoPanelRenderer());
+                    gastosListaPanel.setViewportView(gastosLista);
                 }
-
-                GroupLayout gastosPanelLayout = new GroupLayout(gastosPanel);
-                gastosPanel.setLayout(gastosPanelLayout);
-                gastosPanelLayout.setHorizontalGroup(
-                    gastosPanelLayout.createParallelGroup()
-                        .addGroup(gastosPanelLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(gastosTablaPanel, GroupLayout.DEFAULT_SIZE, 883, Short.MAX_VALUE)
-                            .addContainerGap())
-                );
-                gastosPanelLayout.setVerticalGroup(
-                    gastosPanelLayout.createParallelGroup()
-                        .addGroup(GroupLayout.Alignment.TRAILING, gastosPanelLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(gastosTablaPanel, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
-                            .addContainerGap())
-                );
+                gastosPanel.add(gastosListaPanel, "cell 0 0");
             }
             tabbedPane1.addTab("GASTOS", gastosPanel);
 
@@ -1123,6 +1002,12 @@ public class UIContasoc extends JFrame {
                         balancePanelComponentShown(e);
                     }
                 });
+                balancePanel.setLayout(new MigLayout(
+                    "insets 33 0 0 0,hidemode 3,aligny center",
+                    // columns
+                    "[grow,fill]",
+                    // rows
+                    "[grow,fill]"));
 
                 //======== balanceCantidadesPanel ========
                 {
@@ -1239,20 +1124,25 @@ public class UIContasoc extends JFrame {
                         saldoCaja.add(saldoCajaValue, BorderLayout.CENTER);
                     }
                     balanceCantidadesPanel.add(saldoCaja);
-                }
 
-                GroupLayout balancePanelLayout = new GroupLayout(balancePanel);
-                balancePanel.setLayout(balancePanelLayout);
-                balancePanelLayout.setHorizontalGroup(
-                    balancePanelLayout.createParallelGroup()
-                        .addComponent(balanceCantidadesPanel, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
-                );
-                balancePanelLayout.setVerticalGroup(
-                    balancePanelLayout.createParallelGroup()
-                        .addGroup(GroupLayout.Alignment.TRAILING, balancePanelLayout.createSequentialGroup()
-                            .addGap(33, 33, 33)
-                            .addComponent(balanceCantidadesPanel, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE))
-                );
+                    //======== cerrarAnyoPanel ========
+                    {
+                        cerrarAnyoPanel.setLayout(new MigLayout(
+                            "hidemode 3",
+                            // columns
+                            "[grow,fill]",
+                            // rows
+                            "[grow,fill]"));
+
+                        //---- cerrarAnyoBtn ----
+                        cerrarAnyoBtn.setText("Cerrar A\u00f1o");
+                        cerrarAnyoBtn.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+                        cerrarAnyoBtn.addActionListener(e -> cerrarAnyoBtn(e));
+                        cerrarAnyoPanel.add(cerrarAnyoBtn, "cell 0 0,aligny bottom,growy 0,width 128:128:128,height 32:32:32");
+                    }
+                    balanceCantidadesPanel.add(cerrarAnyoPanel);
+                }
+                balancePanel.add(balanceCantidadesPanel, "cell 0 0");
             }
             tabbedPane1.addTab("BALANCE", balancePanel);
 
@@ -1264,7 +1154,14 @@ public class UIContasoc extends JFrame {
                         emailPanelComponentShown(e);
                     }
                 });
-                emailPanel.setLayout(new BorderLayout());
+                emailPanel.setLayout(new MigLayout(
+                    "insets 12 0 0 0,hidemode 3,gap 0 0",
+                    // columns
+                    "[grow,fill]",
+                    // rows
+                    "[fill]" +
+                    "[grow,fill]" +
+                    "[fill]"));
 
                 //======== emailDataPanel ========
                 {
@@ -1280,13 +1177,12 @@ public class UIContasoc extends JFrame {
                     //---- asuntoField ----
                     asuntoField.setSelectionColor(new Color(0xbadbbc));
                     asuntoField.setFont(asuntoField.getFont().deriveFont(asuntoField.getFont().getSize() + 4f));
+                    asuntoField.setEditable(false);
+                    asuntoField.setEnabled(false);
 
                     //---- destinatarioComboBox ----
                     destinatarioComboBox.setFont(destinatarioComboBox.getFont().deriveFont(destinatarioComboBox.getFont().getSize() + 6f));
-
-                    //---- adjuntoCheckBox ----
-                    adjuntoCheckBox.setText("Adjunto");
-                    adjuntoCheckBox.setFont(adjuntoCheckBox.getFont().deriveFont(adjuntoCheckBox.getFont().getSize() + 6f));
+                    destinatarioComboBox.setEnabled(false);
 
                     GroupLayout emailDataPanelLayout = new GroupLayout(emailDataPanel);
                     emailDataPanel.setLayout(emailDataPanelLayout);
@@ -1301,9 +1197,7 @@ public class UIContasoc extends JFrame {
                                 .addComponent(asuntoLabel)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(asuntoField, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(adjuntoCheckBox)
-                                .addContainerGap())
+                                .addGap(239, 239, 239))
                     );
                     emailDataPanelLayout.setVerticalGroup(
                         emailDataPanelLayout.createParallelGroup()
@@ -1311,11 +1205,10 @@ public class UIContasoc extends JFrame {
                                 .addComponent(asuntoLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(asuntoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(destinatarioLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(destinatarioComboBox, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(adjuntoCheckBox))
+                                .addComponent(destinatarioComboBox, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
                     );
                 }
-                emailPanel.add(emailDataPanel, BorderLayout.NORTH);
+                emailPanel.add(emailDataPanel, "cell 0 0");
 
                 //======== emailBodyPanel ========
                 {
@@ -1334,6 +1227,18 @@ public class UIContasoc extends JFrame {
                         {
                             htmlEditorPanel.setBorder(new LineBorder(new Color(0x787f87)));
                             htmlEditorPanel.setLayout(new BorderLayout());
+
+                            //======== editorScrollPane ========
+                            {
+                                editorScrollPane.setBorder(null);
+
+                                //---- htmlEditor ----
+                                htmlEditor.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+                                htmlEditor.setForeground(new Color(0x555555));
+                                htmlEditor.setEditable(false);
+                                editorScrollPane.setViewportView(htmlEditor);
+                            }
+                            htmlEditorPanel.add(editorScrollPane, BorderLayout.CENTER);
                         }
                         panel1.add(htmlEditorPanel, "pad 10 10 -10 -5,cell 0 0");
                     }
@@ -1351,13 +1256,14 @@ public class UIContasoc extends JFrame {
                         //======== htmlRenderPanel ========
                         {
                             htmlRenderPanel.setBorder(new LineBorder(new Color(0x787f87)));
+                            htmlRenderPanel.setEnabled(false);
                             htmlRenderPanel.setLayout(new BorderLayout());
                         }
                         panel2.add(htmlRenderPanel, "pad 10 5 -10 -10,cell 0 0");
                     }
                     emailBodyPanel.add(panel2);
                 }
-                emailPanel.add(emailBodyPanel, BorderLayout.CENTER);
+                emailPanel.add(emailBodyPanel, "cell 0 1");
 
                 //======== emailBtnsPanel ========
                 {
@@ -1369,16 +1275,18 @@ public class UIContasoc extends JFrame {
                         //---- enviarBtn ----
                         enviarBtn.setText("Enviar");
                         enviarBtn.setFont(enviarBtn.getFont().deriveFont(enviarBtn.getFont().getSize() + 6f));
+                        enviarBtn.setEnabled(false);
                         enviarBtn.addActionListener(e -> enviarBtnActionPerformed(e));
 
                         //---- borradorBtn ----
                         borradorBtn.setText("Guardar borrador");
                         borradorBtn.setFont(borradorBtn.getFont().deriveFont(borradorBtn.getFont().getSize() + 6f));
+                        borradorBtn.setEnabled(false);
                         borradorBtn.addActionListener(e -> borradorBtnActionPerformed(e));
 
                         //---- tipoEmailComboBox ----
                         tipoEmailComboBox.setFont(tipoEmailComboBox.getFont().deriveFont(tipoEmailComboBox.getFont().getSize() + 6f));
-                        tipoEmailComboBox.addItemListener(e -> tipoEmailComboBoxItemStateChanged(e));
+                        tipoEmailComboBox.setEnabled(false);
                         tipoEmailComboBox.addItem("NORMAL");
                         tipoEmailComboBox.addItem("AVISO IMPAGO");
                         tipoEmailComboBox.addItem("AVISO ABANDONO");
@@ -1387,7 +1295,13 @@ public class UIContasoc extends JFrame {
                         //---- adjuntoBtn ----
                         adjuntoBtn.setText("Adjuntar");
                         adjuntoBtn.setFont(adjuntoBtn.getFont().deriveFont(adjuntoBtn.getFont().getSize() + 6f));
+                        adjuntoBtn.setEnabled(false);
                         adjuntoBtn.addActionListener(e -> adjuntoBtnActionPerformed(e));
+
+                        //---- adjuntoCheckBox ----
+                        adjuntoCheckBox.setText("Adjunto");
+                        adjuntoCheckBox.setFont(adjuntoCheckBox.getFont().deriveFont(adjuntoCheckBox.getFont().getSize() + 6f));
+                        adjuntoCheckBox.setEnabled(false);
 
                         GroupLayout emailBtnsWrapperLayout = new GroupLayout(emailBtnsWrapper);
                         emailBtnsWrapper.setLayout(emailBtnsWrapperLayout);
@@ -1402,7 +1316,9 @@ public class UIContasoc extends JFrame {
                                     .addComponent(borradorBtn)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(adjuntoBtn)
-                                    .addContainerGap(309, Short.MAX_VALUE))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(adjuntoCheckBox)
+                                    .addContainerGap(365, Short.MAX_VALUE))
                         );
                         emailBtnsWrapperLayout.setVerticalGroup(
                             emailBtnsWrapperLayout.createParallelGroup()
@@ -1411,14 +1327,15 @@ public class UIContasoc extends JFrame {
                                         .addComponent(enviarBtn, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(GroupLayout.Alignment.LEADING, emailBtnsWrapperLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                             .addComponent(borradorBtn)
-                                            .addComponent(adjuntoBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(adjuntoBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(adjuntoCheckBox))
                                         .addComponent(tipoEmailComboBox, GroupLayout.Alignment.LEADING))
                                     .addContainerGap())
                         );
                     }
                     emailBtnsPanel.add(emailBtnsWrapper);
                 }
-                emailPanel.add(emailBtnsPanel, BorderLayout.SOUTH);
+                emailPanel.add(emailBtnsPanel, "cell 0 2");
             }
             tabbedPane1.addTab("EMAIL", emailPanel);
         }
@@ -1430,37 +1347,30 @@ public class UIContasoc extends JFrame {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
-    protected static JPanel searchAndButtonsWrapper;
+    protected static JPanel btnSearchPanel;
     protected static JButton nuevoBtn;
     protected static JButton editarBtn;
     protected static JButton eliminarBtn;
     protected static JButton printBtn;
-    protected static JButton importarBtn;
-    protected static JButton exportarBtn;
-    protected static JLabel versionLabel;
-    protected static JButton helpBtn;
+    protected static JPanel aux;
+    protected static JTextField buscarField;
+    protected static JButton ayudaBtn;
     protected static JTabbedPane tabbedPane1;
     protected static JPanel sociosPanel;
     protected static JPanel cardSociosPanel;
-    protected static JPanel sociosWrapper;
-    protected static JScrollPane sociosTablaPanel;
-    protected static JTable sociosTabla;
-    protected static JPanel toListaEsperaWrapper;
+    protected static JScrollPane sociosListaPanel;
+    public static JList<SocioPanel> sociosLista;
     protected static JButton toListaEsperaBtn;
-    protected static JPanel buscarWrapper;
-    protected static JTextField buscarField;
     protected static JPanel cardListaEsperaPanel;
-    protected static JPanel toSociosWrapper;
     protected static JButton toSociosBtn;
-    protected static JPanel listaEsperaWrapper;
-    protected static JScrollPane listaEsperaTablaPanel;
-    protected static JTable listaEsperaTabla;
+    protected static JScrollPane listaEsperaListaPanel;
+    public static JList<ListaEsperaPanel> listaEsperaLista;
     protected static JPanel ingresosPanel;
-    protected static JScrollPane ingresosTablaPanel;
-    protected static JTable ingresosTabla;
+    protected static JScrollPane ingresosListaPanel;
+    public static JList<IngresoPanel> ingresosLista;
     protected static JPanel gastosPanel;
-    protected static JScrollPane gastosTablaPanel;
-    protected static JTable gastosTabla;
+    protected static JScrollPane gastosListaPanel;
+    public static JList<GastoPanel> gastosLista;
     protected static JPanel balancePanel;
     protected static JPanel balanceCantidadesPanel;
     protected static JPanel tBancoIngresos;
@@ -1481,16 +1391,19 @@ public class UIContasoc extends JFrame {
     protected static JPanel saldoCaja;
     protected static JLabel saldoCajaLabel;
     protected static JLabel saldoCajaValue;
+    protected static JPanel cerrarAnyoPanel;
+    protected static JButton cerrarAnyoBtn;
     protected static JPanel emailPanel;
     protected static JPanel emailDataPanel;
     protected static JLabel destinatarioLabel;
     protected static JLabel asuntoLabel;
     protected static JTextField asuntoField;
     protected static JComboBox<String> destinatarioComboBox;
-    protected static JCheckBox adjuntoCheckBox;
     protected static JPanel emailBodyPanel;
     protected static JPanel panel1;
     protected static JPanel htmlEditorPanel;
+    protected static JScrollPane editorScrollPane;
+    protected static JTextPane htmlEditor;
     protected static JPanel panel2;
     protected static JPanel htmlRenderPanel;
     protected static JPanel emailBtnsPanel;
@@ -1499,5 +1412,6 @@ public class UIContasoc extends JFrame {
     protected static JButton borradorBtn;
     protected static JComboBox<String> tipoEmailComboBox;
     protected static JButton adjuntoBtn;
+    protected static JCheckBox adjuntoCheckBox;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

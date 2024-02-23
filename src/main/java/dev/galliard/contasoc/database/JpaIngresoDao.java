@@ -1,71 +1,90 @@
 package dev.galliard.contasoc.database;
 
-import dev.galliard.contasoc.common.Estado;
+import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.TipoPago;
-import dev.galliard.contasoc.common.TipoSocio;
-import dev.galliard.contasoc.database.objects.Ingreso;
-import dev.galliard.contasoc.database.objects.Socio;
+import dev.galliard.contasoc.database.objects.Ingresos;
+import dev.galliard.contasoc.util.Parsers;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Query;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class JpaIngresoDao implements Dao<Ingreso> {
-    private EntityManager entityManager = JpaUtil.getEntityManager();
+public class JpaIngresoDao implements Dao<Ingresos> {
+    private static EntityManager entityManager = JpaUtil.getEntityManager();
 
     @Override
-    public Optional<Ingreso> get(long id) {
-        return Optional.ofNullable(entityManager.find(Ingreso.class, id));
+    public Optional<Ingresos> get(long id) {
+        return Optional.ofNullable(entityManager.find(Ingresos.class, id));
     }
 
     @Override
-    public List<Ingreso> getAll() {
-        Query query = entityManager.createQuery("SELECT e FROM Ingreso e");
+    public List<Ingresos> getAll() {
+        Query query = entityManager.createQuery("SELECT e FROM Ingresos e");
         return query.getResultList();
     }
 
     @Override
-    public void save(Ingreso ingreso) {
-        transaction(entityManager -> entityManager.persist(ingreso));
+    public Object execute(String query, String[] params) {
+        Object result = null;
+        Query q = entityManager.createQuery(query);
+        for (int i = 0; i < params.length; i++) {
+            q.setParameter(i + 1, params[i]);
+        }
+        try {
+            result = q.getSingleResult();
+        } catch (Exception e) {
+            Contasoc.logger.error("Error executing query: " + e.getMessage());
+        }
+        return result;
     }
 
     @Override
-    public void update(Ingreso ingreso, String[] params) {
+    public void save(Ingresos ingresos) {
+        transaction(entityManager -> entityManager.persist(ingresos));
+    }
+
+    @Override
+    public void update(Ingresos ingresos, String[] params) {
         Integer numeroSocio = Integer.valueOf(params[0]);
-        Date fecha = Date.valueOf(LocalDate.parse(params[1]));
+        Date fecha = params[1].isEmpty() ? null : Date.valueOf(Parsers.dashDateParserReversed(params[1]));
         String concepto = params[2];
         Double cantidad = Double.valueOf(params[3]);
         TipoPago tipo = TipoPago.valueOf(params[4]);
 
-        ingreso.setNumeroSocio(numeroSocio);
-        ingreso.setFecha(fecha);
-        ingreso.setConcepto(concepto);
-        ingreso.setCantidad(cantidad);
-        ingreso.setTipo(tipo.name());
+        ingresos.setNumeroSocio(numeroSocio);
+        ingresos.setFecha(fecha);
+        ingresos.setConcepto(concepto);
+        ingresos.setCantidad(cantidad);
+        ingresos.setTipo(tipo.name());
 
-        transaction(entityManager -> entityManager.merge(ingreso));
+        transaction(entityManager -> entityManager.merge(ingresos));
     }
 
     @Override
-    public void delete(Ingreso ingreso) {
-        transaction(entityManager -> entityManager.remove(ingreso));
+    public void delete(Ingresos ingresos) {
+        transaction(entityManager -> entityManager.remove(ingresos));
     }
 
-    private void transaction(Consumer<EntityManager> action) {
+    @Override
+    public void transaction(Consumer<EntityManager> action) {
         EntityTransaction tx = entityManager.getTransaction();
         try {
             tx.begin();
             action.accept(entityManager);
             tx.commit();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             tx.rollback();
             throw e;
         }
+    }
+
+    public static List<Ingresos> getIngresosBySocio(int numeroSocio) {
+        Query query = entityManager.createQuery("SELECT e FROM Ingresos e WHERE e.numeroSocio = :numeroSocio");
+        query.setParameter("numeroSocio", numeroSocio);
+        return query.getResultList();
     }
 }

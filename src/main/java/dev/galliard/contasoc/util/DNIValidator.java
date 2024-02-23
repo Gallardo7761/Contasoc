@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class DNIValidator {
-	public static boolean validarDNI(String dni) {
+    public static boolean validarDNI(String dni) {
         if (dni.length() != 9) {
             return false;
         }
@@ -40,25 +40,25 @@ public class DNIValidator {
         char[] digitos = dni.substring(0, 8).toCharArray();
         int numero = 0;
         try {
-        	numero = Integer.parseInt(new String(digitos));
-        } catch(Exception e) {
-        	return false;
+            numero = Integer.parseInt(new String(digitos));
+        } catch (Exception e) {
+            return false;
         }
 
         int resto = numero % 23;
-        if(!valoresLetras.containsKey(letra)) {
-        	return false;
+        if (!valoresLetras.containsKey(letra)) {
+            return false;
         }
         int valorLetra = valoresLetras.get(letra);
 
         return resto == valorLetra;
     }
-	
-	public static boolean validarNIE(String nie) {
+
+    public static boolean validarNIE(String nie) {
         if (nie.length() != 9) {
             return false;
         }
-        
+
         Map<Character, Integer> valoresLetras = new HashMap<>();
         valoresLetras.put('T', 0);
         valoresLetras.put('R', 1);
@@ -89,14 +89,14 @@ public class DNIValidator {
         valoresPrimerasLetras.put('X', '0');
         valoresPrimerasLetras.put('Y', '1');
         valoresPrimerasLetras.put('Z', '2');
-        
+
         char primeraLetra = Character.toUpperCase(nie.charAt(0));
         char letra = Character.toUpperCase(nie.charAt(8));
         char[] digitos = nie.substring(1, 8).toCharArray();
-        if(!valoresPrimerasLetras.containsKey(primeraLetra)) {
-        	return false;
+        if (!valoresPrimerasLetras.containsKey(primeraLetra)) {
+            return false;
         }
-        int numero = Integer.parseInt(String.join("", List.of(valoresPrimerasLetras.get(primeraLetra).toString(),new String(digitos))));
+        int numero = Integer.parseInt(String.join("", List.of(valoresPrimerasLetras.get(primeraLetra).toString(), new String(digitos))));
 
 
         int resto = numero % 23;
@@ -104,26 +104,16 @@ public class DNIValidator {
 
         return resto == valorLetra;
     }
-	
-	public static String generarDNI() {
-        // Generar número aleatorio de 8 dígitos
+
+    public static String generarDNI() {
         Random random = new Random();
         int numero = random.nextInt(99999999);
-
-        // Diccionario con los valores de las letras del DNI
         char[] letras = {
-            'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'
+                'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'
         };
-
-        // Calcular resto del número dividido por 23
         int resto = numero % 23;
-
-        // Obtener letra correspondiente al resto
         char letra = letras[resto];
-
-        // Combinar número y letra para formar el DNI
         String dni = String.format("%08d", numero) + letra;
-
         return dni;
     }
 }

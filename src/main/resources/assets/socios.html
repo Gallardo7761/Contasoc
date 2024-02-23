@@ -8,6 +8,7 @@
             --main: #549159;
             --bg: #f7f8fa;
         }
+
         body {
             margin: 0;
             padding: 0;
@@ -19,7 +20,7 @@
             height: 100%;
             background-color: var(--bg);
             padding: 15px;
-            font-family: 'Segoe UI';
+            font-family: 'Segoe UI',serif;
             overflow: auto;
             box-sizing: border-box;
         }
@@ -33,28 +34,21 @@
             border-bottom: 1px solid var(--main);
         }
 
-        .button {
+        .btnimage {
             background-color: var(--bg);
             border: none;
             border-radius: 5px;
             color: black;
-            padding: 2px 6px 2px 6px;
             text-align: center;
             text-decoration: none;
-            display: inline-flexbox;
-            font-size: 16px;
             cursor: pointer;
             margin: 2px 2px;
-            vertical-align: top middle;
-        }
-
-        .btnimage {
-            width: 16px;
-            height: 16px;
+            width: 32px;
+            height: 32px;
             vertical-align: middle;
         }
 
-        .button:hover {
+        .btnimage:hover {
             background-color: var(--selection);
         }
 
@@ -88,30 +82,29 @@
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title></title>
 </head>
 
 <body onmousedown="return false" onselectstart="return false">
 <div class="container">
-    <div class="nota"><b>Nota:</b> Antes de realizar cualquier acci&oacute;n en la tabla de Socios debes tener la fila seleccionada con <b>CLICK IZQUIERDO</b>, menos al a&ntilde;adir un Socio nuevo.</div>
-    <h2>A&ntilde;adir un socio</h2>
-    <p>Para a&ntilde;adir un socio, debes ir a la pesta&ntilde;a de <b>SOCIOS</b>
+    <div class="nota"><b>Nota:</b> Antes de realizar cualquier acci&oacute;n en la lista de Socios debes tener la fila
+        seleccionada con <b>CLICK IZQUIERDO</b>, menos al a&ntilde;adir un Socio nuevo.
+    </div>
+    <h2>A&ntilde;adir un socios</h2>
+    <p>Para a&ntilde;adir un socios, debes ir a la pesta&ntilde;a de <b>SOCIOS</b>
         y:
     <ul>
         <li>
-            Hacer click en el bot&oacute;n de<br>
-            <span class="button">
-                    <img class="btnimage" src="../images/newpass_small_black.png" />
-                    Nuevo</span>.
+            Hacer click en el bot&oacute;n <img class="btnimage" src="../images/icons/add_32.png"/>
         </li>
         <li>
-            Usar la combinaci&oacute;n de teclas<br>
-            <img src="../images/help/ctrlBtn_icon.png">&nbsp;<img src="../images/help/nBtn_icon.png">.
+            Usar la combinaci&oacute;n de teclas <img src="../images/help/ctrlBtn_icon.png">&nbsp;<img src="../images/help/nBtn_icon.png">
         </li>
     </ul>
     Una vez ah&iacute;, rellena los campos y pulsa o bien el bot&oacute;n
-    <span class="button">
+    <div class="button">
             Aceptar
-        </span>
+        </div>
     o bien a la tecla Enter (Intro).
     Para rellenar los campos debes tener en cuenta algunas cosas:
     <ul>
@@ -139,67 +132,55 @@
         </li>
     </ul>
     </p>
-    <h2>Editar un socio</h2>
-    <p>Para editar un socio, debes ir a la pesta&ntilde;a de <b>SOCIOS</b>
+    <h2>Editar un socios</h2>
+    <p>Para editar un socios, debes ir a la pesta&ntilde;a de <b>SOCIOS</b>
         y:
     <ul>
         <li>
-            Hacer click en el bot&oacute;n de<br>
-            <span class="button">
-                    <img class="btnimage" src="../images/edit_small_black.png" />
-                    Editar</span>.
+            Hacer click en el bot&oacute;n <img class="btnimage" src="../images/icons/corel_32.png"/>
         </li>
         <li>
-            Usar la combinaci&oacute;n de teclas<br>
-            <img src="../images/help/ctrlBtn_icon.png">&nbsp;<img src="../images/help/eBtn_icon.png">.
+            Usar la combinaci&oacute;n de teclas <img src="../images/help/ctrlBtn_icon.png">&nbsp;<img src="../images/help/eBtn_icon.png">
         </li>
     </ul>
     Una vez ah&iacute;, rellena los campos y pulsa o bien el bot&oacute;n
-    <span class="button">
+    <div class="button">
             Aceptar
-        </span>
+        </div>
     o bien a la tecla Enter (Intro).<br><br>Se deben tomar las mismas consideraciones
-    anteriormente dichas para editar los datos de un socio.</p>
-    <h2>Eliminar un socio</h2>
-    <p>Para eliminar un socio, debes ir a la pesta&ntilde;a de <b>SOCIOS</b>
+    anteriormente dichas para editar los datos de un socios.</p>
+    <h2>Eliminar un socios</h2>
+    <p>Para eliminar un socios, debes ir a la pesta&ntilde;a de <b>SOCIOS</b>
         y:
     <ul>
         <li>
-            Hacer click en el bot&oacute;n de<br>
-            <span class="button">
-                    <img class="btnimage" src="../images/bin_small_black.png" />
-                    Eliminar</span>.
+            Hacer click en el bot&oacute;n <img class="btnimage" src="../images/icons/delete_32.png"/>
         </li>
         <li>
-            Usar la combinaci&oacute;n de teclas<br>
-            <img src="../images/help/ctrlBtn_icon.png">&nbsp;<img src="../images/help/dBtn_icon.png">.
+            Usar la combinaci&oacute;n de teclas <img src="../images/help/ctrlBtn_icon.png">&nbsp;<img src="../images/help/dBtn_icon.png">
         </li>
     </ul>
-    Antes de eliminar el socio definitivamente, se te pedir&aacute; que confirmes la eliminaci&oacute;n de este.</p>
+    Antes de eliminar el socios definitivamente, se te pedir&aacute; que confirmes la eliminaci&oacute;n de este.</p>
     <h2>Imprimir en PDF</h2>
     <p>Para imprimir los Socios, debes ir a la pesta&ntilde;a de <b>SOCIOS</b>
         y:
     <ul>
         <li>
-            Hacer click en el bot&oacute;n de<br>
-            <span class="button">
-                    <img class="btnimage" src="../images/printer_small_black.png" />
-                    Imprimir</span>.
+            Hacer click en el bot&oacute;n <img class="btnimage" src="../images/icons/printer_32.png"/>
         </li>
         <li>
-            Usar la combinaci&oacute;n de teclas<br>
-            <img src="../images/help/ctrlBtn_icon.png">&nbsp;<img src="../images/help/pBtn_icon.png">.
+            Usar la combinaci&oacute;n de teclas <img src="../images/help/ctrlBtn_icon.png">&nbsp;<img src="../images/help/pBtn_icon.png">
         </li>
     </ul>
     Recibir&aacute;s un mensaje por pantalla diciendo que se ha guardado en el Escritorio el PDF.</p>
     <h2>Detalles adicionales</h2>
-    <p>Puedes ver los ingresos asociados a un Socio seleccion&aacute;ndolo en la tabla
+    <p>Puedes ver los ingresos asociados a un Socio seleccion&aacute;ndolo en la lista
         con <b>CLICK IZQUIERDO</b> y luego pulsando <b>CLICK DERECHO</b>.
     </p>
 </div>
 <script type="text/javascript">
-    $(document).bind("contextmenu",function(e){
-    return false;
+    $(document).bind("contextmenu", function (e) {
+        return false;
     });
 </script>
 </body>

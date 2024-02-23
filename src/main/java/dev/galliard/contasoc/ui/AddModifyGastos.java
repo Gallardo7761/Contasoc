@@ -4,35 +4,43 @@
 
 package dev.galliard.contasoc.ui;
 
+import com.github.lgooddatepicker.components.*;
+import com.github.lgooddatepicker.optionalusertools.CalendarBorderProperties;
+import dev.galliard.contasoc.Contasoc;
+import dev.galliard.contasoc.common.Action;
+import dev.galliard.contasoc.common.FormatterType;
+import dev.galliard.contasoc.common.TipoPago;
+import dev.galliard.contasoc.database.objects.Gastos;
+import dev.galliard.contasoc.util.Parsers;
+import dev.galliard.contasoc.util.UpperCaseFilter;
+import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 import java.awt.*;
-import java.awt.event.*;
-import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.swing.*;
-import javax.swing.text.AbstractDocument;
-
-import dev.galliard.contasoc.common.Action;
-import dev.galliard.contasoc.common.FormatterType;
-import dev.galliard.contasoc.database.ContasocDAO;
-import dev.galliard.contasoc.util.ContasocLogger;
-import dev.galliard.contasoc.util.Parsers;
-import dev.galliard.contasoc.util.UpperCaseFilter;
-import net.miginfocom.swing.*;
 
 /**
  * @author jomaa
  */
+@SuppressWarnings("ALL")
 public class AddModifyGastos extends JFrame {
     protected static Action accion;
     protected static String tempFecha;
     protected static String tempProveedor;
 
+    protected static String tempFactura;
+
     private static AddModifyGastos instance;
 
     private static boolean sqlExceptionOcurred = false;
+
     private AddModifyGastos() {
         initComponents();
         setActions();
@@ -42,15 +50,46 @@ public class AddModifyGastos extends JFrame {
 
     private void addFormatterFactories() {
         try {
-            GUIManager.addFormatterFactory(fechaField, FormatterType.DATE);
+            conceptoField.putClientProperty("JTextField.placeholderText", "Concepto del pago");
+            proveedorField.putClientProperty("JTextField.placeholderText", "EMASESA");
+            conceptoField.putClientProperty("JTextField.placeholderText", "Agua");
+            facturaField.putClientProperty("JTextField.placeholderText", "Factura única");
             GUIManager.addFormatterFactory(cantidadField, FormatterType.DECIMAL);
         } catch (ParseException e) {
-            ContasocLogger.error("Error",e);
+            Contasoc.logger.error("Error", e);
         }
     }
 
+    private void setDatePickerProperties(DatePicker picker) {
+        picker.getSettings().setFormatForDatesCommonEra("d MMM yyyy");
+        picker.getSettings().setFontValidDate(new Font("Segoe UI", Font.PLAIN, 18));
+        picker.getSettings().setFontInvalidDate(new Font("Segoe UI", Font.PLAIN, 18));
+        picker.getSettings().setColor(DatePickerSettings.DateArea.BackgroundOverallCalendarPanel, Color.decode("#EDF1F5"));
+        picker.getSettings().setColor(DatePickerSettings.DateArea.BackgroundMonthAndYearMenuLabels, Color.decode("#EDF1F5"));
+        picker.getSettings().setColor(DatePickerSettings.DateArea.BackgroundTodayLabel, Color.decode("#EDF1F5"));
+        picker.getSettings().setColor(DatePickerSettings.DateArea.BackgroundClearLabel, Color.decode("#EDF1F5"));
+        picker.getSettings().setColor(DatePickerSettings.DateArea.DatePickerTextValidDate, Color.decode("#5B6168"));
+        picker.getSettings().setFontClearLabel(new Font("Segoe UI", Font.PLAIN, 18));
+        picker.getSettings().setFontMonthAndYearMenuLabels(new Font("Segoe UI", Font.PLAIN, 18));
+        picker.getSettings().setFontTodayLabel(new Font("Segoe UI", Font.PLAIN, 18));
+        picker.getSettings().setFontCalendarDateLabels(new Font("Segoe UI", Font.PLAIN, 14));
+        picker.getSettings().setFontCalendarWeekdayLabels(new Font("Segoe UI", Font.PLAIN, 14));
+        picker.getSettings().setColor(DatePickerSettings.DateArea.BackgroundCalendarPanelLabelsOnHover, Color.decode("#C8E8CA"));
+        picker.getSettings().setColor(DatePickerSettings.DateArea.CalendarBorderSelectedDate, Color.decode("#5B6168"));
+        picker.getSettings().setBorderCalendarPopup(BorderFactory.createLineBorder(Color.decode("#B3B3B4")));
+        picker.getSettings().setColorBackgroundWeekdayLabels(Color.decode("#549159"), true);
+        picker.getSettings().setColor(DatePickerSettings.DateArea.CalendarTextWeekdays, Color.WHITE);
+        ArrayList<CalendarBorderProperties> borderProperties = new ArrayList();
+        borderProperties.add(new CalendarBorderProperties(new Point(1, 1), new Point(5, 5), Color.decode("#B3B3B4"), 1));
+        borderProperties.add(new CalendarBorderProperties(new Point(4, 1), new Point(4, 1), Color.decode("#B3B3B4"), 1));
+        borderProperties.add(new CalendarBorderProperties(new Point(3, 3), new Point(5, 5), Color.decode("#B3B3B4"), 1));
+        borderProperties.add(new CalendarBorderProperties(new Point(3, 3), new Point(3, 3), Color.decode("#B3B3B4"), 1));
+        borderProperties.add(new CalendarBorderProperties(new Point(5, 3), new Point(5, 3), Color.decode("#B3B3B4"), 1));
+        picker.getSettings().setBorderPropertiesList(borderProperties);
+    }
+
     protected void clear() {
-        for(JTextField jtf : Arrays.asList(fechaField, proveedorField, conceptoField, cantidadField, facturaField)) {
+        for (JTextField jtf : Arrays.asList(proveedorField, conceptoField, cantidadField, facturaField)) {
             jtf.setText("");
         }
     }
@@ -76,7 +115,7 @@ public class AddModifyGastos extends JFrame {
     }
 
     private void setFilters() {
-        java.util.List<JTextField> lista = List.of(proveedorField,conceptoField);
+        java.util.List<JTextField> lista = List.of(proveedorField, conceptoField);
         for (JTextField jtp : lista) {
             AbstractDocument doc = (AbstractDocument) jtp.getDocument();
             doc.setDocumentFilter(new UpperCaseFilter());
@@ -84,59 +123,28 @@ public class AddModifyGastos extends JFrame {
     }
 
     private void aceptarBtnActionPerformed(ActionEvent e) {
-        switch(accion.name()) {
-            case "ADD":
-                java.util.List<String> ins = new ArrayList<>();
-                ins.add(Parsers.dashDateParserReversed(fechaField.getText()));
-                ins.add(proveedorField.getText());
-                ins.add(conceptoField.getText());
-                ins.add(cantidadField.getText().contains(",") ? cantidadField.getText().replace(",",".") : cantidadField.getText());
-                ins.add(facturaField.getText());
-                ins.add((String) tipoPagoComboBox.getSelectedItem());
+        Date fecha = Date.valueOf(Parsers.dashDateParserReversed(fechaField.getText()));
+        String proveedor = proveedorField.getText();
+        String concepto = conceptoField.getText();
+        Double cantidad = Double.valueOf(cantidadField.getText().contains(",") ? cantidadField.getText().replace(",", ".") : cantidadField.getText());
+        String factura = facturaField.getText();
+        TipoPago tipo = TipoPago.valueOf((String) tipoPagoComboBox.getSelectedItem());
 
-                try {
-                    sqlExceptionOcurred = false;
-                    ContasocDAO.insert("Gastos", new String[] {"fecha", "proveedor", "concepto", "cantidad", "factura", "tipo"},
-                            ins.toArray(String[]::new));
-                } catch (SQLException ex) {
-                    sqlExceptionOcurred = true;
-                    ContasocLogger.dispatchSQLException(ex);
-                }
-                if(!sqlExceptionOcurred) {
-                    GUIManager.populateGUITables();
-                    for(JTextField jtf : List.of(fechaField, proveedorField, conceptoField, cantidadField, facturaField)) {
-                        jtf.setText("");
-                    }
-                    this.dispose();
-                }
+        DefaultListModel<GastoPanel> model = (DefaultListModel<GastoPanel>) UIContasoc.gastosLista.getModel();
+        Gastos gasto = new Gastos(fecha, proveedor, concepto, cantidad, factura, tipo);
+
+        switch (accion) {
+            case ADD:
+                model.addElement(new GastoPanel(gasto));
+                Contasoc.sqlMemory.gastoAgregado(gasto);
+                clear();
+                this.dispose();
                 break;
-            case "MODIFY":
-                java.util.List<String> upd = new ArrayList<>();
-                upd.add(Parsers.dashDateParserReversed(fechaField.getText()));
-                upd.add(proveedorField.getText());
-                upd.add(conceptoField.getText());
-                upd.add(cantidadField.getText().contains(",") ? cantidadField.getText().replace(",",".") : cantidadField.getText());
-                upd.add(facturaField.getText());
-                upd.add((String) tipoPagoComboBox.getSelectedItem());
-                try {
-                    sqlExceptionOcurred = false;
-                    ContasocDAO.update("Gastos", new String[] {"fecha", "proveedor", "concepto", "cantidad", "factura", "tipo"},
-                            upd.toArray(String[]::new),
-                            new String[] {
-                                    "fecha =" + Parsers.dashDateParserReversed(tempFecha),
-                                    "proveedor =" + tempProveedor
-                            });
-                } catch (SQLException ex) {
-                    sqlExceptionOcurred = true;
-                    ContasocLogger.dispatchSQLException(ex);
-                }
-                if(!sqlExceptionOcurred) {
-                    GUIManager.populateGUITables();
-                    for(JTextField jtf : List.of(fechaField, proveedorField, conceptoField, cantidadField, facturaField)) {
-                        jtf.setText("");
-                    }
-                    this.dispose();
-                }
+            case MODIFY:
+                model.setElementAt(new GastoPanel(gasto), UIContasoc.gastosLista.getSelectedIndex());
+                Contasoc.sqlMemory.gastoEditado(gasto);
+                clear();
+                this.dispose();
                 break;
         }
     }
@@ -145,13 +153,13 @@ public class AddModifyGastos extends JFrame {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
         fechaLabel = new JLabel();
-        fechaField = new JFormattedTextField();
+        fechaField = new DatePicker();
         proveedorLabel = new JLabel();
         proveedorField = new JTextField();
         conceptoLabel = new JLabel();
         conceptoField = new JTextField();
         cantidadLabel = new JLabel();
-        cantidadField = new JFormattedTextField();
+        cantidadField = new JTextField();
         facturaLabel = new JLabel();
         facturaField = new JTextField();
         tipoLabel = new JLabel();
@@ -185,6 +193,7 @@ public class AddModifyGastos extends JFrame {
         //---- fechaField ----
         fechaField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         fechaField.setNextFocusableComponent(proveedorField);
+        setDatePickerProperties(fechaField);
         contentPane.add(fechaField, "cell 0 0,height 32:32:32");
 
         //---- proveedorLabel ----
@@ -258,13 +267,13 @@ public class AddModifyGastos extends JFrame {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
     protected static JLabel fechaLabel;
-    protected static JFormattedTextField fechaField;
+    protected static DatePicker fechaField;
     protected static JLabel proveedorLabel;
     protected static JTextField proveedorField;
     protected static JLabel conceptoLabel;
     protected static JTextField conceptoField;
     protected static JLabel cantidadLabel;
-    protected static JFormattedTextField cantidadField;
+    protected static JTextField cantidadField;
     protected static JLabel facturaLabel;
     protected static JTextField facturaField;
     protected static JLabel tipoLabel;

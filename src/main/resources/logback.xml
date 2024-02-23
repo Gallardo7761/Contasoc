@@ -1,20 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <root level="DEBUG">
-        <appender-ref ref="STDOUT" />
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
     </root>
 
-    <!-- Configurar colores -->
-    <property name="COLOR_TRACE" value="cyan" />
-    <property name="COLOR_DEBUG" value="green" />
-    <property name="COLOR_INFO" value="blue" />
-    <property name="COLOR_WARN" value="yellow" />
-    <property name="COLOR_ERROR" value="red" />
-    <property name="COLOR_FATAL" value="red" />
+    <logger name="org.hibernate" level="ERROR"/>
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <logger name="org.openjfx" level="ERROR"/>
 
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%highlight[%level]: [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
 </configuration>

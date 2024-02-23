@@ -1,6 +1,8 @@
 package dev.galliard.contasoc.util;
 
+import dev.galliard.contasoc.Contasoc;
 import jakarta.activation.FileDataSource;
+import org.apache.commons.io.FileUtils;
 import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.email.EmailPopulatingBuilder;
 import org.simplejavamail.api.mailer.Mailer;
@@ -14,9 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Base64;
-import org.apache.commons.io.FileUtils;
 
 public class EmailSender2 {
     private static final String SMTP_SERVER = "smtp.gmail.com";
@@ -42,7 +41,7 @@ public class EmailSender2 {
             Files.write(filePath, html.getBytes());
             ErrorHandler.borradorGuardado();
         } catch (IOException e) {
-            ContasocLogger.error(e.getMessage(), e);
+            Contasoc.logger.error("Error", e);
         }
     }
 
@@ -56,7 +55,7 @@ public class EmailSender2 {
 
         mailer.sendMail(email);
 
-       ErrorHandler.mailEnviado();
+        ErrorHandler.mailEnviado();
     }
 
     public void sendEmail(String destinatario, String asunto, String cuerpo, File adjunto) {
@@ -93,224 +92,224 @@ public class EmailSender2 {
                     .withAttachment(adjunto.getName(), new FileDataSource(EmailSender2.adjunto))
                     .buildEmail();
         } catch (IOException e) {
-            ContasocLogger.error(e.getMessage(), e); // Manejo de errores, puedes personalizar esto según tus necesidades
+            Contasoc.logger.error("Error", e); // Manejo de errores, puedes personalizar esto según tus necesidades
             return null; // O lanzar una excepción, dependiendo de tus requisitos
         }
     }
 
     public static String NORMAL_EMAIL = """
-           <!DOCTYPE html>
-           <html>
-           
-           <head>
-               <style>
-                   /* Inline CSS */
-                   .container {
-                       border: 1px solid #dddddd;
-                       border-radius: 5px;
-                       padding: 20px;
-                       max-width: 400px;
-                       margin: 0 auto;
-                   }
-           
-                   .logo {
-                       display: block;
-                       margin: 0 auto;
-                       max-width: 200px;
-                   }
-           
-                   .title {
-                       text-align: center;
-                       font-size: 24px;
-                       color: #333333;
-                       margin-top: 20px;
-                   }
-           
-                   .body {
-                       margin-top: 20px;
-                       color: #555555;
-                       font-size: 16px;
-                   }
-           
-                   .contact-info {
-                       margin-top: 20px;
-                       font-size: 14px;
-                       color: #777777;
-                       text-align: center;
-                   }
-               </style>
-           </head>
-           
-           <body>
-               <div class="container">
-                   <img src="https://raw.githubusercontent.com/GalliardDev/ContasocRemake/master/src/main/resources/images/logohuerto.png" width="150" class="logo">
-                   <h4 class="title">Huertos la Salud Bellavista</h4>
-                   <p class="body">Estimado/a {nombre},</p>
-                   <p class="body">{mensaje}</p>
-                   <p class="body">Atte. La Directiva</p>
-                   <div class="contact-info">
-                       <p>Direcci&oacute;n: C/ Cronos SN, Bellavista, Sevilla, 41014</p>
-                       <p>Email: huertoslasaludbellavista@gmail.com</p>
-                   </div>
-               </div>
-           </body>
-           
-           </html>
-            """;
+            <!DOCTYPE html>
+            <html>
+                       
+            <head>
+                <style>
+                    /* Inline CSS */
+                    .container {
+                        border: 1px solid #dddddd;
+                        border-radius: 5px;
+                        padding: 20px;
+                        max-width: 400px;
+                        margin: 0 auto;
+                    }
+                       
+                    .logo {
+                        display: block;
+                        margin: 0 auto;
+                        max-width: 200px;
+                    }
+                       
+                    .title {
+                        text-align: center;
+                        font-size: 24px;
+                        color: #333333;
+                        margin-top: 20px;
+                    }
+                       
+                    .body {
+                        margin-top: 20px;
+                        color: #555555;
+                        font-size: 16px;
+                    }
+                       
+                    .contact-info {
+                        margin-top: 20px;
+                        font-size: 14px;
+                        color: #777777;
+                        text-align: center;
+                    }
+                </style>
+            </head>
+                       
+            <body>
+                <div class="container">
+                    <img src="https://raw.githubusercontent.com/GalliardDev/ContasocRemake/master/src/main/resources/images/logohuerto.png" width="150" class="logo">
+                    <h4 class="title">Huertos la Salud Bellavista</h4>
+                    <p class="body">Estimado/a {nombre},</p>
+                    <p class="body">{mensaje}</p>
+                    <p class="body">Atte. La Directiva</p>
+                    <div class="contact-info">
+                        <p>Direcci&oacute;n: C/ Cronos SN, Bellavista, Sevilla, 41014</p>
+                        <p>Email: huertoslasaludbellavista@gmail.com</p>
+                    </div>
+                </div>
+            </body>
+                       
+            </html>
+             """;
     public static String WARNING_EMAIL = """
-           <!DOCTYPE html>
-           <html>
-           
-           <head>
-               <style>
-                   /* Inline CSS */
-                   .container {
-                       border: 1px solid #ff7b00;
-                       border-radius: 5px;
-                       padding: 20px;
-                       max-width: 400px;
-                       margin: 0 auto;
-                   }
-           
-                   .logo {
-                       display: block;
-                       margin: 0 auto;
-                       max-width: 200px;
-                   }
-           
-                   .title {
-                       text-align: center;
-                       font-size: 24px;
-                       color: #333333;
-                       margin-top: 20px;
-                       margin-bottom: 10px;
-                   }
-           
-                   .subtitle {
-                       text-align: center;
-                       font-size: 18px;
-                       font-family: 'Segoe UI';
-                       color: #1e1e1e;
-                       margin-top: 0px;
-                       border: #ff9100 solid 2px;
-                       background-color: #f3d9b8;
-                       border-radius: 9px;
-                       padding: 5px;  \s
-                       width: 200px;    \s
-                   }
-           
-                   .body {
-                       margin-top: 20px;
-                       color: #555555;
-                       font-size: 16px;
-                   }
-           
-                   .contact-info {
-                       margin-top: 20px;
-                       font-size: 14px;
-                       color: #777777;
-                       text-align: center;
-                   }
-               </style>
-           </head>
-           
-           <body>
-               <div class="container">
-                   <img src="https://raw.githubusercontent.com/GalliardDev/ContasocRemake/master/src/main/resources/images/logohuerto.png" width="150" class="logo">
-                   <h4 class="title">Huertos la Salud Bellavista</h4>
-                   <center><h5 class="subtitle">AVISO DE ABANDONO</h5></center>
-                   <p class="body">Estimado/a {nombre},</p>
-                   <p class="body">Nos ponemos en contacto con usted para comunicarle que\s
-                       su huerto se encuentra en estado de abandono. Tiene un plazo de 15\s
-                       d&iacute;as para realizar labores de cultivo.<br><br> Rogamos tenga en cuenta
-                       el documento adjunto para conocer m&aacute;s detalles.</p>
-                   <p class="body">Atte. La Directiva</p>
-                   <div class="contact-info">
-                       <p>Direcci&oacute;n: C/ Cronos SN, Bellavista, Sevilla, 41014</p>
-                       <p>Email: huertoslasaludbellavista@gmail.com</p>
-                   </div>
-               </div>
-           </body>
-           
-           </html>
-            """;
+            <!DOCTYPE html>
+            <html>
+                       
+            <head>
+                <style>
+                    /* Inline CSS */
+                    .container {
+                        border: 1px solid #ff7b00;
+                        border-radius: 5px;
+                        padding: 20px;
+                        max-width: 400px;
+                        margin: 0 auto;
+                    }
+                       
+                    .logo {
+                        display: block;
+                        margin: 0 auto;
+                        max-width: 200px;
+                    }
+                       
+                    .title {
+                        text-align: center;
+                        font-size: 24px;
+                        color: #333333;
+                        margin-top: 20px;
+                        margin-bottom: 10px;
+                    }
+                       
+                    .subtitle {
+                        text-align: center;
+                        font-size: 18px;
+                        font-family: 'Segoe UI';
+                        color: #1e1e1e;
+                        margin-top: 0px;
+                        border: #ff9100 solid 2px;
+                        background-color: #f3d9b8;
+                        border-radius: 9px;
+                        padding: 5px;  \s
+                        width: 200px;    \s
+                    }
+                       
+                    .body {
+                        margin-top: 20px;
+                        color: #555555;
+                        font-size: 16px;
+                    }
+                       
+                    .contact-info {
+                        margin-top: 20px;
+                        font-size: 14px;
+                        color: #777777;
+                        text-align: center;
+                    }
+                </style>
+            </head>
+                       
+            <body>
+                <div class="container">
+                    <img src="https://raw.githubusercontent.com/GalliardDev/ContasocRemake/master/src/main/resources/images/logohuerto.png" width="150" class="logo">
+                    <h4 class="title">Huertos la Salud Bellavista</h4>
+                    <center><h5 class="subtitle">AVISO DE ABANDONO</h5></center>
+                    <p class="body">Estimado/a {nombre},</p>
+                    <p class="body">Nos ponemos en contacto con usted para comunicarle que\s
+                        su huerto se encuentra en estado de abandono. Tiene un plazo de 15\s
+                        d&iacute;as para realizar labores de cultivo.<br><br> Rogamos tenga en cuenta
+                        el documento adjunto para conocer m&aacute;s detalles.</p>
+                    <p class="body">Atte. La Directiva</p>
+                    <div class="contact-info">
+                        <p>Direcci&oacute;n: C/ Cronos SN, Bellavista, Sevilla, 41014</p>
+                        <p>Email: huertoslasaludbellavista@gmail.com</p>
+                    </div>
+                </div>
+            </body>
+                       
+            </html>
+             """;
     public static String UNPAID_EMAIL = """
-           <!DOCTYPE html>
-           <html>
-           
-           <head>
-               <style>
-                   /* Inline CSS */
-                   .container {
-                       border: 1px solid #ff0000;
-                       border-radius: 5px;
-                       padding: 20px;
-                       max-width: 400px;
-                       margin: 0 auto;
-                   }
-           
-                   .logo {
-                       display: block;
-                       margin: 0 auto;
-                       max-width: 200px;
-                   }
-           
-                   .title {
-                       text-align: center;
-                       font-size: 24px;
-                       color: #333333;
-                       margin-top: 20px;
-                       margin-bottom: 10px;
-                   }
-           
-                   .subtitle {
-                       text-align: center;
-                       font-size: 18px;
-                       font-family: 'Segoe UI';
-                       color: #1e1e1e;
-                       margin-top: 0px;
-                       border: #ff0000 solid 2px;
-                       background-color: #f3b8b8;
-                       border-radius: 9px;
-                       padding: 5px;  \s
-                       width: 200px;    \s
-                   }
-           
-                   .body {
-                       margin-top: 20px;
-                       color: #555555;
-                       font-size: 16px;
-                   }
-           
-                   .contact-info {
-                       margin-top: 20px;
-                       font-size: 14px;
-                       color: #777777;
-                       text-align: center;
-                   }
-               </style>
-           </head>
-           
-           <body>
-               <div class="container">
-                   <img src="https://raw.githubusercontent.com/GalliardDev/ContasocRemake/master/src/main/resources/images/logohuerto.png" width="150" class="logo">
-                   <h4 class="title">Huertos la Salud Bellavista</h4>
-                   <center><h5 class="subtitle">AVISO DE IMPAGO</h5></center>
-                   <p class="body">Estimado/a {nombre},</p>
-                   <p class="body">Nos ponemos en contacto con usted para informarle que tiene
-                       cuotas pendientes de pago.<br><br>
-                       Rogamos tenga en cuenta el documento adjunto para conocer m&aacute;s detalles.
-                   </p>
-                   <p class="body">Atte. La Directiva</p>
-                   <div class="contact-info">
-                       <p>Direcci&oacute;n: C/ Cronos SN, Bellavista, Sevilla, 41014</p>
-                       <p>Email: huertoslasaludbellavista@gmail.com</p>
-                   </div>
-               </div>
-           </body>
-           
-           </html>
-            """;
+            <!DOCTYPE html>
+            <html>
+                       
+            <head>
+                <style>
+                    /* Inline CSS */
+                    .container {
+                        border: 1px solid #ff0000;
+                        border-radius: 5px;
+                        padding: 20px;
+                        max-width: 400px;
+                        margin: 0 auto;
+                    }
+                       
+                    .logo {
+                        display: block;
+                        margin: 0 auto;
+                        max-width: 200px;
+                    }
+                       
+                    .title {
+                        text-align: center;
+                        font-size: 24px;
+                        color: #333333;
+                        margin-top: 20px;
+                        margin-bottom: 10px;
+                    }
+                       
+                    .subtitle {
+                        text-align: center;
+                        font-size: 18px;
+                        font-family: 'Segoe UI';
+                        color: #1e1e1e;
+                        margin-top: 0px;
+                        border: #ff0000 solid 2px;
+                        background-color: #f3b8b8;
+                        border-radius: 9px;
+                        padding: 5px;  \s
+                        width: 200px;    \s
+                    }
+                       
+                    .body {
+                        margin-top: 20px;
+                        color: #555555;
+                        font-size: 16px;
+                    }
+                       
+                    .contact-info {
+                        margin-top: 20px;
+                        font-size: 14px;
+                        color: #777777;
+                        text-align: center;
+                    }
+                </style>
+            </head>
+                       
+            <body>
+                <div class="container">
+                    <img src="https://raw.githubusercontent.com/GalliardDev/ContasocRemake/master/src/main/resources/images/logohuerto.png" width="150" class="logo">
+                    <h4 class="title">Huertos la Salud Bellavista</h4>
+                    <center><h5 class="subtitle">AVISO DE IMPAGO</h5></center>
+                    <p class="body">Estimado/a {nombre},</p>
+                    <p class="body">Nos ponemos en contacto con usted para informarle que tiene
+                        cuotas pendientes de pago.<br><br>
+                        Rogamos tenga en cuenta el documento adjunto para conocer m&aacute;s detalles.
+                    </p>
+                    <p class="body">Atte. La Directiva</p>
+                    <div class="contact-info">
+                        <p>Direcci&oacute;n: C/ Cronos SN, Bellavista, Sevilla, 41014</p>
+                        <p>Email: huertoslasaludbellavista@gmail.com</p>
+                    </div>
+                </div>
+            </body>
+                       
+            </html>
+             """;
     public static String MISBEHAVE_EMAIL = """
             <!DOCTYPE html>
             <html>

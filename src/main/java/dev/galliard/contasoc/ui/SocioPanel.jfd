@@ -1,0 +1,147 @@
+JFDML JFormDesigner: "8.2.1.0.348" Java: "17.0.9" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "hidemode 3,gapx 0"
+			"$columnConstraints": "[fill][grow,fill][fill][fill]"
+			"$rowConstraints": "[grow,fill]"
+		} ) {
+			name: "this"
+			"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.SystemColor controlShadow )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "insets 0,hidemode 3,gapy 0"
+				"$columnConstraints": "[grow,fill]"
+				"$rowConstraints": "[fill][grow,fill]"
+			} ) {
+				name: "iconoEstadoPanel"
+				"opaque": false
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+				}
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "iconoLabel"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/farmer.png" )
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0,alignx center,growx 0,width 44:44:44,height 44:44:44"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "estadoLabel"
+					"horizontalAlignment": 0
+					"background": new java.awt.Color( 9, 247, 140, 255 )
+					"font": new java.awt.Font( "Segoe UI", 1, 16 )
+					"border": new javax.swing.border.TitledBorder( "" )
+					"text": "ACTIVO"
+					"opaque": true
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1,align center center,grow 0 0,width 96:96:96,height 32:32:32"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0,gapx null 12"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "insets 0,hidemode 3,gapy 0"
+				"$columnConstraints": "[grow,fill]"
+				"$rowConstraints": "[fill][grow,fill]"
+			} ) {
+				name: "datosImportantesPanel"
+				"opaque": false
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+				}
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "nombreLabel"
+					"text": "NOMBRE APELLIDO APELLIDO"
+					"font": new java.awt.Font( "Segoe UI", 0, 24 )
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets 0,hidemode 3,gapx 0"
+					"$columnConstraints": "[grow,fill][grow,fill][grow,fill]"
+					"$rowConstraints": "[grow,fill]"
+				} ) {
+					name: "contactoPanel"
+					"opaque": false
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "dniLabel"
+						"text": "00000000T"
+						"font": &Font0 new java.awt.Font( "Segoe UI", 0, 16 )
+						"border": new javax.swing.border.TitledBorder( null, "NIF/NIE", 4, 0, &Font1 new java.awt.Font( "Segoe UI", 0, 14 ), null )
+						auxiliary() {
+							"JavaCodeGenerator.variableModifiers": 12
+						}
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "telefonoLabel"
+						"text": "600500400"
+						"font": #Font0
+						"border": new javax.swing.border.TitledBorder( null, "Teléfono", 4, 0, #Font1, null )
+						auxiliary() {
+							"JavaCodeGenerator.variableModifiers": 12
+						}
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 1 0"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "emailLabel"
+						"text": "email@email.com"
+						"font": #Font0
+						"border": new javax.swing.border.TitledBorder( null, "Email", 4, 0, #Font1, null )
+						auxiliary() {
+							"JavaCodeGenerator.variableModifiers": 12
+						}
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 2 0"
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 0"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "socioLabel"
+				"text": "1"
+				"horizontalAlignment": 0
+				"font": &Font2 new java.awt.Font( "Segoe UI", 0, 36 )
+				"border": new javax.swing.border.TitledBorder( null, "Nº Socio", 4, 0, new java.awt.Font( "Segoe UI", 0, 14 ), null )
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+				}
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 2 0,width 96:96:96"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "huertoLabel"
+				"text": "1"
+				"font": #Font2
+				"border": new javax.swing.border.TitledBorder( null, "Nº Huerto", 4, 0, new java.awt.Font( "Segoe UI", 0, 14 ), null )
+				"horizontalAlignment": 0
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+				}
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 3 0,width 96:96:96"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 865, 95 )
+		} )
+	}
+}

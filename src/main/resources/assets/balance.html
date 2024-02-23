@@ -8,6 +8,7 @@
             --main: #549159;
             --bg: #f7f8fa;
         }
+
         body {
             margin: 0;
             padding: 0;
@@ -19,7 +20,7 @@
             height: 100%;
             background-color: var(--bg);
             padding: 15px;
-            font-family: 'Segoe UI';
+            font-family: 'Segoe UI',serif;
             overflow: auto;
             box-sizing: border-box;
         }
@@ -33,28 +34,21 @@
             border-bottom: 1px solid var(--main);
         }
 
-        .button {
+        .btnimage {
             background-color: var(--bg);
             border: none;
             border-radius: 5px;
             color: black;
-            padding: 2px 6px 2px 6px;
             text-align: center;
             text-decoration: none;
-            display: inline-flexbox;
-            font-size: 16px;
             cursor: pointer;
             margin: 2px 2px;
-            vertical-align: top middle;
-        }
-
-        .btnimage {
-            width: 16px;
-            height: 16px;
+            width: 32px;
+            height: 32px;
             vertical-align: middle;
         }
 
-        .button:hover {
+        .btnimage:hover {
             background-color: var(--selection);
         }
 
@@ -92,19 +86,20 @@
 
 <body onmousedown="return false" onselectstart="return false">
 <div class="container">
-    <p>Aqu&iacute; la verdad que hay poco que explicar. 
+    <p>Aqu&iacute; la verdad que hay poco que explicar.
         Pero vamos a ello.</p>
     <h2>Valores iniciales</h2>
-    <p>Al entrar por primera vez despu&eacute;s de la instalaci&oacute;n 
+    <p>Al entrar por primera vez despu&eacute;s de la instalaci&oacute;n
         en la pesta&ntilde;a de <b>BALANCE</b>, o si no se han
         establecido los valores todav&iacute;a (es decir siguen siendo <i>0.0</i>
         los valores iniciales de Banco y Caja), la ventana para introducirlos
         aparecer&aacute; y permitir&aacute; inicializarlos.
     </p>
     <h2>Poco m&aacute;s...</h2>
-    <p>A partir de aqu&iacute; todo est&aacute; hecho. El balance se 
-        recalcular&aacute; autom&aacute;ticamente cada vez que se a&ntilde;ade un 
-        ingreso o un gasto y se ver&aacute; reflejado en la pesta&ntilde;a de <b>BALANCE</b>.
+    <p>A partir de aqu&iacute; todo est&aacute; hecho. El balance se
+        recalcular&aacute; autom&aacute;ticamente cada vez que se a&ntilde;ade un
+        ingresos o un gastos y se ver&aacute; reflejado en la pesta&ntilde;a de <b>BALANCE</b>. Se ha a&ntilde;adido un bot&oacute;n para cerrar a&ntilde;o.
+        Permite cerrar el a&ntilde;o y reiniciar los valores de Banco y Caja a un valor concreto.
     </p>
 </div>
 </body>

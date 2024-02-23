@@ -4,23 +4,24 @@
 
 package dev.galliard.contasoc.ui;
 
-import dev.galliard.contasoc.database.ContasocDAO;
-import dev.galliard.contasoc.ui.GUIManager;
-import dev.galliard.contasoc.util.ContasocLogger;
-import dev.galliard.contasoc.util.UpperCaseFilter;
+import dev.galliard.contasoc.Contasoc;
+import dev.galliard.contasoc.database.objects.Balance;
+import org.hibernate.exception.ConstraintViolationException;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.SQLException;
-import java.util.List;
 import javax.swing.*;
-import javax.swing.text.AbstractDocument;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 /**
  * @author jomaa
  */
+@SuppressWarnings("ALL")
 public class SaldoInicial extends JFrame {
+    protected static Double inicialBanco = 0.0;
+    protected static Double inicialCaja = 0.0;
     private static SaldoInicial instance;
+
     private SaldoInicial() {
         initComponents();
         setActions();
@@ -47,14 +48,15 @@ public class SaldoInicial extends JFrame {
     }
 
     private void saldoInicialGuardarBtnActionPerformed(ActionEvent e) {
-        GUIManager.inicialBanco = Double.parseDouble(inicialBancoField.getText());
-        GUIManager.inicialCaja = Double.parseDouble(inicialCajaField.getText());
+        inicialBanco = Double.parseDouble(inicialBancoField.getText());
+        inicialCaja = Double.parseDouble(inicialCajaField.getText());
+        Balance balance = new Balance(inicialBanco, inicialCaja);
         try {
-            ContasocDAO.insert("Balance", new String[] {"inicialBanco","inicialCaja"},
-                    new String[] {inicialBancoField.getText(),inicialCajaField.getText()});
-        } catch (SQLException ex) {
-            ContasocLogger.dispatchSQLException(ex);
+            Contasoc.jpaBalanceDao.save(balance);
+        } catch (ConstraintViolationException ex) {
+            Contasoc.logger.error("Error SQL", e);
         }
+        Contasoc.balance = (Balance) Contasoc.jpaBalanceDao.execute("SELECT e FROM Balance e", new String[]{});
         this.dispose();
     }
 

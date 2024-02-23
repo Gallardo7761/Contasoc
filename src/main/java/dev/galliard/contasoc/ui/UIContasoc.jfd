@@ -6,137 +6,151 @@ new FormModel {
 		auxiliary() {
 			"JavaCodeGenerator.defaultVariableModifiers": 12
 		}
-		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) {
+			"hgap": 6
+		} ) {
 			name: "this"
 			"$locationPolicy": 1
 			"font": new java.awt.Font( "Segoe UI", 0, 12 )
 			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/contasoc_small.png" )
 			"defaultCloseOperation": 3
-			"preferredSize": new java.awt.Dimension( 900, 600 )
-			"minimumSize": new java.awt.Dimension( 900, 600 )
+			"preferredSize": new java.awt.Dimension( 1000, 617 )
+			"minimumSize": new java.awt.Dimension( 1000, 617 )
 			"title": "Huertos la Salud Bellavista"
 			auxiliary() {
 				"JavaCodeGenerator.variableModifiers": 12
 			}
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq {space :::p, comp nuevoBtn:::p::p, space :::p, comp editarBtn:::p::p, space :::p, comp eliminarBtn:::p::p, space :::p, comp printBtn:::p::p, space :::p, comp importarBtn:::p::p, space :::p, comp exportarBtn:::p::p, space ::199:x, comp versionLabel:::p:110:p, space s:::p, comp helpBtn:::p:31:p, space :::p}}"
-				"$verticalGroup": "par l {seq l {space :::p, par l:::p {par b:l {comp editarBtn::b:::x, comp nuevoBtn::b:p::p, comp eliminarBtn::b:p::p, comp printBtn::b:p::p}, par b:t {comp helpBtn::b::31:x, comp importarBtn::b:p::p, comp exportarBtn::b:p::p, comp versionLabel::b::31:x}}, space ::2:x}}"
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosing", "thisWindowClosing", true ) )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$columnConstraints": "[fill][fill][fill][fill][grow,fill][fill]"
+				"$rowConstraints": "[fill]"
+				"$layoutConstraints": "insets panel,hidemode 1,gap 12 0"
 			} ) {
-				name: "searchAndButtonsWrapper"
-				"preferredSize": new java.awt.Dimension( 1008, 40 )
-				"minimumSize": new java.awt.Dimension( 673, 40 )
+				name: "btnSearchPanel"
+				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.SystemColor controlShadow )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "nuevoBtn"
-					"text": "Nuevo"
-					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-					"iconTextGap": 5
-					"margin": new java.awt.Insets( 0, 0, 0, 12 )
-					"background": &Color0 new java.awt.Color( 247, 248, 250, 255 )
+					"font": &Font0 new java.awt.Font( "Segoe UI", 0, 16 )
+					"margin": new java.awt.Insets( 0, 0, 0, 0 )
 					"foreground": sfield java.awt.Color black
+					"alignmentY": 0.0f
+					"maximumSize": new java.awt.Dimension( 79, 32 )
+					"minimumSize": new java.awt.Dimension( 79, 32 )
+					"preferredSize": new java.awt.Dimension( 79, 32 )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/icons/add2_32.png" )
+					"toolTipText": "Nuevo [Ctrl+N]"
+					"background": &Color0 new java.awt.Color( 247, 248, 250, 255 )
 					"borderPainted": false
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/newpass_small_black.png" )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
+						"JavaCodeGenerator.postInitCode": "nuevoBtn.putClientProperty( \"JButton.buttonType\", \"borderless\");"
 					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "nuevoBtnActionPerformed", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0,width 40:40:40,height 40:40:40"
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "editarBtn"
-					"text": "Editar"
-					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-					"iconTextGap": 5
-					"margin": new java.awt.Insets( 0, 0, 0, 12 )
+					"font": new java.awt.Font( "Segoe UI", 0, 16 )
+					"foreground": new java.awt.Color( 0, 0, 0, 255 )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/icons/corel2_32.png" )
+					"margin": new java.awt.Insets( 0, 0, 0, 0 )
+					"toolTipText": "Editar [Ctrl+E]"
 					"background": #Color0
-					"foreground": sfield java.awt.Color black
 					"borderPainted": false
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/edit_small_black.png" )
 					auxiliary() {
-						"JavaCodeGenerator.variableModifiers": 12
+						"JavaCodeGenerator.postInitCode": "editarBtn.putClientProperty( \"JButton.buttonType\", \"borderless\");"
 					}
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "editarBtnActionPerformed", true ) )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "editarBtn", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 0,width 40:40:40,height 40:40:40"
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "eliminarBtn"
-					"text": "Eliminar"
-					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-					"iconTextGap": 5
-					"margin": new java.awt.Insets( 0, 0, 0, 12 )
-					"background": #Color0
+					"font": #Font0
+					"margin": new java.awt.Insets( 0, 0, 0, 0 )
 					"foreground": sfield java.awt.Color black
+					"alignmentY": 0.0f
+					"maximumSize": new java.awt.Dimension( 79, 32 )
+					"minimumSize": new java.awt.Dimension( 79, 32 )
+					"preferredSize": new java.awt.Dimension( 79, 32 )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/icons/delete2_32.png" )
+					"toolTipText": "Eliminar [Ctrl+D]"
+					"background": #Color0
 					"borderPainted": false
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/bin_small_black.png" )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
+						"JavaCodeGenerator.postInitCode": "eliminarBtn.putClientProperty( \"JButton.buttonType\", \"borderless\");"
 					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "eliminarBtnActionPerformed", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 0,width 40:40:40,height 40:40:40"
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "printBtn"
-					"text": "Imprimir"
-					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-					"iconTextGap": 5
-					"margin": new java.awt.Insets( 0, 0, 0, 12 )
-					"background": #Color0
+					"font": #Font0
+					"margin": new java.awt.Insets( 0, 0, 0, 0 )
 					"foreground": sfield java.awt.Color black
+					"alignmentY": 0.0f
+					"maximumSize": new java.awt.Dimension( 79, 32 )
+					"minimumSize": new java.awt.Dimension( 79, 32 )
+					"preferredSize": new java.awt.Dimension( 79, 32 )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/icons/printer2_32.png" )
+					"toolTipText": "Imprimir [Ctrl+P]"
+					"background": #Color0
 					"borderPainted": false
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/printer.png" )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
+						"JavaCodeGenerator.postInitCode": "printBtn.putClientProperty( \"JButton.buttonType\", \"borderless\");"
 					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "printBtnActionPerformed", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 3 0,width 40:40:40,height 40:40:40"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets 0,hidemode 3"
+					"$columnConstraints": "[grow,fill]"
+					"$rowConstraints": "[grow,fill]"
+				} ) {
+					name: "aux"
+					"opaque": false
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "buscarField"
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+						"caretColor": new java.awt.Color( 84, 145, 89, 255 )
+						"preferredSize": new java.awt.Dimension( 68, 28 )
+						"minimumSize": new java.awt.Dimension( 68, 28 )
+						"maximumSize": new java.awt.Dimension( 2147483647, 28 )
+						auxiliary() {
+							"JavaCodeGenerator.variableModifiers": 12
+							"JavaCodeGenerator.postInitCode": "buscarField.putClientProperty(\"JTextField.placeholderText\", \"Buscar socios...\");\nbuscarField.putClientProperty(\"JTextField.leadingIcon\", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource(\"/images/icons/search_medium_black.png\"))));\n"
+						}
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0,height 40:40:40"
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 4 0,width 500:500:500"
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "importarBtn"
-					"text": "Importar"
-					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-					"iconTextGap": 5
-					"margin": new java.awt.Insets( 0, 0, 0, 12 )
-					"background": #Color0
-					"foreground": sfield java.awt.Color black
-					"borderPainted": false
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/import_small_black.png" )
-					auxiliary() {
-						"JavaCodeGenerator.variableModifiers": 12
-					}
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "importarBtnActionPerformed", true ) )
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "exportarBtn"
-					"text": "Exportar"
-					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-					"iconTextGap": 5
-					"margin": new java.awt.Insets( 0, 0, 0, 12 )
-					"background": #Color0
-					"foreground": sfield java.awt.Color black
-					"borderPainted": false
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/export_small_black.png" )
-					auxiliary() {
-						"JavaCodeGenerator.variableModifiers": 12
-					}
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "exportarBtnActionPerformed", true ) )
-				} )
-				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "versionLabel"
-					"text": "Ver. 6.0.0"
-					"focusable": false
-					"horizontalAlignment": 11
-					auxiliary() {
-						"JavaCodeGenerator.postInitCode": "versionLabel.setText(\"Ver. \" + Contasoc.VERSION);"
-					}
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "helpBtn"
-					"text": "?"
-					"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 4, false )
-					"iconTextGap": 0
+					name: "ayudaBtn"
+					"font": #Font0
 					"margin": new java.awt.Insets( 0, 0, 0, 0 )
-					"background": #Color0
 					"foreground": sfield java.awt.Color black
+					"alignmentY": 0.0f
+					"maximumSize": new java.awt.Dimension( 79, 32 )
+					"minimumSize": new java.awt.Dimension( 79, 32 )
+					"preferredSize": new java.awt.Dimension( 79, 32 )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/icons/help2_32.png" )
+					"toolTipText": "Ayuda [F1]"
+					"background": #Color0
 					"borderPainted": false
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
+						"JavaCodeGenerator.postInitCode": "ayudaBtn.putClientProperty( \"JButton.buttonType\", \"borderless\");"
 					}
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "helpBtnActionPerformed", true ) )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "ayudaBtn", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 5 0,width 40:40:40,height 40:40:40"
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "North"
@@ -144,158 +158,102 @@ new FormModel {
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "tabbedPane1"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
-				"tabPlacement": 2
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
-					"JavaCodeGenerator.postInitCode": "tabbedPane1.putClientProperty(\"JTabbedPane.tabHeight\", 50);\ntabbedPane1.putClientProperty(\"JTabbedPane.minimumTabWidth\", 160);\ntabbedPane1.putClientProperty(\"JTabbedPane.maximumTabWidth\", 160);"
+					"JavaCodeGenerator.postInitCode": "tabbedPane1.putClientProperty(\"JTabbedPane.minimumTabWidth\", 160);\ntabbedPane1.putClientProperty(\"JTabbedPane.maximumTabWidth\", 160);"
 				}
+				addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "tabbedPane1StateChanged", true ) )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
 					name: "sociosPanel"
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 12 12 12 0,hidemode 3,gap 0 0"
+						"$columnConstraints": "[grow,fill][fill]"
+						"$rowConstraints": "[grow,fill]"
+					} ) {
 						name: "cardSociosPanel"
 						auxiliary() {
 							"JavaCodeGenerator.variableModifiers": 12
 						}
-						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq t {space :::p, comp sociosTablaPanel::::861:x, space :::p}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp sociosTablaPanel::::543:x, space :::p}}"
-						} ) {
-							name: "sociosWrapper"
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "sociosListaPanel"
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
 							}
-							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-								name: "sociosTablaPanel"
-								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "sociosLista"
+								"selectionMode": 0
 								auxiliary() {
-									"JavaCodeGenerator.variableModifiers": 12
+									"JavaCodeGenerator.typeParameters": "SocioPanel"
+									"JavaCodeGenerator.variableModifiers": 9
+									"JavaCodeGenerator.postInitCode": "sociosLista.setCellRenderer(new SocioPanelRenderer());"
 								}
-								add( new FormComponent( "javax.swing.JTable" ) {
-									name: "sociosTabla"
-									"autoResizeMode": 3
-									"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-									"selectionBackground": &Color1 new java.awt.Color( 200, 232, 202, 255 )
-									"gridColor": &Color2 new java.awt.Color( 153, 153, 153, 255 )
-									"showHorizontalLines": true
-									"fillsViewportHeight": true
-									"selectionMode": 0
-									"name": "Socios"
-									"autoCreateRowSorter": true
-									auxiliary() {
-										"JavaCodeGenerator.variableModifiers": 12
-										"JavaCodeGenerator.postInitCode": "sociosTabla.setModel(new SociosTablaModel());\nsociosTabla.getTableHeader().setReorderingAllowed(false);\nsociosTabla.getTableHeader().setResizingAllowed(false);\nGUIManager.setColumnWidths(sociosTabla, \n\tnew int[] {80,80,360,110,110,330,140,140,140,330,150,120});\nsociosTabla.setRowHeight(50);\nsociosTabla.setDefaultRenderer(String.class, new CustomCellRenderer());\nsociosTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());"
-									}
-									addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "sociosTablaMouseClicked", true ) )
-								} )
 							} )
-						}, new FormLayoutConstraints( class java.lang.String ) {
-							"value": "Center"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0"
 						} )
-						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq l {comp toListaEsperaBtn:::p:22:p, space :0:0:x}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp toListaEsperaBtn::::543:x, space :::p}}"
-						} ) {
-							name: "toListaEsperaWrapper"
-							add( new FormComponent( "javax.swing.JButton" ) {
-								name: "toListaEsperaBtn"
-								"background": &Color3 new java.awt.Color( 247, 248, 250, 255 )
-								"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 65536, 4, false )
-								"foreground": &Color4 new java.awt.Color( 91, 97, 104, 255 )
-								"toolTipText": "Ver lista de espera"
-								"borderPainted": false
-								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
-								auxiliary() {
-									"JavaCodeGenerator.variableModifiers": 12
-									"JavaCodeGenerator.postInitCode": "toListaEsperaBtn.setText(\"\\u25B6\");"
-								}
-								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toListaEsperaBtnActionPerformed", true ) )
-							} )
-						}, new FormLayoutConstraints( class java.lang.String ) {
-							"value": "After"
-						} )
-						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq l {space :::p, comp buscarField::::883:x, space :::p}}"
-							"$verticalGroup": "par l {seq l {comp buscarField:::p::p, space :0:0:x}}"
-						} ) {
-							name: "buscarWrapper"
-							add( new FormComponent( "javax.swing.JTextField" ) {
-								name: "buscarField"
-								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
-								"minimumSize": new java.awt.Dimension( 68, 38 )
-								"preferredSize": new java.awt.Dimension( 68, 38 )
-								"caretColor": new java.awt.Color( 84, 145, 89, 255 )
-								auxiliary() {
-									"JavaCodeGenerator.variableModifiers": 12
-									"JavaCodeGenerator.postInitCode": "buscarField.putClientProperty(\"JTextField.placeholderText\", \"Buscar socios...\");\nbuscarField.putClientProperty(\"JTextField.leadingIcon\", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource(\"/images/search_medium_black.png\"))));"
-								}
-							} )
-						}, new FormLayoutConstraints( class java.lang.String ) {
-							"value": "First"
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "toListaEsperaBtn"
+							"background": &Color1 new java.awt.Color( 247, 248, 250, 255 )
+							"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 65536, 4, false )
+							"foreground": &Color2 new java.awt.Color( 91, 97, 104, 255 )
+							"toolTipText": "Ver lista de espera [->]"
+							"borderPainted": false
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							auxiliary() {
+								"JavaCodeGenerator.variableModifiers": 12
+								"JavaCodeGenerator.postInitCode": "toListaEsperaBtn.setText(\"\\u25B6\");"
+							}
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toListaEsperaBtnActionPerformed", true ) )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 0,width 24:24:24"
 						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
 						"value": "cardSocios"
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 12 0 12 12,hidemode 3,gap 0 0"
+						"$columnConstraints": "[fill][grow,fill]"
+						"$rowConstraints": "[grow,fill]"
+					} ) {
 						name: "cardListaEsperaPanel"
 						auxiliary() {
 							"JavaCodeGenerator.variableModifiers": 12
 						}
-						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq l {comp toSociosBtn:::p:22:p, space :0:0:x}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp toSociosBtn::::581:x, space :::p}}"
-						} ) {
-							name: "toSociosWrapper"
-							add( new FormComponent( "javax.swing.JButton" ) {
-								name: "toSociosBtn"
-								"background": #Color3
-								"font": #SwingDerivedFont1
-								"foreground": #Color4
-								"toolTipText": "Ver socios"
-								"borderPainted": false
-								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
-								auxiliary() {
-									"JavaCodeGenerator.variableModifiers": 12
-									"JavaCodeGenerator.postInitCode": "toSociosBtn.setText(\"\\u25C0\");"
-								}
-								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toSociosBtnActionPerformed", true ) )
-							} )
-						}, new FormLayoutConstraints( class java.lang.String ) {
-							"value": "West"
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "toSociosBtn"
+							"background": #Color1
+							"font": #SwingDerivedFont0
+							"foreground": #Color2
+							"toolTipText": "Ver socios [<-]"
+							"borderPainted": false
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							auxiliary() {
+								"JavaCodeGenerator.variableModifiers": 12
+								"JavaCodeGenerator.postInitCode": "toSociosBtn.setText(\"\\u25C0\");"
+							}
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toSociosBtnActionPerformed", true ) )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0,width 24:24:24"
 						} )
-						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::861:x, space :::p}}"
-							"$verticalGroup": "par l {seq l {space :::p, comp listaEsperaTablaPanel::::581:x, space :::p}}"
-						} ) {
-							name: "listaEsperaWrapper"
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "listaEsperaListaPanel"
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
 							}
-							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-								name: "listaEsperaTablaPanel"
-								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "listaEsperaLista"
+								"selectionMode": 0
 								auxiliary() {
-									"JavaCodeGenerator.variableModifiers": 12
+									"JavaCodeGenerator.variableModifiers": 9
+									"JavaCodeGenerator.typeParameters": "ListaEsperaPanel"
+									"JavaCodeGenerator.postInitCode": "listaEsperaLista.setCellRenderer(new ListaEsperaPanelRenderer());"
 								}
-								add( new FormComponent( "javax.swing.JTable" ) {
-									name: "listaEsperaTabla"
-									"autoResizeMode": 3
-									"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
-									"gridColor": #Color2
-									"selectionBackground": #Color1
-									"showHorizontalLines": true
-									"fillsViewportHeight": true
-									"selectionMode": 0
-									auxiliary() {
-										"JavaCodeGenerator.variableModifiers": 12
-										"JavaCodeGenerator.postInitCode": "listaEsperaTabla.setModel(new ListaEsperaTablaModel());\nlistaEsperaTabla.getTableHeader().setReorderingAllowed(false);\nlistaEsperaTabla.getTableHeader().setResizingAllowed(false);\nlistaEsperaTabla.setRowHeight(50);\nlistaEsperaTabla.setDefaultRenderer(String.class, new CustomCellRenderer());\nlistaEsperaTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());"
-									}
-								} )
 							} )
-						}, new FormLayoutConstraints( class java.lang.String ) {
-							"value": "Center"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 0"
 						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
 						"value": "cardListaEspera"
@@ -303,75 +261,68 @@ new FormModel {
 				}, new FormLayoutConstraints( null ) {
 					"title": "SOCIOS"
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq t {space :::p, comp ingresosTablaPanel::::883:x, space :::p}}"
-					"$verticalGroup": "par l {seq l {space :::p, comp ingresosTablaPanel::::581:x, space :::p}}"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets 12,hidemode 3"
+					"$columnConstraints": "[grow,fill]"
+					"$rowConstraints": "[grow,fill]"
 				} ) {
 					name: "ingresosPanel"
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
 					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-						name: "ingresosTablaPanel"
+						name: "ingresosListaPanel"
 						auxiliary() {
 							"JavaCodeGenerator.variableModifiers": 12
 						}
-						add( new FormComponent( "javax.swing.JTable" ) {
-							name: "ingresosTabla"
-							"autoResizeMode": 3
-							"font": #SwingDerivedFont0
-							"selectionBackground": #Color1
-							"gridColor": #Color2
-							"showHorizontalLines": true
-							"fillsViewportHeight": true
+						add( new FormComponent( "javax.swing.JList" ) {
+							name: "ingresosLista"
 							"selectionMode": 0
-							"name": "Ingresos"
-							"autoCreateRowSorter": true
 							auxiliary() {
-								"JavaCodeGenerator.variableModifiers": 12
-								"JavaCodeGenerator.postInitCode": "ingresosTabla.setModel(new IngresosTablaModel());\ningresosTabla.getTableHeader().setReorderingAllowed(false);\ningresosTabla.getTableHeader().setResizingAllowed(false);\ningresosTabla.setRowHeight(50);\ningresosTabla.setDefaultRenderer(String.class, new CustomCellRenderer());\ningresosTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());\ningresosTabla.setDefaultRenderer(Double.class, new CustomCellRenderer());"
+								"JavaCodeGenerator.typeParameters": "IngresoPanel"
+								"JavaCodeGenerator.variableModifiers": 9
+								"JavaCodeGenerator.postInitCode": "ingresosLista.setCellRenderer(new IngresoPanelRenderer());"
 							}
 						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "INGRESOS"
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq l {space :::p, comp gastosTablaPanel::::883:x, space :::p}}"
-					"$verticalGroup": "par l {seq t {space :::p, comp gastosTablaPanel::::581:x, space :::p}}"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets 12,hidemode 3"
+					"$columnConstraints": "[grow,fill]"
+					"$rowConstraints": "[grow,fill]"
 				} ) {
 					name: "gastosPanel"
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
 					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-						name: "gastosTablaPanel"
+						name: "gastosListaPanel"
 						auxiliary() {
 							"JavaCodeGenerator.variableModifiers": 12
 						}
-						add( new FormComponent( "javax.swing.JTable" ) {
-							name: "gastosTabla"
-							"autoResizeMode": 3
-							"font": #SwingDerivedFont0
-							"selectionBackground": #Color1
-							"gridColor": #Color2
-							"showHorizontalLines": true
-							"fillsViewportHeight": true
+						add( new FormComponent( "javax.swing.JList" ) {
+							name: "gastosLista"
 							"selectionMode": 0
-							"name": "Gastos"
-							"autoCreateRowSorter": true
 							auxiliary() {
-								"JavaCodeGenerator.variableModifiers": 12
-								"JavaCodeGenerator.postInitCode": "gastosTabla.setModel(new GastosTablaModel());\ngastosTabla.getTableHeader().setReorderingAllowed(false);\ngastosTabla.getTableHeader().setResizingAllowed(false);\ngastosTabla.setRowHeight(50);\ngastosTabla.setDefaultRenderer(String.class, new CustomCellRenderer());\ngastosTabla.setDefaultRenderer(Integer.class, new CustomCellRenderer());\ngastosTabla.setDefaultRenderer(Double.class, new CustomCellRenderer());"
+								"JavaCodeGenerator.typeParameters": "GastoPanel"
+								"JavaCodeGenerator.variableModifiers": 9
+								"JavaCodeGenerator.postInitCode": "gastosLista.setCellRenderer(new GastoPanelRenderer());"
 							}
 						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "GASTOS"
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {comp balanceCantidadesPanel::t::895:x}"
-					"$verticalGroup": "par l {seq t {space :p:33:p, comp balanceCantidadesPanel::::560:x}}"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets 33 0 0 0,hidemode 3,aligny center"
+					"$columnConstraints": "[grow,fill]"
+					"$rowConstraints": "[grow,fill]"
 				} ) {
 					name: "balancePanel"
 					auxiliary() {
@@ -394,7 +345,7 @@ new FormModel {
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "tBancoIngresosLabel"
 								"text": "TOTAL INGRESOS BANCO"
-								"font": &SwingDerivedFont2 new com.jformdesigner.model.SwingDerivedFont( null, 0, 10, false )
+								"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 0, 10, false )
 								"horizontalAlignment": 0
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
@@ -407,7 +358,7 @@ new FormModel {
 								"text": "0,00 €"
 								"horizontalTextPosition": 0
 								"horizontalAlignment": 0
-								"font": &Font0 new java.awt.Font( "Segoe UI", 2, 48 )
+								"font": &Font1 new java.awt.Font( "Segoe UI", 2, 48 )
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
 								}
@@ -423,7 +374,7 @@ new FormModel {
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "tCajaIngresosLabel"
 								"text": "TOTAL INGRESOS CAJA"
-								"font": #SwingDerivedFont2
+								"font": #SwingDerivedFont1
 								"horizontalAlignment": 0
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
@@ -436,7 +387,7 @@ new FormModel {
 								"text": "0,00  €"
 								"horizontalTextPosition": 0
 								"horizontalAlignment": 0
-								"font": #Font0
+								"font": #Font1
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
 								}
@@ -452,7 +403,7 @@ new FormModel {
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "tBancoGastosLabel"
 								"text": "TOTAL GASTOS BANCO"
-								"font": #SwingDerivedFont2
+								"font": #SwingDerivedFont1
 								"horizontalAlignment": 0
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
@@ -465,7 +416,7 @@ new FormModel {
 								"text": "0,00 €"
 								"horizontalTextPosition": 0
 								"horizontalAlignment": 0
-								"font": #Font0
+								"font": #Font1
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
 								}
@@ -481,7 +432,7 @@ new FormModel {
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "tCajaGastosLabel"
 								"text": "TOTAL GASTOS CAJA"
-								"font": #SwingDerivedFont2
+								"font": #SwingDerivedFont1
 								"horizontalAlignment": 0
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
@@ -494,7 +445,7 @@ new FormModel {
 								"text": "0,00 €"
 								"horizontalTextPosition": 0
 								"horizontalAlignment": 0
-								"font": #Font0
+								"font": #Font1
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
 								}
@@ -521,7 +472,7 @@ new FormModel {
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "saldoBancoValue"
 								"text": "0,00 €"
-								"font": &Font1 new java.awt.Font( "Segoe UI", 2, 48 )
+								"font": &Font2 new java.awt.Font( "Segoe UI", 2, 48 )
 								"horizontalAlignment": 0
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
@@ -549,7 +500,7 @@ new FormModel {
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "saldoCajaValue"
 								"text": "0,00 €"
-								"font": #Font1
+								"font": #Font2
 								"horizontalAlignment": 0
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
@@ -558,19 +509,40 @@ new FormModel {
 								"value": "Center"
 							} )
 						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+							"$layoutConstraints": "hidemode 3"
+							"$columnConstraints": "[grow,fill]"
+							"$rowConstraints": "[grow,fill]"
+						} ) {
+							name: "cerrarAnyoPanel"
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "cerrarAnyoBtn"
+								"text": "Cerrar Año"
+								"font": new java.awt.Font( "Segoe UI", 0, 18 )
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cerrarAnyoBtn", true ) )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 0,aligny bottom,growy 0,width 128:128:128,height 32:32:32"
+							} )
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "BALANCE"
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets 12 0 0 0,hidemode 3,gap 0 0"
+					"$columnConstraints": "[grow,fill]"
+					"$rowConstraints": "[fill][grow,fill][fill]"
+				} ) {
 					name: "emailPanel"
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
 					addEvent( new FormEvent( "java.awt.event.ComponentListener", "componentShown", "emailPanelComponentShown", true ) )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq {space :p:12:p, comp destinatarioLabel:::p::p, space u:::p, comp destinatarioComboBox:::p:246:p, space u:::p, comp asuntoLabel:::p::p, space u:::p, comp asuntoField:::p:210:p, space :::p, comp adjuntoCheckBox:::p::p, space :::p}}"
-						"$verticalGroup": "par l {par b {comp asuntoLabel::b:p:26:p, comp asuntoField::b:p::p, comp destinatarioLabel::b:p:26:p, comp destinatarioComboBox::b:p:32:p, comp adjuntoCheckBox::b:p::p}}"
+						"$horizontalGroup": "par l {seq {space :p:12:p, comp destinatarioLabel:::p::p, space u:::p, comp destinatarioComboBox:::p:246:p, space u:::p, comp asuntoLabel:::p::p, space u:::p, comp asuntoField:::p:210:p, space :p:239:p}}"
+						"$verticalGroup": "par l {par b {comp asuntoLabel::b:p:26:p, comp asuntoField::b:p::p, comp destinatarioLabel::b:p:26:p, comp destinatarioComboBox::b:p:32:p}}"
 					} ) {
 						name: "emailDataPanel"
 						auxiliary() {
@@ -579,7 +551,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "destinatarioLabel"
 							"text": "Destinatario:"
-							"font": &SwingDerivedFont3 new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+							"font": &SwingDerivedFont2 new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
 							}
@@ -587,7 +559,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "asuntoLabel"
 							"text": "Asunto:"
-							"font": #SwingDerivedFont3
+							"font": #SwingDerivedFont2
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
 							}
@@ -596,6 +568,8 @@ new FormModel {
 							name: "asuntoField"
 							"selectionColor": new java.awt.Color( 186, 219, 188, 255 )
 							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
+							"editable": false
+							"enabled": false
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
 							}
@@ -603,18 +577,14 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "destinatarioComboBox"
 							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+							"enabled": false
 							auxiliary() {
 								"JavaCodeGenerator.variableModifiers": 12
 								"JavaCodeGenerator.typeParameters": "String"
 							}
 						} )
-						add( new FormComponent( "javax.swing.JCheckBox" ) {
-							name: "adjuntoCheckBox"
-							"text": "Adjunto"
-							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
-						} )
-					}, new FormLayoutConstraints( class java.lang.String ) {
-						"value": "North"
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0"
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) ) {
 						name: "emailBodyPanel"
@@ -630,6 +600,18 @@ new FormModel {
 							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 								name: "htmlEditorPanel"
 								"border": new javax.swing.border.LineBorder( new java.awt.Color( 120, 127, 135, 255 ), 1, false )
+								add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+									name: "editorScrollPane"
+									"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									add( new FormComponent( "javax.swing.JTextPane" ) {
+										name: "htmlEditor"
+										"font": new java.awt.Font( "Times New Roman", 0, 16 )
+										"foreground": new java.awt.Color( 85, 85, 85, 255 )
+										"editable": false
+									} )
+								}, new FormLayoutConstraints( class java.lang.String ) {
+									"value": "Center"
+								} )
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 								"value": "pad 10 10 -10 -5,cell 0 0"
 							} )
@@ -643,12 +625,13 @@ new FormModel {
 							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 								name: "htmlRenderPanel"
 								"border": new javax.swing.border.LineBorder( new java.awt.Color( 120, 127, 135, 255 ), 1, false )
+								"enabled": false
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 								"value": "pad 10 5 -10 -10,cell 0 0"
 							} )
 						} )
-					}, new FormLayoutConstraints( class java.lang.String ) {
-						"value": "Center"
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 1"
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
 						"columns": 3
@@ -658,8 +641,8 @@ new FormModel {
 							"JavaCodeGenerator.variableModifiers": 12
 						}
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {seq {space :::p, comp enviarBtn:::p::p, space :::p, comp tipoEmailComboBox:::p:160:p, space :::p, comp borradorBtn:::p::p, space :::p, comp adjuntoBtn:::p::p, space ::309:x}}"
-							"$verticalGroup": "par l {seq t {par t {comp enviarBtn::l:::x, par b:l {comp borradorBtn::b:p::p, comp adjuntoBtn::b:::x}, comp tipoEmailComboBox::l:::x}, space :::p}}"
+							"$horizontalGroup": "par l {seq {space :::p, comp enviarBtn:::p::p, space :::p, comp tipoEmailComboBox:::p:160:p, space :::p, comp borradorBtn:::p::p, space :::p, comp adjuntoBtn:::p::p, space :::p, comp adjuntoCheckBox:::p::p, space ::365:x}}"
+							"$verticalGroup": "par l {seq t {par t {comp enviarBtn::l:::x, par b:l {comp borradorBtn::b:p::p, comp adjuntoBtn::b:::x, comp adjuntoCheckBox::b:p::p}, comp tipoEmailComboBox::l:::x}, space :::p}}"
 						} ) {
 							name: "emailBtnsWrapper"
 							auxiliary() {
@@ -669,6 +652,7 @@ new FormModel {
 								name: "enviarBtn"
 								"text": "Enviar"
 								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+								"enabled": false
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
 								}
@@ -678,6 +662,7 @@ new FormModel {
 								name: "borradorBtn"
 								"text": "Guardar borrador"
 								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+								"enabled": false
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
 								}
@@ -686,22 +671,29 @@ new FormModel {
 							add( new FormComponent( "javax.swing.JComboBox" ) {
 								name: "tipoEmailComboBox"
 								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+								"enabled": false
 								auxiliary() {
 									"JavaCodeGenerator.variableModifiers": 12
 									"JavaCodeGenerator.typeParameters": "String"
 									"JavaCodeGenerator.postInitCode": "tipoEmailComboBox.addItem(\"NORMAL\");\ntipoEmailComboBox.addItem(\"AVISO IMPAGO\");\ntipoEmailComboBox.addItem(\"AVISO ABANDONO\");\ntipoEmailComboBox.addItem(\"MAL COMPORTAMIENTO\");"
 								}
-								addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "tipoEmailComboBoxItemStateChanged", true ) )
 							} )
 							add( new FormComponent( "javax.swing.JButton" ) {
 								name: "adjuntoBtn"
 								"text": "Adjuntar"
 								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+								"enabled": false
 								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "adjuntoBtnActionPerformed", true ) )
 							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "adjuntoCheckBox"
+								"text": "Adjunto"
+								"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+								"enabled": false
+							} )
 						} )
-					}, new FormLayoutConstraints( class java.lang.String ) {
-						"value": "South"
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 2"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "EMAIL"
@@ -711,7 +703,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 5 )
-			"size": new java.awt.Dimension( 1010, 670 )
+			"size": new java.awt.Dimension( 1000, 615 )
 		} )
 	}
 }

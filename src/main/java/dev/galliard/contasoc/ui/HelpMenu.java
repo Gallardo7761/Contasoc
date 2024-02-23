@@ -4,28 +4,28 @@
 
 package dev.galliard.contasoc.ui;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.net.MalformedURLException;
-import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.border.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
-
+import dev.galliard.contasoc.Contasoc;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import net.miginfocom.swing.*;
+import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * @author jomaa
  */
+@SuppressWarnings("ALL")
 public class HelpMenu extends JFrame {
     private static HelpMenu instance = null;
     private final JFXPanel sociosJfxPanel;
@@ -33,6 +33,7 @@ public class HelpMenu extends JFrame {
     private final JFXPanel gastosJfxPanel;
     private final JFXPanel balanceJfxPanel;
     private final JFXPanel emailJfxPanel;
+
     private HelpMenu() {
         initComponents();
         inicializarTree();
@@ -54,6 +55,8 @@ public class HelpMenu extends JFrame {
         gastosPanel.add(gastosJfxPanel, BorderLayout.CENTER);
         balancePanel.add(balanceJfxPanel, BorderLayout.CENTER);
         emailPanel.add(emailJfxPanel, BorderLayout.CENTER);
+
+        versionLabel.setText("Ver. " + Contasoc.VERSION);
     }
 
     public static HelpMenu getInstance() {
@@ -152,6 +155,7 @@ public class HelpMenu extends JFrame {
         separator1 = new JSeparator();
         helpWrapper = new JPanel();
         cardGuide = new JPanel();
+        versionLabel = new JLabel();
         label1 = new JLabel();
         scrollPane1 = new JScrollPane();
         textArea1 = new JTextArea();
@@ -232,7 +236,7 @@ public class HelpMenu extends JFrame {
                 tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
                 treePanel.setViewportView(tree);
             }
-            wrapper.add(treePanel, "cell 0 0,width 130:130:130");
+            wrapper.add(treePanel, "cell 0 0,width 150:150:150");
 
             //---- separator1 ----
             separator1.setBorder(new LineBorder(SystemColor.activeCaptionBorder));
@@ -246,17 +250,23 @@ public class HelpMenu extends JFrame {
                 //======== cardGuide ========
                 {
                     cardGuide.setLayout(new MigLayout(
-                        "insets 0,hidemode 3",
+                        "insets 0,hidemode 3,gapy 0",
                         // columns
                         "[grow,fill]",
                         // rows
+                        "[]" +
                         "[grow,fill]" +
                         "[grow,fill]"));
+
+                    //---- versionLabel ----
+                    versionLabel.setText("Ver. 6.4.0");
+                    versionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+                    cardGuide.add(versionLabel, "cell 0 0,alignx center,growx 0");
 
                     //---- label1 ----
                     label1.setIcon(new ImageIcon(getClass().getResource("/images/logohuerto_256.png")));
                     label1.setHorizontalAlignment(SwingConstants.CENTER);
-                    cardGuide.add(label1, "cell 0 0");
+                    cardGuide.add(label1, "cell 0 1");
 
                     //======== scrollPane1 ========
                     {
@@ -274,7 +284,7 @@ public class HelpMenu extends JFrame {
                         textArea1.setRequestFocusEnabled(false);
                         scrollPane1.setViewportView(textArea1);
                     }
-                    cardGuide.add(scrollPane1, "pad 10 10 -10 -10,cell 0 1");
+                    cardGuide.add(scrollPane1, "pad 10 10 -10 -10,cell 0 2");
                 }
                 helpWrapper.add(cardGuide, "guide");
 
@@ -555,7 +565,7 @@ public class HelpMenu extends JFrame {
                 }
                 helpWrapper.add(cardEmail, "email");
             }
-            wrapper.add(helpWrapper, "cell 3 0,width 293:293:293");
+            wrapper.add(helpWrapper, "cell 3 0,width 273:273:273");
         }
 
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
@@ -564,7 +574,7 @@ public class HelpMenu extends JFrame {
             contentPaneLayout.createParallelGroup()
                 .addGroup(contentPaneLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(wrapper, GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
+                    .addComponent(wrapper, GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
                     .addContainerGap())
         );
         contentPaneLayout.setVerticalGroup(
@@ -574,7 +584,7 @@ public class HelpMenu extends JFrame {
                     .addComponent(wrapper, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap())
         );
-        setSize(450, 600);
+        setSize(460, 615);
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
@@ -587,6 +597,7 @@ public class HelpMenu extends JFrame {
     protected static JSeparator separator1;
     protected static JPanel helpWrapper;
     protected static JPanel cardGuide;
+    protected static JLabel versionLabel;
     protected static JLabel label1;
     protected static JScrollPane scrollPane1;
     protected static JTextArea textArea1;

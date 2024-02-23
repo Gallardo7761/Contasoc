@@ -1,69 +1,84 @@
 package dev.galliard.contasoc.database;
 
+import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.TipoPago;
-import dev.galliard.contasoc.database.objects.Gasto;
-import dev.galliard.contasoc.database.objects.Gasto;
+import dev.galliard.contasoc.database.objects.Gastos;
+import dev.galliard.contasoc.util.Parsers;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Query;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class JpaGastoDao implements Dao<Gasto> {
+public class JpaGastoDao implements Dao<Gastos> {
     private EntityManager entityManager = JpaUtil.getEntityManager();
 
     @Override
-    public Optional<Gasto> get(long id) {
-        return Optional.ofNullable(entityManager.find(Gasto.class, id));
+    public Optional<Gastos> get(long id) {
+        return Optional.ofNullable(entityManager.find(Gastos.class, id));
     }
 
     @Override
-    public List<Gasto> getAll() {
-        Query query = entityManager.createQuery("SELECT e FROM Gasto e");
+    public List<Gastos> getAll() {
+        Query query = entityManager.createQuery("SELECT e FROM Gastos e");
         return query.getResultList();
     }
 
     @Override
-    public void save(Gasto gasto) {
-        transaction(entityManager -> entityManager.persist(gasto));
+    public void save(Gastos gastos) {
+        transaction(entityManager -> entityManager.persist(gastos));
     }
 
     @Override
-    public void update(Gasto gasto, String[] params) {
-        Date fecha = Date.valueOf(LocalDate.parse(params[0]));
+    public void update(Gastos gastos, String[] params) {
+        Date fecha = params[0].isEmpty() ? null : Date.valueOf(Parsers.dashDateParserReversed(params[0]));
         String proveedor = params[1];
         String concepto = params[2];
         Double cantidad = Double.valueOf(params[3]);
         String factura = params[4];
         String tipo = TipoPago.valueOf(params[5]).name();
 
-        gasto.setFecha(fecha);
-        gasto.setProveedor(proveedor);
-        gasto.setConcepto(concepto);
-        gasto.setCantidad(cantidad);
-        gasto.setFactura(factura);
-        gasto.setTipo(tipo);
+        gastos.setFecha(fecha);
+        gastos.setProveedor(proveedor);
+        gastos.setConcepto(concepto);
+        gastos.setCantidad(cantidad);
+        gastos.setFactura(factura);
+        gastos.setTipo(tipo);
 
-        transaction(entityManager -> entityManager.merge(gasto));
+        transaction(entityManager -> entityManager.merge(gastos));
     }
 
     @Override
-    public void delete(Gasto gasto) {
-        transaction(entityManager -> entityManager.remove(gasto));
+    public void delete(Gastos gastos) {
+        transaction(entityManager -> entityManager.remove(gastos));
     }
 
-    private void transaction(Consumer<EntityManager> action) {
+    @Override
+    public Object execute(String query, String[] params) {
+        Object result = null;
+        Query q = entityManager.createQuery(query);
+        for (int i = 0; i < params.length; i++) {
+            q.setParameter(i + 1, params[i]);
+        }
+        try {
+            result = q.getSingleResult();
+        } catch (Exception e) {
+            Contasoc.logger.error("Error executing query: " + e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
+    public void transaction(Consumer<EntityManager> action) {
         EntityTransaction tx = entityManager.getTransaction();
         try {
             tx.begin();
             action.accept(entityManager);
             tx.commit();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             tx.rollback();
             throw e;
         }
