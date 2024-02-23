@@ -4,25 +4,25 @@
 
 package dev.galliard.contasoc.ui;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import com.github.lgooddatepicker.components.*;
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.optionalusertools.CalendarBorderProperties;
 import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Estado;
-import dev.galliard.contasoc.common.TipoPago;
 import dev.galliard.contasoc.common.TipoSocio;
-import dev.galliard.contasoc.database.objects.Ingresos;
 import dev.galliard.contasoc.database.objects.Socios;
 import dev.galliard.contasoc.ui.models.IngresoPanelRenderer;
 import dev.galliard.contasoc.util.Parsers;
-import net.miginfocom.swing.*;
+import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * @author jomaa

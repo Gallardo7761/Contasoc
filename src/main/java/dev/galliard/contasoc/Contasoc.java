@@ -34,7 +34,7 @@ public class Contasoc {
     public static Balance balance;
 
     public static final Logger logger = LoggerFactory.getLogger(Contasoc.class);
-    public static final String VERSION = "6.4.0";
+    public static final String VERSION = "6.4.1-beta";
     public static CountDownLatch latch = new CountDownLatch(1);
 
     public static void main(String[] args) throws SQLException {

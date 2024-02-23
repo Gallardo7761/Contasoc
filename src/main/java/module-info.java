@@ -12,11 +12,7 @@ module Contasoc {
     requires com.formdev.flatlaf.intellijthemes;
     requires com.formdev.flatlaf;
     requires com.fasterxml.jackson.databind;
-    requires jakarta.activation;
     requires org.apache.commons.io;
-    requires org.simplejavamail.core;
-    requires org.simplejavamail;
-    requires jakarta.mail;
     requires layout;
     requires kernel;
     requires font.asian;

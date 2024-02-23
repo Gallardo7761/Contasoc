@@ -4,10 +4,10 @@
 
 package dev.galliard.contasoc.ui;
 
-import com.github.lgooddatepicker.components.*;
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.optionalusertools.CalendarBorderProperties;
 import dev.galliard.contasoc.Contasoc;
-import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.common.Estado;
 import dev.galliard.contasoc.common.FormatterType;
 import dev.galliard.contasoc.common.TipoSocio;
@@ -17,7 +17,6 @@ import dev.galliard.contasoc.util.ErrorHandler;
 import dev.galliard.contasoc.util.Parsers;
 import dev.galliard.contasoc.util.UpperCaseFilter;
 import net.miginfocom.swing.MigLayout;
-import org.checkerframework.checker.guieffect.qual.UI;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

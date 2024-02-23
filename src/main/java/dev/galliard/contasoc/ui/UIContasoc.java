@@ -4,8 +4,6 @@
 
 package dev.galliard.contasoc.ui;
 
-import javax.swing.border.*;
-import javax.swing.event.*;
 import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.common.PrintAction;
@@ -13,24 +11,21 @@ import dev.galliard.contasoc.database.DBUtils;
 import dev.galliard.contasoc.database.objects.Gastos;
 import dev.galliard.contasoc.database.objects.Ingresos;
 import dev.galliard.contasoc.database.objects.Socios;
-import dev.galliard.contasoc.ui.models.*;
-import dev.galliard.contasoc.util.EmailSender2;
+import dev.galliard.contasoc.ui.models.GastoPanelRenderer;
+import dev.galliard.contasoc.ui.models.IngresoPanelRenderer;
+import dev.galliard.contasoc.ui.models.ListaEsperaPanelRenderer;
+import dev.galliard.contasoc.ui.models.SocioPanelRenderer;
 import dev.galliard.contasoc.util.Parsers;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.util.*;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author jomaa
@@ -43,21 +38,6 @@ public class UIContasoc extends JFrame {
         setActions();
         GUIManager.populateGUITables();
         GUIManager.addListenerToSearchBar(sociosLista, (DefaultListModel<SocioPanel>) sociosLista.getModel());
-        addHTMLRenderer();
-    }
-
-    private void addHTMLRenderer() {
-        Platform.startup(() -> {
-            Platform.runLater(() -> {
-                WebView webView = new WebView();
-                WebEngine webEngine = webView.getEngine();
-                webEngine.load(mail);
-                Scene scene = new Scene(webView);
-                JFXPanel jfxPanel = new JFXPanel();
-                jfxPanel.setScene(scene);
-                htmlRenderPanel.add(jfxPanel, BorderLayout.CENTER);
-            });
-        });
     }
 
     private void printBtnActionPerformed(ActionEvent e) {
@@ -229,55 +209,6 @@ public class UIContasoc extends JFrame {
         * */
     }
 
-    private void borradorBtnActionPerformed(ActionEvent e) {
-        /*
-        * String body = null;
-        if (UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("NORMAL")) {
-            try {
-                body = EmailSender2.NORMAL_EMAIL
-                        .replace("{nombre}", Contasoc.socios.stream()
-                                .filter(socio -> socio.getEmail().equals(
-                                        UIContasoc.destinatarioComboBox.getSelectedItem().toString()
-                                                .replaceAll("\\(\\d+\\)", "").trim())).findFirst().get().getNombre())
-                        .replace("{mensaje}", htmlEditor.getText());
-            } catch (ConstraintViolationException ex) {
-                Contasoc.logger.error("Error SQL", e);
-            }
-        } else if (UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("AVISO IMPAGO")) {
-            try {
-                body = EmailSender2.UNPAID_EMAIL
-                        .replace("{nombre}", Contasoc.socios.stream()
-                                .filter(socio -> socio.getEmail().equals(
-                                        UIContasoc.destinatarioComboBox.getSelectedItem().toString()
-                                                .replaceAll("\\(\\d+\\)", "").trim())).findFirst().get().getNombre());
-            } catch (ConstraintViolationException ex) {
-                Contasoc.logger.error("Error SQL", e);
-            }
-        } else if (UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("AVISO ABANDONO")) {
-            try {
-                body = EmailSender2.WARNING_EMAIL
-                        .replace("{nombre}", Contasoc.socios.stream()
-                                .filter(socio -> socio.getEmail().equals(
-                                        UIContasoc.destinatarioComboBox.getSelectedItem().toString()
-                                                .replaceAll("\\(\\d+\\)", "").trim())).findFirst().get().getNombre());
-            } catch (ConstraintViolationException ex) {
-                Contasoc.logger.error("Error SQL", e);
-            }
-        } else if (UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("MAL COMPORTAMIENTO")) {
-            try {
-                body = EmailSender2.MISBEHAVE_EMAIL
-                        .replace("{nombre}", Contasoc.socios.stream()
-                                .filter(socio -> socio.getEmail().equals(
-                                        UIContasoc.destinatarioComboBox.getSelectedItem().toString()
-                                                .replaceAll("\\(\\d+\\)", "").trim())).findFirst().get().getNombre());
-            } catch (ConstraintViolationException ex) {
-                Contasoc.logger.error("Error SQL", e);
-            }
-        }
-        EmailSender2.crearBorrador(UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim(),
-                UIContasoc.asuntoField.getText(), body);
-                * */
-    }
     protected void setActions() {
         // Crear acciones para cada función
         javax.swing.Action nuevoAction = new AbstractAction("Nuevo") {
@@ -411,46 +342,10 @@ public class UIContasoc extends JFrame {
         contentPane.getActionMap().put("email", emailAltAction);
     }
 
-    private void emailPanelComponentShown(ComponentEvent e) {
-        PopulateEmailsThread popEmails = new PopulateEmailsThread();
-        Thread thread = new Thread(popEmails);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
     private void helpBtnActionPerformed(ActionEvent e) {
         HelpMenu helpMenu = HelpMenu.getInstance();
         helpMenu.setVisible(true);
         helpMenu.setLocationRelativeTo(null);
-    }
-
-    private File adjuntoBtnActionPerformed(ActionEvent e) {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Selecciona el archivo a adjuntar");
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setMultiSelectionEnabled(false);
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                return f.getName().toLowerCase().endsWith(".pdf") || f.isDirectory();
-            }
-
-            @Override
-            public String getDescription() {
-                return "Archivos PDF";
-            }
-        });
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            EmailSender2.adjunto = fileChooser.getSelectedFile();
-        }
-
-        return EmailSender2.adjunto;
     }
 
     private void thisWindowClosing(WindowEvent e) {
@@ -484,7 +379,7 @@ public class UIContasoc extends JFrame {
                                         socio.getNombre(),
                                         socio.getDni(),
                                         socio.getTelefono() == null ? "NULL" : socio.getTelefono().toString(),
-                                        socio.getEmail() == null ? "NULL" : socio.getEmail(),
+                                        socio.getEmail() == "" ? "NULL" : socio.getEmail(),
                                         socio.getFechaDeAlta() == null ? "NULL" : socio.getFechaDeAlta().toString(),
                                         socio.getFechaDeEntrega() == null ? "NULL" : socio.getFechaDeEntrega().toString(),
                                         socio.getFechaDeBaja() == null ? "NULL" : socio.getFechaDeBaja().toString(),
@@ -641,37 +536,6 @@ public class UIContasoc extends JFrame {
         }
     }
 
-    private void tabbedPane1StateChanged(ChangeEvent e) {
-        if(tabbedPane1.getSelectedComponent().equals(emailPanel)) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Esta sección se encuentra en re-desarrollo",
-                    "Advertencia",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            /*
-            * String destinatario = UIContasoc.destinatarioComboBox.getSelectedItem() == null ? "" : UIContasoc.destinatarioComboBox.getSelectedItem().toString();
-            mail = switch (UIContasoc.tipoEmailComboBox.getSelectedItem().toString()) {
-                case "NORMAL":
-                    yield EmailSender2.NORMAL_EMAIL
-                            .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre())
-                            .replace("{mensaje}", htmlEditor.getText());
-                case "AVISO IMPAGO":
-                    yield EmailSender2.NORMAL_EMAIL
-                            .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre());
-                case "AVISO ABANDONO":
-                    yield EmailSender2.NORMAL_EMAIL
-                            .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre());
-                case "MAL COMPORTAMIENTO":
-                    yield EmailSender2.NORMAL_EMAIL
-                            .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre());
-                default:
-                    yield new String();
-            };
-            * */
-        }
-    }
-
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
@@ -721,26 +585,6 @@ public class UIContasoc extends JFrame {
         saldoCajaValue = new JLabel();
         cerrarAnyoPanel = new JPanel();
         cerrarAnyoBtn = new JButton();
-        emailPanel = new JPanel();
-        emailDataPanel = new JPanel();
-        destinatarioLabel = new JLabel();
-        asuntoLabel = new JLabel();
-        asuntoField = new JTextField();
-        destinatarioComboBox = new JComboBox<>();
-        emailBodyPanel = new JPanel();
-        panel1 = new JPanel();
-        htmlEditorPanel = new JPanel();
-        editorScrollPane = new JScrollPane();
-        htmlEditor = new JTextPane();
-        panel2 = new JPanel();
-        htmlRenderPanel = new JPanel();
-        emailBtnsPanel = new JPanel();
-        emailBtnsWrapper = new JPanel();
-        enviarBtn = new JButton();
-        borradorBtn = new JButton();
-        tipoEmailComboBox = new JComboBox<>();
-        adjuntoBtn = new JButton();
-        adjuntoCheckBox = new JCheckBox();
 
         //======== this ========
         setFont(new Font("Segoe UI", Font.PLAIN, 12));
@@ -876,7 +720,6 @@ public class UIContasoc extends JFrame {
         //======== tabbedPane1 ========
         {
             tabbedPane1.setFont(tabbedPane1.getFont().deriveFont(tabbedPane1.getFont().getSize() + 6f));
-            tabbedPane1.addChangeListener(e -> tabbedPane1StateChanged(e));
             tabbedPane1.putClientProperty("JTabbedPane.minimumTabWidth", 160);
             tabbedPane1.putClientProperty("JTabbedPane.maximumTabWidth", 160);
 
@@ -1145,199 +988,6 @@ public class UIContasoc extends JFrame {
                 balancePanel.add(balanceCantidadesPanel, "cell 0 0");
             }
             tabbedPane1.addTab("BALANCE", balancePanel);
-
-            //======== emailPanel ========
-            {
-                emailPanel.addComponentListener(new ComponentAdapter() {
-                    @Override
-                    public void componentShown(ComponentEvent e) {
-                        emailPanelComponentShown(e);
-                    }
-                });
-                emailPanel.setLayout(new MigLayout(
-                    "insets 12 0 0 0,hidemode 3,gap 0 0",
-                    // columns
-                    "[grow,fill]",
-                    // rows
-                    "[fill]" +
-                    "[grow,fill]" +
-                    "[fill]"));
-
-                //======== emailDataPanel ========
-                {
-
-                    //---- destinatarioLabel ----
-                    destinatarioLabel.setText("Destinatario:");
-                    destinatarioLabel.setFont(destinatarioLabel.getFont().deriveFont(destinatarioLabel.getFont().getSize() + 6f));
-
-                    //---- asuntoLabel ----
-                    asuntoLabel.setText("Asunto:");
-                    asuntoLabel.setFont(asuntoLabel.getFont().deriveFont(asuntoLabel.getFont().getSize() + 6f));
-
-                    //---- asuntoField ----
-                    asuntoField.setSelectionColor(new Color(0xbadbbc));
-                    asuntoField.setFont(asuntoField.getFont().deriveFont(asuntoField.getFont().getSize() + 4f));
-                    asuntoField.setEditable(false);
-                    asuntoField.setEnabled(false);
-
-                    //---- destinatarioComboBox ----
-                    destinatarioComboBox.setFont(destinatarioComboBox.getFont().deriveFont(destinatarioComboBox.getFont().getSize() + 6f));
-                    destinatarioComboBox.setEnabled(false);
-
-                    GroupLayout emailDataPanelLayout = new GroupLayout(emailDataPanel);
-                    emailDataPanel.setLayout(emailDataPanelLayout);
-                    emailDataPanelLayout.setHorizontalGroup(
-                        emailDataPanelLayout.createParallelGroup()
-                            .addGroup(emailDataPanelLayout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(destinatarioLabel)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(destinatarioComboBox, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(asuntoLabel)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(asuntoField, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
-                                .addGap(239, 239, 239))
-                    );
-                    emailDataPanelLayout.setVerticalGroup(
-                        emailDataPanelLayout.createParallelGroup()
-                            .addGroup(emailDataPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(asuntoLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(asuntoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(destinatarioLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(destinatarioComboBox, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
-                    );
-                }
-                emailPanel.add(emailDataPanel, "cell 0 0");
-
-                //======== emailBodyPanel ========
-                {
-                    emailBodyPanel.setLayout(new GridLayout());
-
-                    //======== panel1 ========
-                    {
-                        panel1.setLayout(new MigLayout(
-                            "insets 0,hidemode 3",
-                            // columns
-                            "[grow,fill]",
-                            // rows
-                            "[grow,fill]"));
-
-                        //======== htmlEditorPanel ========
-                        {
-                            htmlEditorPanel.setBorder(new LineBorder(new Color(0x787f87)));
-                            htmlEditorPanel.setLayout(new BorderLayout());
-
-                            //======== editorScrollPane ========
-                            {
-                                editorScrollPane.setBorder(null);
-
-                                //---- htmlEditor ----
-                                htmlEditor.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-                                htmlEditor.setForeground(new Color(0x555555));
-                                htmlEditor.setEditable(false);
-                                editorScrollPane.setViewportView(htmlEditor);
-                            }
-                            htmlEditorPanel.add(editorScrollPane, BorderLayout.CENTER);
-                        }
-                        panel1.add(htmlEditorPanel, "pad 10 10 -10 -5,cell 0 0");
-                    }
-                    emailBodyPanel.add(panel1);
-
-                    //======== panel2 ========
-                    {
-                        panel2.setLayout(new MigLayout(
-                            "insets 0,hidemode 3",
-                            // columns
-                            "[grow,fill]",
-                            // rows
-                            "[grow,fill]"));
-
-                        //======== htmlRenderPanel ========
-                        {
-                            htmlRenderPanel.setBorder(new LineBorder(new Color(0x787f87)));
-                            htmlRenderPanel.setEnabled(false);
-                            htmlRenderPanel.setLayout(new BorderLayout());
-                        }
-                        panel2.add(htmlRenderPanel, "pad 10 5 -10 -10,cell 0 0");
-                    }
-                    emailBodyPanel.add(panel2);
-                }
-                emailPanel.add(emailBodyPanel, "cell 0 1");
-
-                //======== emailBtnsPanel ========
-                {
-                    emailBtnsPanel.setLayout(new GridLayout(1, 3));
-
-                    //======== emailBtnsWrapper ========
-                    {
-
-                        //---- enviarBtn ----
-                        enviarBtn.setText("Enviar");
-                        enviarBtn.setFont(enviarBtn.getFont().deriveFont(enviarBtn.getFont().getSize() + 6f));
-                        enviarBtn.setEnabled(false);
-                        enviarBtn.addActionListener(e -> enviarBtnActionPerformed(e));
-
-                        //---- borradorBtn ----
-                        borradorBtn.setText("Guardar borrador");
-                        borradorBtn.setFont(borradorBtn.getFont().deriveFont(borradorBtn.getFont().getSize() + 6f));
-                        borradorBtn.setEnabled(false);
-                        borradorBtn.addActionListener(e -> borradorBtnActionPerformed(e));
-
-                        //---- tipoEmailComboBox ----
-                        tipoEmailComboBox.setFont(tipoEmailComboBox.getFont().deriveFont(tipoEmailComboBox.getFont().getSize() + 6f));
-                        tipoEmailComboBox.setEnabled(false);
-                        tipoEmailComboBox.addItem("NORMAL");
-                        tipoEmailComboBox.addItem("AVISO IMPAGO");
-                        tipoEmailComboBox.addItem("AVISO ABANDONO");
-                        tipoEmailComboBox.addItem("MAL COMPORTAMIENTO");
-
-                        //---- adjuntoBtn ----
-                        adjuntoBtn.setText("Adjuntar");
-                        adjuntoBtn.setFont(adjuntoBtn.getFont().deriveFont(adjuntoBtn.getFont().getSize() + 6f));
-                        adjuntoBtn.setEnabled(false);
-                        adjuntoBtn.addActionListener(e -> adjuntoBtnActionPerformed(e));
-
-                        //---- adjuntoCheckBox ----
-                        adjuntoCheckBox.setText("Adjunto");
-                        adjuntoCheckBox.setFont(adjuntoCheckBox.getFont().deriveFont(adjuntoCheckBox.getFont().getSize() + 6f));
-                        adjuntoCheckBox.setEnabled(false);
-
-                        GroupLayout emailBtnsWrapperLayout = new GroupLayout(emailBtnsWrapper);
-                        emailBtnsWrapper.setLayout(emailBtnsWrapperLayout);
-                        emailBtnsWrapperLayout.setHorizontalGroup(
-                            emailBtnsWrapperLayout.createParallelGroup()
-                                .addGroup(emailBtnsWrapperLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(enviarBtn)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(tipoEmailComboBox, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(borradorBtn)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(adjuntoBtn)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(adjuntoCheckBox)
-                                    .addContainerGap(365, Short.MAX_VALUE))
-                        );
-                        emailBtnsWrapperLayout.setVerticalGroup(
-                            emailBtnsWrapperLayout.createParallelGroup()
-                                .addGroup(GroupLayout.Alignment.TRAILING, emailBtnsWrapperLayout.createSequentialGroup()
-                                    .addGroup(emailBtnsWrapperLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                        .addComponent(enviarBtn, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(GroupLayout.Alignment.LEADING, emailBtnsWrapperLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                            .addComponent(borradorBtn)
-                                            .addComponent(adjuntoBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(adjuntoCheckBox))
-                                        .addComponent(tipoEmailComboBox, GroupLayout.Alignment.LEADING))
-                                    .addContainerGap())
-                        );
-                    }
-                    emailBtnsPanel.add(emailBtnsWrapper);
-                }
-                emailPanel.add(emailBtnsPanel, "cell 0 2");
-            }
-            tabbedPane1.addTab("EMAIL", emailPanel);
         }
         contentPane.add(tabbedPane1, BorderLayout.CENTER);
         pack();
@@ -1393,25 +1043,5 @@ public class UIContasoc extends JFrame {
     protected static JLabel saldoCajaValue;
     protected static JPanel cerrarAnyoPanel;
     protected static JButton cerrarAnyoBtn;
-    protected static JPanel emailPanel;
-    protected static JPanel emailDataPanel;
-    protected static JLabel destinatarioLabel;
-    protected static JLabel asuntoLabel;
-    protected static JTextField asuntoField;
-    protected static JComboBox<String> destinatarioComboBox;
-    protected static JPanel emailBodyPanel;
-    protected static JPanel panel1;
-    protected static JPanel htmlEditorPanel;
-    protected static JScrollPane editorScrollPane;
-    protected static JTextPane htmlEditor;
-    protected static JPanel panel2;
-    protected static JPanel htmlRenderPanel;
-    protected static JPanel emailBtnsPanel;
-    protected static JPanel emailBtnsWrapper;
-    protected static JButton enviarBtn;
-    protected static JButton borradorBtn;
-    protected static JComboBox<String> tipoEmailComboBox;
-    protected static JButton adjuntoBtn;
-    protected static JCheckBox adjuntoCheckBox;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
