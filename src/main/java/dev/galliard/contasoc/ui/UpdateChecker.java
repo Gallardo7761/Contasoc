@@ -64,9 +64,12 @@ public class UpdateChecker implements Runnable {
 
     private static int compareVersions(String version1, String version2) {
         // Eliminar las cadenas tipo "-rcX" antes de realizar la comparación
-        String regex = "-[a-zA-Z]{2}\\d+";
-        String[] v1 = version1.replaceAll(regex, "").split("\\.");
-        String[] v2 = version2.replaceAll(regex, "").split("\\.");
+        String regexBeta = "-beta";
+        String regexRC = "-rc[0-9]";
+        String[] v1 = version1.contains("beta") ? version1.replaceAll(regexBeta, "").split("\\.") : version1.replaceAll(regexRC, "")
+                .split("\\.");
+        String[] v2 = version2.contains("beta") ? version2.replaceAll(regexBeta, "").split("\\.") : version2.replaceAll(regexRC, "")
+                .split("\\.");
 
         int length = Math.max(v1.length, v2.length);
 
