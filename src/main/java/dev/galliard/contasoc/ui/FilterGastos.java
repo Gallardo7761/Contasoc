@@ -4,11 +4,12 @@
 
 package dev.galliard.contasoc.ui;
 
-import java.awt.*;
-import java.awt.event.*;
+import net.miginfocom.swing.MigLayout;
+
 import javax.swing.*;
-import javax.swing.border.*;
-import net.miginfocom.swing.*;
+import javax.swing.border.MatteBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * @author jomaa

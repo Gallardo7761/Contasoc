@@ -19,8 +19,8 @@ import java.awt.event.KeyEvent;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -567,5 +567,12 @@ public class GUIManager {
                         .forEach(g -> model.addElement(new GastoPanel(g)));
             }
         }
+    }
+
+    public static void clearModels() {
+        UIContasoc.sociosLista.setModel(new DefaultListModel<>());
+        UIContasoc.listaEsperaLista.setModel(new DefaultListModel<>());
+        UIContasoc.ingresosLista.setModel(new DefaultListModel<>());
+        UIContasoc.gastosLista.setModel(new DefaultListModel<>());
     }
 }

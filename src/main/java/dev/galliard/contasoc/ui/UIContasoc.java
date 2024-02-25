@@ -4,7 +4,6 @@
 
 package dev.galliard.contasoc.ui;
 
-import javax.swing.event.*;
 import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.common.PrintAction;
@@ -16,15 +15,14 @@ import dev.galliard.contasoc.ui.models.GastoPanelRenderer;
 import dev.galliard.contasoc.ui.models.IngresoPanelRenderer;
 import dev.galliard.contasoc.ui.models.ListaEsperaPanelRenderer;
 import dev.galliard.contasoc.ui.models.SocioPanelRenderer;
+import dev.galliard.contasoc.util.ErrorHandler;
 import dev.galliard.contasoc.util.Parsers;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.util.List;
 import java.util.Objects;
 
@@ -251,6 +249,20 @@ public class UIContasoc extends JFrame {
             }
         };
 
+        javax.swing.Action guardarAction = new AbstractAction("Guardar") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveBtn(e);
+            }
+        };
+
+        javax.swing.Action filtrarAction = new AbstractAction("Filtrar") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterBtn(e);
+            }
+        };
+
         javax.swing.Action derechaAction = new AbstractAction("Derecha") {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -311,6 +323,8 @@ public class UIContasoc extends JFrame {
         KeyStroke ingresosAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.ALT_DOWN_MASK);
         KeyStroke gastosAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.ALT_DOWN_MASK);
         KeyStroke balanceAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.ALT_DOWN_MASK);
+        KeyStroke guardarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
+        KeyStroke filtrarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK);
 
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(nuevoKeyStroke, "nuevo");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(editarKeyStroke, "editar");
@@ -323,6 +337,8 @@ public class UIContasoc extends JFrame {
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ingresosAltKeyStroke, "ingresos");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(gastosAltKeyStroke, "gastos");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(balanceAltKeyStroke, "balance");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(guardarKeyStroke, "guardar");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(filtrarKeyStroke, "filtrar");
 
         contentPane.getActionMap().put("nuevo", nuevoAction);
         contentPane.getActionMap().put("editar", editarAction);
@@ -335,6 +351,8 @@ public class UIContasoc extends JFrame {
         contentPane.getActionMap().put("ingresos", ingresosAltAction);
         contentPane.getActionMap().put("gastos", gastosAltAction);
         contentPane.getActionMap().put("balance", balanceAltAction);
+        contentPane.getActionMap().put("guardar", guardarAction);
+        contentPane.getActionMap().put("filtrar", filtrarAction);
     }
 
     private void helpBtnActionPerformed(ActionEvent e) {
@@ -564,6 +582,18 @@ public class UIContasoc extends JFrame {
         }
     }
 
+    private void saveBtn(ActionEvent e) {
+        if(Contasoc.sqlMemory.dataModified()) {
+            save();
+            Contasoc.sqlMemory.flush();
+            Contasoc.load();
+            GUIManager.clearModels();
+            GUIManager.populateGUITables();
+        } else {
+            ErrorHandler.error("No hay cambios que guardar");
+        }
+    }
+
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
@@ -573,6 +603,7 @@ public class UIContasoc extends JFrame {
         editarBtn = new JButton();
         eliminarBtn = new JButton();
         printBtn = new JButton();
+        saveBtn = new JButton();
         filterBtn = new JButton();
         aux = new JPanel();
         buscarField = new JTextField();
@@ -643,6 +674,7 @@ public class UIContasoc extends JFrame {
                 "[fill]" +
                 "[fill]" +
                 "[fill]" +
+                "[fill]" +
                 "[grow,fill]" +
                 "[fill]",
                 // rows
@@ -658,8 +690,8 @@ public class UIContasoc extends JFrame {
             nuevoBtn.setPreferredSize(new Dimension(79, 32));
             nuevoBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/add2_32.png")));
             nuevoBtn.setToolTipText("Nuevo [Ctrl+N]");
-            nuevoBtn.setBackground(new Color(0xf7f8fa));
             nuevoBtn.setBorderPainted(false);
+            nuevoBtn.setBackground(new Color(0xf7f8fa));
             nuevoBtn.addActionListener(e -> nuevoBtnActionPerformed(e));
             nuevoBtn.putClientProperty( "JButton.buttonType", "borderless");
             btnSearchPanel.add(nuevoBtn, "cell 0 0,width 40:40:40,height 40:40:40");
@@ -670,8 +702,8 @@ public class UIContasoc extends JFrame {
             editarBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/corel2_32.png")));
             editarBtn.setMargin(new Insets(0, 0, 0, 0));
             editarBtn.setToolTipText("Editar [Ctrl+E]");
-            editarBtn.setBackground(new Color(0xf7f8fa));
             editarBtn.setBorderPainted(false);
+            editarBtn.setBackground(new Color(0xf7f8fa));
             editarBtn.addActionListener(e -> editarBtn(e));
             editarBtn.putClientProperty( "JButton.buttonType", "borderless");
             btnSearchPanel.add(editarBtn, "cell 1 0,width 40:40:40,height 40:40:40");
@@ -686,8 +718,8 @@ public class UIContasoc extends JFrame {
             eliminarBtn.setPreferredSize(new Dimension(79, 32));
             eliminarBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/delete2_32.png")));
             eliminarBtn.setToolTipText("Eliminar [Ctrl+D]");
-            eliminarBtn.setBackground(new Color(0xf7f8fa));
             eliminarBtn.setBorderPainted(false);
+            eliminarBtn.setBackground(new Color(0xf7f8fa));
             eliminarBtn.addActionListener(e -> eliminarBtnActionPerformed(e));
             eliminarBtn.putClientProperty( "JButton.buttonType", "borderless");
             btnSearchPanel.add(eliminarBtn, "cell 2 0,width 40:40:40,height 40:40:40");
@@ -702,11 +734,27 @@ public class UIContasoc extends JFrame {
             printBtn.setPreferredSize(new Dimension(79, 32));
             printBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/printer2_32.png")));
             printBtn.setToolTipText("Imprimir [Ctrl+P]");
-            printBtn.setBackground(new Color(0xf7f8fa));
             printBtn.setBorderPainted(false);
+            printBtn.setBackground(new Color(0xf7f8fa));
             printBtn.addActionListener(e -> printBtnActionPerformed(e));
             printBtn.putClientProperty( "JButton.buttonType", "borderless");
             btnSearchPanel.add(printBtn, "cell 3 0,width 40:40:40,height 40:40:40");
+
+            //---- saveBtn ----
+            saveBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+            saveBtn.setMargin(new Insets(0, 0, 0, 0));
+            saveBtn.setForeground(Color.black);
+            saveBtn.setAlignmentY(0.0F);
+            saveBtn.setMaximumSize(new Dimension(79, 32));
+            saveBtn.setMinimumSize(new Dimension(79, 32));
+            saveBtn.setPreferredSize(new Dimension(79, 32));
+            saveBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/save_32.png")));
+            saveBtn.setToolTipText("Guardar [Ctrl+S]");
+            saveBtn.setBorderPainted(false);
+            saveBtn.setBackground(new Color(0xf7f8fa));
+            saveBtn.addActionListener(e -> saveBtn(e));
+            printBtn.putClientProperty( "JButton.buttonType", "borderless");
+            btnSearchPanel.add(saveBtn, "cell 4 0,width 40:40:40,height 40:40:40");
 
             //---- filterBtn ----
             filterBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -717,11 +765,12 @@ public class UIContasoc extends JFrame {
             filterBtn.setMinimumSize(new Dimension(79, 32));
             filterBtn.setPreferredSize(new Dimension(79, 32));
             filterBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/filter_32.png")));
-            filterBtn.setBackground(new Color(0xf7f8fa));
+            filterBtn.setToolTipText("Filtrar [Ctrl+F]");
             filterBtn.setBorderPainted(false);
+            filterBtn.setBackground(new Color(0xf7f8fa));
             filterBtn.addActionListener(e -> filterBtn(e));
             printBtn.putClientProperty( "JButton.buttonType", "borderless");
-            btnSearchPanel.add(filterBtn, "cell 4 0,width 40:40:40,height 40:40:40");
+            btnSearchPanel.add(filterBtn, "cell 5 0,width 40:40:40,height 40:40:40");
 
             //======== aux ========
             {
@@ -743,7 +792,7 @@ public class UIContasoc extends JFrame {
                 buscarField.putClientProperty("JTextField.leadingIcon", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource("/images/icons/search_medium_black.png"))));
                 aux.add(buscarField, "cell 0 0,height 40:40:40");
             }
-            btnSearchPanel.add(aux, "cell 5 0,width 500:500:500");
+            btnSearchPanel.add(aux, "cell 6 0,width 500:500:500");
 
             //---- ayudaBtn ----
             ayudaBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -755,11 +804,11 @@ public class UIContasoc extends JFrame {
             ayudaBtn.setPreferredSize(new Dimension(79, 32));
             ayudaBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/help2_32.png")));
             ayudaBtn.setToolTipText("Ayuda [F1]");
-            ayudaBtn.setBackground(new Color(0xf7f8fa));
             ayudaBtn.setBorderPainted(false);
+            ayudaBtn.setBackground(new Color(0xf7f8fa));
             ayudaBtn.addActionListener(e -> ayudaBtn(e));
             ayudaBtn.putClientProperty( "JButton.buttonType", "borderless");
-            btnSearchPanel.add(ayudaBtn, "cell 6 0,width 40:40:40,height 40:40:40");
+            btnSearchPanel.add(ayudaBtn, "cell 7 0,width 40:40:40,height 40:40:40");
         }
         contentPane.add(btnSearchPanel, BorderLayout.NORTH);
 
@@ -1048,6 +1097,7 @@ public class UIContasoc extends JFrame {
     protected static JButton editarBtn;
     protected static JButton eliminarBtn;
     protected static JButton printBtn;
+    protected static JButton saveBtn;
     protected static JButton filterBtn;
     protected static JPanel aux;
     protected static JTextField buscarField;

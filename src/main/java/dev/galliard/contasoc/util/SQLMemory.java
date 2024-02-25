@@ -105,4 +105,15 @@ public class SQLMemory {
         gastosEliminados.add(gasto);
     }
 
+    public void flush() {
+        sociosAgregados.clear();
+        sociosEditados.clear();
+        sociosEliminados.clear();
+        ingresosAgregados.clear();
+        ingresosEditados.clear();
+        ingresosEliminados.clear();
+        gastosAgregados.clear();
+        gastosEditados.clear();
+        gastosEliminados.clear();
+    }
 }
