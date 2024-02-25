@@ -53,7 +53,7 @@ public class SocioView extends JFrame {
 
     private void aceptarBtnActionPerformed(ActionEvent e) {
         Integer numeroSocio = socioField.getText().isEmpty() ?
-                UIContasoc.sociosLista.getModel().getSize() == 0 ? 1 : (Integer) UIContasoc.sociosLista.getModel()
+                UIContasoc.sociosLista.getModel().getSize() == 0 ? 1 : UIContasoc.sociosLista.getModel()
                         .getElementAt(UIContasoc.sociosLista.getVisibleRowCount() - 1).getSocio().getNumeroSocio() + 1
                 : Integer.parseInt(socioField.getText());
         Integer numeroHuerto = Integer.parseInt(huertoField.getText());

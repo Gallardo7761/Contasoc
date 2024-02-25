@@ -134,7 +134,7 @@ public class AddSocios extends JFrame {
         Integer numeroHuerto = Integer.valueOf(huertoField.getText());
         String nombre = nombreField.getText();
         String dni = dniField.getText().isEmpty() ? DNIValidator.generarDNI() : dniField.getText();
-        Integer telefono = Integer.valueOf(telefonoField.getText());
+        Integer telefono = telefonoField.getText().isEmpty() ? null : Integer.valueOf(telefonoField.getText());
         String email = emailField.getText();
         Date alta = altaField.getText().isEmpty() ?
             Date.valueOf(LocalDate.now()) : Date.valueOf(Parsers.dashDateParserReversed(altaField.getText()));
@@ -147,6 +147,7 @@ public class AddSocios extends JFrame {
         JList<SocioPanel> tabla = UIContasoc.sociosLista;
         Socios socios = new Socios(numeroSocio, numeroHuerto, nombre, dni, telefono, email, alta, entrega, baja, notas, tipoSocio, estado);
         SocioPanel rowData = new SocioPanel(socios);
+        rowData.telefonoLabel.setText(telefonoField.getText().isEmpty() ? "" : telefonoField.getText());
 
         if (DNIValidator.validarDNI(dniField.getText()) || DNIValidator.validarNIE(dniField.getText())) {
             ((DefaultListModel<SocioPanel>)UIContasoc.sociosLista.getModel()).addElement(rowData);

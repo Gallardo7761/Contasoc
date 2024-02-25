@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class JpaBalanceDao implements Dao<Balance> {
-    private EntityManager entityManager = JpaUtil.getEntityManager();
+    private final EntityManager entityManager = JpaUtil.getEntityManager();
 
     @Override
     public Optional<Balance> get(long id) {

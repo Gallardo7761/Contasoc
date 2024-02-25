@@ -26,7 +26,7 @@ new FormModel {
 				name: "checBoxesPanel"
 				"border": new javax.swing.border.MatteBorder( 1, 1, 1, 1, sfield java.awt.SystemColor controlShadow )
 				add( new FormComponent( "javax.swing.JRadioButton" ) {
-					name: "proveedorCheckBox"
+					name: "proveedorRadio"
 					"text": "Proveedor"
 					"font": &Font0 new java.awt.Font( "Segoe UI", 0, 16 )
 					"focusable": false
@@ -35,7 +35,7 @@ new FormModel {
 					"value": "cell 0 0"
 				} )
 				add( new FormComponent( "javax.swing.JRadioButton" ) {
-					name: "fechaCheckBox"
+					name: "fechaRadio"
 					"text": "Fecha"
 					"font": #Font0
 					"focusable": false

@@ -15,12 +15,13 @@ import net.miginfocom.swing.*;
  */
 public class FilterGastos extends JDialog {
     private static FilterGastos instance;
-    private ButtonGroup buttonGroup = new ButtonGroup();
+    private final ButtonGroup buttonGroup = new ButtonGroup();
 
     private FilterGastos() {
         initComponents();
-        buttonGroup.add(proveedorCheckBox);
-        buttonGroup.add(fechaCheckBox);
+        buttonGroup.add(proveedorRadio);
+        buttonGroup.add(fechaRadio);
+        buttonGroup.setSelected(fechaRadio.getModel(), true);
     }
 
     public static FilterGastos getInstance() {
@@ -31,9 +32,9 @@ public class FilterGastos extends JDialog {
     }
 
     private String getSelectedRadio() {
-        if (proveedorCheckBox.isSelected()) {
+        if (proveedorRadio.isSelected()) {
             return "proveedor";
-        } else if (fechaCheckBox.isSelected()) {
+        } else if (fechaRadio.isSelected()) {
             return "fecha";
         }
         return null;
@@ -49,11 +50,11 @@ public class FilterGastos extends JDialog {
         }
     }
 
-    private void proveedorCheckBox(ActionEvent e) {
+    private void proveedorRadio(ActionEvent e) {
         GUIManager.filterGastos("proveedor");
     }
 
-    private void fechaCheckBox(ActionEvent e) {
+    private void fechaRadio(ActionEvent e) {
         GUIManager.filterGastos("fecha");
     }
 
@@ -61,8 +62,8 @@ public class FilterGastos extends JDialog {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
         checBoxesPanel = new JPanel();
-        proveedorCheckBox = new JRadioButton();
-        fechaCheckBox = new JRadioButton();
+        proveedorRadio = new JRadioButton();
+        fechaRadio = new JRadioButton();
         ascDescBtn = new JToggleButton();
 
         //======== this ========
@@ -89,19 +90,19 @@ public class FilterGastos extends JDialog {
                 "[grow,fill]" +
                 "[grow,fill]"));
 
-            //---- proveedorCheckBox ----
-            proveedorCheckBox.setText("Proveedor");
-            proveedorCheckBox.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-            proveedorCheckBox.setFocusable(false);
-            proveedorCheckBox.addActionListener(e -> proveedorCheckBox(e));
-            checBoxesPanel.add(proveedorCheckBox, "cell 0 0");
+            //---- proveedorRadio ----
+            proveedorRadio.setText("Proveedor");
+            proveedorRadio.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+            proveedorRadio.setFocusable(false);
+            proveedorRadio.addActionListener(e -> proveedorRadio(e));
+            checBoxesPanel.add(proveedorRadio, "cell 0 0");
 
-            //---- fechaCheckBox ----
-            fechaCheckBox.setText("Fecha");
-            fechaCheckBox.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-            fechaCheckBox.setFocusable(false);
-            fechaCheckBox.addActionListener(e -> fechaCheckBox(e));
-            checBoxesPanel.add(fechaCheckBox, "cell 0 1");
+            //---- fechaRadio ----
+            fechaRadio.setText("Fecha");
+            fechaRadio.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+            fechaRadio.setFocusable(false);
+            fechaRadio.addActionListener(e -> fechaRadio(e));
+            checBoxesPanel.add(fechaRadio, "cell 0 1");
 
             //---- ascDescBtn ----
             ascDescBtn.setText("Ascendente");
@@ -122,8 +123,8 @@ public class FilterGastos extends JDialog {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
     protected static JPanel checBoxesPanel;
-    protected static JRadioButton proveedorCheckBox;
-    protected static JRadioButton fechaCheckBox;
+    protected static JRadioButton proveedorRadio;
+    protected static JRadioButton fechaRadio;
     protected static JToggleButton ascDescBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

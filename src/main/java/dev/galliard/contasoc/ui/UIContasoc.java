@@ -531,9 +531,9 @@ public class UIContasoc extends JFrame {
 
     private void filterBtn(ActionEvent e) {
         // Eliminar todos los diálogos de filtro abiertos
-        FilterSocios.getInstance().dispose();
-        FilterIngresos.getInstance().dispose();
-        FilterGastos.getInstance().dispose();
+        FilterSocios.getInstance().setVisible(false);
+        FilterIngresos.getInstance().setVisible(false);
+        FilterGastos.getInstance().setVisible(false);
         int yOffset = 0;
         if (tabbedPane1.getSelectedComponent().equals(sociosPanel)) {
             FilterSocios filterSocios = FilterSocios.getInstance();

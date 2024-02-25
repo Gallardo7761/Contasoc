@@ -20,15 +20,15 @@ public class SQLMemory {
                 !Contasoc.sqlMemory.getIngresosEditados().isEmpty() ||
                 !Contasoc.sqlMemory.getGastosEditados().isEmpty();
     }
-    private List<Socios> sociosAgregados = new ArrayList<>();
-    private List<Socios> sociosEditados = new ArrayList<>();
-    private List<Socios> sociosEliminados = new ArrayList<>();
-    private List<Ingresos> ingresosAgregados = new ArrayList<>();
-    private List<Ingresos> ingresosEditados = new ArrayList<>();
-    private List<Ingresos> ingresosEliminados = new ArrayList<>();
-    private List<Gastos> gastosAgregados = new ArrayList<>();
-    private List<Gastos> gastosEditados = new ArrayList<>();
-    private List<Gastos> gastosEliminados = new ArrayList<>();
+    private final List<Socios> sociosAgregados = new ArrayList<>();
+    private final List<Socios> sociosEditados = new ArrayList<>();
+    private final List<Socios> sociosEliminados = new ArrayList<>();
+    private final List<Ingresos> ingresosAgregados = new ArrayList<>();
+    private final List<Ingresos> ingresosEditados = new ArrayList<>();
+    private final List<Ingresos> ingresosEliminados = new ArrayList<>();
+    private final List<Gastos> gastosAgregados = new ArrayList<>();
+    private final List<Gastos> gastosEditados = new ArrayList<>();
+    private final List<Gastos> gastosEliminados = new ArrayList<>();
 
     public List<Socios> getSociosAgregados() {
         return sociosAgregados;

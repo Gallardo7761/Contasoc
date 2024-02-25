@@ -16,7 +16,7 @@ import java.io.File;
 public class XMLUtils {
     
     private Document document;
-    private String filePath;
+    private final String filePath;
     
     public XMLUtils(String filePath) {
         this.filePath = filePath;

@@ -17,8 +17,8 @@ import java.awt.*;
  * @author jomaa
  */
 public class ListaEsperaPanel extends JPanel {
-    private Socios socios;
-    private int posicion;
+    private final Socios socios;
+    private final int posicion;
     public ListaEsperaPanel(Socios socios, int posicion) {
         this.socios = socios;
         this.posicion = posicion;

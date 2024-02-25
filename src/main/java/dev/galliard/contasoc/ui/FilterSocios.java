@@ -22,6 +22,7 @@ public class FilterSocios extends JDialog {
         buttonGroup.add(huertoRadio);
         buttonGroup.add(nombreRadio);
         buttonGroup.add(fechaDeAltaRadio);
+        buttonGroup.setSelected(socioRadio.getModel(), true);
     }
 
     public static FilterSocios getInstance() {

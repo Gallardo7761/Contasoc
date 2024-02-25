@@ -18,7 +18,7 @@ import java.awt.*;
  * @author jomaa
  */
 public class IngresoPanel extends JPanel {
-    private Ingresos ingresos;
+    private final Ingresos ingresos;
     public IngresoPanel(Ingresos ingresos) {
         this.ingresos = ingresos;
         initComponents();

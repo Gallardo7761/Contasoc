@@ -40,7 +40,7 @@ public class Contasoc {
     public static void main(String[] args) throws SQLException {
         ContasocLaf.setup();
         SwingUtilities.invokeLater(() -> {
-            new PasswordDialog(null).setVisible(true);
+            new PasswordDialog().setVisible(true);
         });
         try {
             latch.await();

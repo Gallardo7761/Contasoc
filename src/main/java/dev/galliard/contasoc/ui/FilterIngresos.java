@@ -15,11 +15,12 @@ import net.miginfocom.swing.*;
  */
 public class FilterIngresos extends JDialog {
     private static FilterIngresos instance;
-    private ButtonGroup buttonGroup = new ButtonGroup();
+    private final ButtonGroup buttonGroup = new ButtonGroup();
     private FilterIngresos() {
         initComponents();
         buttonGroup.add(socioRadio);
         buttonGroup.add(fechaRadio);
+        buttonGroup.setSelected(socioRadio.getModel(), true);
     }
 
     public static FilterIngresos getInstance() {

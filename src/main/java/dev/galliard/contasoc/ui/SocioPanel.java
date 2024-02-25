@@ -18,7 +18,7 @@ import java.awt.event.ActionEvent;
  * @author jomaa
  */
 public class SocioPanel extends JPanel {
-    private Socios socios;
+    private final Socios socios;
     public SocioPanel(Socios socios) {
         this.socios = socios;
         initComponents();
