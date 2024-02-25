@@ -19,8 +19,7 @@ import java.awt.event.KeyEvent;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -59,6 +58,10 @@ public class GUIManager {
         UIContasoc.tCajaGastosValue.setText(df.format(totalPagosCaja) + " €");
         UIContasoc.saldoBancoValue.setText(saldoBanco + " €");
         UIContasoc.saldoCajaValue.setText(saldoCaja + " €");
+    }
+
+    private static double getRounded(double number) {
+        return Math.round(number * 100.0) / 100.0;
     }
 
     protected static void printContent() {
@@ -149,6 +152,112 @@ public class GUIManager {
                         "logohuerto_pdf.png", "Lista de espera", true,
                         new String[]{"Pos", "Soc", "Nombre y apellidos", "Teléfono", "Correo", "F. Alta"}, false, 10,
                         Contasoc.ESCRITORIO + "/lista_de_espera.pdf");
+                ErrorHandler.pdfCreado();
+            }
+            case BALANCE -> {
+                List<Socios> sociosB = getSocios();
+                List<Ingresos> ingresosB = getIngresos();
+                List<Gastos> gastosB = getGastos();
+                Balance balance = Contasoc.balance;
+
+                Map<String,Double> ingresosBanco = new HashMap<>();
+                Map<String,Double> ingresosCaja = new HashMap<>();
+                Map<String,Double> gastosBanco = new HashMap<>();
+                Map<String,Double> gastosCaja = new HashMap<>();
+
+                String saldoActualBanco = getRounded(ingresosB.stream()
+                        .filter(ingreso -> ingreso.getTipo().equals("BANCO"))
+                        .mapToDouble(Ingresos::getCantidad)
+                        .sum() - gastosB.stream()
+                        .filter(gasto -> gasto.getTipo().equals("BANCO"))
+                        .mapToDouble(Gastos::getCantidad)
+                        .sum() + balance.getInicialBanco()) + "€";
+                String saldoActualCaja = getRounded(ingresosB.stream()
+                        .filter(ingreso -> ingreso.getTipo().equals("CAJA"))
+                        .mapToDouble(Ingresos::getCantidad)
+                        .sum() - gastosB.stream()
+                        .filter(gasto -> gasto.getTipo().equals("CAJA"))
+                        .mapToDouble(Gastos::getCantidad)
+                        .sum() + balance.getInicialCaja()) + "€";
+
+                for (int i = 0; i < sociosB.size(); i++) {
+                    Socios socio = sociosB.get(i);
+                    double totalIngresosBanco = 0.;
+                    double totalIngresosCaja = 0.;
+                    for (int j = 0; j < ingresosB.size(); j++) {
+                        Ingresos ingreso = ingresosB.get(j);
+                        if (ingreso.getNumeroSocio().equals(socio.getNumeroSocio())) {
+                            if (ingreso.getTipo().equals("BANCO") && ingreso.getCantidad() > 0) {
+                                totalIngresosBanco += ingreso.getCantidad();
+                            } else if(ingreso.getTipo().equals("CAJA") && ingreso.getCantidad() > 0){
+                                totalIngresosCaja += ingreso.getCantidad();
+                            }
+                        }
+                    }
+                    // Agregar ingresos solo si son mayores que 0 y evitar duplicados
+                    if (totalIngresosBanco > 0) {
+                        String key = socio.getTipo().name();
+                        if(ingresosBanco.containsKey(key)) {
+                            ingresosBanco.put(key, ingresosBanco.get(key) + totalIngresosBanco);
+                        } else {
+                            ingresosBanco.put(key, totalIngresosBanco);
+                        }
+                    }
+                    if (totalIngresosCaja > 0) {
+                        String key = socio.getTipo().name();
+                        if(ingresosCaja.containsKey(key)) {
+                            ingresosCaja.put(key, ingresosCaja.get(key) + totalIngresosCaja);
+                        } else {
+                            ingresosCaja.put(key, totalIngresosCaja);
+                        }
+                    }
+                }
+
+
+                for(int i = 0; i < gastosB.size(); i++) {
+                    Gastos gasto = gastosB.get(i);
+                    if (gasto.getTipo().equals("BANCO") && gasto.getCantidad() > 0) {
+                        String key = gasto.getProveedor();
+                        if(gastosBanco.containsKey(key)) {
+                            gastosBanco.put(key, getRounded(gastosBanco.get(key) + gasto.getCantidad()));
+                        } else {
+                            gastosBanco.put(key, gasto.getCantidad());
+                        }
+                    } else if (gasto.getTipo().equals("CAJA") && gasto.getCantidad() > 0) {
+                        String key = gasto.getConcepto();
+                        if(gastosCaja.containsKey(key)) {
+                            gastosCaja.put(key, getRounded(gastosCaja.get(key) + gasto.getCantidad()));
+                        } else {
+                            gastosCaja.put(key, gasto.getCantidad());
+                        }
+                    }
+                }
+
+                String logoPath = "logohuerto_pdf.png"; // Ruta de ejemplo para el logo
+                String outFile = "C:\\Users\\jomaa\\Desktop\\balance.pdf"; // Nombre del archivo de salida
+
+                // Imprimir el balance
+                PDFPrinter.printBalance(
+                        logoPath,
+                        outFile,
+                        ingresosBanco.entrySet().stream()
+                                .map(entry -> entry.getKey().replace("O_I", "O CON I").replace("A_E", "A DE E")
+                                        + ";" + entry.getValue() + "€")
+                                .toList().toArray(new String[0]),
+                        ingresosCaja.entrySet().stream()
+                                .map(entry -> entry.getKey().replace("O_I", "O CON I").replace("A_E", "A DE E")
+                                        + ";" + entry.getValue() + "€")
+                                .toList().toArray(new String[0]),
+                        gastosBanco.entrySet().stream()
+                                .map(entry -> entry.getKey() + ";" + entry.getValue() + "€")
+                                .toList().toArray(new String[0]),
+                        gastosCaja.entrySet().stream()
+                                .map(entry -> entry.getKey() + ";" + entry.getValue() + "€")
+                                .toList().toArray(new String[0]),
+                        saldoActualBanco,
+                        saldoActualCaja,
+                        Contasoc.balance.getInicialBanco()+"€",
+                        Contasoc.balance.getInicialCaja()+"€");
                 ErrorHandler.pdfCreado();
             }
         }

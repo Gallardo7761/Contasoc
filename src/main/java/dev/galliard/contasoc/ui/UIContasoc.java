@@ -55,6 +55,8 @@ public class UIContasoc extends JFrame {
             GUIManager.valor = PrintAction.INGRESOS;
         } else if (selected.equals(gastosPanel)) {
             GUIManager.valor = PrintAction.GASTOS;
+        } else if (selected.equals(balancePanel)) {
+            GUIManager.valor = PrintAction.BALANCE;
         }
         GUIManager.printContent();
     }
