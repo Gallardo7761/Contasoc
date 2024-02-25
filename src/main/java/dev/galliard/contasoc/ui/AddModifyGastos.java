@@ -4,7 +4,8 @@
 
 package dev.galliard.contasoc.ui;
 
-import com.github.lgooddatepicker.components.*;
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.optionalusertools.CalendarBorderProperties;
 import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Action;

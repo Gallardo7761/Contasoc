@@ -4,8 +4,6 @@
 
 package dev.galliard.contasoc.ui;
 
-import javax.swing.border.*;
-import javax.swing.event.*;
 import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.common.PrintAction;
@@ -13,24 +11,20 @@ import dev.galliard.contasoc.database.DBUtils;
 import dev.galliard.contasoc.database.objects.Gastos;
 import dev.galliard.contasoc.database.objects.Ingresos;
 import dev.galliard.contasoc.database.objects.Socios;
-import dev.galliard.contasoc.ui.models.*;
-import dev.galliard.contasoc.util.EmailSender2;
+import dev.galliard.contasoc.ui.models.GastoPanelRenderer;
+import dev.galliard.contasoc.ui.models.IngresoPanelRenderer;
+import dev.galliard.contasoc.ui.models.ListaEsperaPanelRenderer;
+import dev.galliard.contasoc.ui.models.SocioPanelRenderer;
+import dev.galliard.contasoc.util.ErrorHandler;
 import dev.galliard.contasoc.util.Parsers;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.filechooser.FileFilter;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.util.*;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author jomaa
@@ -42,22 +36,9 @@ public class UIContasoc extends JFrame {
         initComponents();
         setActions();
         GUIManager.populateGUITables();
-        GUIManager.addListenerToSearchBar(sociosLista, (DefaultListModel<SocioPanel>) sociosLista.getModel());
-        addHTMLRenderer();
-    }
-
-    private void addHTMLRenderer() {
-        Platform.startup(() -> {
-            Platform.runLater(() -> {
-                WebView webView = new WebView();
-                WebEngine webEngine = webView.getEngine();
-                webEngine.load(mail);
-                Scene scene = new Scene(webView);
-                JFXPanel jfxPanel = new JFXPanel();
-                jfxPanel.setScene(scene);
-                htmlRenderPanel.add(jfxPanel, BorderLayout.CENTER);
-            });
-        });
+        GUIManager.addSociosSearchListener();
+        GUIManager.addIngresosSearchListener();
+        GUIManager.addGastosSearchListener();
     }
 
     private void printBtnActionPerformed(ActionEvent e) {
@@ -72,6 +53,8 @@ public class UIContasoc extends JFrame {
             GUIManager.valor = PrintAction.INGRESOS;
         } else if (selected.equals(gastosPanel)) {
             GUIManager.valor = PrintAction.GASTOS;
+        } else if (selected.equals(balancePanel)) {
+            GUIManager.valor = PrintAction.BALANCE;
         }
         GUIManager.printContent();
     }
@@ -229,55 +212,6 @@ public class UIContasoc extends JFrame {
         * */
     }
 
-    private void borradorBtnActionPerformed(ActionEvent e) {
-        /*
-        * String body = null;
-        if (UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("NORMAL")) {
-            try {
-                body = EmailSender2.NORMAL_EMAIL
-                        .replace("{nombre}", Contasoc.socios.stream()
-                                .filter(socio -> socio.getEmail().equals(
-                                        UIContasoc.destinatarioComboBox.getSelectedItem().toString()
-                                                .replaceAll("\\(\\d+\\)", "").trim())).findFirst().get().getNombre())
-                        .replace("{mensaje}", htmlEditor.getText());
-            } catch (ConstraintViolationException ex) {
-                Contasoc.logger.error("Error SQL", e);
-            }
-        } else if (UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("AVISO IMPAGO")) {
-            try {
-                body = EmailSender2.UNPAID_EMAIL
-                        .replace("{nombre}", Contasoc.socios.stream()
-                                .filter(socio -> socio.getEmail().equals(
-                                        UIContasoc.destinatarioComboBox.getSelectedItem().toString()
-                                                .replaceAll("\\(\\d+\\)", "").trim())).findFirst().get().getNombre());
-            } catch (ConstraintViolationException ex) {
-                Contasoc.logger.error("Error SQL", e);
-            }
-        } else if (UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("AVISO ABANDONO")) {
-            try {
-                body = EmailSender2.WARNING_EMAIL
-                        .replace("{nombre}", Contasoc.socios.stream()
-                                .filter(socio -> socio.getEmail().equals(
-                                        UIContasoc.destinatarioComboBox.getSelectedItem().toString()
-                                                .replaceAll("\\(\\d+\\)", "").trim())).findFirst().get().getNombre());
-            } catch (ConstraintViolationException ex) {
-                Contasoc.logger.error("Error SQL", e);
-            }
-        } else if (UIContasoc.tipoEmailComboBox.getSelectedItem().toString().equals("MAL COMPORTAMIENTO")) {
-            try {
-                body = EmailSender2.MISBEHAVE_EMAIL
-                        .replace("{nombre}", Contasoc.socios.stream()
-                                .filter(socio -> socio.getEmail().equals(
-                                        UIContasoc.destinatarioComboBox.getSelectedItem().toString()
-                                                .replaceAll("\\(\\d+\\)", "").trim())).findFirst().get().getNombre());
-            } catch (ConstraintViolationException ex) {
-                Contasoc.logger.error("Error SQL", e);
-            }
-        }
-        EmailSender2.crearBorrador(UIContasoc.destinatarioComboBox.getSelectedItem().toString().replaceAll("\\(\\d+\\)", "").trim(),
-                UIContasoc.asuntoField.getText(), body);
-                * */
-    }
     protected void setActions() {
         // Crear acciones para cada función
         javax.swing.Action nuevoAction = new AbstractAction("Nuevo") {
@@ -312,6 +246,20 @@ public class UIContasoc extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 helpBtnActionPerformed(e);
+            }
+        };
+
+        javax.swing.Action guardarAction = new AbstractAction("Guardar") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveBtn(e);
+            }
+        };
+
+        javax.swing.Action filtrarAction = new AbstractAction("Filtrar") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterBtn(e);
             }
         };
 
@@ -361,13 +309,6 @@ public class UIContasoc extends JFrame {
             }
         };
 
-        javax.swing.Action emailAltAction = new AbstractAction("Email") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tabbedPane1.setSelectedIndex(4);
-            }
-        };
-
         // Obtener el panel de contenido
         JPanel contentPane = (JPanel) this.getContentPane();
         // Configurar atajos de teclado
@@ -382,7 +323,8 @@ public class UIContasoc extends JFrame {
         KeyStroke ingresosAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.ALT_DOWN_MASK);
         KeyStroke gastosAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.ALT_DOWN_MASK);
         KeyStroke balanceAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.ALT_DOWN_MASK);
-        KeyStroke emailAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.ALT_DOWN_MASK);
+        KeyStroke guardarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
+        KeyStroke filtrarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK);
 
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(nuevoKeyStroke, "nuevo");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(editarKeyStroke, "editar");
@@ -395,7 +337,8 @@ public class UIContasoc extends JFrame {
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ingresosAltKeyStroke, "ingresos");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(gastosAltKeyStroke, "gastos");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(balanceAltKeyStroke, "balance");
-        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(emailAltKeyStroke, "email");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(guardarKeyStroke, "guardar");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(filtrarKeyStroke, "filtrar");
 
         contentPane.getActionMap().put("nuevo", nuevoAction);
         contentPane.getActionMap().put("editar", editarAction);
@@ -408,49 +351,14 @@ public class UIContasoc extends JFrame {
         contentPane.getActionMap().put("ingresos", ingresosAltAction);
         contentPane.getActionMap().put("gastos", gastosAltAction);
         contentPane.getActionMap().put("balance", balanceAltAction);
-        contentPane.getActionMap().put("email", emailAltAction);
-    }
-
-    private void emailPanelComponentShown(ComponentEvent e) {
-        PopulateEmailsThread popEmails = new PopulateEmailsThread();
-        Thread thread = new Thread(popEmails);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException ex) {
-            throw new RuntimeException(ex);
-        }
+        contentPane.getActionMap().put("guardar", guardarAction);
+        contentPane.getActionMap().put("filtrar", filtrarAction);
     }
 
     private void helpBtnActionPerformed(ActionEvent e) {
         HelpMenu helpMenu = HelpMenu.getInstance();
         helpMenu.setVisible(true);
         helpMenu.setLocationRelativeTo(null);
-    }
-
-    private File adjuntoBtnActionPerformed(ActionEvent e) {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Selecciona el archivo a adjuntar");
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setMultiSelectionEnabled(false);
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                return f.getName().toLowerCase().endsWith(".pdf") || f.isDirectory();
-            }
-
-            @Override
-            public String getDescription() {
-                return "Archivos PDF";
-            }
-        });
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            EmailSender2.adjunto = fileChooser.getSelectedFile();
-        }
-
-        return EmailSender2.adjunto;
     }
 
     private void thisWindowClosing(WindowEvent e) {
@@ -474,37 +382,14 @@ public class UIContasoc extends JFrame {
             optionPane.setOptions(new Object[]{"Sí", "No"});
             int result2 = optionPane.showConfirmDialog(this, "Hay cambios sin guardar, ¿quieres guardarlos?", "Guardar cambios", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (result2 == JOptionPane.YES_OPTION) {
-                if(sociosEditados.size() > 0) {
-                    for (Socios socio : sociosEditados) {
-                        DBUtils.updateSocioOnClose(
-                                SocioView.tempNumeroSocio,
-                                new String[]{
-                                        socio.getNumeroSocio().toString(),
-                                        socio.getNumeroHuerto().toString(),
-                                        socio.getNombre(),
-                                        socio.getDni(),
-                                        socio.getTelefono() == null ? "NULL" : socio.getTelefono().toString(),
-                                        socio.getEmail() == null ? "NULL" : socio.getEmail(),
-                                        socio.getFechaDeAlta() == null ? "NULL" : socio.getFechaDeAlta().toString(),
-                                        socio.getFechaDeEntrega() == null ? "NULL" : socio.getFechaDeEntrega().toString(),
-                                        socio.getFechaDeBaja() == null ? "NULL" : socio.getFechaDeBaja().toString(),
-                                        socio.getNotas(),
-                                        socio.getTipo().name() == null ? "HORTELANO" : socio.getTipo().name()
-                                });
+                if(gastosEliminados.size() > 0) {
+                    for (Gastos gasto : gastosEliminados) {
+                        DBUtils.removeGastoOnClose(gasto.getId());
                     }
                 }
-                if(ingresosEditados.size() > 0) {
-                    for (Ingresos ingreso : ingresosEditados) {
-                        DBUtils.updateIngresoOnClose(
-                                Integer.parseInt(AddModifyIngresos.tempSocio),
-                                AddModifyIngresos.tempConcepto,
-                                new String[]{
-                                        ingreso.getNumeroSocio().toString(),
-                                        ingreso.getFecha().toString(),
-                                        ingreso.getConcepto(),
-                                        ingreso.getCantidad().toString(),
-                                        ingreso.getTipo()
-                                });
+                if(gastosAgregados.size() > 0) {
+                    for (Gastos gasto : gastosAgregados) {
+                        Contasoc.jpaGastoDao.save(gasto);
                     }
                 }
                 if(gastosEditados.size() > 0) {
@@ -523,14 +408,9 @@ public class UIContasoc extends JFrame {
                                 });
                     }
                 }
-                if(gastosAgregados.size() > 0) {
-                    for (Gastos gasto : gastosAgregados) {
-                        Contasoc.jpaGastoDao.save(gasto);
-                    }
-                }
-                if(gastosEliminados.size() > 0) {
-                    for (Gastos gasto : gastosEliminados) {
-                        DBUtils.removeGastoOnClose(gasto.getId());
+                if(ingresosEliminados.size() > 0) {
+                    for (Ingresos ingreso : ingresosEliminados) {
+                        DBUtils.removeIngresoOnClose(ingreso.getId());
                     }
                 }
                 if(ingresosAgregados.size() > 0) {
@@ -538,9 +418,23 @@ public class UIContasoc extends JFrame {
                         Contasoc.jpaIngresoDao.save(ingreso);
                     }
                 }
-                if(ingresosEliminados.size() > 0) {
-                    for (Ingresos ingreso : ingresosEliminados) {
-                        DBUtils.removeIngresoOnClose(ingreso.getId());
+                if(ingresosEditados.size() > 0) {
+                    for (Ingresos ingreso : ingresosEditados) {
+                        DBUtils.updateIngresoOnClose(
+                                Integer.parseInt(AddModifyIngresos.tempSocio),
+                                AddModifyIngresos.tempConcepto,
+                                new String[]{
+                                        ingreso.getNumeroSocio().toString(),
+                                        ingreso.getFecha().toString(),
+                                        ingreso.getConcepto(),
+                                        ingreso.getCantidad().toString(),
+                                        ingreso.getTipo()
+                                });
+                    }
+                }
+                if(sociosEliminados.size() > 0) {
+                    for (Socios socio : sociosEliminados) {
+                        DBUtils.removeSocioOnClose(socio.getId());
                     }
                 }
                 if(sociosAgregados.size() > 0) {
@@ -548,9 +442,23 @@ public class UIContasoc extends JFrame {
                         Contasoc.jpaSocioDao.save(socio);
                     }
                 }
-                if(sociosEliminados.size() > 0) {
-                    for (Socios socio : sociosEliminados) {
-                        DBUtils.removeSocioOnClose(socio.getId());
+                if(sociosEditados.size() > 0) {
+                    for (Socios socio : sociosEditados) {
+                        DBUtils.updateSocioOnClose(
+                                SocioView.tempNumeroSocio,
+                                new String[]{
+                                        socio.getNumeroSocio().toString(),
+                                        socio.getNumeroHuerto().toString(),
+                                        socio.getNombre(),
+                                        socio.getDni(),
+                                        socio.getTelefono() == null ? "NULL" : socio.getTelefono().toString(),
+                                        socio.getEmail() == "" ? "NULL" : socio.getEmail(),
+                                        socio.getFechaDeAlta() == null ? "NULL" : socio.getFechaDeAlta().toString(),
+                                        socio.getFechaDeEntrega() == null ? "NULL" : socio.getFechaDeEntrega().toString(),
+                                        socio.getFechaDeBaja() == null ? "NULL" : socio.getFechaDeBaja().toString(),
+                                        socio.getNotas(),
+                                        socio.getTipo().name() == null ? "HORTELANO" : socio.getTipo().name()
+                                });
                     }
                 }
             }
@@ -641,36 +549,51 @@ public class UIContasoc extends JFrame {
         }
     }
 
-    private void tabbedPane1StateChanged(ChangeEvent e) {
-        if(tabbedPane1.getSelectedComponent().equals(emailPanel)) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Esta sección se encuentra en re-desarrollo",
-                    "Advertencia",
-                    JOptionPane.WARNING_MESSAGE
+    private void filterBtn(ActionEvent e) {
+        // Eliminar todos los diálogos de filtro abiertos
+        FilterSocios.getInstance().setVisible(false);
+        FilterIngresos.getInstance().setVisible(false);
+        FilterGastos.getInstance().setVisible(false);
+        int yOffset = 0;
+        if (tabbedPane1.getSelectedComponent().equals(sociosPanel)) {
+            FilterSocios filterSocios = FilterSocios.getInstance();
+            filterSocios.setLocation(
+                    filterBtn.getLocationOnScreen().x,
+                    filterBtn.getLocationOnScreen().y + filterBtn.getHeight() + yOffset
             );
-            /*
-            * String destinatario = UIContasoc.destinatarioComboBox.getSelectedItem() == null ? "" : UIContasoc.destinatarioComboBox.getSelectedItem().toString();
-            mail = switch (UIContasoc.tipoEmailComboBox.getSelectedItem().toString()) {
-                case "NORMAL":
-                    yield EmailSender2.NORMAL_EMAIL
-                            .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre())
-                            .replace("{mensaje}", htmlEditor.getText());
-                case "AVISO IMPAGO":
-                    yield EmailSender2.NORMAL_EMAIL
-                            .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre());
-                case "AVISO ABANDONO":
-                    yield EmailSender2.NORMAL_EMAIL
-                            .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre());
-                case "MAL COMPORTAMIENTO":
-                    yield EmailSender2.NORMAL_EMAIL
-                            .replace("{nombre}", GUIManager.getSocios().stream().filter(socio -> socio.getEmail().equals(destinatario)).findFirst().get().getNombre());
-                default:
-                    yield new String();
-            };
-            * */
+            filterSocios.setVisible(true);
+            yOffset += filterSocios.getHeight(); // Incrementar yOffset para el próximo diálogo
+        } else if (tabbedPane1.getSelectedComponent().equals(ingresosPanel)) {
+            FilterIngresos filterIngresos = FilterIngresos.getInstance();
+            filterIngresos.setLocation(
+                    filterBtn.getLocationOnScreen().x,
+                    filterBtn.getLocationOnScreen().y + filterBtn.getHeight() + yOffset
+            );
+            filterIngresos.setVisible(true);
+            yOffset += filterIngresos.getHeight(); // Incrementar yOffset para el próximo diálogo
+        } else if (tabbedPane1.getSelectedComponent().equals(gastosPanel)) {
+            FilterGastos filterGastos = FilterGastos.getInstance();
+            filterGastos.setLocation(
+                    filterBtn.getLocationOnScreen().x,
+                    filterBtn.getLocationOnScreen().y + filterBtn.getHeight() + yOffset
+            );
+            filterGastos.setVisible(true);
+            yOffset += filterGastos.getHeight(); // Incrementar yOffset para el próximo diálogo
         }
     }
+
+    private void saveBtn(ActionEvent e) {
+        if(Contasoc.sqlMemory.dataModified()) {
+            save();
+            Contasoc.sqlMemory.flush();
+            Contasoc.load();
+            GUIManager.clearModels();
+            GUIManager.populateGUITables();
+        } else {
+            ErrorHandler.error("No hay cambios que guardar");
+        }
+    }
+
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
@@ -680,6 +603,8 @@ public class UIContasoc extends JFrame {
         editarBtn = new JButton();
         eliminarBtn = new JButton();
         printBtn = new JButton();
+        saveBtn = new JButton();
+        filterBtn = new JButton();
         aux = new JPanel();
         buscarField = new JTextField();
         ayudaBtn = new JButton();
@@ -721,26 +646,6 @@ public class UIContasoc extends JFrame {
         saldoCajaValue = new JLabel();
         cerrarAnyoPanel = new JPanel();
         cerrarAnyoBtn = new JButton();
-        emailPanel = new JPanel();
-        emailDataPanel = new JPanel();
-        destinatarioLabel = new JLabel();
-        asuntoLabel = new JLabel();
-        asuntoField = new JTextField();
-        destinatarioComboBox = new JComboBox<>();
-        emailBodyPanel = new JPanel();
-        panel1 = new JPanel();
-        htmlEditorPanel = new JPanel();
-        editorScrollPane = new JScrollPane();
-        htmlEditor = new JTextPane();
-        panel2 = new JPanel();
-        htmlRenderPanel = new JPanel();
-        emailBtnsPanel = new JPanel();
-        emailBtnsWrapper = new JPanel();
-        enviarBtn = new JButton();
-        borradorBtn = new JButton();
-        tipoEmailComboBox = new JComboBox<>();
-        adjuntoBtn = new JButton();
-        adjuntoCheckBox = new JCheckBox();
 
         //======== this ========
         setFont(new Font("Segoe UI", Font.PLAIN, 12));
@@ -768,6 +673,8 @@ public class UIContasoc extends JFrame {
                 "[fill]" +
                 "[fill]" +
                 "[fill]" +
+                "[fill]" +
+                "[fill]" +
                 "[grow,fill]" +
                 "[fill]",
                 // rows
@@ -783,8 +690,8 @@ public class UIContasoc extends JFrame {
             nuevoBtn.setPreferredSize(new Dimension(79, 32));
             nuevoBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/add2_32.png")));
             nuevoBtn.setToolTipText("Nuevo [Ctrl+N]");
-            nuevoBtn.setBackground(new Color(0xf7f8fa));
             nuevoBtn.setBorderPainted(false);
+            nuevoBtn.setBackground(new Color(0xf7f8fa));
             nuevoBtn.addActionListener(e -> nuevoBtnActionPerformed(e));
             nuevoBtn.putClientProperty( "JButton.buttonType", "borderless");
             btnSearchPanel.add(nuevoBtn, "cell 0 0,width 40:40:40,height 40:40:40");
@@ -795,8 +702,8 @@ public class UIContasoc extends JFrame {
             editarBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/corel2_32.png")));
             editarBtn.setMargin(new Insets(0, 0, 0, 0));
             editarBtn.setToolTipText("Editar [Ctrl+E]");
-            editarBtn.setBackground(new Color(0xf7f8fa));
             editarBtn.setBorderPainted(false);
+            editarBtn.setBackground(new Color(0xf7f8fa));
             editarBtn.addActionListener(e -> editarBtn(e));
             editarBtn.putClientProperty( "JButton.buttonType", "borderless");
             btnSearchPanel.add(editarBtn, "cell 1 0,width 40:40:40,height 40:40:40");
@@ -811,8 +718,8 @@ public class UIContasoc extends JFrame {
             eliminarBtn.setPreferredSize(new Dimension(79, 32));
             eliminarBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/delete2_32.png")));
             eliminarBtn.setToolTipText("Eliminar [Ctrl+D]");
-            eliminarBtn.setBackground(new Color(0xf7f8fa));
             eliminarBtn.setBorderPainted(false);
+            eliminarBtn.setBackground(new Color(0xf7f8fa));
             eliminarBtn.addActionListener(e -> eliminarBtnActionPerformed(e));
             eliminarBtn.putClientProperty( "JButton.buttonType", "borderless");
             btnSearchPanel.add(eliminarBtn, "cell 2 0,width 40:40:40,height 40:40:40");
@@ -827,11 +734,43 @@ public class UIContasoc extends JFrame {
             printBtn.setPreferredSize(new Dimension(79, 32));
             printBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/printer2_32.png")));
             printBtn.setToolTipText("Imprimir [Ctrl+P]");
-            printBtn.setBackground(new Color(0xf7f8fa));
             printBtn.setBorderPainted(false);
+            printBtn.setBackground(new Color(0xf7f8fa));
             printBtn.addActionListener(e -> printBtnActionPerformed(e));
             printBtn.putClientProperty( "JButton.buttonType", "borderless");
             btnSearchPanel.add(printBtn, "cell 3 0,width 40:40:40,height 40:40:40");
+
+            //---- saveBtn ----
+            saveBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+            saveBtn.setMargin(new Insets(0, 0, 0, 0));
+            saveBtn.setForeground(Color.black);
+            saveBtn.setAlignmentY(0.0F);
+            saveBtn.setMaximumSize(new Dimension(79, 32));
+            saveBtn.setMinimumSize(new Dimension(79, 32));
+            saveBtn.setPreferredSize(new Dimension(79, 32));
+            saveBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/save_32.png")));
+            saveBtn.setToolTipText("Guardar [Ctrl+S]");
+            saveBtn.setBorderPainted(false);
+            saveBtn.setBackground(new Color(0xf7f8fa));
+            saveBtn.addActionListener(e -> saveBtn(e));
+            printBtn.putClientProperty( "JButton.buttonType", "borderless");
+            btnSearchPanel.add(saveBtn, "cell 4 0,width 40:40:40,height 40:40:40");
+
+            //---- filterBtn ----
+            filterBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+            filterBtn.setMargin(new Insets(0, 0, 0, 0));
+            filterBtn.setForeground(Color.black);
+            filterBtn.setAlignmentY(0.0F);
+            filterBtn.setMaximumSize(new Dimension(79, 32));
+            filterBtn.setMinimumSize(new Dimension(79, 32));
+            filterBtn.setPreferredSize(new Dimension(79, 32));
+            filterBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/filter_32.png")));
+            filterBtn.setToolTipText("Filtrar [Ctrl+F]");
+            filterBtn.setBorderPainted(false);
+            filterBtn.setBackground(new Color(0xf7f8fa));
+            filterBtn.addActionListener(e -> filterBtn(e));
+            printBtn.putClientProperty( "JButton.buttonType", "borderless");
+            btnSearchPanel.add(filterBtn, "cell 5 0,width 40:40:40,height 40:40:40");
 
             //======== aux ========
             {
@@ -849,11 +788,11 @@ public class UIContasoc extends JFrame {
                 buscarField.setPreferredSize(new Dimension(68, 28));
                 buscarField.setMinimumSize(new Dimension(68, 28));
                 buscarField.setMaximumSize(new Dimension(2147483647, 28));
-                buscarField.putClientProperty("JTextField.placeholderText", "Buscar socios...");
+                buscarField.putClientProperty("JTextField.placeholderText", "Buscar...");
                 buscarField.putClientProperty("JTextField.leadingIcon", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource("/images/icons/search_medium_black.png"))));
                 aux.add(buscarField, "cell 0 0,height 40:40:40");
             }
-            btnSearchPanel.add(aux, "cell 4 0,width 500:500:500");
+            btnSearchPanel.add(aux, "cell 6 0,width 500:500:500");
 
             //---- ayudaBtn ----
             ayudaBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -865,18 +804,17 @@ public class UIContasoc extends JFrame {
             ayudaBtn.setPreferredSize(new Dimension(79, 32));
             ayudaBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/help2_32.png")));
             ayudaBtn.setToolTipText("Ayuda [F1]");
-            ayudaBtn.setBackground(new Color(0xf7f8fa));
             ayudaBtn.setBorderPainted(false);
+            ayudaBtn.setBackground(new Color(0xf7f8fa));
             ayudaBtn.addActionListener(e -> ayudaBtn(e));
             ayudaBtn.putClientProperty( "JButton.buttonType", "borderless");
-            btnSearchPanel.add(ayudaBtn, "cell 5 0,width 40:40:40,height 40:40:40");
+            btnSearchPanel.add(ayudaBtn, "cell 7 0,width 40:40:40,height 40:40:40");
         }
         contentPane.add(btnSearchPanel, BorderLayout.NORTH);
 
         //======== tabbedPane1 ========
         {
             tabbedPane1.setFont(tabbedPane1.getFont().deriveFont(tabbedPane1.getFont().getSize() + 6f));
-            tabbedPane1.addChangeListener(e -> tabbedPane1StateChanged(e));
             tabbedPane1.putClientProperty("JTabbedPane.minimumTabWidth", 160);
             tabbedPane1.putClientProperty("JTabbedPane.maximumTabWidth", 160);
 
@@ -1145,199 +1083,6 @@ public class UIContasoc extends JFrame {
                 balancePanel.add(balanceCantidadesPanel, "cell 0 0");
             }
             tabbedPane1.addTab("BALANCE", balancePanel);
-
-            //======== emailPanel ========
-            {
-                emailPanel.addComponentListener(new ComponentAdapter() {
-                    @Override
-                    public void componentShown(ComponentEvent e) {
-                        emailPanelComponentShown(e);
-                    }
-                });
-                emailPanel.setLayout(new MigLayout(
-                    "insets 12 0 0 0,hidemode 3,gap 0 0",
-                    // columns
-                    "[grow,fill]",
-                    // rows
-                    "[fill]" +
-                    "[grow,fill]" +
-                    "[fill]"));
-
-                //======== emailDataPanel ========
-                {
-
-                    //---- destinatarioLabel ----
-                    destinatarioLabel.setText("Destinatario:");
-                    destinatarioLabel.setFont(destinatarioLabel.getFont().deriveFont(destinatarioLabel.getFont().getSize() + 6f));
-
-                    //---- asuntoLabel ----
-                    asuntoLabel.setText("Asunto:");
-                    asuntoLabel.setFont(asuntoLabel.getFont().deriveFont(asuntoLabel.getFont().getSize() + 6f));
-
-                    //---- asuntoField ----
-                    asuntoField.setSelectionColor(new Color(0xbadbbc));
-                    asuntoField.setFont(asuntoField.getFont().deriveFont(asuntoField.getFont().getSize() + 4f));
-                    asuntoField.setEditable(false);
-                    asuntoField.setEnabled(false);
-
-                    //---- destinatarioComboBox ----
-                    destinatarioComboBox.setFont(destinatarioComboBox.getFont().deriveFont(destinatarioComboBox.getFont().getSize() + 6f));
-                    destinatarioComboBox.setEnabled(false);
-
-                    GroupLayout emailDataPanelLayout = new GroupLayout(emailDataPanel);
-                    emailDataPanel.setLayout(emailDataPanelLayout);
-                    emailDataPanelLayout.setHorizontalGroup(
-                        emailDataPanelLayout.createParallelGroup()
-                            .addGroup(emailDataPanelLayout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(destinatarioLabel)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(destinatarioComboBox, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(asuntoLabel)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(asuntoField, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
-                                .addGap(239, 239, 239))
-                    );
-                    emailDataPanelLayout.setVerticalGroup(
-                        emailDataPanelLayout.createParallelGroup()
-                            .addGroup(emailDataPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(asuntoLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(asuntoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(destinatarioLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(destinatarioComboBox, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
-                    );
-                }
-                emailPanel.add(emailDataPanel, "cell 0 0");
-
-                //======== emailBodyPanel ========
-                {
-                    emailBodyPanel.setLayout(new GridLayout());
-
-                    //======== panel1 ========
-                    {
-                        panel1.setLayout(new MigLayout(
-                            "insets 0,hidemode 3",
-                            // columns
-                            "[grow,fill]",
-                            // rows
-                            "[grow,fill]"));
-
-                        //======== htmlEditorPanel ========
-                        {
-                            htmlEditorPanel.setBorder(new LineBorder(new Color(0x787f87)));
-                            htmlEditorPanel.setLayout(new BorderLayout());
-
-                            //======== editorScrollPane ========
-                            {
-                                editorScrollPane.setBorder(null);
-
-                                //---- htmlEditor ----
-                                htmlEditor.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-                                htmlEditor.setForeground(new Color(0x555555));
-                                htmlEditor.setEditable(false);
-                                editorScrollPane.setViewportView(htmlEditor);
-                            }
-                            htmlEditorPanel.add(editorScrollPane, BorderLayout.CENTER);
-                        }
-                        panel1.add(htmlEditorPanel, "pad 10 10 -10 -5,cell 0 0");
-                    }
-                    emailBodyPanel.add(panel1);
-
-                    //======== panel2 ========
-                    {
-                        panel2.setLayout(new MigLayout(
-                            "insets 0,hidemode 3",
-                            // columns
-                            "[grow,fill]",
-                            // rows
-                            "[grow,fill]"));
-
-                        //======== htmlRenderPanel ========
-                        {
-                            htmlRenderPanel.setBorder(new LineBorder(new Color(0x787f87)));
-                            htmlRenderPanel.setEnabled(false);
-                            htmlRenderPanel.setLayout(new BorderLayout());
-                        }
-                        panel2.add(htmlRenderPanel, "pad 10 5 -10 -10,cell 0 0");
-                    }
-                    emailBodyPanel.add(panel2);
-                }
-                emailPanel.add(emailBodyPanel, "cell 0 1");
-
-                //======== emailBtnsPanel ========
-                {
-                    emailBtnsPanel.setLayout(new GridLayout(1, 3));
-
-                    //======== emailBtnsWrapper ========
-                    {
-
-                        //---- enviarBtn ----
-                        enviarBtn.setText("Enviar");
-                        enviarBtn.setFont(enviarBtn.getFont().deriveFont(enviarBtn.getFont().getSize() + 6f));
-                        enviarBtn.setEnabled(false);
-                        enviarBtn.addActionListener(e -> enviarBtnActionPerformed(e));
-
-                        //---- borradorBtn ----
-                        borradorBtn.setText("Guardar borrador");
-                        borradorBtn.setFont(borradorBtn.getFont().deriveFont(borradorBtn.getFont().getSize() + 6f));
-                        borradorBtn.setEnabled(false);
-                        borradorBtn.addActionListener(e -> borradorBtnActionPerformed(e));
-
-                        //---- tipoEmailComboBox ----
-                        tipoEmailComboBox.setFont(tipoEmailComboBox.getFont().deriveFont(tipoEmailComboBox.getFont().getSize() + 6f));
-                        tipoEmailComboBox.setEnabled(false);
-                        tipoEmailComboBox.addItem("NORMAL");
-                        tipoEmailComboBox.addItem("AVISO IMPAGO");
-                        tipoEmailComboBox.addItem("AVISO ABANDONO");
-                        tipoEmailComboBox.addItem("MAL COMPORTAMIENTO");
-
-                        //---- adjuntoBtn ----
-                        adjuntoBtn.setText("Adjuntar");
-                        adjuntoBtn.setFont(adjuntoBtn.getFont().deriveFont(adjuntoBtn.getFont().getSize() + 6f));
-                        adjuntoBtn.setEnabled(false);
-                        adjuntoBtn.addActionListener(e -> adjuntoBtnActionPerformed(e));
-
-                        //---- adjuntoCheckBox ----
-                        adjuntoCheckBox.setText("Adjunto");
-                        adjuntoCheckBox.setFont(adjuntoCheckBox.getFont().deriveFont(adjuntoCheckBox.getFont().getSize() + 6f));
-                        adjuntoCheckBox.setEnabled(false);
-
-                        GroupLayout emailBtnsWrapperLayout = new GroupLayout(emailBtnsWrapper);
-                        emailBtnsWrapper.setLayout(emailBtnsWrapperLayout);
-                        emailBtnsWrapperLayout.setHorizontalGroup(
-                            emailBtnsWrapperLayout.createParallelGroup()
-                                .addGroup(emailBtnsWrapperLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(enviarBtn)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(tipoEmailComboBox, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(borradorBtn)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(adjuntoBtn)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(adjuntoCheckBox)
-                                    .addContainerGap(365, Short.MAX_VALUE))
-                        );
-                        emailBtnsWrapperLayout.setVerticalGroup(
-                            emailBtnsWrapperLayout.createParallelGroup()
-                                .addGroup(GroupLayout.Alignment.TRAILING, emailBtnsWrapperLayout.createSequentialGroup()
-                                    .addGroup(emailBtnsWrapperLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                        .addComponent(enviarBtn, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(GroupLayout.Alignment.LEADING, emailBtnsWrapperLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                            .addComponent(borradorBtn)
-                                            .addComponent(adjuntoBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(adjuntoCheckBox))
-                                        .addComponent(tipoEmailComboBox, GroupLayout.Alignment.LEADING))
-                                    .addContainerGap())
-                        );
-                    }
-                    emailBtnsPanel.add(emailBtnsWrapper);
-                }
-                emailPanel.add(emailBtnsPanel, "cell 0 2");
-            }
-            tabbedPane1.addTab("EMAIL", emailPanel);
         }
         contentPane.add(tabbedPane1, BorderLayout.CENTER);
         pack();
@@ -1352,6 +1097,8 @@ public class UIContasoc extends JFrame {
     protected static JButton editarBtn;
     protected static JButton eliminarBtn;
     protected static JButton printBtn;
+    protected static JButton saveBtn;
+    protected static JButton filterBtn;
     protected static JPanel aux;
     protected static JTextField buscarField;
     protected static JButton ayudaBtn;
@@ -1393,25 +1140,5 @@ public class UIContasoc extends JFrame {
     protected static JLabel saldoCajaValue;
     protected static JPanel cerrarAnyoPanel;
     protected static JButton cerrarAnyoBtn;
-    protected static JPanel emailPanel;
-    protected static JPanel emailDataPanel;
-    protected static JLabel destinatarioLabel;
-    protected static JLabel asuntoLabel;
-    protected static JTextField asuntoField;
-    protected static JComboBox<String> destinatarioComboBox;
-    protected static JPanel emailBodyPanel;
-    protected static JPanel panel1;
-    protected static JPanel htmlEditorPanel;
-    protected static JScrollPane editorScrollPane;
-    protected static JTextPane htmlEditor;
-    protected static JPanel panel2;
-    protected static JPanel htmlRenderPanel;
-    protected static JPanel emailBtnsPanel;
-    protected static JPanel emailBtnsWrapper;
-    protected static JButton enviarBtn;
-    protected static JButton borradorBtn;
-    protected static JComboBox<String> tipoEmailComboBox;
-    protected static JButton adjuntoBtn;
-    protected static JCheckBox adjuntoCheckBox;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

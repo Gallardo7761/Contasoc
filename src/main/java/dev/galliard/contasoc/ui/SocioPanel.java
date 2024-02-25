@@ -4,22 +4,21 @@
 
 package dev.galliard.contasoc.ui;
 
-import java.awt.event.*;
-import javax.swing.border.*;
-
 import dev.galliard.contasoc.common.Estado;
 import dev.galliard.contasoc.database.objects.Socios;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * @author jomaa
  */
 public class SocioPanel extends JPanel {
-    private Socios socios;
+    private final Socios socios;
     public SocioPanel(Socios socios) {
         this.socios = socios;
         initComponents();

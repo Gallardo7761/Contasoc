@@ -4,10 +4,10 @@
 
 package dev.galliard.contasoc.ui;
 
-import com.github.lgooddatepicker.components.*;
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.optionalusertools.CalendarBorderProperties;
 import dev.galliard.contasoc.Contasoc;
-import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.common.Estado;
 import dev.galliard.contasoc.common.FormatterType;
 import dev.galliard.contasoc.common.TipoSocio;
@@ -17,7 +17,6 @@ import dev.galliard.contasoc.util.ErrorHandler;
 import dev.galliard.contasoc.util.Parsers;
 import dev.galliard.contasoc.util.UpperCaseFilter;
 import net.miginfocom.swing.MigLayout;
-import org.checkerframework.checker.guieffect.qual.UI;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -26,6 +25,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -125,7 +125,7 @@ public class AddSocios extends JFrame {
     }
 
     private void aceptarBtnActionPerformed(ActionEvent e) {
-        int ultimo = UIContasoc.sociosLista.getLastVisibleIndex();
+        int ultimo = UIContasoc.sociosLista.getModel().getSize() - 1;
         Integer numeroSocio = socioField.getText().isEmpty() ?
                 UIContasoc.sociosLista.getModel().getSize() == 0 ? 1 : UIContasoc.sociosLista.getModel()
                         .getElementAt(ultimo).getSocio().getNumeroSocio() + 1
@@ -135,7 +135,8 @@ public class AddSocios extends JFrame {
         String dni = dniField.getText();
         Integer telefono = Integer.valueOf(telefonoField.getText());
         String email = emailField.getText();
-        Date alta = altaField.getText().isEmpty() ? null : Date.valueOf(Parsers.dashDateParserReversed(altaField.getText()));
+        Date alta = altaField.getText().isEmpty() ?
+            Date.valueOf(LocalDate.now()) : Date.valueOf(Parsers.dashDateParserReversed(altaField.getText()));
         Date entrega = entregaField.getText().isEmpty() ? null : Date.valueOf(Parsers.dashDateParserReversed(entregaField.getText()));
         Date baja = bajaField.getText().isEmpty() ? null : Date.valueOf(Parsers.dashDateParserReversed(bajaField.getText()));
         String notas = notasField.getText();
@@ -145,6 +146,7 @@ public class AddSocios extends JFrame {
         JList<SocioPanel> tabla = UIContasoc.sociosLista;
         Socios socios = new Socios(numeroSocio, numeroHuerto, nombre, dni, telefono, email, alta, entrega, baja, notas, tipoSocio, estado);
         SocioPanel rowData = new SocioPanel(socios);
+        rowData.telefonoLabel.setText(telefonoField.getText().isEmpty() ? "" : telefonoField.getText());
 
         if (DNIValidator.validarDNI(dniField.getText()) || DNIValidator.validarNIE(dniField.getText())) {
             ((DefaultListModel<SocioPanel>)UIContasoc.sociosLista.getModel()).addElement(rowData);

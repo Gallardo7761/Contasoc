@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class JpaIngresoDao implements Dao<Ingresos> {
-    private static EntityManager entityManager = JpaUtil.getEntityManager();
+    private static final EntityManager entityManager = JpaUtil.getEntityManager();
 
     @Override
     public Optional<Ingresos> get(long id) {

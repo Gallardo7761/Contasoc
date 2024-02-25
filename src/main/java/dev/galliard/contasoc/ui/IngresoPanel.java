@@ -4,20 +4,21 @@
 
 package dev.galliard.contasoc.ui;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
-
 import dev.galliard.contasoc.common.TipoPago;
 import dev.galliard.contasoc.database.objects.Ingresos;
 import dev.galliard.contasoc.util.Parsers;
-import net.miginfocom.swing.*;
+import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 
 /**
  * @author jomaa
  */
 public class IngresoPanel extends JPanel {
-    private Ingresos ingresos;
+    private final Ingresos ingresos;
     public IngresoPanel(Ingresos ingresos) {
         this.ingresos = ingresos;
         initComponents();

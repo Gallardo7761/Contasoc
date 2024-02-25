@@ -5,14 +5,13 @@ import dev.galliard.contasoc.database.objects.Balance;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Query;
-import org.hibernate.exception.ConstraintViolationException;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
 public class JpaBalanceDao implements Dao<Balance> {
-    private EntityManager entityManager = JpaUtil.getEntityManager();
+    private final EntityManager entityManager = JpaUtil.getEntityManager();
 
     @Override
     public Optional<Balance> get(long id) {

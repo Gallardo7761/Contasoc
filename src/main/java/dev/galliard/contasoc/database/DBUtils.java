@@ -6,16 +6,12 @@ import dev.galliard.contasoc.database.objects.Gastos;
 import dev.galliard.contasoc.database.objects.Ingresos;
 import dev.galliard.contasoc.database.objects.Socios;
 import dev.galliard.contasoc.ui.*;
-import dev.galliard.contasoc.util.Parsers;
 import org.hibernate.exception.ConstraintViolationException;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.Vector;
 
 public class DBUtils {
     public static String password;

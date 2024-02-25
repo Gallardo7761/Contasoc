@@ -4,20 +4,21 @@
 
 package dev.galliard.contasoc.ui;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
-
 import dev.galliard.contasoc.database.objects.Socios;
 import dev.galliard.contasoc.util.Parsers;
-import net.miginfocom.swing.*;
+import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 
 /**
  * @author jomaa
  */
 public class ListaEsperaPanel extends JPanel {
-    private Socios socios;
-    private int posicion;
+    private final Socios socios;
+    private final int posicion;
     public ListaEsperaPanel(Socios socios, int posicion) {
         this.socios = socios;
         this.posicion = posicion;

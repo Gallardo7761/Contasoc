@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class JpaGastoDao implements Dao<Gastos> {
-    private EntityManager entityManager = JpaUtil.getEntityManager();
+    private final EntityManager entityManager = JpaUtil.getEntityManager();
 
     @Override
     public Optional<Gastos> get(long id) {

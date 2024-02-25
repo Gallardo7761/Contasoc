@@ -1,7 +1,6 @@
 package dev.galliard.contasoc.ui.models;
 
 import dev.galliard.contasoc.ui.GastoPanel;
-import dev.galliard.contasoc.ui.SocioPanel;
 
 import javax.swing.*;
 import java.awt.*;

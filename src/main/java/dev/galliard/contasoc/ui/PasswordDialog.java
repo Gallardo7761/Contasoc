@@ -4,19 +4,22 @@
 
 package dev.galliard.contasoc.ui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
-
 import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.database.DBUtils;
-import net.miginfocom.swing.*;
+import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import javax.swing.border.MatteBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * @author jomaa
  */
-public class PasswordDialog extends JDialog {
+public class PasswordDialog extends JFrame {
     private String value;
 
     public String getValue() {
@@ -27,8 +30,7 @@ public class PasswordDialog extends JDialog {
         this.value = value;
     }
 
-    public PasswordDialog(Window owner) {
-        super(owner);
+    public PasswordDialog() {
         initComponents();
         setActions();
     }
@@ -71,6 +73,8 @@ public class PasswordDialog extends JDialog {
         setTitle("Contrase\u00f1a SQL");
         setFont(new Font(Font.DIALOG, Font.PLAIN, 14));
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setIconImage(new ImageIcon(getClass().getResource("/images/contasoc_small.png")).getImage());
+        setResizable(false);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

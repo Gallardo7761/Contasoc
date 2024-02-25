@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class JpaSocioDao implements Dao<Socios> {
-    private EntityManager entityManager = JpaUtil.getEntityManager();
+    private final EntityManager entityManager = JpaUtil.getEntityManager();
 
     @Override
     public Optional<Socios> get(long id) {
