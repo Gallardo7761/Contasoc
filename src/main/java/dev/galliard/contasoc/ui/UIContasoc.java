@@ -362,37 +362,14 @@ public class UIContasoc extends JFrame {
             optionPane.setOptions(new Object[]{"Sí", "No"});
             int result2 = optionPane.showConfirmDialog(this, "Hay cambios sin guardar, ¿quieres guardarlos?", "Guardar cambios", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (result2 == JOptionPane.YES_OPTION) {
-                if(sociosEditados.size() > 0) {
-                    for (Socios socio : sociosEditados) {
-                        DBUtils.updateSocioOnClose(
-                                SocioView.tempNumeroSocio,
-                                new String[]{
-                                        socio.getNumeroSocio().toString(),
-                                        socio.getNumeroHuerto().toString(),
-                                        socio.getNombre(),
-                                        socio.getDni(),
-                                        socio.getTelefono() == null ? "NULL" : socio.getTelefono().toString(),
-                                        socio.getEmail() == "" ? "NULL" : socio.getEmail(),
-                                        socio.getFechaDeAlta() == null ? "NULL" : socio.getFechaDeAlta().toString(),
-                                        socio.getFechaDeEntrega() == null ? "NULL" : socio.getFechaDeEntrega().toString(),
-                                        socio.getFechaDeBaja() == null ? "NULL" : socio.getFechaDeBaja().toString(),
-                                        socio.getNotas(),
-                                        socio.getTipo().name() == null ? "HORTELANO" : socio.getTipo().name()
-                                });
+                if(gastosEliminados.size() > 0) {
+                    for (Gastos gasto : gastosEliminados) {
+                        DBUtils.removeGastoOnClose(gasto.getId());
                     }
                 }
-                if(ingresosEditados.size() > 0) {
-                    for (Ingresos ingreso : ingresosEditados) {
-                        DBUtils.updateIngresoOnClose(
-                                Integer.parseInt(AddModifyIngresos.tempSocio),
-                                AddModifyIngresos.tempConcepto,
-                                new String[]{
-                                        ingreso.getNumeroSocio().toString(),
-                                        ingreso.getFecha().toString(),
-                                        ingreso.getConcepto(),
-                                        ingreso.getCantidad().toString(),
-                                        ingreso.getTipo()
-                                });
+                if(gastosAgregados.size() > 0) {
+                    for (Gastos gasto : gastosAgregados) {
+                        Contasoc.jpaGastoDao.save(gasto);
                     }
                 }
                 if(gastosEditados.size() > 0) {
@@ -411,14 +388,9 @@ public class UIContasoc extends JFrame {
                                 });
                     }
                 }
-                if(gastosAgregados.size() > 0) {
-                    for (Gastos gasto : gastosAgregados) {
-                        Contasoc.jpaGastoDao.save(gasto);
-                    }
-                }
-                if(gastosEliminados.size() > 0) {
-                    for (Gastos gasto : gastosEliminados) {
-                        DBUtils.removeGastoOnClose(gasto.getId());
+                if(ingresosEliminados.size() > 0) {
+                    for (Ingresos ingreso : ingresosEliminados) {
+                        DBUtils.removeIngresoOnClose(ingreso.getId());
                     }
                 }
                 if(ingresosAgregados.size() > 0) {
@@ -426,9 +398,23 @@ public class UIContasoc extends JFrame {
                         Contasoc.jpaIngresoDao.save(ingreso);
                     }
                 }
-                if(ingresosEliminados.size() > 0) {
-                    for (Ingresos ingreso : ingresosEliminados) {
-                        DBUtils.removeIngresoOnClose(ingreso.getId());
+                if(ingresosEditados.size() > 0) {
+                    for (Ingresos ingreso : ingresosEditados) {
+                        DBUtils.updateIngresoOnClose(
+                                Integer.parseInt(AddModifyIngresos.tempSocio),
+                                AddModifyIngresos.tempConcepto,
+                                new String[]{
+                                        ingreso.getNumeroSocio().toString(),
+                                        ingreso.getFecha().toString(),
+                                        ingreso.getConcepto(),
+                                        ingreso.getCantidad().toString(),
+                                        ingreso.getTipo()
+                                });
+                    }
+                }
+                if(sociosEliminados.size() > 0) {
+                    for (Socios socio : sociosEliminados) {
+                        DBUtils.removeSocioOnClose(socio.getId());
                     }
                 }
                 if(sociosAgregados.size() > 0) {
@@ -436,9 +422,23 @@ public class UIContasoc extends JFrame {
                         Contasoc.jpaSocioDao.save(socio);
                     }
                 }
-                if(sociosEliminados.size() > 0) {
-                    for (Socios socio : sociosEliminados) {
-                        DBUtils.removeSocioOnClose(socio.getId());
+                if(sociosEditados.size() > 0) {
+                    for (Socios socio : sociosEditados) {
+                        DBUtils.updateSocioOnClose(
+                                SocioView.tempNumeroSocio,
+                                new String[]{
+                                        socio.getNumeroSocio().toString(),
+                                        socio.getNumeroHuerto().toString(),
+                                        socio.getNombre(),
+                                        socio.getDni(),
+                                        socio.getTelefono() == null ? "NULL" : socio.getTelefono().toString(),
+                                        socio.getEmail() == "" ? "NULL" : socio.getEmail(),
+                                        socio.getFechaDeAlta() == null ? "NULL" : socio.getFechaDeAlta().toString(),
+                                        socio.getFechaDeEntrega() == null ? "NULL" : socio.getFechaDeEntrega().toString(),
+                                        socio.getFechaDeBaja() == null ? "NULL" : socio.getFechaDeBaja().toString(),
+                                        socio.getNotas(),
+                                        socio.getTipo().name() == null ? "HORTELANO" : socio.getTipo().name()
+                                });
                     }
                 }
             }
