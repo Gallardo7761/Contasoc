@@ -20,6 +20,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -278,7 +279,9 @@ public class GUIManager {
         }
     }
 
-    protected static void addListenerToSearchBar(JList<SocioPanel> listaSocios, DefaultListModel<SocioPanel> modeloOriginal) {
+    protected static void addSociosSearchListener() {
+        JList<SocioPanel> listaSocios = UIContasoc.sociosLista;
+        DefaultListModel<SocioPanel> modeloOriginal = (DefaultListModel<SocioPanel>) listaSocios.getModel();
         JTextField searchBar = UIContasoc.buscarField; // Suponiendo que buscarField es tu campo de búsqueda
         searchBar.addKeyListener(new KeyAdapter() {
             @Override
@@ -309,5 +312,151 @@ public class GUIManager {
         });
     }
 
+    protected static void addIngresosSearchListener() {
+        JList<IngresoPanel> listaIngresos = UIContasoc.ingresosLista;
+        DefaultListModel<IngresoPanel> modeloOriginal = (DefaultListModel<IngresoPanel>) listaIngresos.getModel();
+        JTextField searchBar = UIContasoc.buscarField; // Suponiendo que buscarField es tu campo de búsqueda
+        searchBar.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                String text = searchBar.getText().toLowerCase(); // Convertimos el texto a minúsculas para una comparación más fácil
+                DefaultListModel<IngresoPanel> model = (DefaultListModel<IngresoPanel>) listaIngresos.getModel();
+                DefaultListModel<IngresoPanel> filteredModel = new DefaultListModel<>();
 
+                if (text.isEmpty()) {
+                    // Si el texto está vacío, restablecemos el modelo original
+                    listaIngresos.setModel(modeloOriginal);
+                    return;
+                }
+
+                // Iteramos sobre los elementos de la lista para filtrar
+                for (int i = 0; i < model.getSize(); i++) {
+                    IngresoPanel panel = model.getElementAt(i);
+                    String ingresoInfo = panel.getIngreso().toString().toLowerCase(); // Suponiendo que IngresoPanel tiene un método toString() representativo
+                    if (ingresoInfo.contains(text)) {
+                        filteredModel.addElement(panel);
+                    }
+                }
+
+                // Actualizamos la lista con los elementos filtrados
+                listaIngresos.setModel(filteredModel);
+            }
+        });
+    }
+
+    protected static void addGastosSearchListener() {
+        JList<GastoPanel> listaGastos = UIContasoc.gastosLista;
+        DefaultListModel<GastoPanel> modeloOriginal = (DefaultListModel<GastoPanel>) listaGastos.getModel();
+        JTextField searchBar = UIContasoc.buscarField; // Suponiendo que buscarField es tu campo de búsqueda
+        searchBar.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                String text = searchBar.getText().toLowerCase(); // Convertimos el texto a minúsculas para una comparación más fácil
+                DefaultListModel<GastoPanel> model = (DefaultListModel<GastoPanel>) listaGastos.getModel();
+                DefaultListModel<GastoPanel> filteredModel = new DefaultListModel<>();
+
+                if (text.isEmpty()) {
+                    // Si el texto está vacío, restablecemos el modelo original
+                    listaGastos.setModel(modeloOriginal);
+                    return;
+                }
+
+                // Iteramos sobre los elementos de la lista para filtrar
+                for (int i = 0; i < model.getSize(); i++) {
+                    GastoPanel panel = model.getElementAt(i);
+                    String gastoInfo = panel.getGasto().toString().toLowerCase(); // Suponiendo que GastoPanel tiene un método toString() representativo
+                    if (gastoInfo.contains(text)) {
+                        filteredModel.addElement(panel);
+                    }
+                }
+
+                // Actualizamos la lista con los elementos filtrados
+                listaGastos.setModel(filteredModel);
+            }
+        });
+    }
+
+    protected static void filterSocios(String propiedad) {
+        boolean desc = !FilterSocios.ascDescBtn.isSelected();
+        switch (propiedad) {
+            case "socio" -> {
+                List<Socios> data = Contasoc.socios;
+                DefaultListModel<SocioPanel> model = new DefaultListModel<>();
+                UIContasoc.sociosLista.setModel(model);
+                data.stream()
+                        .sorted(desc ? Comparator.comparing(Socios::getNumeroSocio) : Comparator.comparing(Socios::getNumeroSocio).reversed())
+                        .forEach(s -> model.addElement(new SocioPanel(s)));
+            }
+            case "huerto" -> {
+                List<Socios> data = Contasoc.socios;
+                DefaultListModel<SocioPanel> model = new DefaultListModel<>();
+                UIContasoc.sociosLista.setModel(model);
+                data.stream()
+                        .sorted(desc ? Comparator.comparing(Socios::getNumeroHuerto) : Comparator.comparing(Socios::getNumeroHuerto).reversed())
+                        .forEach(s -> model.addElement(new SocioPanel(s)));
+            }
+            case "nombre" -> {
+                List<Socios> data = Contasoc.socios;
+                DefaultListModel<SocioPanel> model = new DefaultListModel<>();
+                UIContasoc.sociosLista.setModel(model);
+                data.stream()
+                        .sorted(desc ? Comparator.comparing(Socios::getNombre) : Comparator.comparing(Socios::getNombre).reversed())
+                        .forEach(s -> model.addElement(new SocioPanel(s)));
+            }
+            case "fechaDeAlta" -> {
+                List<Socios> data = Contasoc.socios;
+                DefaultListModel<SocioPanel> model = new DefaultListModel<>();
+                UIContasoc.sociosLista.setModel(model);
+                data.stream()
+                        .sorted(desc ? Comparator.comparing(Socios::getFechaDeAlta) : Comparator.comparing(Socios::getFechaDeAlta).reversed())
+                        .forEach(s -> model.addElement(new SocioPanel(s)));
+            }
+        }
+    }
+
+    protected static void filterIngresos(String propiedad) {
+        boolean desc = !FilterIngresos.ascDescBtn.isSelected();
+        switch (propiedad) {
+            case "socio" -> {
+                List<Ingresos> data = Contasoc.ingresos;
+                DefaultListModel<IngresoPanel> model = new DefaultListModel<>();
+                UIContasoc.ingresosLista.setModel(model);
+                data.stream()
+                        .sorted(desc ? Comparator.comparing(Ingresos::getNumeroSocio) : Comparator.comparing(Ingresos::getNumeroSocio).reversed())
+                        .forEach(i -> model.addElement(new IngresoPanel(i)));
+            }
+            case "fecha" -> {
+                List<Ingresos> data = Contasoc.ingresos;
+                DefaultListModel<IngresoPanel> model = new DefaultListModel<>();
+                UIContasoc.ingresosLista.setModel(model);
+                data.stream()
+                        .sorted(desc ? Comparator.comparing(Ingresos::getFecha) : Comparator.comparing(Ingresos::getFecha).reversed())
+                        .forEach(i -> model.addElement(new IngresoPanel(i)));
+            }
+        }
+    }
+
+    protected static void filterGastos(String propiedad) {
+        boolean desc = !FilterGastos.ascDescBtn.isSelected();
+        switch (propiedad) {
+            case "fecha" -> {
+                List<Gastos> data = Contasoc.gastos;
+                DefaultListModel<GastoPanel> model = new DefaultListModel<>();
+                UIContasoc.gastosLista.setModel(model);
+                data.stream()
+                        .sorted(desc ? Comparator.comparing(Gastos::getFecha) : Comparator.comparing(Gastos::getFecha).reversed())
+                        .forEach(g -> model.addElement(new GastoPanel(g)));
+            }
+            case "proveedor" -> {
+                List<Gastos> data = Contasoc.gastos;
+                DefaultListModel<GastoPanel> model = new DefaultListModel<>();
+                UIContasoc.gastosLista.setModel(model);
+                data.stream()
+                        .sorted(desc ? Comparator.comparing(Gastos::getProveedor) : Comparator.comparing(Gastos::getProveedor).reversed())
+                        .forEach(g -> model.addElement(new GastoPanel(g)));
+            }
+        }
+    }
 }

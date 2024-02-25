@@ -38,7 +38,9 @@ public class UIContasoc extends JFrame {
         initComponents();
         setActions();
         GUIManager.populateGUITables();
-        GUIManager.addListenerToSearchBar(sociosLista, (DefaultListModel<SocioPanel>) sociosLista.getModel());
+        GUIManager.addSociosSearchListener();
+        GUIManager.addIngresosSearchListener();
+        GUIManager.addGastosSearchListener();
     }
 
     private void printBtnActionPerformed(ActionEvent e) {
@@ -293,13 +295,6 @@ public class UIContasoc extends JFrame {
             }
         };
 
-        javax.swing.Action emailAltAction = new AbstractAction("Email") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tabbedPane1.setSelectedIndex(4);
-            }
-        };
-
         // Obtener el panel de contenido
         JPanel contentPane = (JPanel) this.getContentPane();
         // Configurar atajos de teclado
@@ -314,7 +309,6 @@ public class UIContasoc extends JFrame {
         KeyStroke ingresosAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.ALT_DOWN_MASK);
         KeyStroke gastosAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.ALT_DOWN_MASK);
         KeyStroke balanceAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.ALT_DOWN_MASK);
-        KeyStroke emailAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.ALT_DOWN_MASK);
 
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(nuevoKeyStroke, "nuevo");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(editarKeyStroke, "editar");
@@ -327,7 +321,6 @@ public class UIContasoc extends JFrame {
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ingresosAltKeyStroke, "ingresos");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(gastosAltKeyStroke, "gastos");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(balanceAltKeyStroke, "balance");
-        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(emailAltKeyStroke, "email");
 
         contentPane.getActionMap().put("nuevo", nuevoAction);
         contentPane.getActionMap().put("editar", editarAction);
@@ -340,7 +333,6 @@ public class UIContasoc extends JFrame {
         contentPane.getActionMap().put("ingresos", ingresosAltAction);
         contentPane.getActionMap().put("gastos", gastosAltAction);
         contentPane.getActionMap().put("balance", balanceAltAction);
-        contentPane.getActionMap().put("email", emailAltAction);
     }
 
     private void helpBtnActionPerformed(ActionEvent e) {
@@ -537,15 +529,39 @@ public class UIContasoc extends JFrame {
         }
     }
 
-    private void tabbedPane1StateChanged(ChangeEvent e) {
-        if(tabbedPane1.getSelectedComponent().equals(sociosPanel)) {
-            aux.setVisible(true);
-            buscarField.setVisible(true);
-        } else {
-            aux.setVisible(false);
-            buscarField.setVisible(false);
+    private void filterBtn(ActionEvent e) {
+        // Eliminar todos los diálogos de filtro abiertos
+        FilterSocios.getInstance().dispose();
+        FilterIngresos.getInstance().dispose();
+        FilterGastos.getInstance().dispose();
+        int yOffset = 0;
+        if (tabbedPane1.getSelectedComponent().equals(sociosPanel)) {
+            FilterSocios filterSocios = FilterSocios.getInstance();
+            filterSocios.setLocation(
+                    filterBtn.getLocationOnScreen().x,
+                    filterBtn.getLocationOnScreen().y + filterBtn.getHeight() + yOffset
+            );
+            filterSocios.setVisible(true);
+            yOffset += filterSocios.getHeight(); // Incrementar yOffset para el próximo diálogo
+        } else if (tabbedPane1.getSelectedComponent().equals(ingresosPanel)) {
+            FilterIngresos filterIngresos = FilterIngresos.getInstance();
+            filterIngresos.setLocation(
+                    filterBtn.getLocationOnScreen().x,
+                    filterBtn.getLocationOnScreen().y + filterBtn.getHeight() + yOffset
+            );
+            filterIngresos.setVisible(true);
+            yOffset += filterIngresos.getHeight(); // Incrementar yOffset para el próximo diálogo
+        } else if (tabbedPane1.getSelectedComponent().equals(gastosPanel)) {
+            FilterGastos filterGastos = FilterGastos.getInstance();
+            filterGastos.setLocation(
+                    filterBtn.getLocationOnScreen().x,
+                    filterBtn.getLocationOnScreen().y + filterBtn.getHeight() + yOffset
+            );
+            filterGastos.setVisible(true);
+            yOffset += filterGastos.getHeight(); // Incrementar yOffset para el próximo diálogo
         }
     }
+
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
@@ -555,6 +571,7 @@ public class UIContasoc extends JFrame {
         editarBtn = new JButton();
         eliminarBtn = new JButton();
         printBtn = new JButton();
+        filterBtn = new JButton();
         aux = new JPanel();
         buscarField = new JTextField();
         ayudaBtn = new JButton();
@@ -619,6 +636,7 @@ public class UIContasoc extends JFrame {
             btnSearchPanel.setLayout(new MigLayout(
                 "insets panel,hidemode 1,gap 12 0",
                 // columns
+                "[fill]" +
                 "[fill]" +
                 "[fill]" +
                 "[fill]" +
@@ -688,6 +706,21 @@ public class UIContasoc extends JFrame {
             printBtn.putClientProperty( "JButton.buttonType", "borderless");
             btnSearchPanel.add(printBtn, "cell 3 0,width 40:40:40,height 40:40:40");
 
+            //---- filterBtn ----
+            filterBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+            filterBtn.setMargin(new Insets(0, 0, 0, 0));
+            filterBtn.setForeground(Color.black);
+            filterBtn.setAlignmentY(0.0F);
+            filterBtn.setMaximumSize(new Dimension(79, 32));
+            filterBtn.setMinimumSize(new Dimension(79, 32));
+            filterBtn.setPreferredSize(new Dimension(79, 32));
+            filterBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/filter_32.png")));
+            filterBtn.setBackground(new Color(0xf7f8fa));
+            filterBtn.setBorderPainted(false);
+            filterBtn.addActionListener(e -> filterBtn(e));
+            printBtn.putClientProperty( "JButton.buttonType", "borderless");
+            btnSearchPanel.add(filterBtn, "cell 4 0,width 40:40:40,height 40:40:40");
+
             //======== aux ========
             {
                 aux.setOpaque(false);
@@ -704,11 +737,11 @@ public class UIContasoc extends JFrame {
                 buscarField.setPreferredSize(new Dimension(68, 28));
                 buscarField.setMinimumSize(new Dimension(68, 28));
                 buscarField.setMaximumSize(new Dimension(2147483647, 28));
-                buscarField.putClientProperty("JTextField.placeholderText", "Buscar socios...");
+                buscarField.putClientProperty("JTextField.placeholderText", "Buscar...");
                 buscarField.putClientProperty("JTextField.leadingIcon", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource("/images/icons/search_medium_black.png"))));
                 aux.add(buscarField, "cell 0 0,height 40:40:40");
             }
-            btnSearchPanel.add(aux, "cell 4 0,width 500:500:500");
+            btnSearchPanel.add(aux, "cell 5 0,width 500:500:500");
 
             //---- ayudaBtn ----
             ayudaBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -724,14 +757,13 @@ public class UIContasoc extends JFrame {
             ayudaBtn.setBorderPainted(false);
             ayudaBtn.addActionListener(e -> ayudaBtn(e));
             ayudaBtn.putClientProperty( "JButton.buttonType", "borderless");
-            btnSearchPanel.add(ayudaBtn, "cell 5 0,width 40:40:40,height 40:40:40");
+            btnSearchPanel.add(ayudaBtn, "cell 6 0,width 40:40:40,height 40:40:40");
         }
         contentPane.add(btnSearchPanel, BorderLayout.NORTH);
 
         //======== tabbedPane1 ========
         {
             tabbedPane1.setFont(tabbedPane1.getFont().deriveFont(tabbedPane1.getFont().getSize() + 6f));
-            tabbedPane1.addChangeListener(e -> tabbedPane1StateChanged(e));
             tabbedPane1.putClientProperty("JTabbedPane.minimumTabWidth", 160);
             tabbedPane1.putClientProperty("JTabbedPane.maximumTabWidth", 160);
 
@@ -1014,6 +1046,7 @@ public class UIContasoc extends JFrame {
     protected static JButton editarBtn;
     protected static JButton eliminarBtn;
     protected static JButton printBtn;
+    protected static JButton filterBtn;
     protected static JPanel aux;
     protected static JTextField buscarField;
     protected static JButton ayudaBtn;

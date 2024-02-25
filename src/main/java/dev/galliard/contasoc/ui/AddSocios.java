@@ -25,6 +25,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -124,17 +126,18 @@ public class AddSocios extends JFrame {
     }
 
     private void aceptarBtnActionPerformed(ActionEvent e) {
-        int ultimo = UIContasoc.sociosLista.getLastVisibleIndex();
+        int ultimo = UIContasoc.sociosLista.getModel().getSize() - 1;
         Integer numeroSocio = socioField.getText().isEmpty() ?
                 UIContasoc.sociosLista.getModel().getSize() == 0 ? 1 : UIContasoc.sociosLista.getModel()
                         .getElementAt(ultimo).getSocio().getNumeroSocio() + 1
                 : Integer.valueOf(socioField.getText());
         Integer numeroHuerto = Integer.valueOf(huertoField.getText());
         String nombre = nombreField.getText();
-        String dni = dniField.getText();
+        String dni = dniField.getText().isEmpty() ? DNIValidator.generarDNI() : dniField.getText();
         Integer telefono = Integer.valueOf(telefonoField.getText());
         String email = emailField.getText();
-        Date alta = altaField.getText().isEmpty() ? null : Date.valueOf(Parsers.dashDateParserReversed(altaField.getText()));
+        Date alta = altaField.getText().isEmpty() ?
+            Date.valueOf(LocalDate.now()) : Date.valueOf(Parsers.dashDateParserReversed(altaField.getText()));
         Date entrega = entregaField.getText().isEmpty() ? null : Date.valueOf(Parsers.dashDateParserReversed(entregaField.getText()));
         Date baja = bajaField.getText().isEmpty() ? null : Date.valueOf(Parsers.dashDateParserReversed(bajaField.getText()));
         String notas = notasField.getText();
