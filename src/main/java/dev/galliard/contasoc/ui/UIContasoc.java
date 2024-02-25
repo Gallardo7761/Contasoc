@@ -753,7 +753,7 @@ public class UIContasoc extends JFrame {
             saveBtn.setBorderPainted(false);
             saveBtn.setBackground(new Color(0xf7f8fa));
             saveBtn.addActionListener(e -> saveBtn(e));
-            printBtn.putClientProperty( "JButton.buttonType", "borderless");
+            saveBtn.putClientProperty( "JButton.buttonType", "borderless");
             btnSearchPanel.add(saveBtn, "cell 4 0,width 40:40:40,height 40:40:40");
 
             //---- filterBtn ----
@@ -769,7 +769,7 @@ public class UIContasoc extends JFrame {
             filterBtn.setBorderPainted(false);
             filterBtn.setBackground(new Color(0xf7f8fa));
             filterBtn.addActionListener(e -> filterBtn(e));
-            printBtn.putClientProperty( "JButton.buttonType", "borderless");
+            filterBtn.putClientProperty( "JButton.buttonType", "borderless");
             btnSearchPanel.add(filterBtn, "cell 5 0,width 40:40:40,height 40:40:40");
 
             //======== aux ========

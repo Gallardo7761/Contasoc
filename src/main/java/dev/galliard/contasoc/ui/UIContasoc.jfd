@@ -122,7 +122,7 @@ new FormModel {
 					"background": #Color0
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
-						"JavaCodeGenerator.postInitCode": "printBtn.putClientProperty( \"JButton.buttonType\", \"borderless\");"
+						"JavaCodeGenerator.postInitCode": "saveBtn.putClientProperty( \"JButton.buttonType\", \"borderless\");"
 					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "saveBtn", true ) )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
@@ -143,7 +143,7 @@ new FormModel {
 					"background": #Color0
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
-						"JavaCodeGenerator.postInitCode": "printBtn.putClientProperty( \"JButton.buttonType\", \"borderless\");"
+						"JavaCodeGenerator.postInitCode": "filterBtn.putClientProperty( \"JButton.buttonType\", \"borderless\");"
 					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "filterBtn", true ) )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
