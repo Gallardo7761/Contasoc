@@ -6,7 +6,7 @@
 
     <groupId>es.exmaster.contasoc</groupId>
     <artifactId>Contasoc</artifactId>
-    <version>6.4.1</version>
+    <version>6.4.2</version>
 
     <build>
         <plugins>
@@ -135,6 +135,11 @@
             <groupId>com.github.lgooddatepicker</groupId>
             <artifactId>LGoodDatePicker</artifactId>
             <version>11.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.weblookandfeel</groupId>
+            <artifactId>weblaf-ui</artifactId>
+            <version>1.2.13</version>
         </dependency>
     </dependencies>
 

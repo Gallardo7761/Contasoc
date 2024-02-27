@@ -4,6 +4,7 @@
 
 package dev.galliard.contasoc.ui;
 
+import java.awt.event.*;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -51,11 +52,15 @@ public class FilterGastos extends JDialog {
         }
     }
 
-    private void proveedorRadio(ActionEvent e) {
+    private void thisWindowLostFocus(WindowEvent e) {
+        this.setVisible(false);
+    }
+
+    private void proveedorCheckBox(ActionEvent e) {
         GUIManager.filterGastos("proveedor");
     }
 
-    private void fechaRadio(ActionEvent e) {
+    private void fechaCheckBox(ActionEvent e) {
         GUIManager.filterGastos("fecha");
     }
 
@@ -71,6 +76,12 @@ public class FilterGastos extends JDialog {
         setMinimumSize(new Dimension(135, 105));
         setPreferredSize(new Dimension(135, 105));
         setUndecorated(true);
+        addWindowFocusListener(new WindowAdapter() {
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                thisWindowLostFocus(e);
+            }
+        });
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
             "insets 0,hidemode 3",
@@ -95,14 +106,14 @@ public class FilterGastos extends JDialog {
             proveedorRadio.setText("Proveedor");
             proveedorRadio.setFont(new Font("Segoe UI", Font.PLAIN, 16));
             proveedorRadio.setFocusable(false);
-            proveedorRadio.addActionListener(e -> proveedorRadio(e));
+            proveedorRadio.addActionListener(e -> proveedorCheckBox(e));
             checBoxesPanel.add(proveedorRadio, "cell 0 0");
 
             //---- fechaRadio ----
             fechaRadio.setText("Fecha");
             fechaRadio.setFont(new Font("Segoe UI", Font.PLAIN, 16));
             fechaRadio.setFocusable(false);
-            fechaRadio.addActionListener(e -> fechaRadio(e));
+            fechaRadio.addActionListener(e -> fechaCheckBox(e));
             checBoxesPanel.add(fechaRadio, "cell 0 1");
 
             //---- ascDescBtn ----

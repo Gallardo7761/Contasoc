@@ -4,6 +4,7 @@
 
 package dev.galliard.contasoc.ui;
 
+import java.awt.event.*;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -72,6 +73,10 @@ public class FilterSocios extends JDialog {
         GUIManager.filterSocios("fechaAlta");
     }
 
+    private void thisWindowLostFocus(WindowEvent e) {
+        this.setVisible(false);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
@@ -86,6 +91,12 @@ public class FilterSocios extends JDialog {
         setPreferredSize(new Dimension(135, 155));
         setMinimumSize(new Dimension(135, 155));
         setUndecorated(true);
+        addWindowFocusListener(new WindowAdapter() {
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                thisWindowLostFocus(e);
+            }
+        });
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
             "insets 0,hidemode 3",

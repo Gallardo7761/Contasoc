@@ -98,8 +98,8 @@ public class PasswordDialog extends JFrame {
                     "[grow,fill]"));
 
                 //---- passwordField ----
-                passwordField.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-                passwordField.setBorder(new MatteBorder(0, 0, 1, 0, new Color(0x549159)));
+                passwordField.setFont(new Font("Segoe UI", Font.PLAIN, 22));
+                passwordField.setBorder(new MatteBorder(0, 0, 1, 0, SystemColor.controlShadow));
                 passwordField.setBackground(new Color(0xf7f8fa));
                 contentPanel.add(passwordField, "cell 0 0");
             }

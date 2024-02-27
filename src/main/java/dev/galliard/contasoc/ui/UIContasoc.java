@@ -59,14 +59,6 @@ public class UIContasoc extends JFrame {
         GUIManager.printContent();
     }
 
-    private void toListaEsperaBtnActionPerformed(ActionEvent e) {
-        ((CardLayout) sociosPanel.getLayout()).show(sociosPanel, "cardListaEspera");
-    }
-
-    private void toSociosBtnActionPerformed(ActionEvent e) {
-        ((CardLayout) sociosPanel.getLayout()).show(sociosPanel, "cardSocios");
-    }
-
     private void balancePanelComponentShown(ComponentEvent e) {
         if (DBUtils.isEmpty("Balance")) {
             SaldoInicial saldoInicial = SaldoInicial.getInstance();
@@ -267,7 +259,7 @@ public class UIContasoc extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (sociosPanel.isVisible() && !cardListaEsperaPanel.isVisible()) {
-                    toListaEsperaBtnActionPerformed(e);
+                    rightBtn(e);
                 }
             }
         };
@@ -276,7 +268,7 @@ public class UIContasoc extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (sociosPanel.isVisible() && cardListaEsperaPanel.isVisible()) {
-                    toSociosBtnActionPerformed(e);
+                    leftBtn(e);
                 }
             }
         };
@@ -594,6 +586,13 @@ public class UIContasoc extends JFrame {
         }
     }
 
+    private void rightBtn(ActionEvent e) {
+        ((CardLayout) sociosPanel.getLayout()).show(sociosPanel, "cardListaEspera");
+    }
+
+    private void leftBtn(ActionEvent e) {
+        ((CardLayout) sociosPanel.getLayout()).show(sociosPanel, "cardSocios");
+    }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
@@ -605,17 +604,16 @@ public class UIContasoc extends JFrame {
         printBtn = new JButton();
         saveBtn = new JButton();
         filterBtn = new JButton();
-        aux = new JPanel();
         buscarField = new JTextField();
+        leftBtn = new JButton();
+        rightBtn = new JButton();
         ayudaBtn = new JButton();
         tabbedPane1 = new JTabbedPane();
         sociosPanel = new JPanel();
         cardSociosPanel = new JPanel();
         sociosListaPanel = new JScrollPane();
         sociosLista = new JList<>();
-        toListaEsperaBtn = new JButton();
         cardListaEsperaPanel = new JPanel();
-        toSociosBtn = new JButton();
         listaEsperaListaPanel = new JScrollPane();
         listaEsperaLista = new JList<>();
         ingresosPanel = new JPanel();
@@ -676,6 +674,8 @@ public class UIContasoc extends JFrame {
                 "[fill]" +
                 "[fill]" +
                 "[grow,fill]" +
+                "[fill]" +
+                "[fill]" +
                 "[fill]",
                 // rows
                 "[fill]"));
@@ -772,27 +772,47 @@ public class UIContasoc extends JFrame {
             filterBtn.putClientProperty( "JButton.buttonType", "borderless");
             btnSearchPanel.add(filterBtn, "cell 5 0,width 40:40:40,height 40:40:40");
 
-            //======== aux ========
-            {
-                aux.setOpaque(false);
-                aux.setLayout(new MigLayout(
-                    "insets 0,hidemode 3",
-                    // columns
-                    "[grow,fill]",
-                    // rows
-                    "[grow,fill]"));
+            //---- buscarField ----
+            buscarField.setFont(buscarField.getFont().deriveFont(buscarField.getFont().getSize() + 6f));
+            buscarField.setCaretColor(new Color(0x549159));
+            buscarField.setPreferredSize(new Dimension(68, 28));
+            buscarField.setMinimumSize(new Dimension(68, 28));
+            buscarField.setMaximumSize(new Dimension(2147483647, 28));
+            buscarField.putClientProperty("JTextField.placeholderText", "Buscar...");
+            buscarField.putClientProperty("JTextField.leadingIcon", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource("/images/icons/search_medium_black.png"))));
+            btnSearchPanel.add(buscarField, "cell 6 0,height 40:40:40");
 
-                //---- buscarField ----
-                buscarField.setFont(buscarField.getFont().deriveFont(buscarField.getFont().getSize() + 6f));
-                buscarField.setCaretColor(new Color(0x549159));
-                buscarField.setPreferredSize(new Dimension(68, 28));
-                buscarField.setMinimumSize(new Dimension(68, 28));
-                buscarField.setMaximumSize(new Dimension(2147483647, 28));
-                buscarField.putClientProperty("JTextField.placeholderText", "Buscar...");
-                buscarField.putClientProperty("JTextField.leadingIcon", new ImageIcon(Objects.requireNonNull(UIContasoc.class.getResource("/images/icons/search_medium_black.png"))));
-                aux.add(buscarField, "cell 0 0,height 40:40:40");
-            }
-            btnSearchPanel.add(aux, "cell 6 0,width 500:500:500");
+            //---- leftBtn ----
+            leftBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+            leftBtn.setMargin(new Insets(0, 0, 0, 0));
+            leftBtn.setForeground(Color.black);
+            leftBtn.setAlignmentY(0.0F);
+            leftBtn.setMaximumSize(new Dimension(79, 32));
+            leftBtn.setMinimumSize(new Dimension(79, 32));
+            leftBtn.setPreferredSize(new Dimension(79, 32));
+            leftBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/left.png")));
+            leftBtn.setToolTipText("Socios [<-]");
+            leftBtn.setBorderPainted(false);
+            leftBtn.setBackground(new Color(0xf7f8fa));
+            leftBtn.addActionListener(e -> leftBtn(e));
+            ayudaBtn.putClientProperty( "JButton.buttonType", "borderless");
+            btnSearchPanel.add(leftBtn, "cell 7 0,width 40:40:40,height 40:40:40");
+
+            //---- rightBtn ----
+            rightBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+            rightBtn.setMargin(new Insets(0, 0, 0, 0));
+            rightBtn.setForeground(Color.black);
+            rightBtn.setAlignmentY(0.0F);
+            rightBtn.setMaximumSize(new Dimension(79, 32));
+            rightBtn.setMinimumSize(new Dimension(79, 32));
+            rightBtn.setPreferredSize(new Dimension(79, 32));
+            rightBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/right.png")));
+            rightBtn.setToolTipText("Lista de espera [->]");
+            rightBtn.setBorderPainted(false);
+            rightBtn.setBackground(new Color(0xf7f8fa));
+            rightBtn.addActionListener(e -> rightBtn(e));
+            ayudaBtn.putClientProperty( "JButton.buttonType", "borderless");
+            btnSearchPanel.add(rightBtn, "cell 8 0,width 40:40:40,height 40:40:40");
 
             //---- ayudaBtn ----
             ayudaBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -808,7 +828,7 @@ public class UIContasoc extends JFrame {
             ayudaBtn.setBackground(new Color(0xf7f8fa));
             ayudaBtn.addActionListener(e -> ayudaBtn(e));
             ayudaBtn.putClientProperty( "JButton.buttonType", "borderless");
-            btnSearchPanel.add(ayudaBtn, "cell 7 0,width 40:40:40,height 40:40:40");
+            btnSearchPanel.add(ayudaBtn, "cell 9 0,width 40:40:40,height 40:40:40");
         }
         contentPane.add(btnSearchPanel, BorderLayout.NORTH);
 
@@ -825,10 +845,9 @@ public class UIContasoc extends JFrame {
                 //======== cardSociosPanel ========
                 {
                     cardSociosPanel.setLayout(new MigLayout(
-                        "insets 12 12 12 0,hidemode 3,gap 0 0",
+                        "insets 12,hidemode 3,gap 0 0",
                         // columns
-                        "[grow,fill]" +
-                        "[fill]",
+                        "[grow,fill]",
                         // rows
                         "[grow,fill]"));
 
@@ -841,40 +860,17 @@ public class UIContasoc extends JFrame {
                         sociosListaPanel.setViewportView(sociosLista);
                     }
                     cardSociosPanel.add(sociosListaPanel, "cell 0 0");
-
-                    //---- toListaEsperaBtn ----
-                    toListaEsperaBtn.setBackground(new Color(0xf7f8fa));
-                    toListaEsperaBtn.setFont(toListaEsperaBtn.getFont().deriveFont(toListaEsperaBtn.getFont().getStyle() & ~Font.BOLD, toListaEsperaBtn.getFont().getSize() + 4f));
-                    toListaEsperaBtn.setForeground(new Color(0x5b6168));
-                    toListaEsperaBtn.setToolTipText("Ver lista de espera [->]");
-                    toListaEsperaBtn.setBorderPainted(false);
-                    toListaEsperaBtn.setBorder(null);
-                    toListaEsperaBtn.addActionListener(e -> toListaEsperaBtnActionPerformed(e));
-                    toListaEsperaBtn.setText("\u25B6");
-                    cardSociosPanel.add(toListaEsperaBtn, "cell 1 0,width 24:24:24");
                 }
                 sociosPanel.add(cardSociosPanel, "cardSocios");
 
                 //======== cardListaEsperaPanel ========
                 {
                     cardListaEsperaPanel.setLayout(new MigLayout(
-                        "insets 12 0 12 12,hidemode 3,gap 0 0",
+                        "insets 12,hidemode 3,gap 0 0",
                         // columns
-                        "[fill]" +
                         "[grow,fill]",
                         // rows
                         "[grow,fill]"));
-
-                    //---- toSociosBtn ----
-                    toSociosBtn.setBackground(new Color(0xf7f8fa));
-                    toSociosBtn.setFont(toSociosBtn.getFont().deriveFont(toSociosBtn.getFont().getStyle() & ~Font.BOLD, toSociosBtn.getFont().getSize() + 4f));
-                    toSociosBtn.setForeground(new Color(0x5b6168));
-                    toSociosBtn.setToolTipText("Ver socios [<-]");
-                    toSociosBtn.setBorderPainted(false);
-                    toSociosBtn.setBorder(null);
-                    toSociosBtn.addActionListener(e -> toSociosBtnActionPerformed(e));
-                    toSociosBtn.setText("\u25C0");
-                    cardListaEsperaPanel.add(toSociosBtn, "cell 0 0,width 24:24:24");
 
                     //======== listaEsperaListaPanel ========
                     {
@@ -884,7 +880,7 @@ public class UIContasoc extends JFrame {
                         listaEsperaLista.setCellRenderer(new ListaEsperaPanelRenderer());
                         listaEsperaListaPanel.setViewportView(listaEsperaLista);
                     }
-                    cardListaEsperaPanel.add(listaEsperaListaPanel, "cell 1 0");
+                    cardListaEsperaPanel.add(listaEsperaListaPanel, "cell 0 0");
                 }
                 sociosPanel.add(cardListaEsperaPanel, "cardListaEspera");
             }
@@ -1073,10 +1069,20 @@ public class UIContasoc extends JFrame {
                             "[grow,fill]"));
 
                         //---- cerrarAnyoBtn ----
-                        cerrarAnyoBtn.setText("Cerrar A\u00f1o");
-                        cerrarAnyoBtn.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+                        cerrarAnyoBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+                        cerrarAnyoBtn.setMargin(new Insets(0, 0, 0, 0));
+                        cerrarAnyoBtn.setForeground(Color.black);
+                        cerrarAnyoBtn.setAlignmentY(0.0F);
+                        cerrarAnyoBtn.setMaximumSize(new Dimension(79, 32));
+                        cerrarAnyoBtn.setMinimumSize(new Dimension(79, 32));
+                        cerrarAnyoBtn.setPreferredSize(new Dimension(79, 32));
+                        cerrarAnyoBtn.setIcon(new ImageIcon(getClass().getResource("/images/icons/close.png")));
+                        cerrarAnyoBtn.setToolTipText("CERRAR EL A\u00d1O");
+                        cerrarAnyoBtn.setBorderPainted(false);
+                        cerrarAnyoBtn.setBackground(new Color(0xf7f8fa));
                         cerrarAnyoBtn.addActionListener(e -> cerrarAnyoBtn(e));
-                        cerrarAnyoPanel.add(cerrarAnyoBtn, "cell 0 0,aligny bottom,growy 0,width 128:128:128,height 32:32:32");
+                        filterBtn.putClientProperty( "JButton.buttonType", "borderless");
+                        cerrarAnyoPanel.add(cerrarAnyoBtn, "cell 0 0,align left bottom,grow 0 0,width 40:40:40,height 40:40:40");
                     }
                     balanceCantidadesPanel.add(cerrarAnyoPanel);
                 }
@@ -1099,17 +1105,16 @@ public class UIContasoc extends JFrame {
     protected static JButton printBtn;
     protected static JButton saveBtn;
     protected static JButton filterBtn;
-    protected static JPanel aux;
     protected static JTextField buscarField;
+    protected static JButton leftBtn;
+    protected static JButton rightBtn;
     protected static JButton ayudaBtn;
     protected static JTabbedPane tabbedPane1;
     protected static JPanel sociosPanel;
     protected static JPanel cardSociosPanel;
     protected static JScrollPane sociosListaPanel;
     public static JList<SocioPanel> sociosLista;
-    protected static JButton toListaEsperaBtn;
     protected static JPanel cardListaEsperaPanel;
-    protected static JButton toSociosBtn;
     protected static JScrollPane listaEsperaListaPanel;
     public static JList<ListaEsperaPanel> listaEsperaLista;
     protected static JPanel ingresosPanel;

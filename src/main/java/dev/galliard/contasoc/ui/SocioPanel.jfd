@@ -22,7 +22,7 @@ new FormModel {
 				}
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "iconoLabel"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/farmer.png" )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/icons/farmer.png" )
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 					}
