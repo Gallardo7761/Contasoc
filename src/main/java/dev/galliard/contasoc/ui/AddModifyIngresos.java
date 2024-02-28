@@ -134,11 +134,13 @@ public class AddModifyIngresos extends JFrame {
                 Contasoc.sqlMemory.ingresoAgregado(ingreso);
                 clear();
                 this.dispose();
+                break;
             case MODIFY:
                 model.setElementAt(new IngresoPanel(ingreso), UIContasoc.ingresosLista.getSelectedIndex());
                 Contasoc.sqlMemory.ingresoEditado(ingreso);
                 clear();
                 this.dispose();
+                break;
         }
     }
 

@@ -30,7 +30,7 @@ public class UpdateInstaller implements Runnable {
     public void run() {
         try {
             String LATEST_VERSION = UpdateChecker.getLatestRelease("https://api.github.com/repos/GalliardDev/Contasoc/releases/latest");
-            String DOWNLOAD_URL = "https://github.com/GalliardDev/Contasoc/releases/download/" + LATEST_VERSION + "/ContasocSetup-" + LATEST_VERSION + ".exe";
+            String DOWNLOAD_URL = "https://github.com/GalliardDev/Contasoc/releases/download/v" + LATEST_VERSION + "/ContasocSetup-" + LATEST_VERSION + ".exe";
             downloadFile(DOWNLOAD_URL, DOWNLOADS_FOLDER);
             executeDownloadedExe(DOWNLOADS_FOLDER, "ContasocSetup-" + LATEST_VERSION + ".exe");
         } catch (IOException e) {
