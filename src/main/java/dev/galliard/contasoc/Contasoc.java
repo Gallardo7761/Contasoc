@@ -35,7 +35,7 @@ public class Contasoc {
     private static final String CONFIG_DIR = System.getProperty("user.home") + "/.contasoc/";
     private static final String CONFIG_FILE = CONFIG_DIR + "config.properties";
     public static final Properties properties = new Properties();
-    public static final String DBURL = "jdbc:mariadb://212.227.230.89:3306/contasoc";
+    public static final String DBURL = "jdbc:mariadb://157.90.72.14:3306/contasoc";
     public static final Dao<Socios> jpaSocioDao = new JpaSocioDao();
     public static final Dao<Ingresos> jpaIngresoDao = new JpaIngresoDao();
     public static final Dao<Gastos> jpaGastoDao = new JpaGastoDao();
