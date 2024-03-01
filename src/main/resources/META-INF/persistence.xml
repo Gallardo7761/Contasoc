@@ -14,10 +14,9 @@
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://212.227.230.89:3306/contasoc"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://157.90.72.14:3306/contasoc"/>
             <property name="jakarta.persistence.jdbc.user" value="contasoc_user"/>
             <property name="jakarta.persistence.jdbc.password" value="contasoc$user"/>
-
         </properties>
     </persistence-unit>
 </persistence>

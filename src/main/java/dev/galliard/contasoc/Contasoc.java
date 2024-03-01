@@ -47,7 +47,7 @@ public class Contasoc {
     public static Balance balance;
 
     public static final Logger logger = LoggerFactory.getLogger(Contasoc.class);
-    public static final String VERSION = "6.4.3";
+    public static final String VERSION = "6.4.4";
     public static CountDownLatch latch = new CountDownLatch(1);
 
     private static final String GREEN = "#549159";
