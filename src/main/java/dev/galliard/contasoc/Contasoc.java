@@ -60,8 +60,6 @@ public class Contasoc {
     private static final String LIGHT_GRAY_BORDER = "#A0A0A0";
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException {
-        genFiles();
-
         Platform.startup(() -> {});
         UIManager.setLookAndFeel(new FlatGitHubIJTheme());
         setProperties();
@@ -82,26 +80,6 @@ public class Contasoc {
 
         new Thread(new UpdateChecker()).start();
     }
-
-    private static void genFiles() {
-    try {
-        if(!Files.exists(Paths.get(CONFIG_DIR))) {
-            Files.createDirectories(Paths.get(CONFIG_DIR));
-        }
-        if(!Files.exists(Paths.get(CONFIG_FILE))) {
-            URI defaultConfigURI = Contasoc.class.getResource("/defaultconfig/config.properties").toURI();
-            String defaultConfigPath = defaultConfigURI.getPath();
-            if (defaultConfigPath.startsWith("/")) {
-                defaultConfigPath = defaultConfigPath.substring(1);
-            }
-            Path defaultConfig = Path.of(defaultConfigPath);
-            Files.copy(defaultConfig, Paths.get(CONFIG_FILE));
-        }
-        properties.load(new FileReader(CONFIG_FILE));
-    } catch (IOException | URISyntaxException ex) {
-        throw new RuntimeException(ex);
-    }
-}
 
     public static void load() {
         socios = jpaSocioDao.getAll();
