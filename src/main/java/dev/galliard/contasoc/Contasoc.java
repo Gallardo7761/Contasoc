@@ -1,8 +1,27 @@
 package dev.galliard.contasoc;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubIJTheme;
 import com.formdev.flatlaf.util.SystemInfo;
-import dev.galliard.contasoc.database.*;
+
+import dev.galliard.contasoc.database.Dao;
+import dev.galliard.contasoc.database.JpaBalanceDao;
+import dev.galliard.contasoc.database.JpaGastoDao;
+import dev.galliard.contasoc.database.JpaIngresoDao;
+import dev.galliard.contasoc.database.JpaSocioDao;
 import dev.galliard.contasoc.database.objects.Balance;
 import dev.galliard.contasoc.database.objects.Gastos;
 import dev.galliard.contasoc.database.objects.Ingresos;
@@ -12,29 +31,11 @@ import dev.galliard.contasoc.ui.UIContasoc;
 import dev.galliard.contasoc.ui.UpdateChecker;
 import dev.galliard.contasoc.util.SQLMemory;
 import javafx.application.Platform;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.swing.*;
-import java.awt.*;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Properties;
-import java.util.concurrent.CountDownLatch;
 
 public class Contasoc {
     public static final String ESCRITORIO = System.getProperty("os.name").toLowerCase().contains("win") ?
             "C:/Users/" + System.getProperty("user.name") + "/Desktop" :
             "/home/" + System.getProperty("user.home") + "/Escritorio";
-    private static final String CONFIG_DIR = System.getProperty("user.home") + "/.contasoc/";
-    private static final String CONFIG_FILE = CONFIG_DIR + "config.properties";
-    public static final Properties properties = new Properties();
     public static final String DBURL = "jdbc:mariadb://157.90.72.14:3306/contasoc";
     public static final Dao<Socios> jpaSocioDao = new JpaSocioDao();
     public static final Dao<Ingresos> jpaIngresoDao = new JpaIngresoDao();
@@ -47,7 +48,7 @@ public class Contasoc {
     public static Balance balance;
 
     public static final Logger logger = LoggerFactory.getLogger(Contasoc.class);
-    public static final String VERSION = "6.4.4";
+    public static final String VERSION = "6.4.5";
     public static CountDownLatch latch = new CountDownLatch(1);
 
     private static final String GREEN = "#549159";

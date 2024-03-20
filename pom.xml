@@ -6,7 +6,7 @@
 
     <groupId>es.exmaster.contasoc</groupId>
     <artifactId>Contasoc</artifactId>
-    <version>6.4.4</version>
+    <version>6.4.5</version>
 
     <build>
         <plugins>
