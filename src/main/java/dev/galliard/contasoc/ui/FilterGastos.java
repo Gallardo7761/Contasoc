@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 /**
  * @author jomaa
  */
+@SuppressWarnings("all")
 public class FilterGastos extends JDialog {
     private static FilterGastos instance;
     private final ButtonGroup buttonGroup = new ButtonGroup();

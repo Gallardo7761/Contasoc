@@ -2,6 +2,8 @@ package dev.galliard.contasoc;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -29,14 +31,18 @@ import dev.galliard.contasoc.database.objects.Socios;
 import dev.galliard.contasoc.ui.PasswordDialog;
 import dev.galliard.contasoc.ui.UIContasoc;
 import dev.galliard.contasoc.ui.UpdateChecker;
+import dev.galliard.contasoc.util.ConfigManager;
 import dev.galliard.contasoc.util.SQLMemory;
 import javafx.application.Platform;
 
+@SuppressWarnings("unused")
 public class Contasoc {
+	// Path del escritorio según S.O.
     public static final String ESCRITORIO = System.getProperty("os.name").toLowerCase().contains("win") ?
             "C:/Users/" + System.getProperty("user.name") + "/Desktop" :
             "/home/" + System.getProperty("user.home") + "/Escritorio";
-    public static final String DBURL = "jdbc:mariadb://157.90.72.14:3306/contasoc";
+    
+    // Objetos referentes al mapeo objeto-relacional
     public static final Dao<Socios> jpaSocioDao = new JpaSocioDao();
     public static final Dao<Ingresos> jpaIngresoDao = new JpaIngresoDao();
     public static final Dao<Gastos> jpaGastoDao = new JpaGastoDao();
@@ -46,39 +52,31 @@ public class Contasoc {
     public static List<Ingresos> ingresos;
     public static List<Gastos> gastos;
     public static Balance balance;
-
+    
+    // Logger y Properties
     public static final Logger logger = LoggerFactory.getLogger(Contasoc.class);
-    public static final String VERSION = "6.4.5";
+    private static File cfg;
+    public static final ConfigManager cfgManager = new ConfigManager();
+    
+    // Latch usado para el panel de contraseña BDD
     public static CountDownLatch latch = new CountDownLatch(1);
 
-    private static final String GREEN = "#549159";
-    private static final String DARK_GREEN = "#3B663F";
-
-    private static final String BG = "#F7F8FA";
-    private static final String GRAY_BG = "#D1D7E2";
-    private static final String LIGHT_GREEN = "#C8E8CA";
-    private static final String GRAY_BORDER = "#7E7F87";
-    private static final String LIGHT_GRAY_BORDER = "#A0A0A0";
-
-    public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException {
-        Platform.startup(() -> {});
+    public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException, URISyntaxException {
+    	cfg = new File(Contasoc.class.getClassLoader().getResource("default.properties").toURI());
+    	cfgManager.loadConfig();
+    	Platform.startup(() -> {});
         UIManager.setLookAndFeel(new FlatGitHubIJTheme());
         setProperties();
-
         SwingUtilities.invokeLater(() -> {
             PasswordDialog passwordDialog = new PasswordDialog();
             passwordDialog.setVisible(true);
             passwordDialog.requestFocus();
         });
-
         latch.await();
-
         load();
-
         SwingUtilities.invokeLater(() -> {
             new UIContasoc().setVisible(true);
         });
-
         new Thread(new UpdateChecker()).start();
     }
 
@@ -93,8 +91,8 @@ public class Contasoc {
         UIManager.put("TitlePane.font", new Font("Segoe UI", Font.PLAIN, 14));
         UIManager.put("Component.focusWidth", 1);
         UIManager.put("Component.innerFocusWidth", 1);
-        UIManager.put("Component.borderColor", Color.decode(GRAY_BORDER));
-        UIManager.put("TabbedPane.contentAreaColor", Color.decode(LIGHT_GRAY_BORDER));
+        UIManager.put("Component.borderColor", Color.decode(cfgManager.getProperty("GRAY_BORDER")));
+        UIManager.put("TabbedPane.contentAreaColor", Color.decode(cfgManager.getProperty("GRAY_BORDER")));
 
         UIManager.put("ScrollBar.width", 10);
         UIManager.put("Button.hoverBackground", Color.decode("#D1D7E2"));

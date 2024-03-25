@@ -15,6 +15,8 @@ import java.util.List;
 
 public class DBUtils {
     public static String password;
+    private static String DBURL = Contasoc.cfgManager.getProperty("DBURL");
+    
     public static void fillSocios() {
         try {
             List<Socios> data = Contasoc.socios;
@@ -75,7 +77,7 @@ public class DBUtils {
         ResultSet resultSet = null;
         int totalFilas = 0;
         try {
-            connection = DriverManager.getConnection(Contasoc.DBURL, "contasoc_user", password);
+            connection = DriverManager.getConnection(DBURL, "contasoc_user", password);
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT COUNT(*) AS total FROM " + table);
             if (resultSet.next()) {
@@ -100,7 +102,7 @@ public class DBUtils {
         Connection connection = null;
         Statement statement = null;
         try {
-            connection = DriverManager.getConnection(Contasoc.DBURL, "contasoc_user", password);
+            connection = DriverManager.getConnection(DBURL, "contasoc_user", password);
             statement = connection.createStatement();
             statement.executeQuery("DELETE FROM Socios WHERE idSocio = " + id);
 
@@ -121,7 +123,7 @@ public class DBUtils {
         Connection connection = null;
         Statement statement = null;
         try {
-            connection = DriverManager.getConnection(Contasoc.DBURL, "contasoc_user", password);
+            connection = DriverManager.getConnection(DBURL, "contasoc_user", password);
             statement = connection.createStatement();
             statement.executeQuery("DELETE FROM Ingresos WHERE idIngreso = " + id);
 
@@ -142,7 +144,7 @@ public class DBUtils {
         Connection connection = null;
         Statement statement = null;
         try {
-            connection = DriverManager.getConnection(Contasoc.DBURL, "contasoc_user", password);
+            connection = DriverManager.getConnection(DBURL, "contasoc_user", password);
             statement = connection.createStatement();
             statement.executeQuery("DELETE FROM Gastos WHERE idGasto = " + id);
 
@@ -163,7 +165,7 @@ public class DBUtils {
         Connection connection = null;
         Statement statement = null;
         try {
-            connection = DriverManager.getConnection(Contasoc.DBURL, "contasoc_user", password);
+            connection = DriverManager.getConnection(DBURL, "contasoc_user", password);
             statement = connection.createStatement();
             String query = """
                     UPDATE Socios
@@ -191,7 +193,7 @@ public class DBUtils {
         Connection connection = null;
         Statement statement = null;
         try {
-            connection = DriverManager.getConnection(Contasoc.DBURL, "contasoc_user", password);
+            connection = DriverManager.getConnection(DBURL, "contasoc_user", password);
             statement = connection.createStatement();
             statement.executeQuery(
                     """
@@ -218,7 +220,7 @@ public class DBUtils {
         Connection connection = null;
         Statement statement = null;
         try {
-            connection = DriverManager.getConnection(Contasoc.DBURL, "contasoc_user", password);
+            connection = DriverManager.getConnection(DBURL, "contasoc_user", password);
             statement = connection.createStatement();
             String query = """
                     UPDATE Gastos
@@ -243,7 +245,7 @@ public class DBUtils {
         Connection connection = null;
         Statement statement = null;
         try {
-            connection = DriverManager.getConnection(Contasoc.DBURL, "contasoc_user", password);
+            connection = DriverManager.getConnection(DBURL, "contasoc_user", password);
             statement = connection.createStatement();
             statement.executeQuery("DELETE FROM Balance");
 
@@ -261,7 +263,7 @@ public class DBUtils {
 
     public static boolean connect(String password) {
         try {
-            DriverManager.getConnection(Contasoc.DBURL, "contasoc_user", password);
+            DriverManager.getConnection(DBURL, "contasoc_user", password);
             DBUtils.password = password;
             Contasoc.balance = DBUtils.isEmpty("Balance") ? null : (Balance) Contasoc.jpaBalanceDao.execute("SELECT e FROM Balance e", new String[]{});
             return true;

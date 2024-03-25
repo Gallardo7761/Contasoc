@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * @author jomaa
  */
-@SuppressWarnings("ALL")
+@SuppressWarnings("all")
 public class AddSocios extends JFrame {
     private static AddSocios instance;
 

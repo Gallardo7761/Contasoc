@@ -21,6 +21,7 @@ import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class PDFPrinter {
 
     public static void printStringToPDF(

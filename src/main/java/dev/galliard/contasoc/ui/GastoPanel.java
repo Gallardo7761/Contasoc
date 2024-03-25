@@ -17,6 +17,7 @@ import java.awt.*;
 /**
  * @author jomaa
  */
+@SuppressWarnings("all")
 public class GastoPanel extends JPanel {
     private final Gastos gastos;
     public GastoPanel(Gastos gastos) {

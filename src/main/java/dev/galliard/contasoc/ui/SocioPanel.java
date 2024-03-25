@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 /**
  * @author jomaa
  */
+@SuppressWarnings("all")
 public class SocioPanel extends JPanel {
     private final Socios socios;
     public SocioPanel(Socios socios) {
@@ -30,7 +31,8 @@ public class SocioPanel extends JPanel {
     }
 
     private void fillData() {
-        iconoLabel.setIcon(switch (socios.getTipo()) {
+        iconoLabel.setIcon(
+		switch (socios.getTipo()) {
             case HORTELANO -> new ImageIcon(getClass().getResource("/images/icons/farmer.png"));
             case HORTELANO_INVERNADERO -> new ImageIcon(getClass().getResource("/images/icons/green_house.png"));
             case COLABORADOR -> new ImageIcon(getClass().getResource("/images/icons/join.png"));
@@ -45,10 +47,6 @@ public class SocioPanel extends JPanel {
         huertoLabel.setText(String.valueOf(socios.getNumeroHuerto()));
         estadoLabel.setText(socios.getEstado().name());
         estadoLabel.setBackground(socios.getEstado() == Estado.ACTIVO ? new Color(0x09f78c) : new Color(0xff8d8d));
-    }
-
-    private void viewBtn(ActionEvent e) {
-        System.out.println("Pulsao");
     }
 
     private void initComponents() {

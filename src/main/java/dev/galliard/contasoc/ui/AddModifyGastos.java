@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * @author jomaa
  */
-@SuppressWarnings("ALL")
+@SuppressWarnings("all")
 public class AddModifyGastos extends JFrame {
     protected static Action accion;
     protected static String tempFecha;

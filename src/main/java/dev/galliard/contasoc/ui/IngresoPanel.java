@@ -17,6 +17,7 @@ import java.awt.*;
 /**
  * @author jomaa
  */
+@SuppressWarnings("all")
 public class IngresoPanel extends JPanel {
     private final Ingresos ingresos;
     public IngresoPanel(Ingresos ingresos) {

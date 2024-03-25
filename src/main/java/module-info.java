@@ -1,3 +1,4 @@
+@SuppressWarnings("all")
 module Contasoc {
     requires javafx.controls;
     requires javafx.web;
@@ -17,5 +18,7 @@ module Contasoc {
     requires kernel;
     requires font.asian;
     requires io;
+	requires com.jcraft.jsch;
+	requires ch.qos.logback.classic;
     opens dev.galliard.contasoc.database.objects to org.hibernate.orm.core;
 }

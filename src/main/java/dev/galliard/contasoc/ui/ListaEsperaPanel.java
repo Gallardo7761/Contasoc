@@ -16,6 +16,7 @@ import java.awt.*;
 /**
  * @author jomaa
  */
+@SuppressWarnings("all")
 public class ListaEsperaPanel extends JPanel {
     private final Socios socios;
     private final int posicion;

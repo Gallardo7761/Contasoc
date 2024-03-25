@@ -55,6 +55,18 @@ public class Ingresos implements Comparable<Ingresos> {
         this.cantidad = cantidad;
         this.tipo = tipo.name();
     }
+    
+    public static Ingresos parseSQLDump(String data) {
+        String[] values = data.split(";");
+        Integer numeroSocio = Integer.parseInt(values[0]);
+        String fechaStr = values[1];
+        Date fecha = Date.valueOf(fechaStr);
+        String concepto = values[3].replaceAll("'", "");
+        Double cantidad = Double.parseDouble(values[4]);
+        TipoPago tipo = TipoPago.valueOf(values[5].replaceAll("'", ""));
+        
+        return new Ingresos(numeroSocio, fecha, concepto, cantidad, tipo);
+    }
 
     public Ingresos() {
 

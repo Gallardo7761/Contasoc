@@ -25,7 +25,7 @@ import java.awt.event.MouseEvent;
 /**
  * @author jomaa
  */
-@SuppressWarnings("ALL")
+@SuppressWarnings("all")
 public class HelpMenu extends JFrame {
     private static HelpMenu instance = null;
     private final JFXPanel sociosJfxPanel;
@@ -56,7 +56,7 @@ public class HelpMenu extends JFrame {
         balancePanel.add(balanceJfxPanel, BorderLayout.CENTER);
         emailPanel.add(emailJfxPanel, BorderLayout.CENTER);
 
-        versionLabel.setText("Ver. " + Contasoc.VERSION);
+        versionLabel.setText("Ver. " + Contasoc.cfgManager.getProperty("VERSION"));
     }
 
     public static HelpMenu getInstance() {

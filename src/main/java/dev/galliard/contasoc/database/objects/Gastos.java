@@ -61,6 +61,19 @@ public class Gastos implements Comparable<Gastos> {
         this.factura = factura;
         this.tipo = tipo.name();
     }
+    
+    public static Gastos parseSQLDump(String data) {
+        String[] values = data.split(";");
+        String fechaStr = values[0];
+        Date fecha = Date.valueOf(fechaStr);
+        String proveedor = values[1].replaceAll("'", "");
+        String concepto = values[2].replaceAll("'", "");
+        Double cantidad = Double.parseDouble(values[3]);
+        String factura = values[4].replaceAll("'", "");
+        TipoPago tipo = TipoPago.valueOf(values[5].replaceAll("'", ""));
+        
+        return new Gastos(fecha, proveedor, concepto, cantidad, factura, tipo);
+    }
 
     public Gastos() {
 

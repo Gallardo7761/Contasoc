@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "8.2.1.0.348" Java: "17.0.9" encoding: "UTF-8"
+JFDML JFormDesigner: "8.2.1.0.348" Java: "20.0.2" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -22,7 +22,7 @@ new FormModel {
 			}
 			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosing", "thisWindowClosing", true ) )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-				"$columnConstraints": "[fill][fill][fill][fill][fill][fill][grow,fill][fill][fill][fill]"
+				"$columnConstraints": "[fill][fill][fill][fill][fill][fill][grow,fill][fill][fill][fill][fill]"
 				"$rowConstraints": "[fill]"
 				"$layoutConstraints": "insets panel,hidemode 1,gap 12 0"
 			} ) {
@@ -164,6 +164,27 @@ new FormModel {
 					"value": "cell 6 0,height 40:40:40"
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "backupBtn"
+					"font": #Font0
+					"margin": #Insets0
+					"foreground": sfield java.awt.Color black
+					"alignmentY": 0.0f
+					"maximumSize": #Dimension0
+					"minimumSize": #Dimension1
+					"preferredSize": #Dimension2
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/icons/backup_32.png" )
+					"toolTipText": "Backup [Ctrl+B]"
+					"borderPainted": false
+					"background": #Color0
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+						"JavaCodeGenerator.postInitCode": "backupBtn.putClientProperty( \"JButton.buttonType\", \"borderless\");"
+					}
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "backupBtn", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 7 0,width 40:40:40,height 40:40:40"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "leftBtn"
 					"font": #Font0
 					"margin": &Insets1 new java.awt.Insets( 0, 0, 0, 0 )
@@ -182,7 +203,7 @@ new FormModel {
 					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "leftBtn", true ) )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 7 0,width 40:40:40,height 40:40:40"
+					"value": "cell 8 0,width 40:40:40,height 40:40:40"
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "rightBtn"
@@ -203,7 +224,7 @@ new FormModel {
 					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "rightBtn", true ) )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 8 0,width 40:40:40,height 40:40:40"
+					"value": "cell 9 0,width 40:40:40,height 40:40:40"
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "ayudaBtn"
@@ -224,7 +245,7 @@ new FormModel {
 					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "ayudaBtn", true ) )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 9 0,width 40:40:40,height 40:40:40"
+					"value": "cell 10 0,width 40:40:40,height 40:40:40"
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "North"

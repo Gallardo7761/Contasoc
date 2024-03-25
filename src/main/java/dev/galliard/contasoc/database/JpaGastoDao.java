@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+@SuppressWarnings("unchecked")
 public class JpaGastoDao implements Dao<Gastos> {
     private final EntityManager entityManager = JpaUtil.getEntityManager();
 

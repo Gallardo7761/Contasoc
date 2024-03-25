@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+@SuppressWarnings("unchecked")
 public class JpaIngresoDao implements Dao<Ingresos> {
     private static final EntityManager entityManager = JpaUtil.getEntityManager();
 

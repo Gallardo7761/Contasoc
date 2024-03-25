@@ -97,6 +97,28 @@ public class Socios implements Comparable<Socios> {
         this.tipo = tipo;
         this.notas = notas;
     }
+    
+    public static Socios parseSQLDump(String data) {
+        String[] values = data.split(";");
+        Integer numeroHuerto = Integer.parseInt(values[0]);
+        Integer numeroSocio = Integer.parseInt(values[1]);
+        String nombre = values[3].replaceAll("'", "");
+        String dni = values[4].replaceAll("'", "");
+        Integer telefono = Integer.parseInt(values[5].replaceAll("'", ""));
+        String email = values[6].replaceAll("'", "");
+        String fechaDeAltaStr = values[7].replaceAll("'", "");
+        String fechaDeEntregaStr = values[8].replaceAll("'", "");
+        String fechaDeBajaStr = values[9].replaceAll("'", "");
+        String notas = values[10].replaceAll("'", "");
+        TipoSocio tipo = TipoSocio.valueOf(values[11].replaceAll("'", ""));
+        Estado estado = Estado.valueOf(values[12].replaceAll("'", ""));
+        
+        return new Socios(numeroSocio, numeroHuerto, nombre, dni, telefono, email,
+                fechaDeAltaStr.isEmpty() ? null : Date.valueOf(fechaDeAltaStr), 
+        		fechaDeEntregaStr.isEmpty() ? null : Date.valueOf(fechaDeEntregaStr), 
+				fechaDeBajaStr.isEmpty() ? null : Date.valueOf(fechaDeBajaStr),
+                notas, tipo, estado);
+    }
 
     public Socios() {
 

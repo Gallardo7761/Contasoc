@@ -1,6 +1,9 @@
 package dev.galliard.contasoc.util;
 
 import javax.swing.*;
+
+import com.formdev.flatlaf.util.SystemInfo;
+
 import java.awt.*;
 
 public class ErrorHandler {
@@ -21,4 +24,10 @@ public class ErrorHandler {
     public static void error(String msg) {
         JOptionPane.showMessageDialog(null, "ERROR: " + msg, "Error", JOptionPane.ERROR_MESSAGE);
     }
+
+	public static void backupDownloaded() {
+		String ruta = SystemInfo.isWindows ? "C:/Users/" + System.getProperty("user.name") + "/.contasoc/backups" : 
+			"/home/" + System.getProperty("user.name") + "/.contasoc/backups";
+		JOptionPane.showMessageDialog(null, "Se ha descargado la copia de seguridad en " + ruta + ". Por favor envíasela a un administrador para proceder con la restauración a la fecha elegida.", "Copia descargada", JOptionPane.INFORMATION_MESSAGE);
+	}
 }

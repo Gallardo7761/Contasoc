@@ -16,7 +16,7 @@ import java.awt.event.KeyEvent;
 /**
  * @author jomaa
  */
-@SuppressWarnings("ALL")
+@SuppressWarnings("all")
 public class SaldoInicial extends JFrame {
     protected static Double inicialBanco = 0.0;
     protected static Double inicialCaja = 0.0;

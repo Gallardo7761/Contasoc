@@ -27,6 +27,7 @@ import java.util.Arrays;
 /**
  * @author jomaa
  */
+@SuppressWarnings("all")
 public class SocioView extends JFrame {
     private static SocioView instance;
     protected static int tempNumeroSocio;

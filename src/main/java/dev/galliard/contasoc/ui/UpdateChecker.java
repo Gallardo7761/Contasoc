@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+
 public class UpdateChecker implements Runnable {
     public UpdateChecker() {
         super();
@@ -18,8 +19,8 @@ public class UpdateChecker implements Runnable {
     @Override
     public void run() {
         try {
-            String API_URL = "https://api.github.com/repos/GalliardDev/Contasoc/releases/latest";
-            if (compareVersions(getLatestRelease(API_URL), Contasoc.VERSION) > 0) {
+            String API_URL = Contasoc.cfgManager.getProperty("API_URL");
+            if (compareVersions(getLatestRelease(API_URL), Contasoc.cfgManager.getProperty("VERSION")) > 0) {
                 int answer = JOptionPane.showConfirmDialog(null, "Hay una nueva versión disponible. ¿Quieres descargarla?", "Actualización disponible", JOptionPane.OK_CANCEL_OPTION);
                 if (answer == JOptionPane.OK_OPTION) {
                     new Thread(new UpdateInstaller()).start();
@@ -35,7 +36,8 @@ public class UpdateChecker implements Runnable {
     }
 
     static String getLatestRelease(String apiUrl) throws IOException {
-        URL url = new URL(apiUrl);
+        @SuppressWarnings("deprecation")
+		URL url = new URL(apiUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept", "application/vnd.github.v3+json");

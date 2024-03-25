@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+@SuppressWarnings("unchecked")
 public class JpaSocioDao implements Dao<Socios> {
     private final EntityManager entityManager = JpaUtil.getEntityManager();
 
