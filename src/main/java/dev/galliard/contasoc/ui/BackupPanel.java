@@ -22,14 +22,6 @@ import java.util.List;
 import java.util.Vector;
 import javax.swing.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
@@ -148,6 +140,33 @@ public class BackupPanel extends JFrame {
 		}
 		editorPane.setText(s);
 	}
+	
+	protected void setActions() {
+        // Crear acciones para cada función
+        javax.swing.Action descargarAction = new AbstractAction("Descargar") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                downloadBtn(e);
+            }
+        };
+
+        javax.swing.Action previsualizarAction = new AbstractAction("Previsualizar") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                previewBtn(e);
+            }
+        };
+
+        JPanel contentPane = (JPanel) this.getContentPane();
+        KeyStroke nuevoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK);
+        KeyStroke editarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_DOWN_MASK);
+
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(nuevoKeyStroke, "descargar");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(editarKeyStroke, "previsualizar");
+
+        contentPane.getActionMap().put("descargar", descargarAction);
+        contentPane.getActionMap().put("previsualizar", previsualizarAction);
+    }
 
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off

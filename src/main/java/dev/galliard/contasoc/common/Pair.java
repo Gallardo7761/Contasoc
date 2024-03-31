@@ -24,9 +24,4 @@ public record Pair<A, B>(A first, B second) {
     public String toString() {
         return String.format("(%s,%s)", first, second);
     }
-
-    public static void main(String[] args) throws IOException {
-        System.out.println(Pair.parse("[23,45", "[\\[,]", s -> Integer.parseInt(s), s -> Integer.parseInt(s)));
-    }
-
 }

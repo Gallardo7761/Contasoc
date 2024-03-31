@@ -7,7 +7,10 @@ package dev.galliard.contasoc.ui;
 import dev.galliard.contasoc.Contasoc;
 import dev.galliard.contasoc.common.Action;
 import dev.galliard.contasoc.common.PrintAction;
+import dev.galliard.contasoc.common.TipoPago;
+import dev.galliard.contasoc.common.TipoSocio;
 import dev.galliard.contasoc.database.DBUtils;
+import dev.galliard.contasoc.database.JpaUtil;
 import dev.galliard.contasoc.database.objects.Gastos;
 import dev.galliard.contasoc.database.objects.Ingresos;
 import dev.galliard.contasoc.database.objects.Socios;
@@ -21,11 +24,16 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
+import java.util.stream.IntStream;
 
 /**
  * @author jomaa
@@ -237,6 +245,13 @@ public class UIContasoc extends JFrame {
                 tabbedPane1.setSelectedIndex(3);
             }
         };
+        
+        javax.swing.Action backupAction = new AbstractAction("Backup") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backupBtn(e);
+            }
+        };
 
         // Obtener el panel de contenido
         JPanel contentPane = (JPanel) this.getContentPane();
@@ -254,6 +269,7 @@ public class UIContasoc extends JFrame {
         KeyStroke balanceAltKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.ALT_DOWN_MASK);
         KeyStroke guardarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
         KeyStroke filtrarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK);
+        KeyStroke backupKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_DOWN_MASK);
 
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(nuevoKeyStroke, "nuevo");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(editarKeyStroke, "editar");
@@ -268,6 +284,7 @@ public class UIContasoc extends JFrame {
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(balanceAltKeyStroke, "balance");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(guardarKeyStroke, "guardar");
         contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(filtrarKeyStroke, "filtrar");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(backupKeyStroke, "backup");
 
         contentPane.getActionMap().put("nuevo", nuevoAction);
         contentPane.getActionMap().put("editar", editarAction);
@@ -282,6 +299,7 @@ public class UIContasoc extends JFrame {
         contentPane.getActionMap().put("balance", balanceAltAction);
         contentPane.getActionMap().put("guardar", guardarAction);
         contentPane.getActionMap().put("filtrar", filtrarAction);
+        contentPane.getActionMap().put("backup", backupAction);
     }
 
     private void helpBtnActionPerformed(ActionEvent e) {
@@ -436,7 +454,7 @@ public class UIContasoc extends JFrame {
             view.notasField.setText(socio.getNotas());
             view.tipoSocioComboBox.setSelectedItem(socio.getTipo().name());
 
-            List<Ingresos> ingresos = GUIManager.getIngresos().stream()
+            List<Ingresos> ingresos = Contasoc.ingresos.stream()
                     .filter(ingreso -> ingreso.getNumeroSocio().equals(socio.getNumeroSocio()))
                     .toList();
             DefaultListModel<IngresoPanel> model = new DefaultListModel<>();
@@ -515,8 +533,8 @@ public class UIContasoc extends JFrame {
         if(Contasoc.sqlMemory.dataModified()) {
             save();
             Contasoc.sqlMemory.flush();
+            Contasoc.initDao();
             Contasoc.load();
-            GUIManager.clearModels();
             GUIManager.populateGUITables();
         } else {
             ErrorHandler.error("No hay cambios que guardar");

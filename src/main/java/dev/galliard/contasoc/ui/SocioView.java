@@ -34,9 +34,6 @@ public class SocioView extends JFrame {
     private SocioView() {
         initComponents();
         setEditable(false);
-        System.out.println(altaField.getText());
-        System.out.println(entregaField.getText());
-        System.out.println(bajaField.getText());
     }
 
     public static SocioView getInstance() {

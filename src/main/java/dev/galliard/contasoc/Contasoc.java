@@ -43,10 +43,10 @@ public class Contasoc {
             "/home/" + System.getProperty("user.home") + "/Escritorio";
     
     // Objetos referentes al mapeo objeto-relacional
-    public static final Dao<Socios> jpaSocioDao = new JpaSocioDao();
-    public static final Dao<Ingresos> jpaIngresoDao = new JpaIngresoDao();
-    public static final Dao<Gastos> jpaGastoDao = new JpaGastoDao();
-    public static final Dao<Balance> jpaBalanceDao = new JpaBalanceDao();
+    public static Dao<Socios> jpaSocioDao;
+    public static Dao<Ingresos> jpaIngresoDao;
+    public static Dao<Gastos> jpaGastoDao;
+    public static Dao<Balance> jpaBalanceDao;
     public static SQLMemory sqlMemory = new SQLMemory();
     public static List<Socios> socios;
     public static List<Ingresos> ingresos;
@@ -62,6 +62,7 @@ public class Contasoc {
     public static CountDownLatch latch = new CountDownLatch(1);
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException, URISyntaxException {
+    	initDao();
     	cfg = new File(Contasoc.class.getClassLoader().getResource("default.properties").toURI());
     	cfgManager.loadConfig();
     	Platform.startup(() -> {});
@@ -80,8 +81,15 @@ public class Contasoc {
         new Thread(new UpdateChecker()).start();
     }
 
+    public static void initDao() {
+    	jpaSocioDao = new JpaSocioDao();
+    	jpaIngresoDao = new JpaIngresoDao();
+    	jpaGastoDao = new JpaGastoDao();
+    	jpaBalanceDao = new JpaBalanceDao();
+    }
+    
     public static void load() {
-        socios = jpaSocioDao.getAll();
+    	socios = jpaSocioDao.getAll();
         ingresos = jpaIngresoDao.getAll();
         gastos = jpaGastoDao.getAll();
     }

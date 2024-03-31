@@ -147,7 +147,6 @@ public class GUIManager {
                         i++;
                     }
                 }
-                System.out.println(listaEspera);
                 PDFPrinter.printStringToPDF(listaEspera, 6, new float[]{35f, 35f, 200f, 70f, 145f, 75f},
                         "logohuerto_pdf.png", "Lista de espera", true,
                         new String[]{"Pos", "Soc", "Nombre y apellidos", "Teléfono", "Correo", "F. Alta"}, false, 10,
@@ -567,12 +566,5 @@ public class GUIManager {
                         .forEach(g -> model.addElement(new GastoPanel(g)));
             }
         }
-    }
-
-    public static void clearModels() {
-        UIContasoc.sociosLista.setModel(new DefaultListModel<>());
-        UIContasoc.listaEsperaLista.setModel(new DefaultListModel<>());
-        UIContasoc.ingresosLista.setModel(new DefaultListModel<>());
-        UIContasoc.gastosLista.setModel(new DefaultListModel<>());
     }
 }

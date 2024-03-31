@@ -61,15 +61,19 @@ public class DBUtils {
             List<Socios> data = Contasoc.socios.stream().filter(s -> s.getTipo().name().equals("LISTA_ESPERA")).toList();
             DefaultListModel<ListaEsperaPanel> model = new DefaultListModel<>();
             UIContasoc.listaEsperaLista.setModel(model);
-            data.stream()
-                    .sorted(Comparator.comparing(Socios::getFechaDeAlta))
-                    .forEach(s -> model.addElement(
-                            new ListaEsperaPanel(s, data.indexOf(s) + 1)
-                    ));
+            
+            int index = 1; // Variable de índice
+            
+            // Utilizamos un bucle for para mantener un control directo sobre el índice
+            for (Socios s : data.stream().sorted(Comparator.comparing(Socios::getFechaDeAlta)).toList()) {
+                model.addElement(new ListaEsperaPanel(s, index));
+                index++; // Incrementamos el índice en cada iteración
+            }
         } catch (ConstraintViolationException e) {
             Contasoc.logger.error("Error", e);
         }
     }
+
 
     public static boolean isEmpty(String table) {
         Connection connection = null;
@@ -173,7 +177,6 @@ public class DBUtils {
                     WHERE numeroSocio = %d
                     """.formatted(params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], params[8], params[9], params[10], numeroSocio)
                     .replace("'NULL'", "NULL");
-            System.out.println(query);
             statement.executeQuery(query);
 
         } catch (SQLException e) {
