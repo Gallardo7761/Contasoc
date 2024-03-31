@@ -113,6 +113,7 @@ public class BackupPanel extends JFrame {
 			sftpChannel.get(file,LOCAL_PATH);
 			ErrorHandler.backupDownloaded();
 		} catch (SftpException e) {
+			ErrorHandler.error("Ha ocurrido un error al descargar. Inténtalo de nuevo");
 			Contasoc.logger.error(e.getMessage());
 		}
 		close();
@@ -137,6 +138,7 @@ public class BackupPanel extends JFrame {
 			s = Files.readString(Path.of(file.getPath()));
 		} catch (IOException e1) {
 			Contasoc.logger.error(e1.getMessage());
+			ErrorHandler.error("No has descargado ese archivo todavía");
 		}
 		editorPane.setText(s);
 	}
@@ -158,11 +160,11 @@ public class BackupPanel extends JFrame {
         };
 
         JPanel contentPane = (JPanel) this.getContentPane();
-        KeyStroke nuevoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK);
-        KeyStroke editarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_DOWN_MASK);
+        KeyStroke descargarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK);
+        KeyStroke previsualizarKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_DOWN_MASK);
 
-        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(nuevoKeyStroke, "descargar");
-        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(editarKeyStroke, "previsualizar");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(descargarKeyStroke, "descargar");
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(previsualizarKeyStroke, "previsualizar");
 
         contentPane.getActionMap().put("descargar", descargarAction);
         contentPane.getActionMap().put("previsualizar", previsualizarAction);
