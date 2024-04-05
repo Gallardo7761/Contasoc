@@ -3,7 +3,12 @@ package dev.galliard.contasoc;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -63,7 +68,7 @@ public class Contasoc {
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException, URISyntaxException {
     	initDao();
-    	cfg = new File(Contasoc.class.getClassLoader().getResource("default.properties").toURI());
+    	makeFiles();
     	cfgManager.loadConfig();
     	Platform.startup(() -> {});
         UIManager.setLookAndFeel(new FlatGitHubIJTheme());
@@ -81,7 +86,20 @@ public class Contasoc {
         new Thread(new UpdateChecker()).start();
     }
 
-    public static void initDao() {
+    private static void makeFiles() {
+    	String mainDir = System.getProperty("user.home") + File.separator + ".contasoc";
+    	String backupDir = mainDir + File.separator + "backups";
+    	new File(mainDir).mkdir();
+    	new File(backupDir).mkdir();
+    	InputStream is = Contasoc.class.getClassLoader().getResourceAsStream("default.properties");
+    	try {
+			Files.copy(is, Path.of(mainDir+File.separator+"contasoc.properties"), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			logger.error("Error al crear archivos de configuración");
+		}
+	}
+
+	public static void initDao() {
     	jpaSocioDao = new JpaSocioDao();
     	jpaIngresoDao = new JpaIngresoDao();
     	jpaGastoDao = new JpaGastoDao();

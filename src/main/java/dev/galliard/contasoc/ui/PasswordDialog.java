@@ -38,10 +38,13 @@ public class PasswordDialog extends JFrame {
 
     private void aceptarBtn(ActionEvent e) {
         value = new String(passwordField.getPassword());
-        if(DBUtils.connect(value)) {
-            Contasoc.latch.countDown();
-            dispose();
-        }
+        new Thread(() -> {
+        	if(DBUtils.connect(value)) {
+                Contasoc.latch.countDown();
+                dispose();
+            }
+        }).start();
+        
     }
 
     protected void setActions() {
