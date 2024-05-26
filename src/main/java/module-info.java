@@ -20,5 +20,5 @@ module Contasoc {
     requires io;
 	requires com.jcraft.jsch;
 	requires ch.qos.logback.classic;
-    opens dev.galliard.contasoc.database.objects to org.hibernate.orm.core;
+    opens dev.gallardo.contasoc.database.objects to org.hibernate.orm.core;
 }
