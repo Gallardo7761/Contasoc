@@ -6,7 +6,7 @@
 
     <groupId>dev.galliard.contasoc</groupId>
     <artifactId>Contasoc</artifactId>
-    <version>6.4.6</version>
+    <version>6.4.7</version>
 
     <build>
         <plugins>
