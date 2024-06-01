@@ -5,6 +5,7 @@ module Contasoc {
     requires javafx.swing;
     requires org.slf4j;
     requires java.sql;
+    requires java.desktop;
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
     requires com.github.lgooddatepicker;

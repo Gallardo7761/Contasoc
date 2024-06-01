@@ -79,7 +79,6 @@ public class Contasoc {
     	initDao();
     	makeFiles();
     	cfgManager.loadConfig();
-    	setDBUrlXML();
     	Platform.startup(() -> {});
     	UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubIJTheme");
         setProperties();
@@ -138,46 +137,6 @@ public class Contasoc {
         if (SystemInfo.isLinux) {
             JFrame.setDefaultLookAndFeelDecorated(true);
             JDialog.setDefaultLookAndFeelDecorated(true);
-        }
-    }
-    
-    private static void setDBUrlXML() {
-        String dburl = cfgManager.getProperty("DBURL");
-        try {
-            // Cargar el archivo persistence.xml
-            File persistenceXmlFile = new File("ruta/a/tu/persistence.xml");
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(persistenceXmlFile);
-
-            // Normalizar el documento
-            doc.getDocumentElement().normalize();
-
-            // Obtener la URL de la base de datos del elemento persistence-unit
-            NodeList persistenceUnits = doc.getElementsByTagName("persistence-unit");
-            if (persistenceUnits.getLength() > 0) {
-                Element persistenceUnit = (Element) persistenceUnits.item(0);
-                NodeList properties = persistenceUnit.getElementsByTagName("property");
-                for (int i = 0; i < properties.getLength(); i++) {
-                    Element property = (Element) properties.item(i);
-                    String name = property.getAttribute("name");
-                    if (name.equals("jakarta.persistence.jdbc.url")) {
-                        property.setAttribute("value", dburl);
-                        break;
-                    }
-                }
-
-                // Guardar los cambios en el archivo persistence.xml
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                DOMSource source = new DOMSource(doc);
-                StreamResult result = new StreamResult(persistenceXmlFile);
-                transformer.transform(source, result);
-            } else {
-                System.err.println("No se encontró ninguna unidad de persistencia en el archivo persistence.xml");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
