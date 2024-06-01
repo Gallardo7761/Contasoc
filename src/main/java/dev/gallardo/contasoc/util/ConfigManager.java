@@ -9,8 +9,6 @@ import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
-import dev.gallardo.contasoc.Contasoc;
-
 public class ConfigManager {
 
     private Properties properties;

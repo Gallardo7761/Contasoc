@@ -15,7 +15,6 @@ import dev.gallardo.contasoc.database.objects.Gastos;
 import dev.gallardo.contasoc.database.objects.Ingresos;
 import dev.gallardo.contasoc.database.objects.Socios;
 
-@SuppressWarnings("deprecation")
 public class Parsers {
     public static String dateParser(Date date) {
         if (date == null) {

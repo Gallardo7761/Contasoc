@@ -1,15 +1,16 @@
 package dev.gallardo.contasoc.ui;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import dev.gallardo.contasoc.Contasoc;
-
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import javax.swing.JOptionPane;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import dev.gallardo.contasoc.Contasoc;
 
 
 public class UpdateChecker implements Runnable {
@@ -37,7 +38,6 @@ public class UpdateChecker implements Runnable {
     }
 
     static String getLatestRelease(String apiUrl) throws IOException {
-        @SuppressWarnings("deprecation")
 		URL url = new URL(apiUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");

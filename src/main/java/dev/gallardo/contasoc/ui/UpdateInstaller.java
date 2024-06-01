@@ -12,7 +12,6 @@ public class UpdateInstaller implements Runnable {
     public static final String DOWNLOADS_FOLDER = System.getProperty("user.home") + "\\Downloads";
 
     public static void downloadFile(String url, String targetDirectory) throws IOException {
-        @SuppressWarnings("deprecation")
 		URL fileUrl = new URL(url);
         try (InputStream in = fileUrl.openStream()) {
             String fileName = url.substring(url.lastIndexOf("/") + 1);

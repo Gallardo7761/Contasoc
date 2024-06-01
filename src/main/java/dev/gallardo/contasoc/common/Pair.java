@@ -1,6 +1,5 @@
 package dev.gallardo.contasoc.common;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
